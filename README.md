@@ -4,7 +4,7 @@
 [![Docs][docs-godoc-svg]][docs-godoc-link]
 [![License][license-svg]][license-link]
 
-[OAuth 2.0 - https://github.com/golang/oauth2](https://github.com/golang/oauth2) helper utilities. Currently provices helper libraries to retrieve canonical user information from services.
+[OAuth 2.0 - https://github.com/golang/oauth2](https://github.com/golang/oauth2) helper API calls related to OAuth 2.0 user profile information. Currently provices helper libraries to retrieve canonical user information from services.
 
 ## Installation
 
