@@ -14,9 +14,9 @@ $ go get github.com/grokify/oauth2-util-go/...
 
 ## Usage
 
-```
-// Google
+### Google
 
+```golang
 import(
 	"github.com/grokify/oauth2-util-go/googleutil"
 )
@@ -24,9 +24,11 @@ import(
 // googleOAuth2HTTPClient is *http.Client from Golang OAuth2
 googleutil := googleutil.GoogleClientUtil(googleOAuth2HTTPClient)
 scimuser, err := googleutil.GetSCIMUser()
+```
 
-// Facebook
+### Facebook
 
+```golang
 import(
 	"github.com/grokify/oauth2-util-go/facebookutil"
 )
