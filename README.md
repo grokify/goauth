@@ -16,14 +16,24 @@ $ go get github.com/grokify/oauth2-util-go/...
 
 ```
 // Google
-googleOAuth2HTTPClient = ... // from Golang OAuth2
+
+import(
+	"github.com/grokify/oauth2-util-go/googleutil"
+)
+
+// googleOAuth2HTTPClient is *http.Client from Golang OAuth2
 googleutil := googleutil.GoogleClientUtil(googleOAuth2HTTPClient)
 scimuser, err := googleutil.GetSCIMUser()
 
 // Facebook
-fbOAuth2HTTPClient = ... // from Golang OAuth2
-fbutil := googleutil.GoogleClientUtil(fbOAuth2HTTPClient)
-scimuser, err := facebookutil.GetSCIMUser()
+
+import(
+	"github.com/grokify/oauth2-util-go/facebookutil"
+)
+
+// fbOAuth2HTTPClient is *http.Client from Golang OAuth2
+fbutil := facebookutil.GoogleClientUtil(fbOAuth2HTTPClient)
+scimuser, err := fbutil.GetSCIMUser()
 ```
 
  [goreport-svg]: https://goreportcard.com/badge/github.com/grokify/oauth2-util-go
