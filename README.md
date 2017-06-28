@@ -38,9 +38,9 @@ fbClientUtil := facebook.GoogleClientUtil(fbOAuth2HTTPClient)
 scimuser, err := fbClientUtil.GetSCIMUser()
 ```
 
-### Demo
+### Example App
 
-For a demo app, see:
+See the following repo for a Beego-based demo app:
 
 * https://github.com/grokify/beego-oauth2-demo
 
