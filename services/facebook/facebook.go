@@ -1,4 +1,4 @@
-package facebookutil
+package facebook
 
 import (
 	"encoding/json"

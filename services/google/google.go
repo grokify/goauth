@@ -1,4 +1,4 @@
-package googleutil
+package google
 
 import (
 	"encoding/json"
