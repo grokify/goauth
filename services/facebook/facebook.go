@@ -17,6 +17,7 @@ const (
 // from the Facebook API.
 type ClientUtil struct {
 	Client *http.Client
+	User   FacebookUserinfo `json:"user,omitempty"`
 }
 
 func NewClientUtil(client *http.Client) ClientUtil {
@@ -43,6 +44,9 @@ func (apiutil *ClientUtil) GetUserinfo() (FacebookUserinfo, error) {
 
 	userinfo := FacebookUserinfo{}
 	err = json.Unmarshal(bodyBytes, &userinfo)
+	if err == nil {
+		apiutil.User = userinfo
+	}
 	return userinfo, err
 }
 

@@ -25,6 +25,7 @@ const (
 // Client: https://github.com/google/google-api-go-client
 type ClientUtil struct {
 	Client *http.Client
+	User   GoogleUserinfo `json:"user,omitempty"`
 }
 
 func NewClientUtil(client *http.Client) ClientUtil {
@@ -92,6 +93,9 @@ func (apiutil *ClientUtil) GetUserinfo() (GoogleUserinfo, error) {
 
 	userinfo := GoogleUserinfo{}
 	err = json.Unmarshal(bodyBytes, &userinfo)
+	if err == nil {
+		apiutil.User = userinfo
+	}
 	return userinfo, err
 }
 
