@@ -22,8 +22,8 @@ import(
 )
 
 // googleOAuth2HTTPClient is *http.Client from Golang OAuth2
-googleClientUtil := google.GoogleClientUtil(googleOAuth2HTTPClient)
-scimuser, err := google.GetSCIMUser()
+googleClientUtil := google.NewClientUtil(googleOAuth2HTTPClient)
+scimuser, err := googleClientUtil.GetSCIMUser()
 ```
 
 ### Facebook
@@ -34,8 +34,20 @@ import(
 )
 
 // fbOAuth2HTTPClient is *http.Client from Golang OAuth2
-fbClientUtil := facebook.GoogleClientUtil(fbOAuth2HTTPClient)
+fbClientUtil := facebook.NewClientUtil(fbOAuth2HTTPClient)
 scimuser, err := fbClientUtil.GetSCIMUser()
+```
+
+### RingCentral
+
+```golang
+import(
+	"github.com/grokify/oauth2-util-go/services/ringcentral"
+)
+
+// rcOAuth2HTTPClient is *http.Client from Golang OAuth2
+rcClientUtil := ringcentral.NewClientUtil(rcOAuth2HTTPClient)
+scimuser, err := rcClientUtil.GetSCIMUser()
 ```
 
 ### Example App
