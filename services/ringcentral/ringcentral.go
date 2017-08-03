@@ -21,7 +21,7 @@ const (
 	SandboxHostname    = "platform.devtest.ringcentral.com"
 	AuthURLFormat      = "https://%s/restapi/oauth/authorize"
 	TokenURLFormat     = "https://%s/restapi/oauth/token"
-	APIMeURL           = "/restapi/v1.0/account/~/extension/~"
+	MeURL              = "/restapi/v1.0/account/~/extension/~"
 )
 
 func NewEndpoint(hostname string) oauth2.Endpoint {
@@ -46,7 +46,7 @@ func NewRingCentralClientUtil(client *http.Client) RingCentralClientUtil {
 func (apiutil *RingCentralClientUtil) GetUserinfo() (RingCentralExtensionInfo, error) {
 	resp, err := apiutil.Client.Get(
 		urlutil.JoinAbsolute(
-			fmt.Sprintf("%v://", httputil.SchemeHTTPS), Hostname, APIMeURL))
+			fmt.Sprintf("%v://", httputil.SchemeHTTPS), Hostname, MeURL))
 
 	if err != nil {
 		return RingCentralExtensionInfo{}, err
@@ -56,8 +56,6 @@ func (apiutil *RingCentralClientUtil) GetUserinfo() (RingCentralExtensionInfo, e
 	if err != nil {
 		return RingCentralExtensionInfo{}, err
 	}
-
-	fmt.Printf("%v\n", string(bodyBytes))
 
 	userinfo := RingCentralExtensionInfo{}
 	err = json.Unmarshal(bodyBytes, &userinfo)

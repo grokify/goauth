@@ -2,7 +2,6 @@ package facebook
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"strings"
 
@@ -37,8 +36,6 @@ func (apiutil *FacebookClientUtil) GetUserinfo() (FacebookUserinfo, error) {
 	if err != nil {
 		return FacebookUserinfo{}, err
 	}
-
-	fmt.Printf("%v\n", string(bodyBytes))
 
 	userinfo := FacebookUserinfo{}
 	err = json.Unmarshal(bodyBytes, &userinfo)
