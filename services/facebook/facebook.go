@@ -13,20 +13,20 @@ const (
 	FacebookAPIMeURL = "https://graph.facebook.com/v2.9/me?locale=en_US&fields=name,email,verified,first_name,middle_name,last_name"
 )
 
-// FacebookClientUtil is a client library to retrieve user info
+// ClientUtil is a client library to retrieve user info
 // from the Facebook API.
-type FacebookClientUtil struct {
+type ClientUtil struct {
 	Client *http.Client
 }
 
-func NewFacebookClientUtil(client *http.Client) FacebookClientUtil {
-	return FacebookClientUtil{Client: client}
+func NewClientUtil(client *http.Client) ClientUtil {
+	return ClientUtil{Client: client}
 }
 
 // GetUserinfo retrieves the userinfo from the
 // https://graph.facebook.com/v2.9/{user-id}
 // endpoint.
-func (apiutil *FacebookClientUtil) GetUserinfo() (FacebookUserinfo, error) {
+func (apiutil *ClientUtil) GetUserinfo() (FacebookUserinfo, error) {
 	resp, err := apiutil.Client.Get(FacebookAPIMeURL)
 	if err != nil {
 		return FacebookUserinfo{}, err
@@ -52,7 +52,7 @@ type FacebookUserinfo struct {
 	LastName   string `json:"last_name,omitempty"`
 }
 
-func (apiutil *FacebookClientUtil) GetSCIMUser() (scimutil.User, error) {
+func (apiutil *ClientUtil) GetSCIMUser() (scimutil.User, error) {
 	user := scimutil.User{}
 
 	fbUser, err := apiutil.GetUserinfo()

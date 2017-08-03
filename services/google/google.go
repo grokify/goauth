@@ -19,21 +19,21 @@ const (
 	GoogleScopeUserinfoProfile = "https://www.googleapis.com/auth/userinfo.profile"
 )
 
-// GoogleClientUtil is a client library to retrieve the /userinfo
+// ClientUtil is a client library to retrieve the /userinfo
 // endpoint which is not included in the Google API Go Client.
 // For other endpoints, please consider using The Google API Go
 // Client: https://github.com/google/google-api-go-client
-type GoogleClientUtil struct {
+type ClientUtil struct {
 	Client *http.Client
 }
 
-func NewGoogleClientUtil(client *http.Client) GoogleClientUtil {
-	return GoogleClientUtil{Client: client}
+func NewClientUtil(client *http.Client) ClientUtil {
+	return ClientUtil{Client: client}
 }
 
 // GetUserinfoEmail retrieves the user's email from the
 // https://www.googleapis.com/userinfo/email endpoint.
-func (apiutil *GoogleClientUtil) GetUserinfoEmail() (GoogleUserinfoEmail, error) {
+func (apiutil *ClientUtil) GetUserinfoEmail() (GoogleUserinfoEmail, error) {
 	resp, err := apiutil.Client.Get(GoogleAPIEmailURL)
 	if err != nil {
 		return GoogleUserinfoEmail{}, err
@@ -75,7 +75,7 @@ func ParseGoogleUserinfoEmail(query string) (GoogleUserinfoEmail, error) {
 // GetUserinfo retrieves the userinfo from the
 // https://www.googleapis.com/oauth2/v1/userinfo?alt=json
 // endpoint.
-func (apiutil *GoogleClientUtil) GetUserinfo() (GoogleUserinfo, error) {
+func (apiutil *ClientUtil) GetUserinfo() (GoogleUserinfo, error) {
 	resp, err := apiutil.Client.Get(GoogleAPIUserinfoURL)
 	if err != nil {
 		return GoogleUserinfo{}, err
@@ -105,7 +105,7 @@ type GoogleUserinfo struct {
 // GetPlusPerson retrieves the userinfo from the
 // https://www.googleapis.com/oauth2/v1/userinfo?alt=json
 // endpoint.
-func (apiutil *GoogleClientUtil) GetPlusPerson() (GooglePlusPerson, error) {
+func (apiutil *ClientUtil) GetPlusPerson() (GooglePlusPerson, error) {
 	resp, err := apiutil.Client.Get(GoogleAPIPlusPeopleURL)
 	if err != nil {
 		return GooglePlusPerson{}, err
@@ -146,7 +146,7 @@ type GooglePlusPersonImage struct {
 	IsDefault bool   `json:"isDefault,omitempty"`
 }
 
-func (apiutil *GoogleClientUtil) GetSCIMUser() (scimutil.User, error) {
+func (apiutil *ClientUtil) GetSCIMUser() (scimutil.User, error) {
 	user := scimutil.User{}
 
 	// Get Email

@@ -30,20 +30,20 @@ func NewEndpoint(hostname string) oauth2.Endpoint {
 		TokenURL: fmt.Sprintf(TokenURLFormat, hostname)}
 }
 
-// FacebookClientUtil is a client library to retrieve user info
+// ClientUtil is a client library to retrieve user info
 // from the Facebook API.
-type RingCentralClientUtil struct {
+type ClientUtil struct {
 	Client *http.Client
 }
 
-func NewRingCentralClientUtil(client *http.Client) RingCentralClientUtil {
-	return RingCentralClientUtil{Client: client}
+func NewClientUtil(client *http.Client) ClientUtil {
+	return ClientUtil{Client: client}
 }
 
 // GetUserinfo retrieves the userinfo from the
 // https://graph.facebook.com/v2.9/{user-id}
 // endpoint.
-func (apiutil *RingCentralClientUtil) GetUserinfo() (RingCentralExtensionInfo, error) {
+func (apiutil *ClientUtil) GetUserinfo() (RingCentralExtensionInfo, error) {
 	resp, err := apiutil.Client.Get(
 		urlutil.JoinAbsolute(
 			fmt.Sprintf("%v://", httputil.SchemeHTTPS), Hostname, MeURL))
@@ -75,7 +75,7 @@ type RingCentralContact struct {
 	Email     string `json:"email,omitempty"`
 }
 
-func (apiutil *RingCentralClientUtil) GetSCIMUser() (scimutil.User, error) {
+func (apiutil *ClientUtil) GetSCIMUser() (scimutil.User, error) {
 	user := scimutil.User{}
 
 	rcUser, err := apiutil.GetUserinfo()
