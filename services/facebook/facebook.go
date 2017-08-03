@@ -23,6 +23,10 @@ func NewClientUtil(client *http.Client) ClientUtil {
 	return ClientUtil{Client: client}
 }
 
+func (apiutil *ClientUtil) SetClient(client *http.Client) {
+	apiutil.Client = client
+}
+
 // GetUserinfo retrieves the userinfo from the
 // https://graph.facebook.com/v2.9/{user-id}
 // endpoint.

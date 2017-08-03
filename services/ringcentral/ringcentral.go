@@ -33,11 +33,16 @@ func NewEndpoint(hostname string) oauth2.Endpoint {
 // ClientUtil is a client library to retrieve user info
 // from the Facebook API.
 type ClientUtil struct {
-	Client *http.Client
+	Client *http.Client             `json:"-"`
+	User   RingCentralExtensionInfo `json:"user,omitempty"`
 }
 
 func NewClientUtil(client *http.Client) ClientUtil {
 	return ClientUtil{Client: client}
+}
+
+func (apiutil *ClientUtil) SetClient(client *http.Client) {
+	apiutil.Client = client
 }
 
 // GetUserinfo retrieves the userinfo from the
@@ -59,6 +64,9 @@ func (apiutil *ClientUtil) GetUserinfo() (RingCentralExtensionInfo, error) {
 
 	userinfo := RingCentralExtensionInfo{}
 	err = json.Unmarshal(bodyBytes, &userinfo)
+	if err == nil {
+		apiutil.User = userinfo
+	}
 	return userinfo, err
 }
 
@@ -67,12 +75,18 @@ type RingCentralExtensionInfo struct {
 	ExtensionNumber string             `json:"extensionNumber,omitempty"`
 	Contact         RingCentralContact `json:"contact,omitempty"`
 	Name            string             `json:"name,omitempty"`
+	Account         RingCentralAccount `json:"account,omitempty"`
 }
 
 type RingCentralContact struct {
 	FirstName string `json:"firstName,omitempty"`
 	LastName  string `json:"lastName,omitempty"`
 	Email     string `json:"email,omitempty"`
+}
+
+type RingCentralAccount struct {
+	URI string `json:"uri,omitempty"`
+	ID  string `json:"id,omitempty"`
 }
 
 func (apiutil *ClientUtil) GetSCIMUser() (scimutil.User, error) {

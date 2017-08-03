@@ -31,6 +31,10 @@ func NewClientUtil(client *http.Client) ClientUtil {
 	return ClientUtil{Client: client}
 }
 
+func (apiutil *ClientUtil) SetClient(client *http.Client) {
+	apiutil.Client = client
+}
+
 // GetUserinfoEmail retrieves the user's email from the
 // https://www.googleapis.com/userinfo/email endpoint.
 func (apiutil *ClientUtil) GetUserinfoEmail() (GoogleUserinfoEmail, error) {
