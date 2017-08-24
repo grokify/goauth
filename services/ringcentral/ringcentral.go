@@ -2,9 +2,11 @@ package ringcentral
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"golang.org/x/oauth2"
 	"net/http"
+	"net/url"
 	"strings"
 
 	"github.com/grokify/gotilla/net/httputil"
@@ -17,11 +19,12 @@ var (
 )
 
 const (
-	ProductionHostname = "platform.ringcentral.com"
-	SandboxHostname    = "platform.devtest.ringcentral.com"
-	AuthURLFormat      = "https://%s/restapi/oauth/authorize"
-	TokenURLFormat     = "https://%s/restapi/oauth/token"
-	MeURL              = "/restapi/v1.0/account/~/extension/~"
+	ProductionHostname   = "platform.ringcentral.com"
+	SandboxHostname      = "platform.devtest.ringcentral.com"
+	AuthURLFormat        = "https://%s/restapi/oauth/authorize"
+	TokenURLFormat       = "https://%s/restapi/oauth/token"
+	MeURL                = "/restapi/v1.0/account/~/extension/~"
+	RestAPI1dot0Fragment = "restapi/v1.0"
 )
 
 func NewEndpoint(hostname string) oauth2.Endpoint {
@@ -111,4 +114,26 @@ func (apiutil *ClientUtil) GetSCIMUser() (scimutil.User, error) {
 		Formatted:  strings.TrimSpace(rcUser.Name)}
 
 	return user, nil
+}
+
+func BuildURL(urlFragment string, addRestAPI bool, queryValues url.Values) string {
+	apiURL := fmt.Sprintf("%s://%s", httputil.SchemeHTTPS, Hostname)
+	if addRestAPI {
+		apiURL = urlutil.JoinAbsolute(apiURL, RestAPI1dot0Fragment, urlFragment)
+	} else {
+		apiURL = urlutil.JoinAbsolute(apiURL, urlFragment)
+	}
+	return urlutil.BuildURL(apiURL, queryValues)
+}
+
+func SetHostnameForURL(serverURLString string) error {
+	serverURL, err := url.Parse(serverURLString)
+	if err != nil {
+		return err
+	}
+	Hostname = strings.TrimSpace(serverURL.Hostname())
+	if len(Hostname) < 1 {
+		return errors.New("No Hostname")
+	}
+	return nil
 }
