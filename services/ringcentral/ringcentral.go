@@ -9,7 +9,7 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/grokify/gotilla/net/httputil"
+	"github.com/grokify/gotilla/net/httputilmore"
 	"github.com/grokify/gotilla/net/urlutil"
 	"github.com/grokify/oauth2-util-go/scimutil"
 )
@@ -54,13 +54,13 @@ func (apiutil *ClientUtil) SetClient(client *http.Client) {
 func (apiutil *ClientUtil) GetUserinfo() (RingCentralExtensionInfo, error) {
 	resp, err := apiutil.Client.Get(
 		urlutil.JoinAbsolute(
-			fmt.Sprintf("%v://", httputil.SchemeHTTPS), Hostname, MeURL))
+			fmt.Sprintf("%v://", httputilmore.SchemeHTTPS), Hostname, MeURL))
 
 	if err != nil {
 		return RingCentralExtensionInfo{}, err
 	}
 
-	bodyBytes, err := httputil.ResponseBody(resp)
+	bodyBytes, err := httputilmore.ResponseBody(resp)
 	if err != nil {
 		return RingCentralExtensionInfo{}, err
 	}
@@ -117,7 +117,7 @@ func (apiutil *ClientUtil) GetSCIMUser() (scimutil.User, error) {
 }
 
 func BuildURL(urlFragment string, addRestAPI bool, queryValues url.Values) string {
-	apiURL := fmt.Sprintf("%s://%s", httputil.SchemeHTTPS, Hostname)
+	apiURL := fmt.Sprintf("%s://%s", httputilmore.SchemeHTTPS, Hostname)
 	if addRestAPI {
 		apiURL = urlutil.JoinAbsolute(apiURL, RestAPI1dot0Fragment, urlFragment)
 	} else {
