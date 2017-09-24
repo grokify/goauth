@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/grokify/gotilla/net/httputil"
+	"github.com/grokify/gotilla/net/httputilmore"
 	"github.com/grokify/oauth2-util-go/scimutil"
 )
 
@@ -37,7 +37,7 @@ func (apiutil *ClientUtil) GetUserinfo() (FacebookUserinfo, error) {
 		return FacebookUserinfo{}, err
 	}
 
-	bodyBytes, err := httputil.ResponseBody(resp)
+	bodyBytes, err := httputilmore.ResponseBody(resp)
 	if err != nil {
 		return FacebookUserinfo{}, err
 	}

@@ -6,7 +6,7 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/grokify/gotilla/net/httputil"
+	"github.com/grokify/gotilla/net/httputilmore"
 	"github.com/grokify/oauth2-util-go/scimutil"
 )
 
@@ -44,7 +44,7 @@ func (apiutil *ClientUtil) GetUserinfoEmail() (GoogleUserinfoEmail, error) {
 		return GoogleUserinfoEmail{}, err
 	}
 
-	bodyBytes, err := httputil.ResponseBody(resp)
+	bodyBytes, err := httputilmore.ResponseBody(resp)
 	if err != nil {
 		return GoogleUserinfoEmail{}, err
 	}
@@ -86,7 +86,7 @@ func (apiutil *ClientUtil) GetUserinfo() (GoogleUserinfo, error) {
 		return GoogleUserinfo{}, err
 	}
 
-	bodyBytes, err := httputil.ResponseBody(resp)
+	bodyBytes, err := httputilmore.ResponseBody(resp)
 	if err != nil {
 		return GoogleUserinfo{}, err
 	}
@@ -119,7 +119,7 @@ func (apiutil *ClientUtil) GetPlusPerson() (GooglePlusPerson, error) {
 		return GooglePlusPerson{}, err
 	}
 
-	bodyBytes, err := httputil.ResponseBody(resp)
+	bodyBytes, err := httputilmore.ResponseBody(resp)
 	if err != nil {
 		return GooglePlusPerson{}, err
 	}
