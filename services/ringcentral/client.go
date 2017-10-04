@@ -1,17 +1,8 @@
 package ringcentral
 
 import (
-	//"encoding/json"
-	//"errors"
-	//"fmt"
 	"golang.org/x/oauth2"
 	"net/http"
-	//"net/url"
-	//"regexp"
-	//"strings"
-	//"github.com/grokify/gotilla/net/httputilmore"
-	//"github.com/grokify/gotilla/net/urlutil"
-	//"github.com/grokify/oauth2util-go/scimutil"
 )
 
 var (
