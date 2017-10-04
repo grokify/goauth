@@ -7,6 +7,7 @@ import (
 	"golang.org/x/oauth2"
 	"net/http"
 	"net/url"
+	"regexp"
 	"strings"
 
 	"github.com/grokify/gotilla/net/httputilmore"
@@ -23,14 +24,28 @@ const (
 	SandboxHostname      = "platform.devtest.ringcentral.com"
 	AuthURLFormat        = "https://%s/restapi/oauth/authorize"
 	TokenURLFormat       = "https://%s/restapi/oauth/token"
+	AuthURLPart          = "restapi/oauth/authorize"
+	TokenURLPart         = "restapi/oauth/token"
 	MeURL                = "/restapi/v1.0/account/~/extension/~"
 	RestAPI1dot0Fragment = "restapi/v1.0"
 )
 
-func NewEndpoint(hostname string) oauth2.Endpoint {
+func NewEndpoint(hostnameOrBasePath string) oauth2.Endpoint {
+	hostnameOrBasePath = regexp.
+		MustCompile(`/\s*$`).
+		ReplaceAllString(hostnameOrBasePath, "")
+
+	m, _ := regexp.MatchString(`^(?i)https?://`, hostnameOrBasePath)
+
+	if m {
+		return oauth2.Endpoint{
+			AuthURL:  urlutil.JoinAbsolute(hostnameOrBasePath, AuthURLPart),
+			TokenURL: urlutil.JoinAbsolute(hostnameOrBasePath, TokenURLPart),
+		}
+	}
 	return oauth2.Endpoint{
-		AuthURL:  fmt.Sprintf(AuthURLFormat, hostname),
-		TokenURL: fmt.Sprintf(TokenURLFormat, hostname)}
+		AuthURL:  fmt.Sprintf(AuthURLFormat, hostnameOrBasePath),
+		TokenURL: fmt.Sprintf(TokenURLFormat, hostnameOrBasePath)}
 }
 
 // ClientUtil is a client library to retrieve user info
