@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"github.com/grokify/gotilla/net/httputilmore"
-	"github.com/grokify/oauth2-util-go/scimutil"
+	"github.com/grokify/oauth2util-go/scimutil"
 )
 
 const (
