@@ -30,9 +30,9 @@ func main() {
 		panic(err)
 	}
 
-	extURL := urlutil.JoinAbsolute(os.Getenv("RC_SERVER_URL"), "restapi/v1.0/account/~")
+	apiURL := urlutil.JoinAbsolute(os.Getenv("RC_SERVER_URL"), "restapi/v1.0/account/~")
 
-	resp, err := client.Get(extURL)
+	resp, err := client.Get(apiURL)
 	if err != nil {
 		panic(err)
 	}
