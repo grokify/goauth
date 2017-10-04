@@ -9,7 +9,7 @@
 ## Installation
 
 ```
-$ go get github.com/grokify/oauth2-util-go/...
+$ go get github.com/grokify/oauth2util-go/...
 ```
 
 ## Usage
@@ -18,7 +18,7 @@ $ go get github.com/grokify/oauth2-util-go/...
 
 ```golang
 import(
-	"github.com/grokify/oauth2-util-go/services/google"
+	"github.com/grokify/oauth2util-go/services/google"
 )
 
 // googleOAuth2HTTPClient is *http.Client from Golang OAuth2
@@ -30,7 +30,7 @@ scimuser, err := googleClientUtil.GetSCIMUser()
 
 ```golang
 import(
-	"github.com/grokify/oauth2-util-go/services/facebook"
+	"github.com/grokify/oauth2util-go/services/facebook"
 )
 
 // fbOAuth2HTTPClient is *http.Client from Golang OAuth2
@@ -42,7 +42,7 @@ scimuser, err := fbClientUtil.GetSCIMUser()
 
 ```golang
 import(
-	"github.com/grokify/oauth2-util-go/services/ringcentral"
+	"github.com/grokify/oauth2util-go/services/ringcentral"
 )
 
 // rcOAuth2HTTPClient is *http.Client from Golang OAuth2
