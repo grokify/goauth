@@ -3,7 +3,7 @@ package oauth2util
 import (
 	"net/http"
 
-	"github.com/grokify/oauth2-util-go/scimutil"
+	"github.com/grokify/oauth2util-go/scimutil"
 )
 
 type OAuth2Util interface {
