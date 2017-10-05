@@ -26,20 +26,21 @@ type UserCredentials struct {
 	Password  string
 }
 
-func NewClientPassword(app ApplicationCredentials, user UserCredentials) (*http.Client, error) {
-	cfg := oauth2.Config{
-		ClientID:     app.ClientID,
-		ClientSecret: app.ClientSecret,
-		Endpoint:     NewEndpoint(app.ServerURL)}
-
-	token, err := cfg.PasswordCredentialsToken(
-		oauth2.NoContext,
-		user.Username,
-		user.Password)
+func NewClientPasswordConf(conf oauth2.Config, username, password string) (*http.Client, error) {
+	token, err := conf.PasswordCredentialsToken(oauth2.NoContext, username, password)
 
 	if err != nil {
 		return &http.Client{}, err
 	}
 
-	return cfg.Client(oauth2.NoContext, token), nil
+	return conf.Client(oauth2.NoContext, token), nil
+}
+
+func NewClientPassword(app ApplicationCredentials, user UserCredentials) (*http.Client, error) {
+	conf := oauth2.Config{
+		ClientID:     app.ClientID,
+		ClientSecret: app.ClientSecret,
+		Endpoint:     NewEndpoint(app.ServerURL)}
+
+	return NewClientPasswordConf(conf, user.Username, user.Password)
 }
