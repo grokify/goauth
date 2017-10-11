@@ -26,8 +26,7 @@ var Endpoint = oauth2.Endpoint{
 func NewClientPassword(app ou.ApplicationCredentials, user ou.UserCredentials) (*http.Client, error) {
 	conf := oauth2.Config{
 		ClientID:     app.ClientID,
-		ClientSecret: app.ClientSecret,
-		Endpoint:     Endpoint}
+		ClientSecret: app.ClientSecret}
 
 	if model.IsZero(app.Endpoint) {
 		conf.Endpoint = Endpoint
