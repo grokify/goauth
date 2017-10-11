@@ -11,7 +11,7 @@ import (
 )
 
 func main() {
-	err := config.LoadDotEnv()
+	err := config.LoadDotEnv(".")
 	if err != nil {
 		panic(err)
 	}
