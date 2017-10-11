@@ -1,6 +1,7 @@
 package ringcentral
 
 import (
+	ou "github.com/grokify/oauth2util-go"
 	"golang.org/x/oauth2"
 	"net/http"
 )
@@ -26,21 +27,11 @@ type UserCredentials struct {
 	Password  string
 }
 
-func NewClientPasswordConf(conf oauth2.Config, username, password string) (*http.Client, error) {
-	token, err := conf.PasswordCredentialsToken(oauth2.NoContext, username, password)
-
-	if err != nil {
-		return &http.Client{}, err
-	}
-
-	return conf.Client(oauth2.NoContext, token), nil
-}
-
 func NewClientPassword(app ApplicationCredentials, user UserCredentials) (*http.Client, error) {
 	conf := oauth2.Config{
 		ClientID:     app.ClientID,
 		ClientSecret: app.ClientSecret,
 		Endpoint:     NewEndpoint(app.ServerURL)}
 
-	return NewClientPasswordConf(conf, user.Username, user.Password)
+	return ou.NewClientPasswordConf(conf, user.Username, user.Password)
 }
