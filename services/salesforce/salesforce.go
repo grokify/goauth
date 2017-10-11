@@ -42,11 +42,9 @@ type URLBuilder struct {
 }
 
 func NewURLBuilder(instanceName string) URLBuilder {
-	u := url.URL{
+	return URLBuilder{BaseURL: url.URL{
 		Scheme: "https",
-		Host:   fmt.Sprintf(HostFormat, instanceName),
-	}
-	return URLBuilder{BaseURL: u}
+		Host:   fmt.Sprintf(HostFormat, instanceName)}}
 }
 
 func (b *URLBuilder) Build(path string) url.URL {
