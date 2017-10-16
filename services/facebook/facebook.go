@@ -70,10 +70,10 @@ func (apiutil *ClientUtil) GetSCIMUser() (scimutil.User, error) {
 
 	emailAddr := strings.ToLower(strings.TrimSpace(fbUser.Email))
 	if len(emailAddr) > 0 {
-		email := scimutil.Email{
+		email := scimutil.Item{
 			Value:   emailAddr,
 			Primary: true}
-		user.Emails = []scimutil.Email{email}
+		user.Emails = []scimutil.Item{email}
 	}
 
 	user.Name = scimutil.Name{

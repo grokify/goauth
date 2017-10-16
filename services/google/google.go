@@ -164,10 +164,10 @@ func (apiutil *ClientUtil) GetSCIMUser() (scimutil.User, error) {
 	}
 	emailAddr := strings.ToLower(strings.TrimSpace(googleUserinfoEmail.Email))
 	if len(emailAddr) > 0 {
-		email := scimutil.Email{
+		email := scimutil.Item{
 			Value:   emailAddr,
 			Primary: true}
-		user.Emails = []scimutil.Email{email}
+		user.Emails = []scimutil.Item{email}
 	}
 
 	// Get Real Name
