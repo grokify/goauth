@@ -11,7 +11,8 @@ type User struct {
 	DisplayName       string   `json:"displayName,omitempty"`
 	NickName          string   `json:"nickName,omitempty"`
 	ProfileUrl        string   `json:"profileUrl,omitempty"`
-	Emails            []Email  `json:"emails,omitempty"`
+	PhoneNumbers      []Item   `json:"phoneNumbers,omitempty"`
+	Emails            []Item   `json:"emails,omitempty"`
 	UserType          string   `json:"userType,omitempty"`
 	Title             string   `json:"title,omitempty"`
 	PreferredLanguage string   `json:"preferredLanguage,omitempty"`
@@ -30,7 +31,8 @@ type Name struct {
 	HonorificSuffix string `json:"honorificSuffix,omitempty"`
 }
 
-type Email struct {
+// Email and PhoneNumber
+type Item struct {
 	Value   string `json:"value,omitempty"`
 	Type    string `json:"type,omitempty"`
 	Primary bool   `json:"primary,omitempty"`
