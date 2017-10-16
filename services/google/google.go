@@ -15,8 +15,20 @@ const (
 	GoogleAPIPlusPeopleURL = "https://www.googleapis.com/plus/v1/people/me"
 	GoogleAPIEmailURL      = "https://www.googleapis.com/userinfo/email"
 
-	GoogleScopeUserinfoEmail   = "https://www.googleapis.com/auth/userinfo#email"
-	GoogleScopeUserinfoProfile = "https://www.googleapis.com/auth/userinfo.profile"
+	UserinfoEmail   = "https://www.googleapis.com/auth/userinfo#email"
+	UserinfoProfile = "https://www.googleapis.com/auth/userinfo.profile"
+
+	SpreadsheetsReadonly     = "https://www.googleapis.com/auth/spreadsheets.readonly"
+	SpreadsheetsReadonlyDesc = "Allows read-only access to the user's sheets and their properties."
+	Spreadsheets             = "https://www.googleapis.com/auth/spreadsheets"
+	SpreadsheetsDesc         = "Allows read/write access to the user's sheets and their properties."
+
+	DriveReadonly     = "https://www.googleapis.com/auth/drive.readonly"
+	DriveReadonlyDesc = "Allows read-only access to the user's file metadata and file content."
+	DriveFile         = "https://www.googleapis.com/auth/drive.file"
+	DriveFileDesc     = "Per-file access to files created or opened by the app."
+	Drive             = "https://www.googleapis.com/auth/drive"
+	DriveDesc         = "Full, permissive scope to access all of a user's files. Request this scope only when it is strictly necessary."
 )
 
 // ClientUtil is a client library to retrieve the /userinfo
