@@ -20,6 +20,8 @@ var (
 )
 
 const (
+	ServerURLProduction  = "https://platform.ringcentral.com"
+	ServerURLSandbox     = "https://platform.devtest.ringcentral.com"
 	ProductionHostname   = "platform.ringcentral.com"
 	SandboxHostname      = "platform.devtest.ringcentral.com"
 	AuthURLFormat        = "https://%s/restapi/oauth/authorize"
