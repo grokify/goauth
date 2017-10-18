@@ -2,7 +2,6 @@ package oauth2util
 
 import (
 	"net/http"
-	"time"
 
 	"github.com/grokify/gotilla/time/timeutil"
 	"github.com/grokify/oauth2util-go/scimutil"
@@ -28,7 +27,6 @@ type OAuth2Util interface {
 
 func NewClientPasswordConf(conf oauth2.Config, username, password string) (*http.Client, error) {
 	token, err := conf.PasswordCredentialsToken(oauth2.NoContext, username, password)
-
 	if err != nil {
 		return &http.Client{}, err
 	}
@@ -37,12 +35,10 @@ func NewClientPasswordConf(conf oauth2.Config, username, password string) (*http
 }
 
 func NewClientAccessToken(accessToken string) *http.Client {
-	t0, _ := time.Parse(time.RFC3339, timeutil.RFC3339Zero)
-
 	token := &oauth2.Token{
 		AccessToken: accessToken,
 		TokenType:   "Bearer",
-		Expiry:      t0}
+		Expiry:      timeutil.TimeRFC3339Zero()}
 
 	oAuthConfig := &oauth2.Config{}
 
