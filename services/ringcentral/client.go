@@ -28,10 +28,11 @@ type UserCredentials struct {
 }
 
 func NewClientPassword(app ApplicationCredentials, user UserCredentials) (*http.Client, error) {
-	conf := oauth2.Config{
-		ClientID:     app.ClientID,
-		ClientSecret: app.ClientSecret,
-		Endpoint:     NewEndpoint(app.ServerURL)}
-
-	return ou.NewClientPasswordConf(conf, user.Username, user.Password)
+	return ou.NewClientPasswordConf(
+		oauth2.Config{
+			ClientID:     app.ClientID,
+			ClientSecret: app.ClientSecret,
+			Endpoint:     NewEndpoint(app.ServerURL)},
+		user.Username,
+		user.Password)
 }
