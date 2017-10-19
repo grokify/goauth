@@ -19,6 +19,15 @@ type ApplicationCredentials struct {
 	ServerURL    string
 	ClientID     string
 	ClientSecret string
+	RedirectURL  string
+}
+
+func (app *ApplicationCredentials) Config() oauth2.Config {
+	return oauth2.Config{
+		ClientID:     app.ClientID,
+		ClientSecret: app.ClientSecret,
+		Endpoint:     NewEndpoint(app.ServerURL),
+		RedirectURL:  app.RedirectURL}
 }
 
 type UserCredentials struct {

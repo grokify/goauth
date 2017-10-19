@@ -34,6 +34,14 @@ func NewClientPasswordConf(conf oauth2.Config, username, password string) (*http
 	return conf.Client(oauth2.NoContext, token), nil
 }
 
+func NewClientAuthCode(conf oauth2.Config, authCode string) (*http.Client, error) {
+	token, err := conf.Exchange(oauth2.NoContext, authCode)
+	if err != nil {
+		return &http.Client{}, err
+	}
+	return conf.Client(oauth2.NoContext, token), nil
+}
+
 func NewClientAccessToken(accessToken string) *http.Client {
 	token := &oauth2.Token{
 		AccessToken: accessToken,
