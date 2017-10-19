@@ -1,4 +1,3 @@
-RINGCENTRAL_CLIENT_ID=my_client_id
-RINGCENTRAL_CLIENT_SECRET=my_client_secret
-RINGCENTRAL_SERVER_URL=https://platform.devtest.ringcentral.com
-RINGCENTRAL_REDIRECT_URL=https://myhost/oauth2callback
+# Glipbot Example
+
+`glipbot_auth.go` is a simple HTTP server that handles Glip bot provisioning. Upon successfully adding this bot to Glip, this will log the permanent access token provided by the RingCentral bot provisioner. The token can then be used with the bot of your choice.
