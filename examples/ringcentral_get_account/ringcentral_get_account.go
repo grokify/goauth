@@ -2,11 +2,13 @@ package main
 
 import (
 	"fmt"
+	"net/http"
 	"os"
 
 	"github.com/grokify/gotilla/config"
 	"github.com/grokify/gotilla/net/httputilmore"
 	"github.com/grokify/gotilla/net/urlutil"
+	ou "github.com/grokify/oauth2util-go"
 	"github.com/grokify/oauth2util-go/services/ringcentral"
 )
 
@@ -16,21 +18,27 @@ func main() {
 		panic(err)
 	}
 
-	client, err := ringcentral.NewClientPassword(
-		ringcentral.ApplicationCredentials{
-			ClientID:     os.Getenv("RC_CLIENT_ID"),
-			ClientSecret: os.Getenv("RC_CLIENT_SECRET"),
-			ServerURL:    os.Getenv("RC_SERVER_URL")},
-		ringcentral.UserCredentials{
-			Username:  os.Getenv("RC_USER_USERNAME"),
-			Extension: os.Getenv("RC_USER_EXTENSION"),
-			Password:  os.Getenv("RC_USER_PASSWORD")})
-
+	client := &http.Client{}
+	if len(os.Getenv("RINGCENTRAL_ACCESS_TOKEN")) > 0 {
+		client = ou.NewClientAccessToken(
+			os.Getenv("RINGCENTRAL_ACCESS_TOKEN"))
+	} else {
+		client, err = ringcentral.NewClientPassword(
+			ringcentral.ApplicationCredentials{
+				ClientID:     os.Getenv("RINGCENTRAL_CLIENT_ID"),
+				ClientSecret: os.Getenv("RINGCENTRAL_CLIENT_SECRET"),
+				ServerURL:    os.Getenv("RINGCENTRAL_SERVER_URL")},
+			ringcentral.UserCredentials{
+				Username: os.Getenv("RINGCENTRAL_USERNAME"),
+				Password: os.Getenv("RINGCENTRAL_PASSWORD")})
+	}
 	if err != nil {
 		panic(err)
 	}
 
-	apiURL := urlutil.JoinAbsolute(os.Getenv("RC_SERVER_URL"), "restapi/v1.0/account/~")
+	urlPath := "restapi/v1.0/account/~"
+
+	apiURL := urlutil.JoinAbsolute(os.Getenv("RINGCENTRAL_SERVER_URL"), urlPath)
 
 	resp, err := client.Get(apiURL)
 	if err != nil {
