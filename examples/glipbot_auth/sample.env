@@ -1,0 +1,4 @@
+RINGCENTRAL_CLIENT_ID=my_client_id
+RINGCENTRAL_CLIENT_SECRET=my_client_secret
+RINGCENTRAL_SERVER_URL=https://platform.devtest.ringcentral.com
+RINGCENTRAL_REDIRECT_URL=https://myhost/oauth2callback
