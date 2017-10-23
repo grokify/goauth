@@ -11,10 +11,12 @@ import (
 )
 
 func main() {
-	err := config.LoadDotEnv(".")
+	err := config.LoadDotEnv("ENV_PATH")
 	if err != nil {
 		panic(err)
 	}
+
+	fmt.Printf(os.Getenv("SALESFORCE_CLIENT_SECRET"))
 
 	client, err := salesforce.NewClientPassword(
 		ou.ApplicationCredentials{
@@ -30,9 +32,9 @@ func main() {
 		panic(err)
 	}
 
-	urlBuilder := salesforce.NewURLBuilder(os.Getenv("SALESFORCE_INSTANCE_NAME"))
+	sc := salesforce.NewSalesforceClient(client, os.Getenv("SALESFORCE_INSTANCE_NAME"))
 
-	apiURL := urlBuilder.Build("services/data")
+	apiURL := sc.URLBuilder.Build("services/data")
 
 	resp, err := client.Get(apiURL.String())
 	if err != nil {
@@ -40,6 +42,22 @@ func main() {
 	}
 
 	httputilmore.PrintResponse(resp, true)
+
+	if 1 == 0 {
+		resp, err = sc.ExecSOQL("select id from contact")
+		if err != nil {
+			panic(err)
+		}
+
+		httputilmore.PrintResponse(resp, true)
+	}
+
+	if 1 == 0 {
+		err = sc.DeleteContactsAll()
+		if err != nil {
+			panic(err)
+		}
+	}
 
 	fmt.Println("DONE")
 }
