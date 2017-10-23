@@ -11,8 +11,8 @@ import (
 	o2g "golang.org/x/oauth2/google"
 )
 
-func ClientFromFile(ctx context.Context, filepath string, scopes []string, tok *oauth2.Token) (*http.Client, error) {
-	conf, err := ConfigFromFile(filepath, scopes)
+func NewClientFromFile(ctx context.Context, filepath string, scopes []string, tok *oauth2.Token) (*http.Client, error) {
+	conf, err := NewConfigFromFile(filepath, scopes)
 	if err != nil {
 		return &http.Client{}, errors.Wrap(err, fmt.Sprintf("Unable to read app config file: %v", filepath))
 	}
@@ -20,7 +20,7 @@ func ClientFromFile(ctx context.Context, filepath string, scopes []string, tok *
 	return conf.Client(ctx, tok), nil
 }
 
-func ConfigFromFile(file string, scopes []string) (*oauth2.Config, error) {
+func NewConfigFromFile(file string, scopes []string) (*oauth2.Config, error) {
 	b, err := ioutil.ReadFile(file) // Google client_secret.json
 	if err != nil {
 		return &oauth2.Config{},
@@ -29,7 +29,7 @@ func ConfigFromFile(file string, scopes []string) (*oauth2.Config, error) {
 	return o2g.ConfigFromJSON(b, scopes...)
 }
 
-func GetTokenFromWeb(conf *oauth2.Config) (*oauth2.Token, error) {
+func NewTokenFromWeb(conf *oauth2.Config) (*oauth2.Token, error) {
 	authURL := conf.AuthCodeURL("state-token", oauth2.AccessTypeOffline)
 	fmt.Printf("Go to the following link in your browser then type the "+
 		"authorization code: \n%v\n", authURL)
