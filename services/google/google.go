@@ -29,17 +29,16 @@ func NewConfigFromFile(file string, scopes []string) (*oauth2.Config, error) {
 	return o2g.ConfigFromJSON(b, scopes...)
 }
 
-func NewTokenFromWeb(conf *oauth2.Config) (*oauth2.Token, error) {
-	authURL := conf.AuthCodeURL("state-token", oauth2.AccessTypeOffline)
-	fmt.Printf("Go to the following link in your browser then type the "+
-		"authorization code: \n%v\n", authURL)
+func NewTokenFromWeb(cfg *oauth2.Config) (*oauth2.Token, error) {
+	authURL := cfg.AuthCodeURL("state-token", oauth2.AccessTypeOffline)
+	fmt.Printf("Go to this link in your browser then type the auth code: \n%v\n", authURL)
 
 	code := ""
 	if _, err := fmt.Scan(&code); err != nil {
-		return &oauth2.Token{}, errors.Wrap(err, "Unable to read authorization code")
+		return &oauth2.Token{}, errors.Wrap(err, "Unable to read auth code")
 	}
 
-	tok, err := conf.Exchange(oauth2.NoContext, code)
+	tok, err := cfg.Exchange(oauth2.NoContext, code)
 	if err != nil {
 		return tok, errors.Wrap(err, "Unable to retrieve token from web")
 	}
