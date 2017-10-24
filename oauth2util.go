@@ -1,10 +1,12 @@
 package oauth2util
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/grokify/gotilla/time/timeutil"
 	"github.com/grokify/oauth2util-go/scimutil"
+	"github.com/pkg/errors"
 	"golang.org/x/oauth2"
 )
 
@@ -51,4 +53,20 @@ func NewClientAccessToken(accessToken string) *http.Client {
 	oAuthConfig := &oauth2.Config{}
 
 	return oAuthConfig.Client(oauth2.NoContext, token)
+}
+
+func NewTokenFromWeb(cfg *oauth2.Config) (*oauth2.Token, error) {
+	authURL := cfg.AuthCodeURL("state-token", oauth2.AccessTypeOffline)
+	fmt.Printf("Go to this link in your browser then type the auth code: \n%v\n", authURL)
+
+	code := ""
+	if _, err := fmt.Scan(&code); err != nil {
+		return &oauth2.Token{}, errors.Wrap(err, "Unable to read auth code")
+	}
+
+	tok, err := cfg.Exchange(oauth2.NoContext, code)
+	if err != nil {
+		return tok, errors.Wrap(err, "Unable to retrieve token from web")
+	}
+	return tok, nil
 }
