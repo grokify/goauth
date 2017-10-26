@@ -5,11 +5,12 @@ import (
 	"net/http"
 
 	"github.com/grokify/gotilla/time/timeutil"
-	"github.com/grokify/oauth2util-go/scimutil"
+	"github.com/grokify/oauth2util/scimutil"
 	"github.com/pkg/errors"
 	"golang.org/x/oauth2"
 )
 
+// ApplicationCredentials represents information for an app.
 type ApplicationCredentials struct {
 	ServerURL    string
 	ClientID     string
@@ -17,6 +18,7 @@ type ApplicationCredentials struct {
 	Endpoint     oauth2.Endpoint
 }
 
+// UserCredentials represents a user's credentials.
 type UserCredentials struct {
 	Username string
 	Password string

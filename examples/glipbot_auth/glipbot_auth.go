@@ -8,7 +8,7 @@ import (
 
 	log "github.com/Sirupsen/logrus"
 	"github.com/grokify/gotilla/fmt/fmtutil"
-	"github.com/grokify/oauth2util-go/services/ringcentral"
+	"github.com/grokify/oauth2util/ringcentral"
 	"github.com/joho/godotenv"
 	"golang.org/x/oauth2"
 )
