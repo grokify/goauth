@@ -3,6 +3,8 @@ package oauth2util
 import (
 	"encoding/json"
 	"os"
+	"os/user"
+	"path"
 
 	"github.com/pkg/errors"
 	"golang.org/x/oauth2"
@@ -30,25 +32,32 @@ func WriteTokenFile(filepath string, tok *oauth2.Token) error {
 	return json.NewEncoder(f).Encode(tok)
 }
 
-type TokenStore interface {
-	Read() (*oauth2.Token, error)
-	Write() error
-}
-
 type TokenStoreFile struct {
 	Token    *oauth2.Token
 	Filepath string
 }
 
-func (ts TokenStoreFile) Read() (*oauth2.Token, error) {
-	tok, err := ReadTokenFile(ts.Filepath)
-	if err != nil {
-		return tok, err
-	}
-	ts.Token = tok
-	return tok, nil
+func NewTokenStoreFile(file string) TokenStoreFile {
+	return TokenStoreFile{Filepath: file}
 }
 
-func (ts TokenStoreFile) Write() error {
+func (ts *TokenStoreFile) Read() error {
+	tok, err := ReadTokenFile(ts.Filepath)
+	if err != nil {
+		return err
+	}
+	ts.Token = tok
+	return nil
+}
+
+func (ts *TokenStoreFile) Write() error {
 	return WriteTokenFile(ts.Filepath, ts.Token)
+}
+
+func UserCredentialsDir() (string, error) {
+	usr, err := user.Current()
+	if err != nil {
+		return "", err
+	}
+	return path.Join(usr.HomeDir, ".credentials"), nil
 }
