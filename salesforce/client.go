@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"os"
 
-	ou "github.com/grokify/oauth2util-go"
+	ou "github.com/grokify/oauth2util"
 	"golang.org/x/oauth2"
 	"gopkg.in/jeevatkm/go-model.v1"
 )

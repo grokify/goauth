@@ -1,7 +1,7 @@
 package ringcentral
 
 import (
-	ou "github.com/grokify/oauth2util-go"
+	ou "github.com/grokify/oauth2util"
 	"golang.org/x/oauth2"
 	"net/http"
 )

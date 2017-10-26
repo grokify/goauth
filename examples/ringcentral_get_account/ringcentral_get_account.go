@@ -8,8 +8,8 @@ import (
 	"github.com/grokify/gotilla/config"
 	"github.com/grokify/gotilla/net/httputilmore"
 	"github.com/grokify/gotilla/net/urlutil"
-	ou "github.com/grokify/oauth2util-go"
-	"github.com/grokify/oauth2util-go/services/ringcentral"
+	ou "github.com/grokify/oauth2util"
+	"github.com/grokify/oauth2util/ringcentral"
 )
 
 func main() {
