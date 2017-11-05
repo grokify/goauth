@@ -56,9 +56,9 @@ See the following repo for a Beego-based demo app:
 
 * https://github.com/grokify/beego-oauth2-demo
 
- [goreport-svg]: https://goreportcard.com/badge/github.com/grokify/oauth2util-go
- [goreport-link]: https://goreportcard.com/report/github.com/grokify/oauth2util-go
+ [goreport-svg]: https://goreportcard.com/badge/github.com/grokify/oauth2util
+ [goreport-link]: https://goreportcard.com/report/github.com/grokify/oauth2util
  [docs-godoc-svg]: https://img.shields.io/badge/docs-godoc-blue.svg
- [docs-godoc-link]: https://godoc.org/github.com/grokify/oauth2util-go
+ [docs-godoc-link]: https://godoc.org/github.com/grokify/oauth2util
  [license-svg]: https://img.shields.io/badge/license-MIT-blue.svg
- [license-link]: https://github.com/grokify/oauth2util-go/blob/master/LICENSE.md
+ [license-link]: https://github.com/grokify/oauth2util/blob/master/LICENSE.md
