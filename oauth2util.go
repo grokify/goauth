@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
+	b64 "github.com/grokify/gotilla/encoding/base64"
 	"github.com/grokify/gotilla/time/timeutil"
 	"github.com/grokify/oauth2util/scimutil"
 	"github.com/pkg/errors"
@@ -57,6 +58,18 @@ func NewClientAccessToken(accessToken string) *http.Client {
 	return oAuthConfig.Client(oauth2.NoContext, token)
 }
 
+func BasicAuthToken(username, password string) (*oauth2.Token, error) {
+	basicToken, err := b64.RFC7617UserPass(username, password)
+	if err != nil {
+		return nil, err
+	}
+
+	return &oauth2.Token{
+		AccessToken: basicToken,
+		TokenType:   "Basic",
+		Expiry:      timeutil.TimeRFC3339Zero()}, nil
+}
+
 func NewTokenFromWeb(cfg *oauth2.Config) (*oauth2.Token, error) {
 	authURL := cfg.AuthCodeURL("state-token", oauth2.AccessTypeOffline)
 	fmt.Printf("Go to this link in your browser then type the auth code: \n%v\n", authURL)
@@ -71,4 +84,16 @@ func NewTokenFromWeb(cfg *oauth2.Config) (*oauth2.Token, error) {
 		return tok, errors.Wrap(err, "Unable to retrieve token from web")
 	}
 	return tok, nil
+}
+
+func NewClientTLSToken(ctx context.Context, tlsConfig *tls.Config, token *oauth2.Token) *http.Client {
+	tlsClient := &http.Client{
+		Transport: &http.Transport{
+			TLSClientConfig: tlsConfig}}
+
+	ctx = context.WithValue(ctx, oauth2.HTTPClient, tlsClient)
+
+	cfg := &oauth2.Config{}
+
+	return cfg.Client(ctx, token)
 }
