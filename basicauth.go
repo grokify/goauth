@@ -16,8 +16,10 @@ func RFC7617UserPass(userid, password string) (string, error) {
 		return "", fmt.Errorf(
 			"RFC7617 user-id cannot include a colon (':') [%v]", userid)
 	}
-	userpass := strings.Join([]string{userid, password}, ":")
-	return base64.StdEncoding.EncodeToString([]byte(userpass)), nil
+
+	return base64.StdEncoding.EncodeToString(
+		[]byte(userid + ":" + password),
+	), nil
 }
 
 // BasicAuthToken provides Basic Authentication support via an oauth2.Token.
