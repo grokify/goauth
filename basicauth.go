@@ -20,6 +20,7 @@ func RFC7617UserPass(userid, password string) (string, error) {
 	return base64.StdEncoding.EncodeToString([]byte(userpass)), nil
 }
 
+// BasicAuthToken provides Basic Authentication support via an oauth2.Token.
 func BasicAuthToken(username, password string) (*oauth2.Token, error) {
 	basicToken, err := RFC7617UserPass(username, password)
 	if err != nil {
