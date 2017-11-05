@@ -1,10 +1,11 @@
 package oauth2util
 
 import (
+	"context"
+	"crypto/tls"
 	"fmt"
 	"net/http"
 
-	b64 "github.com/grokify/gotilla/encoding/base64"
 	"github.com/grokify/gotilla/time/timeutil"
 	"github.com/grokify/oauth2util/scimutil"
 	"github.com/pkg/errors"
@@ -56,18 +57,6 @@ func NewClientAccessToken(accessToken string) *http.Client {
 	oAuthConfig := &oauth2.Config{}
 
 	return oAuthConfig.Client(oauth2.NoContext, token)
-}
-
-func BasicAuthToken(username, password string) (*oauth2.Token, error) {
-	basicToken, err := b64.RFC7617UserPass(username, password)
-	if err != nil {
-		return nil, err
-	}
-
-	return &oauth2.Token{
-		AccessToken: basicToken,
-		TokenType:   "Basic",
-		Expiry:      timeutil.TimeRFC3339Zero()}, nil
 }
 
 func NewTokenFromWeb(cfg *oauth2.Config) (*oauth2.Token, error) {
