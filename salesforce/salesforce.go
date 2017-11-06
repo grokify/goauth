@@ -1,10 +1,12 @@
 package salesforce
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"net/url"
 	"os"
+	"path"
 	"regexp"
 	"strings"
 
@@ -43,8 +45,14 @@ func (sc *SalesforceClient) GetServicesData() (*http.Response, error) {
 }
 
 func (sc *SalesforceClient) CreateContact(contact interface{}) (*http.Response, error) {
-	apiURL := sc.URLBuilder.Build("/services/data/v40.0/sobjects/Contact/")
+	//apiURL := sc.URLBuilder.Build("/services/data/v40.0/sobjects/Contact/")
+	apiURL := sc.URLBuilder.BuildSobjectURL("Contact")
 	return sc.ClientMore.PostToJSON(apiURL.String(), contact)
+}
+
+func (sc *SalesforceClient) CreateSobject(sobjectName string, sobject interface{}) (*http.Response, error) {
+	apiURL := sc.URLBuilder.BuildSobjectURL(sobjectName)
+	return sc.ClientMore.PostToJSON(apiURL.String(), sobject)
 }
 
 func (sc *SalesforceClient) ExecSOQL(soql string) (*http.Response, error) {
@@ -58,32 +66,41 @@ func (sc *SalesforceClient) ExecSOQL(soql string) (*http.Response, error) {
 	return sc.ClientMore.Client.Get(apiURLString)
 }
 
-func (sc *SalesforceClient) DeleteContactsAll() error {
-	resp, err := sc.ExecSOQL("select id,name,email from contact")
+func (sc *SalesforceClient) GetAccountsAll() (sobjects.AccountSet, error) {
+	resp, err := sc.ExecSOQL("SELECT id, name FROM account")
+	if err != nil {
+		return sobjects.AccountSet{}, err
+	}
+
+	httputilmore.PrintResponse(resp, true)
+
+	return sobjects.NewAccountSetFromJSONResponse(resp)
+}
+
+func (sc *SalesforceClient) DeleteAccountsAll() error {
+	set, err := sc.GetAccountsAll()
 	if err != nil {
 		return err
 	}
-	set, err := sobjects.NewContactSetFromJSONResponse(resp)
-	if err != nil {
-		return err
-	}
-	for _, contact := range set.Records {
-		resp, err := sc.DeleteContact(contact.Id)
+	for _, account := range set.Records {
+		resp, err := sc.DeleteAccount(account.Id)
 		if err != nil {
-			panic(err)
+			continue
 		}
 		if resp.StatusCode > 299 {
 			httputilmore.PrintResponse(resp, true)
 			fmt.Printf("%v\n", resp.StatusCode)
+			continue
 			panic("Z")
 		}
 	}
 	return nil
 }
 
-func (sc *SalesforceClient) DeleteContact(id string) (*http.Response, error) {
-	apiURLString := fmt.Sprintf("/services/data/v40.0/sobjects/%v/%v", "Contact", id)
-	apiURL := sc.URLBuilder.Build(apiURLString)
+func (sc *SalesforceClient) DeleteAccount(id string) (*http.Response, error) {
+	//apiURLString := fmt.Sprintf("/services/data/v40.0/sobjects/%v/%v", "Account", id)
+	//apiURL := sc.URLBuilder.Build(apiURLString)
+	apiURL := sc.URLBuilder.BuildSobjectURL("Account", id)
 
 	req, err := http.NewRequest("DELETE", apiURL.String(), nil)
 	if err != nil {
@@ -92,18 +109,94 @@ func (sc *SalesforceClient) DeleteContact(id string) (*http.Response, error) {
 	return sc.ClientMore.Client.Do(req)
 }
 
+func (sc *SalesforceClient) GetContactsAll() (sobjects.ContactSet, error) {
+	resp, err := sc.ExecSOQL("SELECT id, name, email FROM contact")
+	if err != nil {
+		return sobjects.ContactSet{}, err
+	}
+	return sobjects.NewContactSetFromJSONResponse(resp)
+}
+
+func (sc *SalesforceClient) DeleteContactsAll() error {
+	set, err := sc.GetContactsAll()
+	if err != nil {
+		return err
+	}
+	for _, contact := range set.Records {
+		resp, err := sc.DeleteContact(contact.Id)
+		if err != nil {
+			return err
+		}
+		if resp.StatusCode > 299 {
+			httputilmore.PrintResponse(resp, true)
+			fmt.Printf("%v\n", resp.StatusCode)
+			continue
+			panic("Z")
+		}
+	}
+	return nil
+}
+
+func (sc *SalesforceClient) DeleteContact(id string) (*http.Response, error) {
+	apiURL := sc.URLBuilder.BuildSobjectURL("Contact", id)
+
+	req, err := http.NewRequest("DELETE", apiURL.String(), nil)
+	if err != nil {
+		return &http.Response{}, err
+	}
+	return sc.ClientMore.Client.Do(req)
+}
+
+func (sc *SalesforceClient) UserInfo() (User, error) {
+	apiURL := "https://login.salesforce.com/services/oauth2/userinfo"
+	user := User{}
+
+	req, err := http.NewRequest("GETs", apiURL, nil)
+	if err != nil {
+		return user, err
+	}
+
+	resp, err := sc.ClientMore.Client.Do(req)
+	if err != nil {
+		return user, err
+	}
+
+	bytes, err := httputilmore.ResponseBody(resp)
+	if err != nil {
+		return user, err
+	}
+	err = json.Unmarshal(bytes, &user)
+	return user, err
+}
+
+type User struct {
+	UserId         string `json:"user_id,omitempty"`
+	OrganizationId string `json:"organization_id,omitempty"`
+}
+
 type URLBuilder struct {
 	BaseURL url.URL
+	Version string
 }
 
 func NewURLBuilder(instanceName string) URLBuilder {
-	return URLBuilder{BaseURL: url.URL{
-		Scheme: "https",
-		Host:   fmt.Sprintf(HostFormat, instanceName)}}
+	return URLBuilder{
+		BaseURL: url.URL{
+			Scheme: "https",
+			Host:   fmt.Sprintf(HostFormat, instanceName),
+		},
+		Version: "v40.0",
+	}
 }
 
 func (b *URLBuilder) Build(path string) url.URL {
 	u := b.BaseURL
 	u.Path = path
 	return u
+}
+
+func (b *URLBuilder) BuildSobjectURL(parts ...string) url.URL {
+	partsString := path.Join(parts...)
+	apiURLString := fmt.Sprintf("/services/data/%v/sobjects/%v", b.Version, partsString)
+	return b.Build(apiURLString)
 }
