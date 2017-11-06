@@ -1,6 +1,8 @@
 package oauth2util
 
 import (
+	"context"
+	"crypto/tls"
 	"fmt"
 	"net/http"
 
@@ -71,4 +73,16 @@ func NewTokenFromWeb(cfg *oauth2.Config) (*oauth2.Token, error) {
 		return tok, errors.Wrap(err, "Unable to retrieve token from web")
 	}
 	return tok, nil
+}
+
+func NewClientTLSToken(ctx context.Context, tlsConfig *tls.Config, token *oauth2.Token) *http.Client {
+	tlsClient := &http.Client{
+		Transport: &http.Transport{
+			TLSClientConfig: tlsConfig}}
+
+	ctx = context.WithValue(ctx, oauth2.HTTPClient, tlsClient)
+
+	cfg := &oauth2.Config{}
+
+	return cfg.Client(ctx, token)
 }
