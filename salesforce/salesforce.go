@@ -91,7 +91,6 @@ func (sc *SalesforceClient) DeleteAccountsAll() error {
 			httputilmore.PrintResponse(resp, true)
 			fmt.Printf("%v\n", resp.StatusCode)
 			continue
-			panic("Z")
 		}
 	}
 	return nil
@@ -131,7 +130,6 @@ func (sc *SalesforceClient) DeleteContactsAll() error {
 			httputilmore.PrintResponse(resp, true)
 			fmt.Printf("%v\n", resp.StatusCode)
 			continue
-			panic("Z")
 		}
 	}
 	return nil
