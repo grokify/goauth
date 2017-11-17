@@ -1,10 +1,11 @@
 # OAuth 2.0 Util for Go
 
+[![Build Status][build-status-svg]][build-status-link]
 [![Go Report Card][goreport-svg]][goreport-link]
 [![Docs][docs-godoc-svg]][docs-godoc-link]
 [![License][license-svg]][license-link]
 
-[OAuth 2.0 - https://github.com/golang/oauth2](https://github.com/golang/oauth2) helper API calls related to OAuth 2.0 user profile information. Currently provices helper libraries to retrieve canonical user information from services. The [SCIM](http://www.simplecloud.info/) user schema is used for a canonical user model.
+[OAuth 2.0 - https://github.com/golang/oauth2](https://github.com/golang/oauth2) helper API calls related to OAuth 2.0 user profile information. Currently provides helper libraries to retrieve canonical user information from services. The [SCIM](http://www.simplecloud.info/) user schema is used for a canonical user model.
 
 ## Installation
 
@@ -56,6 +57,8 @@ See the following repo for a Beego-based demo app:
 
 * https://github.com/grokify/beego-oauth2-demo
 
+ [build-status-svg]: https://api.travis-ci.org/grokify/oauth2util.svg?branch=master
+ [build-status-link]: https://travis-ci.org/grokify/oauth2util
  [goreport-svg]: https://goreportcard.com/badge/github.com/grokify/oauth2util
  [goreport-link]: https://goreportcard.com/report/github.com/grokify/oauth2util
  [docs-godoc-svg]: https://img.shields.io/badge/docs-godoc-blue.svg
