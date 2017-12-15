@@ -6,13 +6,11 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/grokify/gotilla/fmt/fmtutil"
 	hum "github.com/grokify/gotilla/net/httputilmore"
 	"github.com/grokify/gotilla/net/urlutil"
 )
 
 const (
-	HTTPMethodPost        = "POST"
 	MetabaseSessionHeader = "X-Metabase-Session"
 	RelPathApiSession     = "api/session"
 	RelPathApiUserCurrent = "api/user/current"
@@ -73,7 +71,7 @@ func AuthRequest(authUrl, username, password string) (*http.Response, error) {
 		return nil, err
 	}
 
-	req, err := http.NewRequest(HTTPMethodPost, authUrl, bytes.NewBuffer(bodyBytes))
+	req, err := http.NewRequest(http.MethodPost, authUrl, bytes.NewBuffer(bodyBytes))
 	if err != nil {
 		return nil, err
 	}
