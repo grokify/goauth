@@ -32,7 +32,10 @@ type authResponse struct {
 // NewClient returns a *http.Client that will add the Metabase Session
 // header to each request.
 func NewClient(baseUrl, username, password string) (*http.Client, error) {
-	resp, err := AuthRequest(BuildSessionUrl(baseUrl), username, password)
+	resp, err := AuthRequest(
+		urlutil.JoinAbsolute(baseUrl, RelPathApiSession),
+		username,
+		password)
 	if err != nil {
 		return nil, err
 	}
@@ -59,10 +62,6 @@ func NewClient(baseUrl, username, password string) (*http.Client, error) {
 		Header:    header}
 
 	return client, nil
-}
-
-func BuildSessionUrl(baseUrl string) string {
-	return urlutil.JoinAbsolute(baseUrl, RelPathApiSession)
 }
 
 func AuthRequest(authUrl, username, password string) (*http.Response, error) {

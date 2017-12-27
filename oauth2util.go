@@ -3,13 +3,19 @@ package oauth2util
 import (
 	"context"
 	"crypto/tls"
+	"encoding/json"
+	errr "errors"
 	"fmt"
 	"net/http"
+	"regexp"
+	"strings"
 
+	"github.com/grokify/gotilla/os/osutil"
 	"github.com/grokify/gotilla/time/timeutil"
 	"github.com/grokify/oauth2util/scimutil"
 	"github.com/pkg/errors"
 	"golang.org/x/oauth2"
+	"golang.org/x/oauth2/facebook"
 )
 
 // ApplicationCredentials represents information for an app.
@@ -18,6 +24,74 @@ type ApplicationCredentials struct {
 	ClientID     string
 	ClientSecret string
 	Endpoint     oauth2.Endpoint
+}
+
+type AppCredentials struct {
+	Service      string   `json:"service,omitempty"`
+	ClientID     string   `json:"client_id"`
+	ClientSecret string   `json:"client_secret"`
+	RedirectURIs []string `json:"redirect_uris"`
+	AuthURI      string   `json:"auth_uri"`
+	TokenURI     string   `json:"token_uri"`
+	Scopes       []string `json:"scopes"`
+}
+
+func (ac *AppCredentials) Defaultify() {
+	switch ac.Service {
+	case "facebook":
+		if len(ac.AuthURI) == 0 || len(ac.TokenURI) == 0 {
+			endpoint := facebook.Endpoint
+			if len(ac.AuthURI) == 0 {
+				ac.AuthURI = endpoint.AuthURL
+			}
+			if len(ac.TokenURI) == 0 {
+				ac.TokenURI = endpoint.TokenURL
+			}
+		}
+	}
+}
+
+type AppCredentialsWrapper struct {
+	Web       *AppCredentials `json:"web"`
+	Installed *AppCredentials `json:"installed"`
+}
+
+func (w *AppCredentialsWrapper) Config() (*oauth2.Config, error) {
+	var c *AppCredentials
+	if w.Web != nil {
+		c = w.Web
+	} else if w.Installed != nil {
+		c = w.Installed
+	} else {
+		return nil, errr.New("No OAuth2 config info")
+	}
+	c.Defaultify()
+	return c.Config(), nil
+}
+
+func NewAppCredentialsWrapperFromBytes(data []byte) (AppCredentialsWrapper, error) {
+	var acw AppCredentialsWrapper
+	err := json.Unmarshal(data, &acw)
+	if err != nil {
+		panic(err)
+	}
+	return acw, err
+}
+
+func (c *AppCredentials) Config() *oauth2.Config {
+	cfg := &oauth2.Config{
+		ClientID:     c.ClientID,
+		ClientSecret: c.ClientSecret,
+		Scopes:       c.Scopes,
+		Endpoint: oauth2.Endpoint{
+			AuthURL:  c.AuthURI,
+			TokenURL: c.TokenURI,
+		},
+	}
+	if len(c.RedirectURIs) > 0 {
+		cfg.RedirectURL = c.RedirectURIs[0]
+	}
+	return cfg
 }
 
 // UserCredentials represents a user's credentials.
@@ -85,4 +159,34 @@ func NewClientTLSToken(ctx context.Context, tlsConfig *tls.Config, token *oauth2
 	cfg := &oauth2.Config{}
 
 	return cfg.Client(ctx, token)
+}
+
+// EnvOAuth2ConfigMap returns a map of *oauth2.Config from environment
+// variables in AppCredentialsWrapper format.
+func EnvOAuth2ConfigMap(env []osutil.EnvVar, prefix string) (map[string]*oauth2.Config, error) {
+	cfgs := map[string]*oauth2.Config{}
+
+	rx, err := regexp.Compile(fmt.Sprintf(`^%v(.*)`, prefix))
+	if err != nil {
+		return cfgs, err
+	}
+
+	for _, pair := range env {
+		key := strings.TrimSpace(pair.Key)
+		val := pair.Value
+		m := rx.FindStringSubmatch(key)
+		if len(m) > 0 {
+			fmt.Println(val)
+			acw, err := NewAppCredentialsWrapperFromBytes([]byte(val))
+			if err != nil {
+				return cfgs, err
+			}
+			cfg, err := acw.Config()
+			if err != nil {
+				return cfgs, err
+			}
+			cfgs[m[1]] = cfg
+		}
+	}
+	return cfgs, nil
 }
