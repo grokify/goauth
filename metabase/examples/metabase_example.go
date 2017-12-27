@@ -24,6 +24,10 @@ func main() {
 		panic(err)
 	}
 
+	cardId := 1
+
+	metabase.TLSInsecureSkipVerify = true
+
 	baseUrl := os.Getenv("METABASE_BASE_URL")
 
 	client, err := metabase.NewClient(baseUrl,
@@ -38,6 +42,18 @@ func main() {
 
 	req, err := http.NewRequest("GET", userUrl, nil)
 	resp, err := client.Do(req)
+	if err != nil {
+		panic(err)
+	}
+	hum.PrintResponse(resp, true)
+
+	cardUrl := fmt.Sprintf("api/card/%v/query/%s", cardId, "json")
+	cardUrl = urlutil.JoinAbsolute(baseUrl, cardUrl)
+
+	fmt.Println(cardUrl)
+
+	req, err = http.NewRequest(http.MethodPost, cardUrl, nil)
+	resp, err = client.Do(req)
 	if err != nil {
 		panic(err)
 	}

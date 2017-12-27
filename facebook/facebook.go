@@ -7,11 +7,17 @@ import (
 
 	"github.com/grokify/gotilla/net/httputilmore"
 	"github.com/grokify/oauth2util/scimutil"
+	"golang.org/x/oauth2/facebook"
 )
 
 const (
 	FacebookAPIMeURL = "https://graph.facebook.com/v2.9/me?locale=en_US&fields=name,email,verified,first_name,middle_name,last_name"
 )
+
+func DefaultifyConfig(cfg *oauth2.Config) *oauth2.Config {
+	cfg.Endpoint = fb.Endpoint
+	return cfg
+}
 
 // ClientUtil is a client library to retrieve user info
 // from the Facebook API.
