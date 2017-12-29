@@ -8,14 +8,14 @@
 
 [OAuth 2.0 - https://github.com/golang/oauth2](https://github.com/golang/oauth2) helper API calls related to OAuth 2.0 user profile information. Currently provides:
 
-* `NewClient` functions to create `*http.Client` structs for services like `aha`, `metabase`, `ringcentral`, `salesforce`, etc.
-* helper libraries to retrieve canonical user information from services. The [SCIM](http://www.simplecloud.info/) user schema is used for a canonical user model.
+* `NewClient()` functions to create `*http.Client` structs for services like `aha`, `metabase`, `ringcentral`, `salesforce`, etc.
+* Helper libraries to retrieve canonical user information from services. The [SCIM](http://www.simplecloud.info/) user schema is used for a canonical user model.
 * Multi-service libraries to more transparently handle OAuth 2 for multiple services, e.g. a website that supports Google and Facebook auth. This is demoed in [grokify/beego-oauth2-demo](https://github.com/grokify/beego-oauth2-demo)
 
 ## Installation
 
 ```
-$ go get github.com/grokify/oauth2util-go/...
+$ go get github.com/grokify/oauth2util/...
 ```
 
 ## Usage
@@ -24,7 +24,7 @@ $ go get github.com/grokify/oauth2util-go/...
 
 ```golang
 import(
-	"github.com/grokify/oauth2util-go/services/google"
+	"github.com/grokify/oauth2util/google"
 )
 
 // googleOAuth2HTTPClient is *http.Client from Golang OAuth2
@@ -36,7 +36,7 @@ scimuser, err := googleClientUtil.GetSCIMUser()
 
 ```golang
 import(
-	"github.com/grokify/oauth2util-go/services/facebook"
+	"github.com/grokify/oauth2util-go/facebook"
 )
 
 // fbOAuth2HTTPClient is *http.Client from Golang OAuth2
@@ -48,7 +48,7 @@ scimuser, err := fbClientUtil.GetSCIMUser()
 
 ```golang
 import(
-	"github.com/grokify/oauth2util-go/services/ringcentral"
+	"github.com/grokify/oauth2util-go/ringcentral"
 )
 
 // rcOAuth2HTTPClient is *http.Client from Golang OAuth2
