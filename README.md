@@ -36,7 +36,7 @@ scimuser, err := googleClientUtil.GetSCIMUser()
 
 ```golang
 import(
-	"github.com/grokify/oauth2util-go/facebook"
+	"github.com/grokify/oauth2util/facebook"
 )
 
 // fbOAuth2HTTPClient is *http.Client from Golang OAuth2
@@ -48,7 +48,7 @@ scimuser, err := fbClientUtil.GetSCIMUser()
 
 ```golang
 import(
-	"github.com/grokify/oauth2util-go/ringcentral"
+	"github.com/grokify/oauth2util/ringcentral"
 )
 
 // rcOAuth2HTTPClient is *http.Client from Golang OAuth2
