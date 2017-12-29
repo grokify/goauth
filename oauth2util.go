@@ -7,10 +7,7 @@ import (
 	errr "errors"
 	"fmt"
 	"net/http"
-	//"regexp"
-	//"strings"
 
-	//"github.com/grokify/gotilla/os/osutil"
 	"github.com/grokify/gotilla/time/timeutil"
 	"github.com/grokify/oauth2util/scimutil"
 	"github.com/pkg/errors"
@@ -160,14 +157,3 @@ func NewClientTLSToken(ctx context.Context, tlsConfig *tls.Config, token *oauth2
 
 	return cfg.Client(ctx, token)
 }
-
-/*
-func (cfgs *AppConfigs) AddAppConfigWrapper(key string, acw AppCredentialsWrapper) error {
-	cfg, err := acw.Config()
-	if err != nil {
-		return err
-	}
-	cfgs.ConfigsMap[key] = cfg
-	return nil
-}
-*/
