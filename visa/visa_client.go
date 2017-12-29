@@ -44,8 +44,7 @@ func NewClient(cfg Config) (*http.Client, error) {
 
 	tlsConfig.Inflate()
 
-	if token, err := oauth2more.BasicAuthToken(
-		cfg.Username, cfg.Password); err != nil {
+	if token, err := oauth2more.BasicAuthToken(cfg.Username, cfg.Password); err != nil {
 		return nil, err
 	} else {
 		return oauth2more.NewClientTLSToken(
