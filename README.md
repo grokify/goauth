@@ -7,7 +7,7 @@
 
 More [OAuth 2.0 - https://github.com/golang/oauth2](https://github.com/golang/oauth2) functionality. Currently provides:
 
-* `NewClient()` functions to create `*http.Client` structs for services not supported in `oauth2` like `aha`, `metabase`, `ringcentral`, `salesforce`, `visa`, etc. Among other things, Generating `*http.Client` structs is useful for using with Swagger Codegen auto-generated SDKs.
+* `NewClient()` functions to create `*http.Client` structs for services not supported in `oauth2` like `aha`, `metabase`, `ringcentral`, `salesforce`, `visa`, etc. Generating `*http.Client` structs is useful for using with Swagger Codegen auto-generated SDKs.
 * Helper libraries to retrieve canonical user information from services. The [SCIM](http://www.simplecloud.info/) user schema is used for a canonical user model.
 * Multi-service libraries to more transparently handle OAuth 2 for multiple services, e.g. a website that supports Google and Facebook auth. This is demoed in [grokify/beego-oauth2-demo](https://github.com/grokify/beego-oauth2-demo)
 
