@@ -6,8 +6,9 @@ import (
 
 	"github.com/grokify/gotilla/config"
 	"github.com/grokify/gotilla/net/httputilmore"
-	ou "github.com/grokify/oauth2util"
 	"github.com/grokify/oauth2util/salesforce"
+
+	ou "github.com/grokify/oauth2util"
 )
 
 func main() {
