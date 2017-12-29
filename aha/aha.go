@@ -20,6 +20,11 @@ const (
 	AhaAccountHeader = "X-AHA-ACCOUNT"
 )
 
+var (
+	AhaAccountEnv = "AHA_ACCOUNT"
+	AhaApiKeyEnv  = "AHA_API_KEY"
+)
+
 func NewEndpoint(subdomain string) oauth2.Endpoint {
 	return oauth2.Endpoint{
 		AuthURL:  fmt.Sprintf(AuthURLFormat, subdomain),
