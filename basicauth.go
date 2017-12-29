@@ -1,4 +1,4 @@
-package oauth2util
+package oauth2more
 
 import (
 	"encoding/base64"

@@ -8,11 +8,11 @@ import (
 	"github.com/grokify/gotilla/os/osutil"
 	"golang.org/x/oauth2"
 
-	"github.com/grokify/oauth2util"
-	"github.com/grokify/oauth2util/aha"
-	"github.com/grokify/oauth2util/facebook"
-	"github.com/grokify/oauth2util/google"
-	"github.com/grokify/oauth2util/ringcentral"
+	"github.com/grokify/oauth2more"
+	"github.com/grokify/oauth2more/aha"
+	"github.com/grokify/oauth2more/facebook"
+	"github.com/grokify/oauth2more/google"
+	"github.com/grokify/oauth2more/ringcentral"
 )
 
 type AppConfigs struct {
@@ -24,14 +24,14 @@ func NewAppConfigs() *AppConfigs {
 }
 
 func (cfgs *AppConfigs) AddAppConfigWrapperBytes(key string, val []byte) error {
-	acw, err := oauth2util.NewAppCredentialsWrapperFromBytes(val)
+	acw, err := oauth2more.NewAppCredentialsWrapperFromBytes(val)
 	if err != nil {
 		return err
 	}
 	return cfgs.AddAppConfigWrapper(key, acw)
 }
 
-func (cfgs *AppConfigs) AddAppConfigWrapper(key string, acw oauth2util.AppCredentialsWrapper) error {
+func (cfgs *AppConfigs) AddAppConfigWrapper(key string, acw oauth2more.AppCredentialsWrapper) error {
 	cfg, err := acw.Config()
 	if err != nil {
 		return err
@@ -81,7 +81,7 @@ func EnvOAuth2ConfigMap(env []osutil.EnvVar, prefix string) (*AppConfigs, error)
 	return cfgs, nil
 }
 
-func GetClientUtilForServiceType(svcType string) (oauth2util.OAuth2Util, error) {
+func GetClientUtilForServiceType(svcType string) (oauth2more.OAuth2Util, error) {
 	switch strings.ToLower(strings.TrimSpace(svcType)) {
 	case "aha":
 		return &aha.ClientUtil{}, nil

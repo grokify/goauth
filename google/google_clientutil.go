@@ -7,7 +7,7 @@ import (
 	"strings"
 
 	"github.com/grokify/gotilla/net/httputilmore"
-	"github.com/grokify/oauth2util/scimutil"
+	"github.com/grokify/oauth2more/scim"
 )
 
 const (
@@ -166,8 +166,8 @@ type GooglePlusPersonImage struct {
 	IsDefault bool   `json:"isDefault,omitempty"`
 }
 
-func (apiutil *ClientUtil) GetSCIMUser() (scimutil.User, error) {
-	user := scimutil.User{}
+func (apiutil *ClientUtil) GetSCIMUser() (scim.User, error) {
+	user := scim.User{}
 
 	// Get Email
 	googleUserinfoEmail, err := apiutil.GetUserinfoEmail()
@@ -176,10 +176,10 @@ func (apiutil *ClientUtil) GetSCIMUser() (scimutil.User, error) {
 	}
 	emailAddr := strings.ToLower(strings.TrimSpace(googleUserinfoEmail.Email))
 	if len(emailAddr) > 0 {
-		email := scimutil.Item{
+		email := scim.Item{
 			Value:   emailAddr,
 			Primary: true}
-		user.Emails = []scimutil.Item{email}
+		user.Emails = []scim.Item{email}
 	}
 
 	// Get Real Name
@@ -187,7 +187,7 @@ func (apiutil *ClientUtil) GetSCIMUser() (scimutil.User, error) {
 	if err != nil {
 		return user, err
 	}
-	user.Name = scimutil.Name{
+	user.Name = scim.Name{
 		GivenName:  strings.TrimSpace(googleUserinfo.GivenName),
 		FamilyName: strings.TrimSpace(googleUserinfo.FamilyName),
 		Formatted:  strings.TrimSpace(googleUserinfo.Name)}

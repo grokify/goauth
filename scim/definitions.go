@@ -1,4 +1,4 @@
-package scimutil
+package scim
 
 // User is an object from the full user representation
 // specified in the SCIM schema:

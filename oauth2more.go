@@ -1,4 +1,4 @@
-package oauth2util
+package oauth2more
 
 import (
 	"context"
@@ -9,7 +9,7 @@ import (
 	"net/http"
 
 	"github.com/grokify/gotilla/time/timeutil"
-	"github.com/grokify/oauth2util/scimutil"
+	"github.com/grokify/oauth2more/scim"
 	"github.com/pkg/errors"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/facebook"
@@ -99,7 +99,7 @@ type UserCredentials struct {
 
 type OAuth2Util interface {
 	SetClient(*http.Client)
-	GetSCIMUser() (scimutil.User, error)
+	GetSCIMUser() (scim.User, error)
 }
 
 func NewClientPasswordConf(conf oauth2.Config, username, password string) (*http.Client, error) {
