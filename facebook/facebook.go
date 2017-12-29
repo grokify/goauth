@@ -7,7 +7,8 @@ import (
 
 	"github.com/grokify/gotilla/net/httputilmore"
 	"github.com/grokify/oauth2util/scimutil"
-	"golang.org/x/oauth2/facebook"
+	"golang.org/x/oauth2"
+	fb "golang.org/x/oauth2/facebook"
 )
 
 const (

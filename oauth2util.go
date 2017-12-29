@@ -7,10 +7,10 @@ import (
 	errr "errors"
 	"fmt"
 	"net/http"
-	"regexp"
-	"strings"
+	//"regexp"
+	//"strings"
 
-	"github.com/grokify/gotilla/os/osutil"
+	//"github.com/grokify/gotilla/os/osutil"
 	"github.com/grokify/gotilla/time/timeutil"
 	"github.com/grokify/oauth2util/scimutil"
 	"github.com/pkg/errors"
@@ -161,32 +161,13 @@ func NewClientTLSToken(ctx context.Context, tlsConfig *tls.Config, token *oauth2
 	return cfg.Client(ctx, token)
 }
 
-// EnvOAuth2ConfigMap returns a map of *oauth2.Config from environment
-// variables in AppCredentialsWrapper format.
-func EnvOAuth2ConfigMap(env []osutil.EnvVar, prefix string) (map[string]*oauth2.Config, error) {
-	cfgs := map[string]*oauth2.Config{}
-
-	rx, err := regexp.Compile(fmt.Sprintf(`^%v(.*)`, prefix))
+/*
+func (cfgs *AppConfigs) AddAppConfigWrapper(key string, acw AppCredentialsWrapper) error {
+	cfg, err := acw.Config()
 	if err != nil {
-		return cfgs, err
+		return err
 	}
-
-	for _, pair := range env {
-		key := strings.TrimSpace(pair.Key)
-		val := pair.Value
-		m := rx.FindStringSubmatch(key)
-		if len(m) > 0 {
-			fmt.Println(val)
-			acw, err := NewAppCredentialsWrapperFromBytes([]byte(val))
-			if err != nil {
-				return cfgs, err
-			}
-			cfg, err := acw.Config()
-			if err != nil {
-				return cfgs, err
-			}
-			cfgs[m[1]] = cfg
-		}
-	}
-	return cfgs, nil
+	cfgs.ConfigsMap[key] = cfg
+	return nil
 }
+*/
