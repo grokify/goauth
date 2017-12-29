@@ -15,8 +15,8 @@ const (
 	GoogleAPIPlusPeopleURL = "https://www.googleapis.com/plus/v1/people/me"
 	GoogleAPIEmailURL      = "https://www.googleapis.com/userinfo/email"
 
-	UserinfoEmail   = "https://www.googleapis.com/auth/userinfo#email"
-	UserinfoProfile = "https://www.googleapis.com/auth/userinfo.profile"
+	UserinfoEmailScope   = "https://www.googleapis.com/auth/userinfo#email"
+	UserinfoProfileScope = "https://www.googleapis.com/auth/userinfo.profile"
 
 	SpreadsheetsReadonly     = "https://www.googleapis.com/auth/spreadsheets.readonly"
 	SpreadsheetsReadonlyDesc = "Allows read-only access to the user's sheets and their properties."
