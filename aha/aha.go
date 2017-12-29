@@ -8,8 +8,8 @@ import (
 
 	hum "github.com/grokify/gotilla/net/httputilmore"
 	"github.com/grokify/gotilla/strconv/humannameparser"
-	ou "github.com/grokify/oauth2util"
-	"github.com/grokify/oauth2util/scimutil"
+	ou "github.com/grokify/oauth2more"
+	"github.com/grokify/oauth2more/scim"
 	"golang.org/x/oauth2"
 )
 
@@ -87,8 +87,8 @@ type AhaUserinfo struct {
 	Email string `json:"email,omitempty"`
 }
 
-func (apiutil *ClientUtil) GetSCIMUser() (scimutil.User, error) {
-	user := scimutil.User{}
+func (apiutil *ClientUtil) GetSCIMUser() (scim.User, error) {
+	user := scim.User{}
 
 	svcUser, err := apiutil.GetUserinfo()
 	if err != nil {
@@ -97,17 +97,15 @@ func (apiutil *ClientUtil) GetSCIMUser() (scimutil.User, error) {
 
 	emailAddr := strings.ToLower(strings.TrimSpace(svcUser.Email))
 	if len(emailAddr) > 0 {
-		email := scimutil.Item{
+		email := scim.Item{
 			Value:   emailAddr,
 			Primary: true}
-		user.Emails = []scimutil.Item{email}
+		user.Emails = []scim.Item{email}
 	}
 
-	user.Name = scimutil.Name{
-		//GivenName:  strings.TrimSpace(fbUser.FirstName),
-		//MiddleName: strings.TrimSpace(fbUser.MiddleName),
-		//FamilyName: strings.TrimSpace(fbUser.LastName),
-		Formatted: strings.TrimSpace(svcUser.Name)}
+	user.Name = scim.Name{
+		Formatted: strings.TrimSpace(svcUser.Name),
+	}
 
 	hn, err := humannameparser.ParseHumanName(user.Name.Formatted)
 	if err == nil {

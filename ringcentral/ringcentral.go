@@ -12,7 +12,7 @@ import (
 
 	"github.com/grokify/gotilla/net/httputilmore"
 	"github.com/grokify/gotilla/net/urlutil"
-	"github.com/grokify/oauth2util/scimutil"
+	"github.com/grokify/oauth2more/scim"
 )
 
 var (
@@ -109,8 +109,8 @@ type RingCentralAccount struct {
 	ID  string `json:"id,omitempty"`
 }
 
-func (apiutil *ClientUtil) GetSCIMUser() (scimutil.User, error) {
-	user := scimutil.User{}
+func (apiutil *ClientUtil) GetSCIMUser() (scim.User, error) {
+	user := scim.User{}
 
 	rcUser, err := apiutil.GetUserinfo()
 	if err != nil {
@@ -119,13 +119,13 @@ func (apiutil *ClientUtil) GetSCIMUser() (scimutil.User, error) {
 
 	emailAddr := strings.ToLower(strings.TrimSpace(rcUser.Contact.Email))
 	if len(emailAddr) > 0 {
-		email := scimutil.Item{
+		email := scim.Item{
 			Value:   emailAddr,
 			Primary: true}
-		user.Emails = []scimutil.Item{email}
+		user.Emails = []scim.Item{email}
 	}
 
-	user.Name = scimutil.Name{
+	user.Name = scim.Name{
 		GivenName:  strings.TrimSpace(rcUser.Contact.FirstName),
 		FamilyName: strings.TrimSpace(rcUser.Contact.LastName),
 		Formatted:  strings.TrimSpace(rcUser.Name)}

@@ -7,7 +7,7 @@ import (
 
 	hum "github.com/grokify/gotilla/net/httputilmore"
 	"github.com/grokify/gotilla/net/urlutil"
-	"github.com/grokify/oauth2util/metabase"
+	"github.com/grokify/oauth2more/metabase"
 	"github.com/joho/godotenv"
 )
 

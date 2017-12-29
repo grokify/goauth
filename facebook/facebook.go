@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"github.com/grokify/gotilla/net/httputilmore"
-	"github.com/grokify/oauth2util/scimutil"
+	"github.com/grokify/oauth2more/scim"
 	"golang.org/x/oauth2"
 	fb "golang.org/x/oauth2/facebook"
 )
@@ -67,8 +67,8 @@ type FacebookUserinfo struct {
 	LastName   string `json:"last_name,omitempty"`
 }
 
-func (apiutil *ClientUtil) GetSCIMUser() (scimutil.User, error) {
-	user := scimutil.User{}
+func (apiutil *ClientUtil) GetSCIMUser() (scim.User, error) {
+	user := scim.User{}
 
 	fbUser, err := apiutil.GetUserinfo()
 	if err != nil {
@@ -77,13 +77,13 @@ func (apiutil *ClientUtil) GetSCIMUser() (scimutil.User, error) {
 
 	emailAddr := strings.ToLower(strings.TrimSpace(fbUser.Email))
 	if len(emailAddr) > 0 {
-		email := scimutil.Item{
+		email := scim.Item{
 			Value:   emailAddr,
 			Primary: true}
-		user.Emails = []scimutil.Item{email}
+		user.Emails = []scim.Item{email}
 	}
 
-	user.Name = scimutil.Name{
+	user.Name = scim.Name{
 		GivenName:  strings.TrimSpace(fbUser.FirstName),
 		MiddleName: strings.TrimSpace(fbUser.MiddleName),
 		FamilyName: strings.TrimSpace(fbUser.LastName),
