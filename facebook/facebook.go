@@ -75,12 +75,9 @@ func (apiutil *ClientUtil) GetSCIMUser() (scim.User, error) {
 		return user, err
 	}
 
-	emailAddr := strings.ToLower(strings.TrimSpace(fbUser.Email))
-	if len(emailAddr) > 0 {
-		email := scim.Item{
-			Value:   emailAddr,
-			Primary: true}
-		user.Emails = []scim.Item{email}
+	err = user.AddEmail(fbUser.Email, true)
+	if err != nil {
+		return user, err
 	}
 
 	user.Name = scim.Name{
