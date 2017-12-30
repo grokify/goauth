@@ -1,5 +1,10 @@
 package scim
 
+import (
+	"fmt"
+	"strings"
+)
+
 // User is an object from the full user representation
 // specified in the SCIM schema:
 // http://www.simplecloud.info/specs/draft-scim-core-schema-01.html#anchor7
@@ -22,6 +27,22 @@ type User struct {
 	Password          string   `json:"password,omitempty"`
 }
 
+// AddEmail adds a canonical email address to the user.
+// it lowercases and trims preceeding and trailing spaces
+// from the email address.
+func (user *User) AddEmail(emailAddr string, isPrimary bool) error {
+	emailAddrCanonical := strings.ToLower(strings.TrimSpace(emailAddr))
+	if len(emailAddr) < 1 {
+		return fmt.Errorf("Invalid Email Address: %v", emailAddr)
+	}
+	email := Item{
+		Value:   emailAddrCanonical,
+		Primary: isPrimary}
+	user.Emails = append(user.Emails, email)
+	return nil
+}
+
+// Name is the SCIM user name struct.
 type Name struct {
 	Formatted       string `json:"formatted,omitempty"`
 	FamilyName      string `json:"familyName,omitempty"`
@@ -31,7 +52,7 @@ type Name struct {
 	HonorificSuffix string `json:"honorificSuffix,omitempty"`
 }
 
-// Email and PhoneNumber
+// Item is a SCIM struct used for email and phone numbers.
 type Item struct {
 	Value   string `json:"value,omitempty"`
 	Type    string `json:"type,omitempty"`
