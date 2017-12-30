@@ -15,6 +15,15 @@ import (
 	"golang.org/x/oauth2/facebook"
 )
 
+type ServiceType int
+
+const (
+	Google ServiceType = iota
+	Facebook
+	RingCentral
+	Aha
+)
+
 // ApplicationCredentials represents information for an app.
 type ApplicationCredentials struct {
 	ServerURL    string
