@@ -7,7 +7,7 @@
 
 More [OAuth 2.0 - https://github.com/golang/oauth2](https://github.com/golang/oauth2) functionality. Currently provides:
 
-* `NewClient()` functions to create `*http.Client` structs for services not supported in `oauth2` like `aha`, `metabase`, `ringcentral`, `salesforce`, `visa`, etc. Generating `*http.Client` structs is useful for using with Swagger Codegen auto-generated SDKs.
+* `NewClient()` functions to create `*http.Client` structs for services not supported in `oauth2` like `aha`, `metabase`, `ringcentral`, `salesforce`, `visa`, etc. Generating `*http.Client` structs is especially useful for using with Swagger Codegen auto-generated SDKs to support different auth models.
 * Helper libraries to retrieve canonical user information from services. The [SCIM](http://www.simplecloud.info/) user schema is used for a canonical user model.
 * Multi-service libraries to more transparently handle OAuth 2 for multiple services, e.g. a website that supports Google and Facebook auth. This is demoed in [grokify/beego-oauth2-demo](https://github.com/grokify/beego-oauth2-demo)
 
@@ -19,7 +19,11 @@ $ go get github.com/grokify/oauth2more
 
 ## Usage
 
-### Google
+### Canonical User Information
+
+`ClientUtil` structs satisfy the interface having `SetClient()` and `GetSCIMUser()` functions.
+
+#### Google
 
 ```golang
 import(
@@ -31,7 +35,7 @@ googleClientUtil := google.NewClientUtil(googleOAuth2HTTPClient)
 scimuser, err := googleClientUtil.GetSCIMUser()
 ```
 
-### Facebook
+#### Facebook
 
 ```golang
 import(
@@ -43,7 +47,7 @@ fbClientUtil := facebook.NewClientUtil(fbOAuth2HTTPClient)
 scimuser, err := fbClientUtil.GetSCIMUser()
 ```
 
-### RingCentral
+#### RingCentral
 
 ```golang
 import(
