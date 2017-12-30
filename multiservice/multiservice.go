@@ -81,7 +81,7 @@ func EnvOAuth2ConfigMap(env []osutil.EnvVar, prefix string) (*AppConfigs, error)
 	return cfgs, nil
 }
 
-func GetClientUtilForServiceType(svcType string) (oauth2more.OAuth2Util, error) {
+func NewClientUtilForServiceType(svcType string) (oauth2more.OAuth2Util, error) {
 	switch strings.ToLower(strings.TrimSpace(svcType)) {
 	case "aha":
 		return &aha.ClientUtil{}, nil
