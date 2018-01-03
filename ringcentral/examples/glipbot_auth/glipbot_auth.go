@@ -21,8 +21,14 @@ func printString(w http.ResponseWriter, s string) {
 	fmt.Fprintln(w, s)
 }
 
-func NewClient(authCode string) *http.Client {
-	return &http.Client{}
+func getOauth2Config() oauth2.Config {
+	c := ringcentral.ApplicationCredentials{
+		ClientID:     os.Getenv("RINGCENTRAL_CLIENT_ID"),
+		ClientSecret: os.Getenv("RINGCENTRAL_CLIENT_SECRET"),
+		ServerURL:    os.Getenv("RINGCENTRAL_SERVER_URL"),
+		RedirectURL:  os.Getenv("RINGCENTRAL_REDIRECT_URL")}
+	o2Config := c.Config()
+	return o2Config
 }
 
 func oauth2Handler(w http.ResponseWriter, req *http.Request) {
@@ -31,12 +37,7 @@ func oauth2Handler(w http.ResponseWriter, req *http.Request) {
 		"oauth2": "authCodeReceived",
 	}).Info(authCode)
 
-	c := ringcentral.ApplicationCredentials{
-		ClientID:     os.Getenv("RINGCENTRAL_CLIENT_ID"),
-		ClientSecret: os.Getenv("RINGCENTRAL_CLIENT_SECRET"),
-		ServerURL:    os.Getenv("RINGCENTRAL_SERVER_URL"),
-		RedirectURL:  os.Getenv("RINGCENTRAL_REDIRECT_URL")}
-	o2Config := c.Config()
+	o2Config := getOauth2Config()
 
 	tok, err := o2Config.Exchange(oauth2.NoContext, authCode)
 	if err != nil {
@@ -75,20 +76,34 @@ func oauth2Handler(w http.ResponseWriter, req *http.Request) {
 	printString(w, string(bytes))
 }
 
+func loadEnv() error {
+	envPaths := []string{}
+	if len(os.Getenv("ENV_PATH")) > 0 {
+		log.WithFields(log.Fields{
+			"Note": "Found dotenv path",
+		}).Info(os.Getenv("ENV_PATH"))
+
+		envPaths = append(envPaths, os.Getenv("ENV_PATH"))
+	}
+	return godotenv.Load(envPaths...)
+}
+
 func main() {
-	err := godotenv.Load()
+	log.SetOutput(os.Stdout)
+	log.SetLevel(log.InfoLevel)
+
+	err := loadEnv()
 	if err != nil {
 		log.WithFields(log.Fields{
 			"config": "dotenvLoadingError",
 		}).Fatal(err.Error())
 	}
 
-	fmt.Println(os.Getenv("RINGCENTRAL_REDIRECT_URL"))
-
-	log.SetOutput(os.Stdout)
-	log.SetLevel(log.InfoLevel)
+	log.WithFields(log.Fields{
+		"BotRedirectUrl": "redirect URL",
+	}).Info(os.Getenv("RINGCENTRAL_REDIRECT_URL"))
 
 	http.HandleFunc("/", handler)
 	http.HandleFunc("/oauth2callback", oauth2Handler)
-	http.ListenAndServe(":8080", nil)
+	http.ListenAndServe(fmt.Sprintf(":%s", os.Getenv("RINGCENTRAL_PORT")), nil)
 }
