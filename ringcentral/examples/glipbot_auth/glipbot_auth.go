@@ -109,6 +109,6 @@ func main() {
 	}).Info(os.Getenv("RINGCENTRAL_REDIRECT_URL"))
 
 	http.HandleFunc("/", handleHelloWorld)
-	http.HandleFunc("/oauth2callback", oauth2Handler)
+	http.HandleFunc("/oauth2callback", handleOauth2)
 	http.ListenAndServe(fmt.Sprintf(":%s", os.Getenv("RINGCENTRAL_PORT")), nil)
 }
