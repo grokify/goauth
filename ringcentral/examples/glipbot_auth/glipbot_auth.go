@@ -14,7 +14,16 @@ import (
 )
 
 func handleHelloWorld(w http.ResponseWriter, req *http.Request) {
-	fmt.Fprintf(w, "Hello World %s!\n", req.URL.Path[1:])
+	fmt.Fprintf(w, "RingCentral Glip OAuth Bootstrap Bot %s!\n", req.URL.Path[1:])
+}
+
+func handleBotButton(w http.ResponseWriter, req *http.Request) {
+	body := `<!DOCTYPE html>
+	<html><body>
+	<h1>Glip Bootstrap Bot</h1>
+	<a href="https://apps1.ringcentral.com/app/Vh3KiNFGQ86JclwIIBcqIA~i4w85hFTTtaLpLwch0z_OA/install?landing_url=https%3A%2F%2F0a6f4754.ngrok.io" target="_blank" style="box-sizing:border-box;display: inline-block;border: 1px solid #0073ae;border-radius: 4px;text-decoration: none;height: 60px;line-height: 60px;width: 160px;padding-left: 20px;font-size: 14px;color:#0073ae;font-family:"Lato",Helvetica,Arial,sans-serif"><span>Add to </span><img style="width: 68px;vertical-align: middle;display: inline-block;margin-left: 10px;" src="http://netstorage.ringcentral.com/dpw/common/glip/logo_glip.png"></a>
+	</body></html>`
+	fmt.Fprintf(w, body, req.URL.Path[1:])
 }
 
 func handleOauth2(w http.ResponseWriter, req *http.Request) {
@@ -108,7 +117,7 @@ func main() {
 		"BotRedirectUrl": "redirect URL",
 	}).Info(os.Getenv("RINGCENTRAL_REDIRECT_URL"))
 
-	http.HandleFunc("/", handleHelloWorld)
+	http.HandleFunc("/", handleBotButton)
 	http.HandleFunc("/oauth2callback", handleOauth2)
 	http.ListenAndServe(fmt.Sprintf(":%s", os.Getenv("RINGCENTRAL_PORT")), nil)
 }

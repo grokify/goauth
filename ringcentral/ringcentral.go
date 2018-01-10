@@ -130,7 +130,17 @@ func (apiutil *ClientUtil) GetSCIMUser() (scim.User, error) {
 	return user, nil
 }
 
-func BuildURL(urlFragment string, addRestAPI bool, queryValues url.Values) string {
+func BuildURL(serverURL, urlFragment string, addRestAPI bool, queryValues url.Values) string {
+	apiURL := serverURL
+	if addRestAPI {
+		apiURL = urlutil.JoinAbsolute(apiURL, RestAPI1dot0Fragment, urlFragment)
+	} else {
+		apiURL = urlutil.JoinAbsolute(apiURL, urlFragment)
+	}
+	return urlutil.BuildURL(apiURL, queryValues)
+}
+
+func BuildURLPartial(urlFragment string, addRestAPI bool, queryValues url.Values) string {
 	apiURL := fmt.Sprintf("%s://%s", httputilmore.SchemeHTTPS, Hostname)
 	if addRestAPI {
 		apiURL = urlutil.JoinAbsolute(apiURL, RestAPI1dot0Fragment, urlFragment)
