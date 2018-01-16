@@ -15,6 +15,8 @@ var (
 	EnvServerURL    = "RINGCENTRAL_SERVER_URL"
 	EnvClientID     = "RINGCENTRAL_CLIENT_ID"
 	EnvClientSecret = "RINGCENTRAL_CLIENT_SECRET"
+	EnvAppName      = "RINGCENTRAL_APP_NAME"
+	EnvAppVersion   = "RINGCENTRAL_APP_VERSION"
 	EnvUsername     = "RINGCENTRAL_USERNAME"
 	EnvExtension    = "RINGCENTRAL_EXTENSION"
 	EnvPassword     = "RINGCENTRAL_PASSWORD"
@@ -76,34 +78,50 @@ func NewClientPassword(app ApplicationCredentials, user UserCredentials) (*http.
 		return nil, err
 	}
 
-	userAgentParts := []string{ou.PathVersion()}
-	if len(app.AppNameAndVersion()) > 0 {
-		userAgentParts = append([]string{app.AppNameAndVersion()}, userAgentParts...)
+	header := getClientHeader(app)
+	if len(header) > 0 {
+		httpClient.Transport = hum.TransportWithHeaders{
+			Transport: httpClient.Transport,
+			Header:    header}
 	}
-	userAgent := strings.Join(userAgentParts, "; ")
-
-	header := http.Header{}
-	header.Add("User-Agent", userAgent)
-	header.Add("X-User-Agent", userAgent)
-
-	httpClient.Transport = hum.TransportWithHeaders{
-		Transport: httpClient.Transport,
-		Header:    header}
 
 	return httpClient, nil
 }
 
+func getClientHeader(app ApplicationCredentials) http.Header {
+	userAgentParts := []string{ou.PathVersion()}
+	if len(app.AppNameAndVersion()) > 0 {
+		userAgentParts = append([]string{app.AppNameAndVersion()}, userAgentParts...)
+	}
+	userAgent := strings.TrimSpace(strings.Join(userAgentParts, "; "))
+
+	header := http.Header{}
+	if len(userAgent) > 0 {
+		header.Add("User-Agent", userAgent)
+		header.Add("X-User-Agent", userAgent)
+	}
+	return header
+}
+
 func NewClientPasswordEnv() (*http.Client, error) {
 	return NewClientPassword(
-		ApplicationCredentials{
-			ServerURL:    os.Getenv(EnvServerURL),
-			ClientID:     os.Getenv(EnvClientID),
-			ClientSecret: os.Getenv(EnvClientSecret),
-		},
-		UserCredentials{
-			Username:  os.Getenv(EnvUsername),
-			Password:  os.Getenv(EnvPassword),
-			Extension: os.Getenv(EnvExtension),
-		},
+		NewApplicationCredentialsEnv(),
+		NewUserCredentialsEnv(),
 	)
+}
+
+func NewApplicationCredentialsEnv() ApplicationCredentials {
+	return ApplicationCredentials{
+		ServerURL:    os.Getenv(EnvServerURL),
+		ClientID:     os.Getenv(EnvClientID),
+		ClientSecret: os.Getenv(EnvClientSecret),
+		AppName:      os.Getenv(EnvAppName),
+		AppVersion:   os.Getenv(EnvAppVersion)}
+}
+
+func NewUserCredentialsEnv() UserCredentials {
+	return UserCredentials{
+		Username:  os.Getenv(EnvUsername),
+		Extension: os.Getenv(EnvExtension),
+		Password:  os.Getenv(EnvPassword)}
 }
