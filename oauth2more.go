@@ -15,6 +15,13 @@ import (
 	"golang.org/x/oauth2/facebook"
 )
 
+const VERSION = "0.2.0"
+const PATH = "github.com/grokify/oauth2more"
+
+func PathVersion() string {
+	return fmt.Sprintf("%v-v%v", PATH, VERSION)
+}
+
 type ServiceType int
 
 const (
