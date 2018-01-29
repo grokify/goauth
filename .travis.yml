@@ -1,5 +1,5 @@
 language: go
-go_import_path: github.com/grokify/oauth2util
+go_import_path: github.com/grokify/oauth2more
 go:
   - 1.9.2
   - 1.8.5
