@@ -8,40 +8,8 @@ import (
 
 	hum "github.com/grokify/gotilla/net/httputilmore"
 	"github.com/grokify/gotilla/strconv/humannameparser"
-	ou "github.com/grokify/oauth2more"
 	"github.com/grokify/oauth2more/scim"
-	"golang.org/x/oauth2"
 )
-
-const (
-	APIMeURL         = "https://secure.aha.io/api/v1/me"
-	AuthURLFormat    = "https://%s.aha.io/oauth/authorize"
-	TokenURLFormat   = "https://%s.aha.io/oauth/token"
-	AhaAccountHeader = "X-AHA-ACCOUNT"
-)
-
-var (
-	AhaAccountEnv = "AHA_ACCOUNT"
-	AhaApiKeyEnv  = "AHA_API_KEY"
-)
-
-func NewEndpoint(subdomain string) oauth2.Endpoint {
-	return oauth2.Endpoint{
-		AuthURL:  fmt.Sprintf(AuthURLFormat, subdomain),
-		TokenURL: fmt.Sprintf(TokenURLFormat, subdomain)}
-}
-
-func NewClient(subdomain, token string) *http.Client {
-	client := ou.NewClientAccessToken(token)
-
-	header := http.Header{}
-	header.Add(AhaAccountHeader, subdomain)
-
-	client.Transport = hum.TransportWithHeaders{
-		Transport: client.Transport,
-		Header:    header}
-	return client
-}
 
 // ClientUtil is a client library to retrieve user info
 // from the Facebook API.
