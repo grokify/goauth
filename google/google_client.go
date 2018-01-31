@@ -6,9 +6,11 @@ import (
 	"net/http"
 	"os"
 
+	om "github.com/grokify/oauth2more"
 	"github.com/pkg/errors"
 	"golang.org/x/net/context"
 	"golang.org/x/oauth2"
+	"golang.org/x/oauth2/google"
 	o2g "golang.org/x/oauth2/google"
 )
 
@@ -36,4 +38,49 @@ func ConfigFromFile(file string, scopes []string) (*oauth2.Config, error) {
 
 func ConfigFromEnv(envVar string, scopes []string) (*oauth2.Config, error) {
 	return o2g.ConfigFromJSON([]byte(os.Getenv(envVar)), scopes...)
+}
+
+// ConfigFromBytes returns an *oauth2.Config given a byte array
+// containing the Google client_secret.json data.
+func ConfigFromBytes(configJson []byte, scopes []string) (*oauth2.Config, error) {
+	return o2g.ConfigFromJSON(configJson, scopes...)
+}
+
+type ClientOauthCliTokenStoreConfig struct {
+	Context       context.Context
+	AppConfig     []byte
+	Scopes        []string
+	TokenFile     string
+	ForceNewToken bool
+}
+
+func NewClientOauthCliTokenStore(cfg ClientOauthCliTokenStoreConfig) (*http.Client, error) {
+	conf, err := ConfigFromBytes(cfg.AppConfig, cfg.Scopes)
+	if err != nil {
+		return nil, err
+	}
+
+	tokenStore, err := om.NewTokenStoreFileDefault(cfg.TokenFile, true, 0700)
+	if err != nil {
+		return nil, err
+	}
+
+	return om.NewClientWebTokenStore(cfg.Context, conf, tokenStore, cfg.ForceNewToken)
+}
+
+func NewClientSvcAccountFromFile(ctx context.Context, svcAccountConfigFile string, scopes ...string) (*http.Client, error) {
+	svcAccountConfig, err := ioutil.ReadFile(svcAccountConfigFile)
+	if err != nil {
+		return nil, err
+	}
+	return NewClientSvcAccountFromJSON(ctx, svcAccountConfig, scopes...)
+}
+
+func NewClientSvcAccountFromJSON(ctx context.Context, svcAccountConfig []byte, scopes ...string) (*http.Client, error) {
+	conf, err := google.JWTConfigFromJSON(svcAccountConfig, scopes...)
+	if err != nil {
+		return nil, err
+	}
+	client := conf.Client(ctx)
+	return client, nil
 }

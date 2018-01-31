@@ -17,6 +17,17 @@ type ClientUtil struct {
 	BaseURL    string
 }
 
+func NewClientUtil(baseUrl, username, password string) (*ClientUtil, error) {
+	httpClient, err := NewClient(baseUrl, username, password)
+	if err != nil {
+		return nil, err
+	}
+	return &ClientUtil{
+		HTTPClient: httpClient,
+		BaseURL:    baseUrl,
+	}, nil
+}
+
 func (cu *ClientUtil) GetStoreQuestionData(cardId int, filename string, perm os.FileMode) ([]byte, error) {
 	data, err := cu.GetQuestionData(cardId)
 	if err != nil {
@@ -48,7 +59,7 @@ type QuestionsToSlug struct {
 	QuestionMap map[string]int
 }
 
-func RetrieveQuestions(cu ClientUtil, q2s QuestionsToSlug) (map[string][]byte, error) {
+func RetrieveQuestions(cu ClientUtil, q2s QuestionsToSlug, dir string) (map[string][]byte, error) {
 	dt := time.Now()
 	dt8 := dt.Format(tu.DT8)
 	output := map[string][]byte{}
