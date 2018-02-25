@@ -28,7 +28,7 @@ type User struct {
 }
 
 // AddEmail adds a canonical email address to the user.
-// it lowercases and trims preceeding and trailing spaces
+// it lowercases and trims preceding and trailing spaces
 // from the email address.
 func (user *User) AddEmail(emailAddr string, isPrimary bool) error {
 	emailAddrCanonical := strings.ToLower(strings.TrimSpace(emailAddr))

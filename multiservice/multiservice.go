@@ -118,7 +118,7 @@ func (cfgs *ConfigSet) MustGet(key string) *oauth2.Config {
 
 func (cfgs *ConfigSet) Slugs() []string {
 	slugs := []string{}
-	for slug, _ := range cfgs.ConfigsMap {
+	for slug := range cfgs.ConfigsMap {
 		slugs = append(slugs, slug)
 	}
 	return slugs
