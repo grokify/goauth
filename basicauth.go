@@ -22,6 +22,14 @@ func RFC7617UserPass(userid, password string) (string, error) {
 	), nil
 }
 
+func BasicAuthHeader(userid, password string) (string, error) {
+	apiKey, err := RFC7617UserPass(userid, password)
+	if err != nil {
+		return "", err
+	}
+	return "Basic " + apiKey, nil
+}
+
 // BasicAuthToken provides Basic Authentication support via an oauth2.Token.
 func BasicAuthToken(username, password string) (*oauth2.Token, error) {
 	basicToken, err := RFC7617UserPass(username, password)
