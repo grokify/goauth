@@ -28,7 +28,7 @@ func main() {
 				ClientID:     os.Getenv("RINGCENTRAL_CLIENT_ID"),
 				ClientSecret: os.Getenv("RINGCENTRAL_CLIENT_SECRET"),
 				ServerURL:    os.Getenv("RINGCENTRAL_SERVER_URL")},
-			ringcentral.UserCredentials{
+			ringcentral.PasswordCredentials{
 				Username: os.Getenv("RINGCENTRAL_USERNAME"),
 				Password: os.Getenv("RINGCENTRAL_PASSWORD")})
 	}

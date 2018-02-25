@@ -1,14 +1,15 @@
 language: go
 go_import_path: github.com/grokify/oauth2more
 go:
-  - 1.9.2
-  - 1.8.5
-  - 1.7.6
-  - tip
+  - "1.10.x"
+  - "1.9.x"
+  - "1.8.x"
+  - "1.7.x"
+  - master
 matrix:
   allow_failures:
-    - go: 1.7.6
-    - go: tip
+    - go: "1.7.x"
+    - go: master
 sudo: true
 before_install:
   - sudo apt-get update -qq > apt-get.out 2>&1  || (cat apt-get.out && exit 1)

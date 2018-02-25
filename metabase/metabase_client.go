@@ -75,7 +75,7 @@ func AuthRequest(authUrl, username, password string) (*http.Response, error) {
 		return nil, err
 	}
 
-	req.Header.Add(hum.ContentTypeHeader, hum.ContentTypeValueJSONUTF8)
+	req.Header.Add(hum.HeaderContentType, hum.HeaderContentTypeValueJSONUTF8)
 
 	client := &http.Client{}
 

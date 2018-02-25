@@ -134,7 +134,7 @@ func getClientHeader(app ApplicationCredentials) http.Header {
 func NewClientPasswordEnv() (*http.Client, error) {
 	return NewClientPassword(
 		NewApplicationCredentialsEnv(),
-		NewUserCredentialsEnv(),
+		NewPasswordCredentialsEnv(),
 	)
 }
 
@@ -147,8 +147,16 @@ func NewApplicationCredentialsEnv() ApplicationCredentials {
 		AppVersion:   os.Getenv(EnvAppVersion)}
 }
 
+/*
 func NewUserCredentialsEnv() UserCredentials {
 	return UserCredentials{
+		Username:  os.Getenv(EnvUsername),
+		Extension: os.Getenv(EnvExtension),
+		Password:  os.Getenv(EnvPassword)}
+}
+*/
+func NewPasswordCredentialsEnv() PasswordCredentials {
+	return PasswordCredentials{
 		Username:  os.Getenv(EnvUsername),
 		Extension: os.Getenv(EnvExtension),
 		Password:  os.Getenv(EnvPassword)}
