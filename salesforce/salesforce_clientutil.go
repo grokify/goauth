@@ -13,6 +13,7 @@ import (
 	"github.com/grokify/go-salesforce/sobjects"
 	"github.com/grokify/gotilla/net/httputilmore"
 	"github.com/grokify/gotilla/net/urlutil"
+	om "github.com/grokify/oauth2more"
 )
 
 type SalesforceClient struct {
@@ -37,6 +38,19 @@ func NewSalesforceClientEnv() (SalesforceClient, error) {
 	}
 	sc.ClientMore = httputilmore.ClientMore{Client: client}
 	return sc, nil
+}
+
+type ApplicationCredentials struct {
+	om.ApplicationCredentials
+	InstanceName string
+}
+
+func NewSalesforceClientPassword(appCreds ApplicationCredentials, usrCreds om.UserCredentials) (SalesforceClient, error) {
+	httpClient, err := NewClientPassword(appCreds.ApplicationCredentials, usrCreds)
+	if err != nil {
+		return SalesforceClient{}, err
+	}
+	return NewSalesforceClient(httpClient, appCreds.InstanceName), nil
 }
 
 func (sc *SalesforceClient) GetServicesData() (*http.Response, error) {

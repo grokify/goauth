@@ -12,7 +12,7 @@ import (
 )
 
 func main() {
-	err := config.LoadDotEnv("ENV_PATH")
+	err := config.LoadDotEnvSkipEmpty(os.Getenv("ENV_PATH"), "./.env")
 	if err != nil {
 		panic(err)
 	}
