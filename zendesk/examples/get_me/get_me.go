@@ -25,7 +25,6 @@ func main() {
 
 	client, err := zendesk.NewClient(
 		context.Background(),
-		os.Getenv("ZENDESK_SUBDOMAIN"),
 		os.Getenv("ZENDESK_USERNAME"),
 		os.Getenv("ZENDESK_PASSWORD"),
 	)
