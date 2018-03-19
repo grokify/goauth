@@ -21,8 +21,6 @@ func main() {
 		panic(err)
 	}
 
-	subdomain := os.Getenv("ZENDESK_SUBDOMAIN")
-
 	client, err := zendesk.NewClient(
 		context.Background(),
 		os.Getenv("ZENDESK_USERNAME"),
@@ -31,6 +29,8 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+
+	subdomain := os.Getenv("ZENDESK_SUBDOMAIN")
 
 	if 1 == 0 {
 		meURL := MeURL(subdomain)
