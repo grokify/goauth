@@ -118,6 +118,25 @@ type OAuth2Util interface {
 	GetSCIMUser() (scim.User, error)
 }
 
+func NewClientPassword(conf oauth2.Config, ctx context.Context, username, password string) (*http.Client, error) {
+	token, err := BasicAuthToken(username, password)
+	if err != nil {
+		return nil, err
+	}
+	return conf.Client(ctx, token), nil
+}
+
+/*
+func NewClient(ctx context.Context, username, password string) (*http.Client, error) {
+	token, err := oauth2more.BasicAuthToken(username, password)
+	if err != nil {
+		return nil, err
+	}
+
+	cfg := oauth2.Config{}
+	return cfg.Client(ctx, token), nil
+}
+*/
 func NewClientPasswordConf(conf oauth2.Config, username, password string) (*http.Client, error) {
 	token, err := conf.PasswordCredentialsToken(oauth2.NoContext, username, password)
 	if err != nil {
