@@ -14,7 +14,7 @@ var (
 	EnvZendeskSubdomain = "ZENDESK_SUBDOMAIN"
 )
 
-func NewClient(ctx context.Context, subdomain, username, password string) (*http.Client, error) {
+func NewClient(ctx context.Context, username, password string) (*http.Client, error) {
 	token, err := oauth2more.BasicAuthToken(username, password)
 	if err != nil {
 		return nil, err
