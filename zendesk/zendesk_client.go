@@ -14,8 +14,21 @@ var (
 	EnvZendeskSubdomain = "ZENDESK_SUBDOMAIN"
 )
 
-func NewClientPassword(ctx context.Context, username, password string) (*http.Client, error) {
-	token, err := om.BasicAuthToken(username, password)
+// NewClientPassword creates a new http.Client using basic authentication.
+func NewClientPassword(ctx context.Context, emailAddress, password string) (*http.Client, error) {
+	token, err := om.BasicAuthToken(emailAddress, password)
+	if err != nil {
+		return nil, err
+	}
+
+	conf := oauth2.Config{}
+	return conf.Client(ctx, token), nil
+}
+
+// NewClientToken creates a new http.Client using the Zendesk API token
+// as specified here: https://developer.zendesk.com/rest_api/docs/core/introduction
+func NewClientToken(ctx context.Context, emailAddress, apiToken string) (*http.Client, error) {
+	token, err := om.BasicAuthToken(emailAddress+"/token", apiToken)
 	if err != nil {
 		return nil, err
 	}
