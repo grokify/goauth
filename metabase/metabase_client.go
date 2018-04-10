@@ -46,10 +46,10 @@ func NewClient(baseUrl, username, password string) (*http.Client, error) {
 		return nil, err
 	}
 
-	return NewClientId(baseUrl, res.Id), nil
+	return NewClientId(res.Id), nil
 }
 
-func NewClientId(baseUrl, id string) *http.Client {
+func NewClientId(id string) *http.Client {
 	client := &http.Client{}
 
 	header := http.Header{}
