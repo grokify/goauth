@@ -46,10 +46,14 @@ func NewClient(baseUrl, username, password string) (*http.Client, error) {
 		return nil, err
 	}
 
-	header := http.Header{}
-	header.Add(MetabaseSessionHeader, res.Id)
+	return NewClientId(baseUrl, res.Id), nil
+}
 
+func NewClientId(baseUrl, id string) *http.Client {
 	client := &http.Client{}
+
+	header := http.Header{}
+	header.Add(MetabaseSessionHeader, id)
 
 	if TLSInsecureSkipVerify {
 		client.Transport = &http.Transport{
@@ -61,9 +65,12 @@ func NewClient(baseUrl, username, password string) (*http.Client, error) {
 		Transport: client.Transport,
 		Header:    header}
 
-	return client, nil
+	return client
 }
 
+// AuthRequest creates an authentiation request that returns a id that is used
+// in Metabase API requests. It follows the following curl command:
+// curl -v -H "Content-Type: application/json" -d '{"username":"myusername","password":"mypassword"}' -XPOST 'http://example.com/api/session'
 func AuthRequest(authUrl, username, password string) (*http.Response, error) {
 	bodyBytes, err := json.Marshal(authRequest{Username: username, Password: password})
 	if err != nil {
