@@ -28,7 +28,7 @@ func NewEndpoint(subdomain string) oauth2.Endpoint {
 }
 
 func NewClient(subdomain, token string) *http.Client {
-	client := ou.NewClientAccessToken(token)
+	client := ou.NewClientBearerTokenSimple(token)
 
 	header := http.Header{}
 	header.Add(AhaAccountHeader, subdomain)
