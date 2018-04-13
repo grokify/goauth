@@ -20,7 +20,7 @@ func main() {
 
 	client := &http.Client{}
 	if len(os.Getenv("RINGCENTRAL_ACCESS_TOKEN")) > 0 {
-		client = ou.NewClientAccessToken(
+		client = ou.NewClientBearerTokenSimple(
 			os.Getenv("RINGCENTRAL_ACCESS_TOKEN"))
 	} else {
 		client, err = ringcentral.NewClientPassword(
