@@ -15,8 +15,11 @@ import (
 	"golang.org/x/oauth2/facebook"
 )
 
-const VERSION = "0.2.0"
-const PATH = "github.com/grokify/oauth2more"
+const (
+	VERSION      = "0.2.0"
+	PATH         = "github.com/grokify/oauth2more"
+	BearerPrefix = "Bearer"
+)
 
 func PathVersion() string {
 	return fmt.Sprintf("%v-v%v", PATH, VERSION)
@@ -143,10 +146,11 @@ func NewClientAuthCode(conf oauth2.Config, authCode string) (*http.Client, error
 	return conf.Client(oauth2.NoContext, token), nil
 }
 
-func NewClientAccessToken(accessToken string) *http.Client {
+// func NewClientAccessToken(accessToken string) *http.Client {
+func NewClientBearerTokenSimple(accessToken string) *http.Client {
 	token := &oauth2.Token{
 		AccessToken: accessToken,
-		TokenType:   "Bearer",
+		TokenType:   BearerPrefix,
 		Expiry:      timeutil.TimeRFC3339Zero()}
 
 	oAuthConfig := &oauth2.Config{}
