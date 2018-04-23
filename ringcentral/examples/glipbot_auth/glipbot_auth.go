@@ -39,13 +39,11 @@ func (app *AppHandler) HandleBotButton(w http.ResponseWriter, req *http.Request)
 	<h1>Glip Bootstrap Bot</h1>
 	<a href="https://apps1.ringcentral.com/app/%v/install?landing_url=%v" target="_blank" style="box-sizing:border-box;display: inline-block;border: 1px solid #0073ae;border-radius: 4px;text-decoration: none;height: 60px;line-height: 60px;width: 160px;padding-left: 20px;font-size: 14px;color:#0073ae;font-family:"Lato",Helvetica,Arial,sans-serif"><span>Add to </span><img style="width: 68px;vertical-align: middle;display: inline-block;margin-left: 10px;" src="http://netstorage.ringcentral.com/dpw/common/glip/logo_glip.png"></a>
 	</body></html>`
-	body := fmt.Sprintf(
+
+	fmt.Fprintf(w,
 		bodyFormat,
 		app.AppConfig.AppId,
-		url.QueryEscape(app.AppConfig.LandingURL),
-	)
-
-	fmt.Fprintf(w, bodyFormat, app.AppConfig.AppId, url.QueryEscape(app.AppConfig.LandingURL))
+		url.QueryEscape(app.AppConfig.LandingURL))
 }
 
 func (app *AppHandler) HandleOauth2(w http.ResponseWriter, req *http.Request) {
