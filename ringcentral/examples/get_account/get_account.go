@@ -29,8 +29,9 @@ func main() {
 				ClientSecret: os.Getenv("RINGCENTRAL_CLIENT_SECRET"),
 				ServerURL:    os.Getenv("RINGCENTRAL_SERVER_URL")},
 			ringcentral.PasswordCredentials{
-				Username: os.Getenv("RINGCENTRAL_USERNAME"),
-				Password: os.Getenv("RINGCENTRAL_PASSWORD")})
+				Username:  os.Getenv("RINGCENTRAL_USERNAME"),
+				Extension: os.Getenv("RINGCENTRAL_EXTENSION"),
+				Password:  os.Getenv("RINGCENTRAL_PASSWORD")})
 	}
 	if err != nil {
 		panic(err)

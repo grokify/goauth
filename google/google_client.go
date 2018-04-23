@@ -73,14 +73,13 @@ func NewClientSvcAccountFromFile(ctx context.Context, svcAccountConfigFile strin
 	if err != nil {
 		return nil, err
 	}
-	return NewClientSvcAccountFromJSON(ctx, svcAccountConfig, scopes...)
+	return NewClientFromJWTJSON(ctx, svcAccountConfig, scopes...)
 }
 
-func NewClientSvcAccountFromJSON(ctx context.Context, svcAccountConfig []byte, scopes ...string) (*http.Client, error) {
-	conf, err := google.JWTConfigFromJSON(svcAccountConfig, scopes...)
+func NewClientFromJWTJSON(ctx context.Context, svcAccountConfig []byte, scopes ...string) (*http.Client, error) {
+	jwtConf, err := google.JWTConfigFromJSON(svcAccountConfig, scopes...)
 	if err != nil {
 		return nil, err
 	}
-	client := conf.Client(ctx)
-	return client, nil
+	return jwtConf.Client(ctx), nil
 }

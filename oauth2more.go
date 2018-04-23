@@ -146,6 +146,18 @@ func NewClientAuthCode(conf oauth2.Config, authCode string) (*http.Client, error
 	return conf.Client(oauth2.NoContext, token), nil
 }
 
+func NewClientTokenJSON(ctx context.Context, tokenJSON []byte) (*http.Client, error) {
+	token := &oauth2.Token{}
+	err := json.Unmarshal(tokenJSON, token)
+	if err != nil {
+		return nil, err
+	}
+
+	oAuthConfig := &oauth2.Config{}
+
+	return oAuthConfig.Client(oauth2.NoContext, token), nil
+}
+
 // func NewClientAccessToken(accessToken string) *http.Client {
 func NewClientBearerTokenSimple(accessToken string) *http.Client {
 	token := &oauth2.Token{
