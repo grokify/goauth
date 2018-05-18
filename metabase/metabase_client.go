@@ -82,7 +82,7 @@ func AuthRequest(authUrl, username, password string) (*http.Response, error) {
 		return nil, err
 	}
 
-	req.Header.Add(hum.HeaderContentType, hum.HeaderContentTypeValueJSONUTF8)
+	req.Header.Add(hum.HeaderContentType, hum.ContentTypeAppJsonUtf8)
 
 	client := &http.Client{}
 

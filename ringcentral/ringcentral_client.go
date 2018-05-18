@@ -209,7 +209,7 @@ func RetrieveToken(cfg oauth2.Config, params url.Values) (*oauth2.Token, error) 
 	}
 
 	r.Header.Add(hum.HeaderAuthorization, basicAuthHeader)
-	r.Header.Add(hum.HeaderContentType, hum.HeaderContentTypeValueFormURLEncoded)
+	r.Header.Add(hum.HeaderContentType, hum.ContentTypeAppFormUrlEncoded)
 	r.Header.Add(hum.HeaderContentLength, strconv.Itoa(len(params.Encode())))
 
 	client := &http.Client{}
