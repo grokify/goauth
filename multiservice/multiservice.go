@@ -14,18 +14,20 @@ import (
 	"github.com/grokify/oauth2more/aha"
 	"github.com/grokify/oauth2more/facebook"
 	"github.com/grokify/oauth2more/google"
+	"github.com/grokify/oauth2more/multiservice/common"
+	"github.com/grokify/oauth2more/multiservice/tokenset_memory"
 	"github.com/grokify/oauth2more/ringcentral"
 )
 
 type OAuth2Manager struct {
 	ConfigSet *ConfigSet
-	TokenSet  *TokenSet
+	TokenSet  common.TokenSet
 }
 
 func NewOAuth2Manager() *OAuth2Manager {
 	return &OAuth2Manager{
 		ConfigSet: NewConfigSet(),
-		TokenSet:  NewTokenSet(),
+		TokenSet:  memory.NewTokenSet(),
 	}
 }
 
@@ -41,13 +43,14 @@ func (cb *OAuth2Manager) GetClient(ctx context.Context, serviceKey string) (*htt
 	if err != nil {
 		return nil, err
 	}
-	tok, err := cb.TokenSet.Get(serviceKey)
+	tok, err := cb.TokenSet.GetToken(serviceKey)
 	if err != nil {
 		return nil, err
 	}
 	return cfg.Client(ctx, tok), nil
 }
 
+/*
 type TokenSet struct {
 	TokenMap map[string]*TokenInfo
 }
@@ -62,13 +65,14 @@ func (toks *TokenSet) Get(key string) (*oauth2.Token, error) {
 	}
 	return nil, fmt.Errorf("AppConfig not found for %v", key)
 }
-
+*/
+/*
 type TokenInfo struct {
 	ServiceKey  string
 	ServiceType string
 	Token       *oauth2.Token
 }
-
+*/
 type ConfigSet struct {
 	ConfigsMap map[string]*oauth2.Config
 }
