@@ -65,17 +65,21 @@ func (uc *UserCredentials) UsernameSimple() string {
 	if len(strings.TrimSpace(uc.Extension)) > 0 {
 		return strings.Join([]string{uc.Username, uc.Extension}, "*")
 	}
-
 	return uc.Username
+}
+
+func NewTokenPassword(app ApplicationCredentials, pwd PasswordCredentials) (*oauth2.Token, error) {
+	return RetrieveToken(
+		oauth2.Config{
+			ClientID:     app.ClientID,
+			ClientSecret: app.ClientSecret,
+			Endpoint:     NewEndpoint(app.ServerURL)},
+		pwd.URLValues())
 }
 
 // NewClientPassword uses dedicated password grant handling.
 func NewClientPassword(app ApplicationCredentials, pwd PasswordCredentials) (*http.Client, error) {
-	c := oauth2.Config{
-		ClientID:     app.ClientID,
-		ClientSecret: app.ClientSecret,
-		Endpoint:     NewEndpoint(app.ServerURL)}
-
+	c := app.Config()
 	token, err := RetrieveToken(c, pwd.URLValues())
 	if err != nil {
 		return nil, err
@@ -89,7 +93,6 @@ func NewClientPassword(app ApplicationCredentials, pwd PasswordCredentials) (*ht
 			Transport: httpClient.Transport,
 			Header:    header}
 	}
-
 	return httpClient, nil
 }
 
@@ -112,7 +115,6 @@ func NewClientPasswordSimple(app ApplicationCredentials, user UserCredentials) (
 			Transport: httpClient.Transport,
 			Header:    header}
 	}
-
 	return httpClient, nil
 }
 
@@ -125,7 +127,7 @@ func getClientHeader(app ApplicationCredentials) http.Header {
 
 	header := http.Header{}
 	if len(userAgent) > 0 {
-		header.Add("User-Agent", userAgent)
+		header.Add(hum.HeaderUserAgent, userAgent)
 		header.Add("X-User-Agent", userAgent)
 	}
 	return header
@@ -134,8 +136,7 @@ func getClientHeader(app ApplicationCredentials) http.Header {
 func NewClientPasswordEnv() (*http.Client, error) {
 	return NewClientPassword(
 		NewApplicationCredentialsEnv(),
-		NewPasswordCredentialsEnv(),
-	)
+		NewPasswordCredentialsEnv())
 }
 
 func NewApplicationCredentialsEnv() ApplicationCredentials {
@@ -147,14 +148,6 @@ func NewApplicationCredentialsEnv() ApplicationCredentials {
 		AppVersion:   os.Getenv(EnvAppVersion)}
 }
 
-/*
-func NewUserCredentialsEnv() UserCredentials {
-	return UserCredentials{
-		Username:  os.Getenv(EnvUsername),
-		Extension: os.Getenv(EnvExtension),
-		Password:  os.Getenv(EnvPassword)}
-}
-*/
 func NewPasswordCredentialsEnv() PasswordCredentials {
 	return PasswordCredentials{
 		Username:  os.Getenv(EnvUsername),
@@ -197,8 +190,7 @@ func RetrieveToken(cfg oauth2.Config, params url.Values) (*oauth2.Token, error) 
 	r, err := http.NewRequest(
 		http.MethodPost,
 		cfg.Endpoint.TokenURL,
-		strings.NewReader(params.Encode()),
-	)
+		strings.NewReader(params.Encode()))
 	if err != nil {
 		return nil, err
 	}
@@ -242,14 +234,12 @@ func (rc *RcToken) OAuth2Token() (*oauth2.Token, error) {
 	tok := &oauth2.Token{
 		AccessToken:  rc.AccessToken,
 		TokenType:    rc.TokenType,
-		RefreshToken: rc.RefreshToken,
-	}
+		RefreshToken: rc.RefreshToken}
 
 	expiresIn, err := time.ParseDuration(fmt.Sprintf("%vs", rc.ExpiresIn))
 	if err != nil {
 		return nil, err
 	}
-
 	tok.Expiry = time.Now().Add(expiresIn)
 	return tok, nil
 }
