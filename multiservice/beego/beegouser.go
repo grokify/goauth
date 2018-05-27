@@ -2,7 +2,9 @@ package beegouser
 
 import (
 	"github.com/astaxie/beego"
-	ms "github.com/grokify/oauth2more/multiservice"
+	//ms "github.com/grokify/oauth2more/multiservice"
+	"github.com/grokify/oauth2more/multiservice/common"
+	"github.com/grokify/oauth2more/multiservice/tokenset_memory"
 	"github.com/grokify/oauth2more/scim"
 )
 
@@ -15,15 +17,14 @@ var (
 type SessionUserInfo struct {
 	User       *scim.User
 	IsLoggedIn bool
-	TokenSet   *ms.TokenSet
+	TokenSet   common.TokenSet
 }
 
 func NewSessionUserInfo() *SessionUserInfo {
 	return &SessionUserInfo{
 		User:       nil,
 		IsLoggedIn: false,
-		TokenSet:   ms.NewTokenSet(),
-	}
+		TokenSet:   memory.NewTokenSet()}
 }
 
 func (su *SessionUserInfo) Logout(c *beego.Controller) {
@@ -53,6 +54,6 @@ func (su *SessionUserInfo) Load(c *beego.Controller) {
 		su.User = s2.(*scim.User)
 	}
 	if s3 != nil {
-		su.TokenSet = s3.(*ms.TokenSet)
+		su.TokenSet = s3.(common.TokenSet)
 	}
 }
