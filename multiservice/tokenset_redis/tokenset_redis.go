@@ -20,7 +20,6 @@ func NewTokenSet(client *rds.Client) *TokenSet {
 }
 
 func (toks *TokenSet) GetToken(key string) (*oauth2.Token, error) {
-	key = common.FormatKey(key)
 	if tokInfo, err := toks.GetTokenInfo(key); err != nil {
 		return nil, err
 	} else {
@@ -38,10 +37,9 @@ func (toks *TokenSet) GetTokenInfo(key string) (*common.TokenInfo, error) {
 }
 
 func (toks *TokenSet) SetTokenInfo(key string, tok *common.TokenInfo) error {
-	key = common.FormatKey(key)
 	if bytes, err := json.Marshal(tok); err != nil {
 		return err
 	} else {
-		return toks.gsClient.SetString(key, string(bytes))
+		return toks.gsClient.SetString(common.FormatKey(key), string(bytes))
 	}
 }
