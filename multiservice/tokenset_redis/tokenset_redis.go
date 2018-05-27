@@ -20,11 +20,12 @@ func NewTokenSet(client *rds.Client) *TokenSet {
 }
 
 func (toks *TokenSet) GetToken(key string) (*oauth2.Token, error) {
-	tokInfo, err := toks.GetTokenInfo(key)
-	if err != nil {
+	key = common.FormatKey(key)
+	if tokInfo, err := toks.GetTokenInfo(key); err != nil {
 		return nil, err
+	} else {
+		return tokInfo.Token, nil
 	}
-	return tokInfo.Token, err
 }
 
 func (toks *TokenSet) GetTokenInfo(key string) (*common.TokenInfo, error) {
