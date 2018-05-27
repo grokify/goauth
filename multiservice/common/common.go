@@ -1,7 +1,9 @@
 package common
 
 import (
+	"context"
 	"encoding/json"
+	"net/http"
 	"strings"
 
 	"golang.org/x/oauth2"
@@ -24,4 +26,24 @@ type TokenSet interface {
 func ParseTokenInfo(data []byte) (*TokenInfo, error) {
 	tok := &TokenInfo{}
 	return tok, json.Unmarshal(data, tok)
+}
+
+func NewClientWithTokenSet(
+	ctx context.Context, conf *oauth2.Config, token *oauth2.Token,
+	tokenSet TokenSet, tokenKey, serviceKey, serviceType string,
+) (*http.Client, error) {
+
+	tokenSource := conf.TokenSource(ctx, token)
+
+	if newToken, err := tokenSource.Token(); err != nil {
+		return nil, err
+	} else if newToken.AccessToken != token.AccessToken {
+		if err := tokenSet.SetTokenInfo(tokenKey, &TokenInfo{
+			ServiceKey:  serviceKey,
+			ServiceType: serviceType,
+			Token:       newToken}); err != nil {
+			return nil, err
+		}
+	}
+	return oauth2.NewClient(ctx, tokenSource), nil
 }
