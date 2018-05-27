@@ -17,11 +17,10 @@ func NewTokenSet() *TokenSet {
 }
 
 func (toks *TokenSet) GetToken(key string) (*oauth2.Token, error) {
-	key = common.FormatKey(key)
-	if tok, ok := toks.tokenMap[key]; ok {
+	if tok, ok := toks.tokenMap[common.FormatKey(key)]; ok {
 		return tok.Token, nil
 	}
-	return nil, fmt.Errorf("AppConfig not found for %v", key)
+	return nil, fmt.Errorf("AppConfig not found for [%v]", key)
 }
 
 func (toks *TokenSet) GetTokenInfo(key string) (*common.TokenInfo, error) {
@@ -29,7 +28,7 @@ func (toks *TokenSet) GetTokenInfo(key string) (*common.TokenInfo, error) {
 	if tok, ok := toks.tokenMap[key]; ok {
 		return tok, nil
 	}
-	return nil, fmt.Errorf("AppConfig not found for %v", key)
+	return nil, fmt.Errorf("AppConfig not found for [%v]", key)
 }
 
 func (toks *TokenSet) SetTokenInfo(key string, tok *common.TokenInfo) error {
