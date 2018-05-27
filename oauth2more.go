@@ -101,9 +101,8 @@ func (c *AppCredentials) Config() *oauth2.Config {
 		Scopes:       c.Scopes,
 		Endpoint: oauth2.Endpoint{
 			AuthURL:  c.AuthURI,
-			TokenURL: c.TokenURI,
-		},
-	}
+			TokenURL: c.TokenURI}}
+
 	if len(c.RedirectURIs) > 0 {
 		cfg.RedirectURL = c.RedirectURIs[0]
 	}
@@ -155,10 +154,10 @@ func NewClientTokenJSON(ctx context.Context, tokenJSON []byte) (*http.Client, er
 
 	oAuthConfig := &oauth2.Config{}
 
-	return oAuthConfig.Client(oauth2.NoContext, token), nil
+	return oAuthConfig.Client(ctx, token), nil
 }
 
-// func NewClientAccessToken(accessToken string) *http.Client {
+// NewClientBearerTokenSimple return a *http.Client given a bearer token string
 func NewClientBearerTokenSimple(accessToken string) *http.Client {
 	token := &oauth2.Token{
 		AccessToken: accessToken,
