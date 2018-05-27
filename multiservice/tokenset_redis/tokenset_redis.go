@@ -15,7 +15,7 @@ type TokenSet struct {
 	gsClient gostor.Client
 }
 
-func NewTokenSet(client rds.Client) *TokenSet {
+func NewTokenSet(client *rds.Client) *TokenSet {
 	return &TokenSet{gsClient: client}
 }
 
