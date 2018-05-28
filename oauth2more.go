@@ -217,11 +217,14 @@ func NewClientBearerTokenSimple(accessToken string) *http.Client {
 }
 
 func NewClientBearerTokenSimpleOrJson(ctx context.Context, tokenOrJson []byte) (*http.Client, error) {
-	tokenOrJsonString := string(tokenOrJson)
-	if strings.Index(tokenOrJsonString, "{") == -1 {
+	tokenOrJsonString := strings.TrimSpace(string(tokenOrJson))
+	if len(tokenOrJsonString) == 0 {
+		return nil, fmt.Errorf("No token [%v]", string(tokenOrJson))
+	} else if strings.Index(tokenOrJsonString, "{") == 0 {
+		return NewClientTokenJSON(ctx, tokenOrJson)
+	} else {
 		return NewClientBearerTokenSimple(tokenOrJsonString), nil
 	}
-	return NewClientTokenJSON(ctx, tokenOrJson)
 }
 
 func NewTokenFromWeb(cfg *oauth2.Config) (*oauth2.Token, error) {
