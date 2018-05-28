@@ -7,6 +7,7 @@ import (
 	errr "errors"
 	"fmt"
 	"net/http"
+	"strings"
 
 	"github.com/grokify/gotilla/time/timeutil"
 	"github.com/grokify/oauth2more/scim"
@@ -18,8 +19,54 @@ import (
 const (
 	VERSION      = "0.2.0"
 	PATH         = "github.com/grokify/oauth2more"
+	BasicPrefix  = "Basic"
 	BearerPrefix = "Bearer"
 )
+
+type AuthorizationType int
+
+const (
+	Basic AuthorizationType = iota
+	Bearer
+	Digest
+	NTLM
+	OAuth
+)
+
+var authorizationTypes = [...]string{
+	"Basic",
+	"Bearer",
+	"Digest",
+	"NTLM",
+	"OAuth",
+}
+
+// String returns the English name of the authorizationTypes ("Basic", "Bearer", ...).
+func (a AuthorizationType) String() string {
+	if Basic <= a && a <= OAuth {
+		return authorizationTypes[a]
+	}
+	buf := make([]byte, 20)
+	n := fmtInt(buf, uint64(a))
+	return "%!AuthorizationType(" + string(buf[n:]) + ")"
+}
+
+// fmtInt formats v into the tail of buf.
+// It returns the index where the output begins.
+func fmtInt(buf []byte, v uint64) int {
+	w := len(buf)
+	if v == 0 {
+		w--
+		buf[w] = '0'
+	} else {
+		for v > 0 {
+			w--
+			buf[w] = byte(v%10) + '0'
+			v /= 10
+		}
+	}
+	return w
+}
 
 func PathVersion() string {
 	return fmt.Sprintf("%v-v%v", PATH, VERSION)
@@ -167,6 +214,14 @@ func NewClientBearerTokenSimple(accessToken string) *http.Client {
 	oAuthConfig := &oauth2.Config{}
 
 	return oAuthConfig.Client(oauth2.NoContext, token)
+}
+
+func NewClientBearerTokenSimpleOrJson(ctx context.Context, tokenOrJson []byte) (*http.Client, error) {
+	tokenOrJsonString := string(tokenOrJson)
+	if strings.Index(tokenOrJsonString, "{") == -1 {
+		return NewClientBearerTokenSimple(tokenOrJsonString), nil
+	}
+	return NewClientTokenJSON(ctx, tokenOrJson)
 }
 
 func NewTokenFromWeb(cfg *oauth2.Config) (*oauth2.Token, error) {
