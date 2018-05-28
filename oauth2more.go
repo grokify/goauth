@@ -26,18 +26,22 @@ const (
 type AuthorizationType int
 
 const (
-	Basic AuthorizationType = iota
+	Anonymous AuthorizationType = iota
+	Basic
 	Bearer
 	Digest
 	NTLM
+	Negotiate
 	OAuth
 )
 
 var authorizationTypes = [...]string{
+	"Anonymous",
 	"Basic",
 	"Bearer",
 	"Digest",
 	"NTLM",
+	"Negotiate",
 	"OAuth",
 }
 
