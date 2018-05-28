@@ -26,12 +26,13 @@ var (
 )
 
 type ApplicationCredentials struct {
-	ServerURL    string
-	ClientID     string
-	ClientSecret string
-	RedirectURL  string
-	AppName      string
-	AppVersion   string
+	ServerURL     string
+	ApplicationID string
+	ClientID      string
+	ClientSecret  string
+	RedirectURL   string
+	AppName       string
+	AppVersion    string
 }
 
 func (ac *ApplicationCredentials) AppNameAndVersion() string {
