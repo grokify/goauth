@@ -27,7 +27,7 @@ func BasicAuthHeader(userid, password string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return "Basic " + apiKey, nil
+	return BasicPrefix + " " + apiKey, nil
 }
 
 // BasicAuthToken provides Basic Authentication support via an oauth2.Token.
@@ -39,6 +39,6 @@ func BasicAuthToken(username, password string) (*oauth2.Token, error) {
 
 	return &oauth2.Token{
 		AccessToken: basicToken,
-		TokenType:   "Basic",
+		TokenType:   BasicPrefix,
 		Expiry:      timeutil.TimeRFC3339Zero()}, nil
 }
