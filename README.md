@@ -1,5 +1,6 @@
 # OAuth 2.0 More for Go
 
+[![Used By][used-by-svg]][used-by-link]
 [![Build Status][build-status-svg]][build-status-link]
 [![Go Report Card][goreport-svg]][goreport-link]
 [![Docs][docs-godoc-svg]][docs-godoc-link]
@@ -65,6 +66,8 @@ See the following repo for a Beego-based demo app:
 
 * https://github.com/grokify/beego-oauth2-demo
 
+ [used-by-svg]: https://sourcegraph.com/github.com/grokify/oauth2more/-/badge.svg
+ [used-by-link]: https://sourcegraph.com/github.com/grokify/oauth2more?badge
  [build-status-svg]: https://api.travis-ci.org/grokify/oauth2more.svg?branch=master
  [build-status-link]: https://travis-ci.org/grokify/oauth2more
  [goreport-svg]: https://goreportcard.com/badge/github.com/grokify/oauth2more
