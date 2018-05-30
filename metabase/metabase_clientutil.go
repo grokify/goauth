@@ -9,6 +9,7 @@ import (
 
 	"github.com/grokify/gotilla/net/urlutil"
 	tu "github.com/grokify/gotilla/time/timeutil"
+	"github.com/pkg/errors"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -67,11 +68,10 @@ func RetrieveQuestions(cu ClientUtil, q2s QuestionsToSlug, dir string) (map[stri
 		filename := fmt.Sprintf("data_%v_%v.json", dt8, name)
 		data, err := cu.GetStoreQuestionData(cardId, filename, 0644)
 		if err != nil {
-			return output, err
+			return output, errors.Wrap(err, fmt.Sprintf("Error Retrieving Card #[%v] Name[%v]", cardId, name))
 		}
 		output[name] = data
 
-		log.Info("===")
 		log.Info(filename)
 		log.Info(string(data))
 	}
