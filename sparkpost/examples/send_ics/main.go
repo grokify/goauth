@@ -64,7 +64,7 @@ END:VCALENDAR`
 
 	uid1 := day + 1000
 	uid2 := uid1 + 1
-	dtNow := time.Now().Format(tu.ISO8601ZCompactLocal)
+	dtNow := time.Now().Format(tu.ISO8601CompactLocal)
 	data := fmt.Sprintf(
 		format, "REQUEST",
 		attendee, uid1, day, day, dtNow, seq,
