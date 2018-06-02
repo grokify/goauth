@@ -1,3 +1,5 @@
+// auth0 contains a Go implementation of Auth0's PKCE support:
+// https://auth0.com/docs/api-auth/tutorials/authorization-code-grant-pkce
 package auth0
 
 import (
