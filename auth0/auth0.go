@@ -16,10 +16,6 @@ import (
 	hum "github.com/grokify/gotilla/net/httputilmore"
 )
 
-func Base64URLEncodeTrimString(data []byte) string {
-	return strings.Trim(base64.URLEncoding.EncodeToString(data), "=")
-}
-
 func CreatePKCECodeVerifier() string {
 	verifier := make([]byte, 32)
 	rand.Read(verifier)
@@ -29,6 +25,10 @@ func CreatePKCECodeVerifier() string {
 func CreatePKCEChallengeS256(verifier string) string {
 	hash := sha256.Sum256([]byte(verifier))
 	return Base64URLEncodeTrimString(hash[:])
+}
+
+func Base64URLEncodeTrimString(data []byte) string {
+	return strings.Trim(base64.URLEncoding.EncodeToString(data), "=")
 }
 
 type PKCEAuthorizationUrlInfo struct {
