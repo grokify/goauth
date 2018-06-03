@@ -52,6 +52,7 @@ func (cfg *appConfig) LoginHandler(w http.ResponseWriter, r *http.Request) {
 		"challenge":  challenge,
 		"verifier":   verifier},
 	).Debug("loginHandler")
+
 	tmpl := `<!DOCTYPE html>
 <html>
   <head>
@@ -64,8 +65,8 @@ func (cfg *appConfig) LoginHandler(w http.ResponseWriter, r *http.Request) {
     <p>Challenge: %s</p>
     <p><a href="%s">Login</a></p>
   </body>
-</html>
-	`
+</html>`
+
 	// Cookie is used for demo purposes only. Use a server-side store
 	// in production.
 	cookie := http.Cookie{Name: VerifierCookieName, Value: verifier}
@@ -112,6 +113,7 @@ func (cfg *appConfig) Oauth2CallbackHandler(w http.ResponseWriter, r *http.Reque
 		"tokenResStatusCode": resp.StatusCode,
 		"tokenResBody":       string(respBody)},
 	).Info("oauth2CallbackHandler")
+
 	tmpl := `<!DOCTYPE html>
 <html>
   <head>
@@ -124,8 +126,8 @@ func (cfg *appConfig) Oauth2CallbackHandler(w http.ResponseWriter, r *http.Reque
     <textarea style="width:100%%;height:50px">%s</textarea>
     <p><a href="/">Try Again</a></p>
   </body>
-</html>
-	`
+</html>`
+
 	w.Header().Set(hum.HeaderContentType, hum.ContentTypeTextHtmlUtf8)
 	w.WriteHeader(http.StatusOK)
 	fmt.Fprintf(w, tmpl, WebsiteTitle, WebsiteTitle, string(respBody))
