@@ -57,6 +57,10 @@ func main() {
 	fmt.Println(cardUrl)
 
 	req, err = http.NewRequest(http.MethodPost, cardUrl, nil)
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	resp, err = client.Do(req)
 	if err != nil {
 		log.Fatal(err)
