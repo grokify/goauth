@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 	"os"
 
@@ -21,7 +22,7 @@ func loadEnv() error {
 func main() {
 	err := loadEnv()
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
 	cardId := 1
@@ -35,15 +36,18 @@ func main() {
 		os.Getenv("METABASE_PASSWORD"),
 	)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
 	userUrl := urlutil.JoinAbsolute(baseUrl, "api/user/current")
 
 	req, err := http.NewRequest("GET", userUrl, nil)
+	if err != nil {
+		log.Fatal(err)
+	}
 	resp, err := client.Do(req)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	hum.PrintResponse(resp, true)
 
@@ -55,7 +59,7 @@ func main() {
 	req, err = http.NewRequest(http.MethodPost, cardUrl, nil)
 	resp, err = client.Do(req)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	hum.PrintResponse(resp, true)
 

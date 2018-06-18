@@ -41,6 +41,9 @@ func (cu *ClientUtil) GetQuestionData(cardId int) ([]byte, error) {
 	cardUrl := cu.BuildMetabaseCardAPI(cardId, "json")
 
 	req, err := http.NewRequest(http.MethodPost, cardUrl, nil)
+	if err != nil {
+		return []byte(""), err
+	}
 	resp, err := cu.HTTPClient.Do(req)
 	if err != nil {
 		return []byte(""), err
