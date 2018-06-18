@@ -8,6 +8,7 @@ import (
 
 	hum "github.com/grokify/gotilla/net/httputilmore"
 	"github.com/grokify/gotilla/net/urlutil"
+	om "github.com/grokify/oauth2more"
 )
 
 const (
@@ -56,9 +57,7 @@ func NewClientId(id string) *http.Client {
 	header.Add(MetabaseSessionHeader, id)
 
 	if TLSInsecureSkipVerify {
-		client.Transport = &http.Transport{
-			TLSClientConfig: &tls.Config{InsecureSkipVerify: TLSInsecureSkipVerify},
-		}
+		client = om.ClientTLSInsecureSkipVerify(client)
 	}
 
 	client.Transport = hum.TransportWithHeaders{

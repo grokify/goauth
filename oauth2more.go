@@ -3,12 +3,14 @@ package oauth2more
 import (
 	"context"
 	"crypto/tls"
+	"encoding/base64"
 	"encoding/json"
 	errr "errors"
 	"fmt"
 	"net/http"
 	"strings"
 
+	hum "github.com/grokify/gotilla/net/httputilmore"
 	"github.com/grokify/gotilla/time/timeutil"
 	"github.com/grokify/oauth2more/scim"
 	"github.com/pkg/errors"
@@ -208,6 +210,30 @@ func NewClientTokenJSON(ctx context.Context, tokenJSON []byte) (*http.Client, er
 	return oAuthConfig.Client(ctx, token), nil
 }
 
+func NewClientToken(tokenType, tokenValue string, tlsInsecureSkipVerify bool) *http.Client {
+	client := &http.Client{}
+
+	header := http.Header{}
+	header.Add("Authorization", tokenType+" "+tokenValue)
+
+	if tlsInsecureSkipVerify {
+		client = ClientTLSInsecureSkipVerify(client)
+	}
+
+	client.Transport = hum.TransportWithHeaders{
+		Header:    header,
+		Transport: client.Transport}
+
+	return client
+}
+
+func NewClientTokenBase64Encode(tokenType, tokenValue string, tlsInsecureSkipVerify bool) *http.Client {
+	return NewClientToken(
+		tokenType,
+		base64.StdEncoding.EncodeToString([]byte(tokenValue)),
+		tlsInsecureSkipVerify)
+}
+
 // NewClientBearerTokenSimple return a *http.Client given a bearer token string
 func NewClientBearerTokenSimple(accessToken string) *http.Client {
 	token := &oauth2.Token{
@@ -257,4 +283,11 @@ func NewClientTLSToken(ctx context.Context, tlsConfig *tls.Config, token *oauth2
 	cfg := &oauth2.Config{}
 
 	return cfg.Client(ctx, token)
+}
+
+func ClientTLSInsecureSkipVerify(client *http.Client) *http.Client {
+	client.Transport = &http.Transport{
+		TLSClientConfig: &tls.Config{
+			InsecureSkipVerify: true}}
+	return client
 }
