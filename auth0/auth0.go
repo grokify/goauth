@@ -10,7 +10,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"strings"
 
 	"github.com/google/go-querystring/query"
 	hum "github.com/grokify/gotilla/net/httputilmore"
@@ -19,16 +18,12 @@ import (
 func CreatePKCECodeVerifier() string {
 	verifier := make([]byte, 32)
 	rand.Read(verifier)
-	return Base64URLEncodeTrimString(verifier[:])
+	return base64.RawURLEncoding.EncodeToString(verifier[:])
 }
 
 func CreatePKCEChallengeS256(verifier string) string {
-	hash := sha256.Sum256([]byte(verifier))
-	return Base64URLEncodeTrimString(hash[:])
-}
-
-func Base64URLEncodeTrimString(data []byte) string {
-	return strings.Trim(base64.URLEncoding.EncodeToString(data), "=")
+	challenge := sha256.Sum256([]byte(verifier))
+	return base64.RawURLEncoding.EncodeToString(challenge[:])
 }
 
 type PKCEAuthorizationUrlInfo struct {
