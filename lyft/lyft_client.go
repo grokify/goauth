@@ -1,6 +1,7 @@
 package lyft
 
 import (
+	"context"
 	"net/http"
 
 	"golang.org/x/oauth2"
@@ -8,11 +9,11 @@ import (
 )
 
 const (
+	// OAuth 2.0 Endpoint URIs
 	AuthURL  = "https://api.lyft.com/oauth/authorize"
 	TokenURL = "https://api.lyft.com/oauth/token"
-)
 
-const (
+	// OAuth 2.0 Scopes
 	Offline      = "offline"
 	Profile      = "profile"
 	Public       = "public"
