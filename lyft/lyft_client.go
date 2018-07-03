@@ -32,8 +32,7 @@ func NewClientCredentials(ctx context.Context, clientId, clientSecret string, sc
 		ClientID:     clientId,
 		ClientSecret: clientSecret,
 		TokenURL:     TokenURL,
-		Scopes:       scopes,
-	}
+		Scopes:       scopes}
 
 	return config.Client(ctx)
 }
