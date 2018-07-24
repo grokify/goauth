@@ -1,7 +1,7 @@
 package google
 
 import (
-	"encoding/json"
+	json "github.com/pquerna/ffjson/ffjson"
 	"net/http"
 	"net/url"
 	"strings"
