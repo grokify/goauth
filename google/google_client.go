@@ -8,6 +8,7 @@ import (
 
 	om "github.com/grokify/oauth2more"
 	"github.com/pkg/errors"
+	json "github.com/pquerna/ffjson/ffjson"
 	"golang.org/x/net/context"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
@@ -82,4 +83,26 @@ func NewClientFromJWTJSON(ctx context.Context, svcAccountConfig []byte, scopes .
 		return nil, err
 	}
 	return jwtConf.Client(ctx), nil
+}
+
+type Credentials struct {
+	Type                    string `json:"type,omitempty"`
+	ProjectID               string `json:"project_id,omitempty"`
+	PrivateKeyID            string `json:"private_key_id,omitempty"`
+	PrivateKey              string `json:"private_key,omitempty"`
+	ClientEmail             string `json:"client_email,omitempty"`
+	ClientID                string `json:"client_id,omitempty"`
+	AuthURI                 string `json:"auth_uri,omitempty"`
+	TokenURI                string `json:"token_uri,omitempty"`
+	AuthProviderX509CertURL string `json:"auth_provider_x509_cert_url,omitempty"`
+	ClientX509CertURL       string `json:"client_x509_cert_url,omitempty"`
+}
+
+func NewCredentialsFromFile(file string) (Credentials, error) {
+	c := Credentials{}
+	bytes, err := ioutil.ReadFile(file)
+	if err != nil {
+		return c, err
+	}
+	return c, json.Unmarshal(bytes, &c)
 }
