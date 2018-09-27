@@ -17,11 +17,14 @@ type ApplicationConfigEnv struct {
 	Password     string `env:"RINGCENTRAL_PASSWORD"`
 }
 
+// NewApplicationConfigEnv returns a new ApplicationConfigEnv
+// populated with values from the environment.
 func NewApplicationConfigEnv() (ApplicationConfigEnv, error) {
 	cfg := ApplicationConfigEnv{}
 	return cfg, env.Parse(&cfg)
 }
 
+// ApplicationCredentials returns a ApplicationCredentials struct.
 func (cfg *ApplicationConfigEnv) ApplicationCredentials() ApplicationCredentials {
 	return ApplicationCredentials{
 		ServerURL:    cfg.ServerURL,
@@ -29,6 +32,7 @@ func (cfg *ApplicationConfigEnv) ApplicationCredentials() ApplicationCredentials
 		ClientSecret: cfg.ClientSecret}
 }
 
+// PasswordCredentials returns a PasswordCredentials struct.
 func (cfg *ApplicationConfigEnv) PasswordCredentials() PasswordCredentials {
 	return PasswordCredentials{
 		Username:  cfg.Username,
@@ -36,6 +40,7 @@ func (cfg *ApplicationConfigEnv) PasswordCredentials() PasswordCredentials {
 		Password:  cfg.Password}
 }
 
+// LoadToken loads and returns an OAuth token.
 func (cfg *ApplicationConfigEnv) LoadToken() (*oauth2.Token, error) {
 	tok, err := NewTokenPassword(
 		cfg.ApplicationCredentials(),
