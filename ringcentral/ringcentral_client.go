@@ -262,15 +262,27 @@ type RcToken struct {
 	OwnerID               string    `json:"owner_id,omitempty"`
 	EndpointID            string    `json:"endpoint_id,omitempty"`
 	Expiry                time.Time `json:"expiry,omitempty"`
+	RefreshTokenExpiry    time.Time `json:"refresh_token_expiry,omitempty"`
 	inflated              bool
 }
 
 func (rcTok *RcToken) Inflate() error {
-	expiresIn, err := time.ParseDuration(fmt.Sprintf("%vs", rcTok.ExpiresIn))
-	if err != nil {
-		return err
+	now := time.Now()
+	if (rcTok.ExpiresIn) > 0 {
+		expiresIn, err := time.ParseDuration(fmt.Sprintf("%vs", rcTok.ExpiresIn))
+		if err != nil {
+			return err
+		}
+		rcTok.Expiry = now.Add(expiresIn)
 	}
-	rcTok.Expiry = time.Now().Add(expiresIn)
+	if (rcTok.RefreshTokenExpiresIn) > 0 {
+		expiresIn, err := time.ParseDuration(fmt.Sprintf("%vs", rcTok.RefreshTokenExpiresIn))
+		if err != nil {
+			return err
+		}
+		rcTok.RefreshTokenExpiry = now.Add(expiresIn)
+	}
+
 	rcTok.inflated = true
 	return nil
 }
