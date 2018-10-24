@@ -282,16 +282,18 @@ func (rcTok *RcToken) Inflate() error {
 }
 
 func (rcTok *RcToken) OAuth2Token() (*oauth2.Token, error) {
-	tok := &oauth2.Token{
-		AccessToken:  rcTok.AccessToken,
-		TokenType:    rcTok.TokenType,
-		RefreshToken: rcTok.RefreshToken}
-
 	if !rcTok.inflated {
 		err := rcTok.Inflate()
 		if err != nil {
 			return nil, err
 		}
 	}
+
+	tok := &oauth2.Token{
+		AccessToken:  rcTok.AccessToken,
+		TokenType:    rcTok.TokenType,
+		RefreshToken: rcTok.RefreshToken,
+		Expiry:       rcTok.Expiry}
+
 	return tok, nil
 }
