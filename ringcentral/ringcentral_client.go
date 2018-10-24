@@ -39,12 +39,6 @@ type ApplicationCredentials struct {
 	RefreshTokenTTL int64
 }
 
-/*
-   if (options.endpointId) body.endpoint_id = options.endpointId;
-        if (options.accessTokenTtl) body.accessTokenTtl = options.accessTokenTtl;
-        if (options.refreshTokenTtl) body.refreshTokenTtl = options.refreshTokenTtl;
-*/
-
 func (ac *ApplicationCredentials) AppNameAndVersion() string {
 	parts := []string{}
 	ac.AppName = strings.TrimSpace(ac.AppName)
