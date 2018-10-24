@@ -20,20 +20,30 @@ var (
 	EnvClientSecret = "RINGCENTRAL_CLIENT_SECRET"
 	EnvAppName      = "RINGCENTRAL_APP_NAME"
 	EnvAppVersion   = "RINGCENTRAL_APP_VERSION"
+	EnvRedirectURL  = "RINGCENTRAL_OAUTH_REDIRECT_URL"
 	EnvUsername     = "RINGCENTRAL_USERNAME"
 	EnvExtension    = "RINGCENTRAL_EXTENSION"
 	EnvPassword     = "RINGCENTRAL_PASSWORD"
 )
 
 type ApplicationCredentials struct {
-	ServerURL     string
-	ApplicationID string
-	ClientID      string
-	ClientSecret  string
-	RedirectURL   string
-	AppName       string
-	AppVersion    string
+	ServerURL       string
+	ApplicationID   string
+	ClientID        string
+	ClientSecret    string
+	RedirectURL     string
+	AppName         string
+	AppVersion      string
+	OAuthEndpointID string
+	AccessTokenTTL  int64
+	RefreshTokenTTL int64
 }
+
+/*
+   if (options.endpointId) body.endpoint_id = options.endpointId;
+        if (options.accessTokenTtl) body.accessTokenTtl = options.accessTokenTtl;
+        if (options.refreshTokenTtl) body.refreshTokenTtl = options.refreshTokenTtl;
+*/
 
 func (ac *ApplicationCredentials) AppNameAndVersion() string {
 	parts := []string{}
@@ -54,6 +64,23 @@ func (app *ApplicationCredentials) Config() oauth2.Config {
 		ClientSecret: app.ClientSecret,
 		Endpoint:     NewEndpoint(app.ServerURL),
 		RedirectURL:  app.RedirectURL}
+}
+
+func (app *ApplicationCredentials) Exchange(code string) (*RcToken, error) {
+	params := url.Values{}
+	params.Set("grant_type", "authorization_code")
+	params.Set("code", code)
+	params.Set("redirect_uri", app.RedirectURL)
+	if len(app.OAuthEndpointID) > 0 {
+		params.Set("endpoint_id", app.OAuthEndpointID)
+	}
+	if app.AccessTokenTTL > 0 {
+		params.Set("accessTokenTtl", strconv.Itoa(int(app.AccessTokenTTL)))
+	}
+	if app.RefreshTokenTTL > 0 {
+		params.Set("refreshTokenTtl", strconv.Itoa(int(app.RefreshTokenTTL)))
+	}
+	return RetrieveRcToken(app.Config(), params)
 }
 
 type UserCredentials struct {
@@ -188,6 +215,14 @@ func (pw *PasswordCredentials) URLValues() url.Values {
 }
 
 func RetrieveToken(cfg oauth2.Config, params url.Values) (*oauth2.Token, error) {
+	rcToken, err := RetrieveRcToken(cfg, params)
+	if err != nil {
+		return nil, err
+	}
+	return rcToken.OAuth2Token()
+}
+
+func RetrieveRcToken(cfg oauth2.Config, params url.Values) (*RcToken, error) {
 	r, err := http.NewRequest(
 		http.MethodPost,
 		cfg.Endpoint.TokenURL,
@@ -219,28 +254,44 @@ func RetrieveToken(cfg oauth2.Config, params url.Values) (*oauth2.Token, error) 
 	if err != nil {
 		return nil, err
 	}
-	return rcToken.OAuth2Token()
+	err = rcToken.Inflate()
+	return rcToken, err
 }
 
 type RcToken struct {
-	AccessToken           string `json:"access_token,omitempty"`
-	TokenType             string `json:"token_type,omitempty"`
-	ExpiresIn             int64  `json:"expires_in,omitempty"`
-	RefreshToken          string `json:"refresh_token,omitempty"`
-	RefreshTokenExpiresIn int64  `json:"refresh_token_expires_in,omitempty"`
-	OwnerID               string `json:"owner_id,omitempty"`
+	AccessToken           string    `json:"access_token,omitempty"`
+	TokenType             string    `json:"token_type,omitempty"`
+	Scope                 string    `json:"scope,omitempty"`
+	ExpiresIn             int64     `json:"expires_in,omitempty"`
+	RefreshToken          string    `json:"refresh_token,omitempty"`
+	RefreshTokenExpiresIn int64     `json:"refresh_token_expires_in,omitempty"`
+	OwnerID               string    `json:"owner_id,omitempty"`
+	EndpointID            string    `json:"endpoint_id,omitempty"`
+	Expiry                time.Time `json:"expiry,omitempty"`
+	inflated              bool
 }
 
-func (rc *RcToken) OAuth2Token() (*oauth2.Token, error) {
-	tok := &oauth2.Token{
-		AccessToken:  rc.AccessToken,
-		TokenType:    rc.TokenType,
-		RefreshToken: rc.RefreshToken}
-
-	expiresIn, err := time.ParseDuration(fmt.Sprintf("%vs", rc.ExpiresIn))
+func (rcTok *RcToken) Inflate() error {
+	expiresIn, err := time.ParseDuration(fmt.Sprintf("%vs", rcTok.ExpiresIn))
 	if err != nil {
-		return nil, err
+		return err
 	}
-	tok.Expiry = time.Now().Add(expiresIn)
+	rcTok.Expiry = time.Now().Add(expiresIn)
+	rcTok.inflated = true
+	return nil
+}
+
+func (rcTok *RcToken) OAuth2Token() (*oauth2.Token, error) {
+	tok := &oauth2.Token{
+		AccessToken:  rcTok.AccessToken,
+		TokenType:    rcTok.TokenType,
+		RefreshToken: rcTok.RefreshToken}
+
+	if !rcTok.inflated {
+		err := rcTok.Inflate()
+		if err != nil {
+			return nil, err
+		}
+	}
 	return tok, nil
 }
