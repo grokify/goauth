@@ -238,9 +238,8 @@ func RetrieveRcToken(cfg oauth2.Config, params url.Values) (*RcToken, error) {
 	resp, err := client.Do(r)
 	if err != nil {
 		return nil, err
-	}
-	if resp.StatusCode != 200 {
-		return nil, fmt.Errorf("RingCentral API Response Status %v", resp.StatusCode)
+	} else if resp.StatusCode >= 300 {
+		return nil, fmt.Errorf("RingCentral API Response Status [%v]", resp.StatusCode)
 	}
 
 	rcToken := &RcToken{}
