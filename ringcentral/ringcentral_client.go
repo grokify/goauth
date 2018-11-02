@@ -9,6 +9,7 @@ import (
 	"strings"
 	"time"
 
+	ju "github.com/grokify/gotilla/encoding/jsonutil"
 	hum "github.com/grokify/gotilla/net/httputilmore"
 	om "github.com/grokify/oauth2more"
 	"golang.org/x/oauth2"
@@ -243,7 +244,8 @@ func RetrieveRcToken(cfg oauth2.Config, params url.Values) (*RcToken, error) {
 	}
 
 	rcToken := &RcToken{}
-	err = hum.UnmarshalResponseJSON(resp, rcToken)
+	_, err = ju.UnmarshalIoReader(resp.Body, rcToken)
+	//err = hum.UnmarshalResponseJSON(resp, rcToken)
 	if err != nil {
 		return nil, err
 	}
@@ -262,7 +264,7 @@ type RcToken struct {
 	EndpointID            string    `json:"endpoint_id,omitempty"`
 	Expiry                time.Time `json:"expiry,omitempty"`
 	RefreshTokenExpiry    time.Time `json:"refresh_token_expiry,omitempty"`
-	inflated              bool
+	inflated              bool      `json:"inflated"`
 }
 
 func (rcTok *RcToken) Inflate() error {
