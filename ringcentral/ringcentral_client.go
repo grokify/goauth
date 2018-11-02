@@ -192,8 +192,7 @@ func (pw *PasswordCredentials) URLValues() url.Values {
 	v := url.Values{
 		"grant_type": {"password"},
 		"username":   {pw.Username},
-		"password":   {pw.Password},
-	}
+		"password":   {pw.Password}}
 	if pw.AccessTokenTTL != 0 {
 		v.Set("access_token_ttl", strconv.Itoa(int(pw.AccessTokenTTL)))
 	}
