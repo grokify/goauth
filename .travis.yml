@@ -5,11 +5,10 @@ go:
   - "1.10.x"
   - "1.9.x"
   - "1.8.x"
-  - "1.7.x"
   - master
 matrix:
   allow_failures:
-    - go: "1.7.x"
+    - go: "1.8.x"
     - go: master
 sudo: true
 install:
