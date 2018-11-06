@@ -9,6 +9,7 @@ import (
 	"github.com/caarlos0/env"
 	"golang.org/x/oauth2"
 
+	//"github.com/grokify/gotilla/config"
 	om "github.com/grokify/oauth2more"
 )
 
@@ -65,6 +66,7 @@ func NewHttpClientEnvFlexStatic(envPrefix string) (*http.Client, error) {
 	}
 
 	envToken := strings.TrimSpace(envPrefix + "TOKEN")
+	//token := config.JoinEnvNumbered(envToken, "", 2, true)
 	token := os.Getenv(envToken)
 	if len(token) > 0 {
 		return om.NewClientBearerTokenSimple(token), nil
