@@ -18,8 +18,8 @@ type ClientUtil struct {
 	BaseURL    string
 }
 
-func NewClientUtil(baseUrl, username, password string) (*ClientUtil, error) {
-	httpClient, err := NewClient(baseUrl, username, password)
+func NewClientUtil(baseUrl, username, password string, tlsSkipVerify bool) (*ClientUtil, error) {
+	httpClient, err := NewClient(baseUrl, username, password, tlsSkipVerify)
 	if err != nil {
 		return nil, err
 	}
