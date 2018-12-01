@@ -32,11 +32,12 @@ type authResponse struct {
 
 // NewClient returns a *http.Client that will add the Metabase Session
 // header to each request.
-func NewClient(baseUrl, username, password string) (*http.Client, error) {
+func NewClient(baseUrl, username, password string, tlsSkipVerify bool) (*http.Client, error) {
 	resp, err := AuthRequest(
 		urlutil.JoinAbsolute(baseUrl, RelPathApiSession),
 		username,
-		password)
+		password,
+		tlsSkipVerify)
 	if err != nil {
 		return nil, err
 	}
@@ -47,16 +48,16 @@ func NewClient(baseUrl, username, password string) (*http.Client, error) {
 		return nil, err
 	}
 
-	return NewClientId(res.Id), nil
+	return NewClientId(res.Id, tlsSkipVerify), nil
 }
 
-func NewClientId(id string) *http.Client {
+func NewClientId(id string, tlsSkipVerify bool) *http.Client {
 	client := &http.Client{}
 
 	header := http.Header{}
 	header.Add(MetabaseSessionHeader, id)
 
-	if TLSInsecureSkipVerify {
+	if tlsSkipVerify {
 		client = om.ClientTLSInsecureSkipVerify(client)
 	}
 
@@ -70,7 +71,7 @@ func NewClientId(id string) *http.Client {
 // AuthRequest creates an authentiation request that returns a id that is used
 // in Metabase API requests. It follows the following curl command:
 // curl -v -H "Content-Type: application/json" -d '{"username":"myusername","password":"mypassword"}' -XPOST 'http://example.com/api/session'
-func AuthRequest(authUrl, username, password string) (*http.Response, error) {
+func AuthRequest(authUrl, username, password string, tlsSkipVerify bool) (*http.Response, error) {
 	bodyBytes, err := json.Marshal(authRequest{Username: username, Password: password})
 	if err != nil {
 		return nil, err
@@ -85,9 +86,9 @@ func AuthRequest(authUrl, username, password string) (*http.Response, error) {
 
 	client := &http.Client{}
 
-	if TLSInsecureSkipVerify {
+	if tlsSkipVerify {
 		client.Transport = &http.Transport{
-			TLSClientConfig: &tls.Config{InsecureSkipVerify: TLSInsecureSkipVerify},
+			TLSClientConfig: &tls.Config{InsecureSkipVerify: tlsSkipVerify},
 		}
 	}
 
