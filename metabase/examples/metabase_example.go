@@ -31,10 +31,11 @@ func main() {
 
 	baseUrl := os.Getenv("METABASE_BASE_URL")
 
-	client, err := metabase.NewClient(baseUrl,
+	client, err := metabase.NewClient(
+		baseUrl,
 		os.Getenv("METABASE_USERNAME"),
 		os.Getenv("METABASE_PASSWORD"),
-	)
+		metabase.TLSInsecureSkipVerify)
 	if err != nil {
 		log.Fatal(err)
 	}
