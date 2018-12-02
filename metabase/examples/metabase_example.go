@@ -31,7 +31,7 @@ func main() {
 
 	baseUrl := os.Getenv("METABASE_BASE_URL")
 
-	client, err := metabase.NewClient(
+	client, _, err := metabase.NewClientPassword(
 		baseUrl,
 		os.Getenv("METABASE_USERNAME"),
 		os.Getenv("METABASE_PASSWORD"),
