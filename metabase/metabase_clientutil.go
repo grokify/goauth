@@ -19,7 +19,7 @@ type ClientUtil struct {
 }
 
 func NewClientUtil(baseUrl, username, password string, tlsSkipVerify bool) (*ClientUtil, error) {
-	httpClient, err := NewClient(baseUrl, username, password, tlsSkipVerify)
+	httpClient, _, err := NewClientPassword(baseUrl, username, password, tlsSkipVerify)
 	if err != nil {
 		return nil, err
 	}

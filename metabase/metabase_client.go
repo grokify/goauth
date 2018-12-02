@@ -26,29 +26,29 @@ type authRequest struct {
 	Password string `json:"password,omitempty"`
 }
 
-type authResponse struct {
+type AuthResponse struct {
 	Id string `json:"id,omitempty"`
 }
 
 // NewClient returns a *http.Client that will add the Metabase Session
 // header to each request.
-func NewClient(baseUrl, username, password string, tlsSkipVerify bool) (*http.Client, error) {
+func NewClientPassword(baseUrl, username, password string, tlsSkipVerify bool) (*http.Client, *AuthResponse, error) {
 	resp, err := AuthRequest(
 		urlutil.JoinAbsolute(baseUrl, RelPathApiSession),
 		username,
 		password,
 		tlsSkipVerify)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
-	res := &authResponse{}
+	res := &AuthResponse{}
 	err = hum.UnmarshalResponseJSON(resp, res)
 	if err != nil {
-		return nil, err
+		return nil, res, err
 	}
 
-	return NewClientId(res.Id, tlsSkipVerify), nil
+	return NewClientId(res.Id, tlsSkipVerify), res, nil
 }
 
 func NewClientId(id string, tlsSkipVerify bool) *http.Client {
