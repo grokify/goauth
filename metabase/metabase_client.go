@@ -5,7 +5,9 @@ import (
 	"crypto/tls"
 	"encoding/json"
 	"net/http"
+	"os"
 
+	"github.com/grokify/gotilla/config"
 	hum "github.com/grokify/gotilla/net/httputilmore"
 	"github.com/grokify/gotilla/net/urlutil"
 	om "github.com/grokify/oauth2more"
@@ -66,6 +68,44 @@ func NewClientId(id string, tlsSkipVerify bool) *http.Client {
 		Header:    header}
 
 	return client
+}
+
+type InitConfig struct {
+	LoadEnv              bool
+	EnvPath              string
+	EnvMetabaseBaseUrl   string
+	EnvMetabaseSessionId string
+	EnvMetabaseUsername  string
+	EnvMetabasePassword  string
+	TlsSkipVerify        bool
+}
+
+func NewClientEnv(cfg InitConfig) (*http.Client, *AuthResponse, error) {
+	if cfg.LoadEnv && len(cfg.EnvPath) > 0 {
+		err := config.LoadDotEnvSkipEmpty(os.Getenv(cfg.EnvPath), "./.env")
+		if err != nil {
+			return nil, nil, err
+		}
+	}
+
+	var httpClient *http.Client
+	var authResponse *AuthResponse
+
+	if len(os.Getenv(cfg.EnvMetabaseSessionId)) > 0 {
+		httpClient = NewClientId(os.Getenv(cfg.EnvMetabaseSessionId), true)
+	} else {
+		httpClient2, res, err := NewClientPassword(
+			os.Getenv(cfg.EnvMetabaseBaseUrl),
+			os.Getenv(cfg.EnvMetabaseUsername),
+			os.Getenv(cfg.EnvMetabasePassword),
+			cfg.TlsSkipVerify)
+		if err != nil {
+			return nil, authResponse, err
+		}
+		authResponse = res
+		httpClient = httpClient2
+	}
+	return httpClient, authResponse, nil
 }
 
 // AuthRequest creates an authentiation request that returns a id that is used
