@@ -21,8 +21,7 @@ const (
 
 var Endpoint = oauth2.Endpoint{
 	AuthURL:  AuthzURL,
-	TokenURL: TokenURL,
-}
+	TokenURL: TokenURL}
 
 func NewClientPassword(app om.ApplicationCredentials, user om.UserCredentials) (*http.Client, error) {
 	conf := oauth2.Config{
