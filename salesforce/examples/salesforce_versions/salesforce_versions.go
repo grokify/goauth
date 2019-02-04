@@ -1,18 +1,23 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
+	"log"
 	"os"
 
 	"github.com/grokify/gotilla/config"
+	"github.com/grokify/gotilla/fmt/fmtutil"
 	"github.com/grokify/gotilla/net/httputilmore"
 	"github.com/grokify/oauth2more/salesforce"
 
+	su "github.com/grokify/go-salesforce/clientutil"
 	ou "github.com/grokify/oauth2more"
 )
 
 func main() {
-	err := config.LoadDotEnvSkipEmpty(os.Getenv("ENV_PATH"), "./.env")
+	//err := config.LoadDotEnvSkipEmpty(os.Getenv("ENV_PATH"), "./.env")
+	err := config.LoadDotEnvSkipEmpty("./.env")
 	if err != nil {
 		panic(err)
 	}
@@ -43,6 +48,40 @@ func main() {
 	}
 
 	httputilmore.PrintResponse(resp, true)
+
+	if 1 == 1 {
+		cu := su.ClientUtil{
+			HTTPClient: client,
+			Instance:   os.Getenv("SALESFORCE_INSTANCE_NAME"),
+			Version:    "v43.0"}
+		resp, err := cu.Describe("ACCOUNT")
+		if err != nil {
+			log.Fatal(err)
+		}
+		//httputilmore.PrintResponse(resp, true)
+		body, err := httputilmore.ResponseBody(resp)
+		if err != nil {
+			log.Fatal(err)
+		}
+		fmt.Println(string(body))
+		desc := su.Describe{}
+		err = json.Unmarshal(body, &desc)
+		if err != nil {
+			log.Fatal(err)
+		}
+		fmtutil.PrintJSON(desc)
+
+		types := map[string]int{}
+		for _, f := range desc.Fields {
+			if v, ok := types[f.Type]; ok {
+				types[f.Type] = v + 1
+			} else {
+				types[f.Type] = 1
+			}
+		}
+		fmtutil.PrintJSON(types)
+
+	}
 
 	if 1 == 0 {
 		resp, err = sc.ExecSOQL("select id from contact")
