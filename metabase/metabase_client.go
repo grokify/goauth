@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"os"
+	"strings"
 
 	"github.com/grokify/gotilla/config"
 	hum "github.com/grokify/gotilla/net/httputilmore"
@@ -17,6 +18,12 @@ const (
 	MetabaseSessionHeader = "X-Metabase-Session"
 	RelPathApiSession     = "api/session"
 	RelPathApiUserCurrent = "api/user/current"
+	RelPathApiDatabase    = "api/database"
+
+	EnvBaseURL   = "METABASE_BASE_URL"
+	EnvSessionId = "METABASE_SESSION_ID"
+	EnvUsername  = "METABASE_USERNAME"
+	EnvPassword  = "METABASE_PASSWORD"
 )
 
 var (
@@ -50,14 +57,29 @@ func NewClientPassword(baseUrl, username, password string, tlsSkipVerify bool) (
 		return nil, res, err
 	}
 
-	return NewClientId(res.Id, tlsSkipVerify), res, nil
+	return NewClientSessionId(res.Id, tlsSkipVerify), res, nil
 }
 
-func NewClientId(id string, tlsSkipVerify bool) *http.Client {
+// NewClientPasswordWithSessionId returns a *http.Client first attempting to use
+// the supplied `sessionId` with a fallback to `username` and `password`.
+func NewClientPasswordWithSessionId(baseUrl, username, password, sessionId string, tlsSkipVerify bool) (*http.Client, *AuthResponse, error) {
+	sessionId = strings.TrimSpace(sessionId)
+	if len(sessionId) > 0 {
+		httpClient := NewClientSessionId(sessionId, tlsSkipVerify)
+		userUrl := urlutil.JoinAbsolute(baseUrl, RelPathApiUserCurrent)
+		resp, err := httpClient.Get(userUrl)
+		if err == nil && resp.StatusCode == 200 {
+			return httpClient, nil, nil
+		}
+	}
+	return NewClientPassword(baseUrl, username, password, tlsSkipVerify)
+}
+
+func NewClientSessionId(sessionId string, tlsSkipVerify bool) *http.Client {
 	client := &http.Client{}
 
 	header := http.Header{}
-	header.Add(MetabaseSessionHeader, id)
+	header.Add(MetabaseSessionHeader, sessionId)
 
 	if tlsSkipVerify {
 		client = om.ClientTLSInsecureSkipVerify(client)
@@ -92,7 +114,7 @@ func NewClientEnv(cfg InitConfig) (*http.Client, *AuthResponse, error) {
 	var authResponse *AuthResponse
 
 	if len(os.Getenv(cfg.EnvMetabaseSessionId)) > 0 {
-		httpClient = NewClientId(os.Getenv(cfg.EnvMetabaseSessionId), true)
+		httpClient = NewClientSessionId(os.Getenv(cfg.EnvMetabaseSessionId), true)
 	} else {
 		httpClient2, res, err := NewClientPassword(
 			os.Getenv(cfg.EnvMetabaseBaseUrl),
