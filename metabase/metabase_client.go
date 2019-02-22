@@ -16,10 +16,11 @@ import (
 
 const (
 	MetabaseSessionHeader = "X-Metabase-Session"
+	RelPathApiDatabase    = "api/database"
 	RelPathApiSession     = "api/session"
 	RelPathApiUserCurrent = "api/user/current"
-	RelPathApiDatabase    = "api/database"
 
+	// Example environment variables
 	EnvBaseURL   = "METABASE_BASE_URL"
 	EnvSessionId = "METABASE_SESSION_ID"
 	EnvUsername  = "METABASE_USERNAME"
