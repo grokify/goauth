@@ -1,19 +1,21 @@
 package google
 
 import (
-	json "github.com/pquerna/ffjson/ffjson"
+	"fmt"
+	"io/ioutil"
 	"net/http"
 	"net/url"
 	"strings"
 
 	"github.com/grokify/gotilla/net/httputilmore"
 	"github.com/grokify/oauth2more/scim"
+	json "github.com/pquerna/ffjson/ffjson"
 )
 
 const (
 	GoogleAPIUserinfoURL   = "https://www.googleapis.com/oauth2/v1/userinfo?alt=json"
 	GoogleAPIPlusPeopleURL = "https://www.googleapis.com/plus/v1/people/me"
-	GoogleAPIEmailURL      = "https://www.googleapis.com/userinfo/email"
+	GoogleAPIEmailURL      = "https://www.googleapis.com/userinfo/email" // deprecated
 
 	UserinfoEmailScope   = "https://www.googleapis.com/auth/userinfo#email"
 	UserinfoProfileScope = "https://www.googleapis.com/auth/userinfo.profile"
@@ -51,6 +53,7 @@ func (apiutil *ClientUtil) SetClient(client *http.Client) {
 // GetUserinfoEmail retrieves the user's email from the
 // https://www.googleapis.com/userinfo/email endpoint.
 func (apiutil *ClientUtil) GetUserinfoEmail() (GoogleUserinfoEmail, error) {
+	fmt.Println("URL [%v]\n", GoogleAPIEmailURL)
 	resp, err := apiutil.Client.Get(GoogleAPIEmailURL)
 	if err != nil {
 		return GoogleUserinfoEmail{}, err
@@ -61,6 +64,7 @@ func (apiutil *ClientUtil) GetUserinfoEmail() (GoogleUserinfoEmail, error) {
 		return GoogleUserinfoEmail{}, err
 	}
 
+	fmt.Printf("BODY_BYTES [%v]\n", string(bodyBytes))
 	// parse user query string
 	return ParseGoogleUserinfoEmail(string(bodyBytes))
 }
@@ -167,13 +171,42 @@ type GooglePlusPersonImage struct {
 }
 
 func (apiutil *ClientUtil) GetSCIMUser() (scim.User, error) {
+	scimUser := scim.User{}
+
+	resp, err := apiutil.Client.Get(GoogleApiUrlUserinfo)
+	if err != nil {
+		return scimUser, err
+	}
+	bodyBytes, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return scimUser, err
+	}
+	googUser := GoogleUserinfoOpenIdConnectV2{}
+	err = json.Unmarshal(bodyBytes, &googUser)
+	if err != nil {
+		return scimUser, err
+	}
+
+	scimUser.AddEmail(googUser.Email, true)
+	scimUser.Name = scim.Name{
+		GivenName:  strings.TrimSpace(googUser.GivenName),
+		FamilyName: strings.TrimSpace(googUser.FamilyName),
+		Formatted:  strings.TrimSpace(googUser.Name)}
+	return scimUser, nil
+}
+
+func (apiutil *ClientUtil) GetSCIMUserOld() (scim.User, error) {
 	user := scim.User{}
 
+	fmt.Println("I_GET_SCIM_USER_S1")
 	// Get Email
 	googleUserinfoEmail, err := apiutil.GetUserinfoEmail()
 	if err != nil {
+		fmt.Println("E_NO_EMAIL")
 		return user, err
 	}
+
+	fmt.Printf("I_EMAIL [%v]\n", googleUserinfoEmail.Email)
 
 	err = user.AddEmail(googleUserinfoEmail.Email, true)
 	if err != nil {
