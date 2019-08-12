@@ -43,7 +43,9 @@ func (c *O2ConfigMore) Config() *oauth2.Config {
 	}
 }
 
-var bac = `{
+/*
+Example:
+{
    "web":{
    	  "provider":"google",
       "client_id":"1234567890.apps.googleusercontent.com",
@@ -63,4 +65,5 @@ var bac = `{
          "https://www.googleapis.com/auth/blogger"
       ]
    }
-}`
+}
+*/

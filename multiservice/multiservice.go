@@ -9,7 +9,6 @@ import (
 
 	"github.com/grokify/gotilla/os/osutil"
 	"github.com/grokify/gotilla/type/stringsutil"
-	//"golang.org/x/oauth2"
 
 	"github.com/grokify/oauth2more"
 	"github.com/grokify/oauth2more/aha"
@@ -77,7 +76,6 @@ type TokenInfo struct {
 */
 type ConfigSet struct {
 	ConfigsMap map[string]*O2ConfigMore
-	//ConfigsMap map[string]*oauth2.Config
 }
 
 func NewConfigSet() *ConfigSet {
@@ -94,24 +92,6 @@ func (cfgs *ConfigSet) AddConfigMoreJson(key string, val []byte) error {
 	return nil
 }
 
-/*
-func (cfgs *ConfigSet) AddAppConfigWrapperBytes(key string, val []byte) error {
-	acw, err := oauth2more.NewAppCredentialsWrapperFromBytes(val)
-	if err != nil {
-		return err
-	}
-	return cfgs.AddAppConfigWrapper(key, acw)
-}
-
-func (cfgs *ConfigSet) AddAppConfigWrapper(key string, acw oauth2more.AppCredentialsWrapper) error {
-	cfg, err := acw.Config()
-	if err != nil {
-		return err
-	}
-	cfgs.ConfigsMap[key] = cfg
-	return nil
-}
-*/
 func (cfgs *ConfigSet) Has(key string) bool {
 	if _, ok := cfgs.ConfigsMap[key]; ok {
 		return true
@@ -119,7 +99,6 @@ func (cfgs *ConfigSet) Has(key string) bool {
 	return false
 }
 
-//func (cfgs *ConfigSet) Get(key string) (*oauth2.Config, error) {
 func (cfgs *ConfigSet) Get(key string) (*O2ConfigMore, error) {
 	if cfg, ok := cfgs.ConfigsMap[key]; ok {
 		return cfg, nil
@@ -127,7 +106,6 @@ func (cfgs *ConfigSet) Get(key string) (*O2ConfigMore, error) {
 	return nil, fmt.Errorf("AppConfig not found for %v", key)
 }
 
-//func (cfgs *ConfigSet) MustGet(key string) *oauth2.Config {
 func (cfgs *ConfigSet) MustGet(key string) *O2ConfigMore {
 	c, err := cfgs.Get(key)
 	if err != nil {
@@ -176,9 +154,7 @@ func EnvOAuth2ConfigMap(env []osutil.EnvVar, prefix string) (*ConfigSet, error) 
 		val := pair.Value
 		m := rx.FindStringSubmatch(key)
 		if len(m) > 0 {
-			fmt.Println(val)
 			key := m[1]
-			//			err := cfgs.AddAppConfigWrapperBytes(key, []byte(val))
 			err := cfgs.AddConfigMoreJson(key, []byte(val))
 			if err != nil {
 				return nil, err
@@ -189,23 +165,7 @@ func EnvOAuth2ConfigMap(env []osutil.EnvVar, prefix string) (*ConfigSet, error) 
 }
 
 func NewClientUtilForProviderType(providerType OAuth2Provider) (oauth2more.OAuth2Util, error) {
-	/*provider, err := ProviderStringToConst(providerType)
-	if err != nil {
-		return &ringcentral.ClientUtil{}, err
-	}
-	*/
-	/*
-		switch strings.ToLower(strings.TrimSpace(providerType)) {
-		case "aha":
-			return &aha.ClientUtil{}, nil
-		case "facebook":
-			return &facebook.ClientUtil{}, nil
-		case "google":
-			return &google.ClientUtil{}, nil
-		case "ringcentral":
-			return &ringcentral.ClientUtil{}, nil
-	*/
-	switch providerType {
+	switch provider {
 	case Aha:
 		return &aha.ClientUtil{}, nil
 	case Facebook:
