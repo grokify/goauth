@@ -8,7 +8,8 @@ import (
 	"strings"
 
 	"github.com/grokify/gotilla/os/osutil"
-	"golang.org/x/oauth2"
+	"github.com/grokify/gotilla/type/stringsutil"
+	//"golang.org/x/oauth2"
 
 	"github.com/grokify/oauth2more"
 	"github.com/grokify/oauth2more/aha"
@@ -39,10 +40,11 @@ func (cb *OAuth2Manager) GetClient(ctx context.Context, serviceKey string) (*htt
 		return nil, fmt.Errorf("OAuth2Manager.TokenSet == nil")
 	}
 
-	cfg, err := cb.ConfigSet.Get(serviceKey)
+	cfgMore, err := cb.ConfigSet.Get(serviceKey)
 	if err != nil {
 		return nil, err
 	}
+	cfg := cfgMore.Config()
 	tok, err := cb.TokenSet.GetToken(serviceKey)
 	if err != nil {
 		return nil, err
@@ -74,13 +76,25 @@ type TokenInfo struct {
 }
 */
 type ConfigSet struct {
-	ConfigsMap map[string]*oauth2.Config
+	ConfigsMap map[string]*O2ConfigMore
+	//ConfigsMap map[string]*oauth2.Config
 }
 
 func NewConfigSet() *ConfigSet {
-	return &ConfigSet{ConfigsMap: map[string]*oauth2.Config{}}
+	return &ConfigSet{ConfigsMap: map[string]*O2ConfigMore{}}
 }
 
+func (cfgs *ConfigSet) AddConfigMoreJson(key string, val []byte) error {
+	key = strings.TrimSpace(key)
+	cfg, err := NewO2ConfigMoreFromJSON(val)
+	if err != nil {
+		return err
+	}
+	cfgs.ConfigsMap[key] = cfg
+	return nil
+}
+
+/*
 func (cfgs *ConfigSet) AddAppConfigWrapperBytes(key string, val []byte) error {
 	acw, err := oauth2more.NewAppCredentialsWrapperFromBytes(val)
 	if err != nil {
@@ -97,7 +111,7 @@ func (cfgs *ConfigSet) AddAppConfigWrapper(key string, acw oauth2more.AppCredent
 	cfgs.ConfigsMap[key] = cfg
 	return nil
 }
-
+*/
 func (cfgs *ConfigSet) Has(key string) bool {
 	if _, ok := cfgs.ConfigsMap[key]; ok {
 		return true
@@ -105,14 +119,16 @@ func (cfgs *ConfigSet) Has(key string) bool {
 	return false
 }
 
-func (cfgs *ConfigSet) Get(key string) (*oauth2.Config, error) {
+//func (cfgs *ConfigSet) Get(key string) (*oauth2.Config, error) {
+func (cfgs *ConfigSet) Get(key string) (*O2ConfigMore, error) {
 	if cfg, ok := cfgs.ConfigsMap[key]; ok {
 		return cfg, nil
 	}
 	return nil, fmt.Errorf("AppConfig not found for %v", key)
 }
 
-func (cfgs *ConfigSet) MustGet(key string) *oauth2.Config {
+//func (cfgs *ConfigSet) MustGet(key string) *oauth2.Config {
+func (cfgs *ConfigSet) MustGet(key string) *O2ConfigMore {
 	c, err := cfgs.Get(key)
 	if err != nil {
 		panic(err)
@@ -132,8 +148,8 @@ func (cfgs *ConfigSet) ClientURLsMap() map[string]AppURLs {
 	apps := map[string]AppURLs{}
 	for slug, cfg := range cfgs.ConfigsMap {
 		apps[slug] = AppURLs{
-			AuthURL:     cfg.Endpoint.AuthURL,
-			RedirectURL: cfg.RedirectURL,
+			AuthURL:     cfg.AuthUri,
+			RedirectURL: stringsutil.SliceIndexOrEmpty(cfg.RedirectUris, 0),
 		}
 	}
 	return apps
@@ -162,7 +178,8 @@ func EnvOAuth2ConfigMap(env []osutil.EnvVar, prefix string) (*ConfigSet, error) 
 		if len(m) > 0 {
 			fmt.Println(val)
 			key := m[1]
-			err := cfgs.AddAppConfigWrapperBytes(key, []byte(val))
+			//			err := cfgs.AddAppConfigWrapperBytes(key, []byte(val))
+			err := cfgs.AddConfigMoreJson(key, []byte(val))
 			if err != nil {
 				return nil, err
 			}
@@ -171,17 +188,33 @@ func EnvOAuth2ConfigMap(env []osutil.EnvVar, prefix string) (*ConfigSet, error) 
 	return cfgs, nil
 }
 
-func NewClientUtilForServiceType(svcType string) (oauth2more.OAuth2Util, error) {
-	switch strings.ToLower(strings.TrimSpace(svcType)) {
-	case "aha":
+func NewClientUtilForProviderType(providerType OAuth2Provider) (oauth2more.OAuth2Util, error) {
+	/*provider, err := ProviderStringToConst(providerType)
+	if err != nil {
+		return &ringcentral.ClientUtil{}, err
+	}
+	*/
+	/*
+		switch strings.ToLower(strings.TrimSpace(providerType)) {
+		case "aha":
+			return &aha.ClientUtil{}, nil
+		case "facebook":
+			return &facebook.ClientUtil{}, nil
+		case "google":
+			return &google.ClientUtil{}, nil
+		case "ringcentral":
+			return &ringcentral.ClientUtil{}, nil
+	*/
+	switch providerType {
+	case Aha:
 		return &aha.ClientUtil{}, nil
-	case "facebook":
+	case Facebook:
 		return &facebook.ClientUtil{}, nil
-	case "google":
+	case Google:
 		return &google.ClientUtil{}, nil
-	case "ringcentral":
+	case RingCentral:
 		return &ringcentral.ClientUtil{}, nil
 	default:
-		return nil, fmt.Errorf("Cannot find ClientUtil for service type %v", svcType)
+		return nil, fmt.Errorf("Cannot find ClientUtil for provider type [%s]", providerType)
 	}
 }
