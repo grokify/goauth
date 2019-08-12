@@ -165,7 +165,7 @@ func EnvOAuth2ConfigMap(env []osutil.EnvVar, prefix string) (*ConfigSet, error) 
 }
 
 func NewClientUtilForProviderType(providerType OAuth2Provider) (oauth2more.OAuth2Util, error) {
-	switch provider {
+	switch providerType {
 	case Aha:
 		return &aha.ClientUtil{}, nil
 	case Facebook:

@@ -1,7 +1,6 @@
 package google
 
 import (
-	"fmt"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -53,7 +52,6 @@ func (apiutil *ClientUtil) SetClient(client *http.Client) {
 // GetUserinfoEmail retrieves the user's email from the
 // https://www.googleapis.com/userinfo/email endpoint.
 func (apiutil *ClientUtil) GetUserinfoEmail() (GoogleUserinfoEmail, error) {
-	fmt.Println("URL [%v]\n", GoogleAPIEmailURL)
 	resp, err := apiutil.Client.Get(GoogleAPIEmailURL)
 	if err != nil {
 		return GoogleUserinfoEmail{}, err
@@ -64,7 +62,6 @@ func (apiutil *ClientUtil) GetUserinfoEmail() (GoogleUserinfoEmail, error) {
 		return GoogleUserinfoEmail{}, err
 	}
 
-	fmt.Printf("BODY_BYTES [%v]\n", string(bodyBytes))
 	// parse user query string
 	return ParseGoogleUserinfoEmail(string(bodyBytes))
 }
@@ -198,15 +195,11 @@ func (apiutil *ClientUtil) GetSCIMUser() (scim.User, error) {
 func (apiutil *ClientUtil) GetSCIMUserOld() (scim.User, error) {
 	user := scim.User{}
 
-	fmt.Println("I_GET_SCIM_USER_S1")
 	// Get Email
 	googleUserinfoEmail, err := apiutil.GetUserinfoEmail()
 	if err != nil {
-		fmt.Println("E_NO_EMAIL")
 		return user, err
 	}
-
-	fmt.Printf("I_EMAIL [%v]\n", googleUserinfoEmail.Email)
 
 	err = user.AddEmail(googleUserinfoEmail.Email, true)
 	if err != nil {
