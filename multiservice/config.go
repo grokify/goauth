@@ -2,8 +2,10 @@ package multiservice
 
 import (
 	"encoding/json"
+	"strings"
 
 	"golang.org/x/oauth2"
+	"golang.org/x/oauth2/facebook"
 )
 
 // O2ConfigCanonical is similar to Google but includes scopes
@@ -23,6 +25,16 @@ type O2ConfigMore struct {
 func NewO2ConfigMoreFromJSON(bytes []byte) (*O2ConfigMore, error) {
 	o2cc := O2ConfigMore{}
 	err := json.Unmarshal(bytes, &o2cc)
+	o2cc.Provider = strings.ToLower(strings.TrimSpace(o2cc.Provider))
+	switch o2cc.Provider {
+	case "facebook":
+		if len(strings.TrimSpace(o2cc.AuthUri)) == 0 {
+			o2cc.AuthUri = facebook.Endpoint.AuthURL
+		}
+		if len(strings.TrimSpace(o2cc.TokenUri)) == 0 {
+			o2cc.TokenUri = facebook.Endpoint.TokenURL
+		}
+	}
 	return &o2cc, err
 }
 
