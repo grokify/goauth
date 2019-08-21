@@ -25,6 +25,9 @@ type O2ConfigMore struct {
 func NewO2ConfigMoreFromJSON(bytes []byte) (*O2ConfigMore, error) {
 	o2cc := O2ConfigMore{}
 	err := json.Unmarshal(bytes, &o2cc)
+	if err != nil {
+		return nil, err
+	}
 	o2cc.Provider = strings.ToLower(strings.TrimSpace(o2cc.Provider))
 	switch o2cc.Provider {
 	case "facebook":
@@ -35,7 +38,7 @@ func NewO2ConfigMoreFromJSON(bytes []byte) (*O2ConfigMore, error) {
 			o2cc.TokenUri = facebook.Endpoint.TokenURL
 		}
 	}
-	return &o2cc, err
+	return &o2cc, nil
 }
 
 func (c *O2ConfigMore) ProviderType() (OAuth2Provider, error) {
