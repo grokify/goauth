@@ -21,6 +21,7 @@ import (
 const (
 	VERSION      = "0.2.0"
 	PATH         = "github.com/grokify/oauth2more"
+	AuthzHeader  = "Authorization"
 	BasicPrefix  = "Basic"
 	BearerPrefix = "Bearer"
 )
@@ -214,7 +215,7 @@ func NewClientToken(tokenType, tokenValue string, tlsInsecureSkipVerify bool) *h
 	client := &http.Client{}
 
 	header := http.Header{}
-	header.Add("Authorization", tokenType+" "+tokenValue)
+	header.Add(AuthzHeader, tokenType+" "+tokenValue)
 
 	if tlsInsecureSkipVerify {
 		client = ClientTLSInsecureSkipVerify(client)
