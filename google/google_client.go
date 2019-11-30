@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
-	"os"
 
 	om "github.com/grokify/oauth2more"
 	"github.com/pkg/errors"
@@ -12,11 +11,6 @@ import (
 	"golang.org/x/net/context"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
-	o2g "golang.org/x/oauth2/google"
-)
-
-var (
-	ClientSecretEnv = "GOOGLE_APP_CLIENT_SECRET"
 )
 
 func ClientFromFile(ctx context.Context, filepath string, scopes []string, tok *oauth2.Token) (*http.Client, error) {
@@ -26,25 +20,6 @@ func ClientFromFile(ctx context.Context, filepath string, scopes []string, tok *
 	}
 
 	return conf.Client(ctx, tok), nil
-}
-
-func ConfigFromFile(file string, scopes []string) (*oauth2.Config, error) {
-	b, err := ioutil.ReadFile(file) // Google client_secret.json
-	if err != nil {
-		return &oauth2.Config{},
-			errors.Wrap(err, fmt.Sprintf("Unable to read client secret file: %v", err))
-	}
-	return o2g.ConfigFromJSON(b, scopes...)
-}
-
-func ConfigFromEnv(envVar string, scopes []string) (*oauth2.Config, error) {
-	return o2g.ConfigFromJSON([]byte(os.Getenv(envVar)), scopes...)
-}
-
-// ConfigFromBytes returns an *oauth2.Config given a byte array
-// containing the Google client_secret.json data.
-func ConfigFromBytes(configJson []byte, scopes []string) (*oauth2.Config, error) {
-	return o2g.ConfigFromJSON(configJson, scopes...)
 }
 
 type ClientOauthCliTokenStoreConfig struct {
