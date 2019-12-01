@@ -1,4 +1,4 @@
-package redis
+package tokensetredis
 
 import (
 	"encoding/json"
@@ -7,7 +7,7 @@ import (
 
 	"github.com/grokify/gostor"
 	rds "github.com/grokify/gostor/redis"
-	"github.com/grokify/oauth2more/multiservice/common"
+	"github.com/grokify/oauth2more/multiservice/tokens"
 	"golang.org/x/oauth2"
 )
 
@@ -27,19 +27,19 @@ func (toks *TokenSet) GetToken(key string) (*oauth2.Token, error) {
 	}
 }
 
-func (toks *TokenSet) GetTokenInfo(key string) (*common.TokenInfo, error) {
-	key = common.FormatKey(key)
+func (toks *TokenSet) GetTokenInfo(key string) (*tokens.TokenInfo, error) {
+	key = tokens.FormatKey(key)
 	data := toks.gsClient.GetOrEmptyString(key)
 	if len(strings.TrimSpace(data)) == 0 {
 		return nil, fmt.Errorf("No token for [%v]", key)
 	}
-	return common.ParseTokenInfo([]byte(data))
+	return tokens.ParseTokenInfo([]byte(data))
 }
 
-func (toks *TokenSet) SetTokenInfo(key string, tok *common.TokenInfo) error {
+func (toks *TokenSet) SetTokenInfo(key string, tok *tokens.TokenInfo) error {
 	if bytes, err := json.Marshal(tok); err != nil {
 		return err
 	} else {
-		return toks.gsClient.SetString(common.FormatKey(key), string(bytes))
+		return toks.gsClient.SetString(tokens.FormatKey(key), string(bytes))
 	}
 }

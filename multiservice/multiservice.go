@@ -14,20 +14,20 @@ import (
 	"github.com/grokify/oauth2more/aha"
 	"github.com/grokify/oauth2more/facebook"
 	"github.com/grokify/oauth2more/google"
-	"github.com/grokify/oauth2more/multiservice/common"
-	"github.com/grokify/oauth2more/multiservice/tokenset_memory"
+	"github.com/grokify/oauth2more/multiservice/tokens"
+	"github.com/grokify/oauth2more/multiservice/tokens/tokensetmemory"
 	"github.com/grokify/oauth2more/ringcentral"
 )
 
 type OAuth2Manager struct {
 	ConfigSet *ConfigSet
-	TokenSet  common.TokenSet
+	TokenSet  tokens.TokenSet
 }
 
 func NewOAuth2Manager() *OAuth2Manager {
 	return &OAuth2Manager{
 		ConfigSet: NewConfigSet(),
-		TokenSet:  memory.NewTokenSet(),
+		TokenSet:  tokensetmemory.NewTokenSet(),
 	}
 }
 
