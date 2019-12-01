@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" /> 
+        <title>OAuth 2 Generic Redirect Page</title>
+    </head>
+    <body>
+        <h1>OAuth 2 Generic Redirect Page</h1>
+
+        <script>
+        var params = new URLSearchParams(location.search);
+        document.writeln('<ul>');
+        document.writeln("<li>Code: " + params.get('code') + "</li>")
+        document.writeln("<li>State: " + params.get('state') + "</li>")
+        document.writeln('</ul>');
+        </script>    
+
+    </body>
+</html>
