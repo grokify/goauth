@@ -51,29 +51,6 @@ func (cb *OAuth2Manager) GetClient(ctx context.Context, serviceKey string) (*htt
 	return cfg.Client(ctx, tok), nil
 }
 
-/*
-type TokenSet struct {
-	TokenMap map[string]*TokenInfo
-}
-
-func NewTokenSet() *TokenSet {
-	return &TokenSet{TokenMap: map[string]*TokenInfo{}}
-}
-
-func (toks *TokenSet) Get(key string) (*oauth2.Token, error) {
-	if tok, ok := toks.TokenMap[key]; ok {
-		return tok.Token, nil
-	}
-	return nil, fmt.Errorf("AppConfig not found for %v", key)
-}
-*/
-/*
-type TokenInfo struct {
-	ServiceKey  string
-	ServiceType string
-	Token       *oauth2.Token
-}
-*/
 type ConfigSet struct {
 	ConfigsMap map[string]*O2ConfigMore
 }
