@@ -60,7 +60,13 @@ rcClientUtil := ringcentral.NewClientUtil(rcOAuth2HTTPClient)
 scimuser, err := rcClientUtil.GetSCIMUser()
 ```
 
-### Example App
+## Test Redirect URL
+
+This repo comes with a generic test OAuth 2 redirect page:
+
+* [https://grokify.github.io/oauth2more/oauth2callback/](https://grokify.github.io/oauth2more/oauth2callback/)
+
+## Example App
 
 See the following repo for a Beego-based demo app:
 
