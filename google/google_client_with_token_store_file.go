@@ -44,7 +44,7 @@ func (gc *GoogleConfigFileStore) Client() (*http.Client, error) {
 }
 
 // NewClientFileStore returns a `*http.Client` with Google credentials
-// in a token store file. It will use the token file credentails unless
+// in a token store file. It will use the token file credentials unless
 // `forceNewToken` is set to true.
 func NewClientFileStore(
 	credentials []byte,
