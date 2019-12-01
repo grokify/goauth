@@ -155,3 +155,11 @@ func NewClientUtilForProviderType(providerType OAuth2Provider) (oauth2more.OAuth
 		return nil, fmt.Errorf("Cannot find ClientUtil for provider type [%s]", providerType)
 	}
 }
+
+func NewClientUtilForProviderTypeString(providerTypeString string) (oauth2more.OAuth2Util, error) {
+	providerType, err := ProviderStringToConst(providerTypeString)
+	if err != nil {
+		return &ringcentral.ClientUtil{}, nil
+	}
+	return NewClientUtilForProviderType(providerType)
+}
