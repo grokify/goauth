@@ -38,6 +38,7 @@ var providers = [...]string{
 	"zendesk",
 }
 
+// String converts a provider type to a string.
 func (p OAuth2Provider) String() string {
 	if Aha <= p && p <= Zendesk {
 		return providers[p]
@@ -46,6 +47,8 @@ func (p OAuth2Provider) String() string {
 	return ""
 }
 
+// ProviderStringToConst returns an OAuth2Provider type constant
+// from a string.
 func ProviderStringToConst(s string) (OAuth2Provider, error) {
 	s = strings.ToLower(strings.TrimSpace(s))
 	for i, p := range providers {
