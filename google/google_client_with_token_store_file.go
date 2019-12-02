@@ -114,3 +114,20 @@ func NewClientFileStore(
 	}
 	return oauth2more.NewClientWebTokenStore(context.Background(), conf, tokenStore, forceNewToken)
 }
+
+// NewClientFileStoreWithDefaults returns a `*http.Client` using file system cache
+// for access tokens.
+func NewClientFileStoreWithDefaults(googleCredentials []byte, googleScopes []string, forceNewToken bool) (*http.Client, error) {
+	gcfs := GoogleConfigFileStore{
+		Scopes:        googleScopes,
+		ForceNewToken: forceNewToken}
+	err := gcfs.LoadCredentialsBytes(googleCredentials)
+	if err != nil {
+		return nil, errors.Wrap(err, "NewGoogleClient - LoadCredentialsBytes")
+	}
+	err = gcfs.SetDefaultFilepath()
+	if err != nil {
+		return nil, errors.Wrap(err, "NewGoogleClient - SetDefaultFilepath")
+	}
+	return gcfs.Client()
+}
