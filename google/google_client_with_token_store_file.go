@@ -1,6 +1,7 @@
 package google
 
 import (
+	"context"
 	"fmt"
 	"net/http"
 	"sort"
@@ -9,7 +10,7 @@ import (
 	"github.com/grokify/gotilla/net/urlutil"
 	"github.com/grokify/oauth2more"
 	"github.com/pkg/errors"
-	"golang.org/x/net/context"
+
 	"golang.org/x/oauth2"
 )
 

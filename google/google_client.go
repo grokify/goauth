@@ -1,13 +1,13 @@
 package google
 
 import (
+	"context"
 	"fmt"
 	"io/ioutil"
 	"net/http"
 
 	om "github.com/grokify/oauth2more"
 	"github.com/pkg/errors"
-	"golang.org/x/net/context"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
 )
