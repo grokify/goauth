@@ -247,6 +247,11 @@ func NewClientBearerTokenSimple(accessToken string) *http.Client {
 	return oAuthConfig.Client(oauth2.NoContext, token)
 }
 
+func NewClientTokenOAuth2(token *oauth2.Token) *http.Client {
+	oAuthConfig := &oauth2.Config{}
+	return oAuthConfig.Client(oauth2.NoContext, token)
+}
+
 func NewClientBearerTokenSimpleOrJson(ctx context.Context, tokenOrJson []byte) (*http.Client, error) {
 	tokenOrJsonString := strings.TrimSpace(string(tokenOrJson))
 	if len(tokenOrJsonString) == 0 {

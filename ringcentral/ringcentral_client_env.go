@@ -15,25 +15,25 @@ import (
 
 // ApplicationConfigEnv returns a struct designed to be used to
 // read values from the environment.
-type ApplicationConfigEnv struct {
-	ClientID     string `env:"RINGCENTRAL_CLIENT_ID"`
-	ClientSecret string `env:"RINGCENTRAL_CLIENT_SECRET"`
-	ServerURL    string `env:"RINGCENTRAL_SERVER_URL" envDefault:"https://platform.ringcentral.com"`
-	AccessToken  string `env:"RINGCENTRAL_ACCESS_TOKEN"`
-	Username     string `env:"RINGCENTRAL_USERNAME"`
-	Extension    string `env:"RINGCENTRAL_EXTENSION"`
-	Password     string `env:"RINGCENTRAL_PASSWORD"`
+type ApplicationConfig struct {
+	ClientID     string `json:"clientID" env:"RINGCENTRAL_CLIENT_ID"`
+	ClientSecret string `json:"clientSecret" env:"RINGCENTRAL_CLIENT_SECRET"`
+	ServerURL    string `json:"serverURL" env:"RINGCENTRAL_SERVER_URL" envDefault:"https://platform.ringcentral.com"`
+	AccessToken  string `json:"accessToken" env:"RINGCENTRAL_ACCESS_TOKEN"`
+	Username     string `json:"username" env:"RINGCENTRAL_USERNAME"`
+	Extension    string `json:"extension" env:"RINGCENTRAL_EXTENSION"`
+	Password     string `json:"password" env:"RINGCENTRAL_PASSWORD"`
 }
 
 // NewApplicationConfigEnv returns a new ApplicationConfigEnv
 // populated with values from the environment.
-func NewApplicationConfigEnv() (ApplicationConfigEnv, error) {
-	cfg := ApplicationConfigEnv{}
+func NewApplicationConfigEnv() (ApplicationConfig, error) {
+	cfg := ApplicationConfig{}
 	return cfg, env.Parse(&cfg)
 }
 
 // ApplicationCredentials returns a ApplicationCredentials struct.
-func (cfg *ApplicationConfigEnv) ApplicationCredentials() ApplicationCredentials {
+func (cfg *ApplicationConfig) ApplicationCredentials() ApplicationCredentials {
 	return ApplicationCredentials{
 		ServerURL:    cfg.ServerURL,
 		ClientID:     cfg.ClientID,
@@ -41,7 +41,7 @@ func (cfg *ApplicationConfigEnv) ApplicationCredentials() ApplicationCredentials
 }
 
 // PasswordCredentials returns a PasswordCredentials struct.
-func (cfg *ApplicationConfigEnv) PasswordCredentials() PasswordCredentials {
+func (cfg *ApplicationConfig) PasswordCredentials() PasswordCredentials {
 	return PasswordCredentials{
 		Username:  cfg.Username,
 		Extension: cfg.Extension,
@@ -49,7 +49,7 @@ func (cfg *ApplicationConfigEnv) PasswordCredentials() PasswordCredentials {
 }
 
 // LoadToken loads and returns an OAuth token.
-func (cfg *ApplicationConfigEnv) LoadToken() (*oauth2.Token, error) {
+func (cfg *ApplicationConfig) LoadToken() (*oauth2.Token, error) {
 	tok, err := NewTokenPassword(
 		cfg.ApplicationCredentials(),
 		cfg.PasswordCredentials())
