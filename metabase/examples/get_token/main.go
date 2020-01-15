@@ -11,16 +11,28 @@ import (
 )
 
 func main() {
-	err := config.LoadDotEnvSkipEmpty(os.Getenv("ENV_PATH"), "./.env")
+	loaded, err := config.LoadDotEnvSkipEmptyInfo(os.Getenv("ENV_PATH"), "./.env")
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
+	}
+	fmtutil.PrintJSON(loaded)
+
+	if len(os.Getenv(metabase.EnvMetabaseUsername)) == 0 {
+		log.Fatal("E_NO_METABASE_USERNAME")
 	}
 
+	cfg := metabase.Config{
+		BaseUrl:   os.Getenv(metabase.EnvMetabaseBaseUrl),
+		SessionId: os.Getenv(metabase.EnvMetabaseSessionId),
+		Username:  os.Getenv(metabase.EnvMetabaseUsername),
+		Password:  os.Getenv(metabase.EnvMetabasePassword)}
+	fmtutil.PrintJSON(cfg)
+
 	_, authResponse, err := metabase.NewClientPasswordWithSessionId(
-		os.Getenv("METABASE_BASE_URL"),
-		os.Getenv("METABASE_USERNAME"),
-		os.Getenv("METABASE_PASSWORD"),
-		os.Getenv("METABASE_SESSION_ID"),
+		cfg.BaseUrl,
+		cfg.Username,
+		cfg.Password,
+		cfg.SessionId,
 		true)
 
 	if err != nil {
