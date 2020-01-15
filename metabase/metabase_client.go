@@ -21,10 +21,10 @@ const (
 	RelPathApiUserCurrent = "api/user/current"
 
 	// Example environment variables
-	EnvBaseURL   = "METABASE_BASE_URL"
-	EnvSessionId = "METABASE_SESSION_ID"
-	EnvUsername  = "METABASE_USERNAME"
-	EnvPassword  = "METABASE_PASSWORD"
+	EnvMetabaseBaseUrl   = "METABASE_BASE_URL"
+	EnvMetabaseUsername  = "METABASE_USERNAME"
+	EnvMetabasePassword  = "METABASE_PASSWORD"
+	EnvMetabaseSessionId = "METABASE_SESSION_ID"
 )
 
 var (
@@ -91,6 +91,13 @@ func NewClientSessionId(sessionId string, tlsSkipVerify bool) *http.Client {
 		Header:    header}
 
 	return client
+}
+
+type Config struct {
+	BaseUrl   string
+	SessionId string
+	Username  string
+	Password  string
 }
 
 type InitConfig struct {
