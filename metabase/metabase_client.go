@@ -94,10 +94,40 @@ func NewClientSessionId(sessionId string, tlsSkipVerify bool) *http.Client {
 }
 
 type Config struct {
-	BaseUrl   string
-	SessionId string
-	Username  string
-	Password  string
+	BaseUrl       string
+	SessionId     string
+	Username      string
+	Password      string
+	TlsSkipVerify bool
+}
+
+func NewConfig() Config {
+	return Config{
+		BaseUrl:   os.Getenv(EnvMetabaseBaseUrl),
+		SessionId: os.Getenv(EnvMetabaseSessionId),
+		Username:  os.Getenv(EnvMetabaseUsername),
+		Password:  os.Getenv(EnvMetabasePassword)}
+}
+
+func NewClientConfig(cfg Config) (*http.Client, *AuthResponse, error) {
+	var httpClient *http.Client
+	var authResponse *AuthResponse
+
+	if len(cfg.SessionId) > 0 {
+		httpClient = NewClientSessionId(cfg.SessionId, cfg.TlsSkipVerify)
+	} else {
+		httpClient2, res, err := NewClientPassword(
+			cfg.BaseUrl,
+			cfg.Username,
+			cfg.Password,
+			cfg.TlsSkipVerify)
+		if err != nil {
+			return nil, authResponse, err
+		}
+		authResponse = res
+		httpClient = httpClient2
+	}
+	return httpClient, authResponse, nil
 }
 
 type InitConfig struct {
@@ -110,32 +140,58 @@ type InitConfig struct {
 	TlsSkipVerify        bool
 }
 
-func NewClientEnv(cfg InitConfig) (*http.Client, *AuthResponse, error) {
-	if cfg.LoadEnv && len(cfg.EnvPath) > 0 {
-		err := config.LoadDotEnvSkipEmpty(os.Getenv(cfg.EnvPath), "./.env")
+func (ic *InitConfig) Defaultify() {
+	if len(strings.TrimSpace(ic.EnvMetabaseBaseUrl)) == 0 {
+		ic.EnvMetabaseBaseUrl = EnvMetabaseBaseUrl
+	}
+	if len(strings.TrimSpace(ic.EnvMetabaseUsername)) == 0 {
+		ic.EnvMetabaseUsername = EnvMetabaseUsername
+	}
+	if len(strings.TrimSpace(ic.EnvMetabasePassword)) == 0 {
+		ic.EnvMetabasePassword = EnvMetabasePassword
+	}
+	if len(strings.TrimSpace(ic.EnvMetabaseSessionId)) == 0 {
+		ic.EnvMetabaseSessionId = EnvMetabaseSessionId
+	}
+}
+
+func NewClientEnv(initCfg InitConfig) (*http.Client, *AuthResponse, error) {
+	if initCfg.LoadEnv && len(initCfg.EnvPath) > 0 {
+		err := config.LoadDotEnvSkipEmpty(os.Getenv(initCfg.EnvPath), "./.env")
 		if err != nil {
 			return nil, nil, err
 		}
 	}
 
-	var httpClient *http.Client
-	var authResponse *AuthResponse
+	initCfg.Defaultify()
 
-	if len(os.Getenv(cfg.EnvMetabaseSessionId)) > 0 {
-		httpClient = NewClientSessionId(os.Getenv(cfg.EnvMetabaseSessionId), true)
-	} else {
-		httpClient2, res, err := NewClientPassword(
-			os.Getenv(cfg.EnvMetabaseBaseUrl),
-			os.Getenv(cfg.EnvMetabaseUsername),
-			os.Getenv(cfg.EnvMetabasePassword),
-			cfg.TlsSkipVerify)
-		if err != nil {
-			return nil, authResponse, err
+	return NewClientConfig(Config{
+		BaseUrl:       os.Getenv(initCfg.EnvMetabaseBaseUrl),
+		Username:      os.Getenv(initCfg.EnvMetabaseUsername),
+		Password:      os.Getenv(initCfg.EnvMetabasePassword),
+		SessionId:     os.Getenv(initCfg.EnvMetabaseSessionId),
+		TlsSkipVerify: initCfg.TlsSkipVerify})
+
+	/*
+		var httpClient *http.Client
+		var authResponse *AuthResponse
+
+		if len(os.Getenv(cfg.EnvMetabaseSessionId)) > 0 {
+			httpClient = NewClientSessionId(os.Getenv(cfg.EnvMetabaseSessionId), true)
+		} else {
+			httpClient2, res, err := NewClientPassword(
+				os.Getenv(cfg.EnvMetabaseBaseUrl),
+				os.Getenv(cfg.EnvMetabaseUsername),
+				os.Getenv(cfg.EnvMetabasePassword),
+				cfg.TlsSkipVerify)
+			if err != nil {
+				return nil, authResponse, err
+			}
+			authResponse = res
+			httpClient = httpClient2
 		}
-		authResponse = res
-		httpClient = httpClient2
-	}
-	return httpClient, authResponse, nil
+		return httpClient, authResponse, nil
+	*/
 }
 
 // AuthRequest creates an authentiation request that returns a id that is used
