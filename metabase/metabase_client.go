@@ -11,6 +11,7 @@ import (
 	"github.com/grokify/gotilla/config"
 	hum "github.com/grokify/gotilla/net/httputilmore"
 	"github.com/grokify/gotilla/net/urlutil"
+	"github.com/grokify/gotilla/type/stringsutil"
 	om "github.com/grokify/oauth2more"
 )
 
@@ -21,10 +22,11 @@ const (
 	RelPathApiUserCurrent = "api/user/current"
 
 	// Example environment variables
-	EnvMetabaseBaseUrl   = "METABASE_BASE_URL"
-	EnvMetabaseUsername  = "METABASE_USERNAME"
-	EnvMetabasePassword  = "METABASE_PASSWORD"
-	EnvMetabaseSessionId = "METABASE_SESSION_ID"
+	EnvMetabaseBaseUrl       = "METABASE_BASE_URL"
+	EnvMetabaseUsername      = "METABASE_USERNAME"
+	EnvMetabasePassword      = "METABASE_PASSWORD"
+	EnvMetabaseSessionId     = "METABASE_SESSION_ID"
+	EnvMetabaseTlsSkipVerify = "METABASE_TLS_SKIP_VERIFY"
 )
 
 var (
@@ -93,6 +95,8 @@ func NewClientSessionId(sessionId string, tlsSkipVerify bool) *http.Client {
 	return client
 }
 
+// Config is a basic struct to hold API access information for
+// Metabase.
 type Config struct {
 	BaseUrl       string
 	SessionId     string
@@ -101,12 +105,15 @@ type Config struct {
 	TlsSkipVerify bool
 }
 
-func NewConfig() Config {
+// NewConfigEnv returns a new Config instance populated
+// from default environment variables.
+func NewConfigEnv() Config {
 	return Config{
-		BaseUrl:   os.Getenv(EnvMetabaseBaseUrl),
-		SessionId: os.Getenv(EnvMetabaseSessionId),
-		Username:  os.Getenv(EnvMetabaseUsername),
-		Password:  os.Getenv(EnvMetabasePassword)}
+		BaseUrl:       os.Getenv(EnvMetabaseBaseUrl),
+		SessionId:     os.Getenv(EnvMetabaseSessionId),
+		Username:      os.Getenv(EnvMetabaseUsername),
+		Password:      os.Getenv(EnvMetabasePassword),
+		TlsSkipVerify: stringsutil.ToBool(os.Getenv(EnvMetabaseTlsSkipVerify))}
 }
 
 func NewClientConfig(cfg Config) (*http.Client, *AuthResponse, error) {
