@@ -7,6 +7,7 @@ import (
 
 	"github.com/grokify/gotilla/config"
 	"github.com/grokify/gotilla/fmt/fmtutil"
+	"github.com/grokify/gotilla/type/stringsutil"
 	"github.com/grokify/oauth2more/metabase"
 )
 
@@ -22,18 +23,14 @@ func main() {
 	}
 
 	cfg := metabase.Config{
-		BaseUrl:   os.Getenv(metabase.EnvMetabaseBaseUrl),
-		SessionId: os.Getenv(metabase.EnvMetabaseSessionId),
-		Username:  os.Getenv(metabase.EnvMetabaseUsername),
-		Password:  os.Getenv(metabase.EnvMetabasePassword)}
+		BaseUrl:       os.Getenv(metabase.EnvMetabaseBaseUrl),
+		SessionId:     os.Getenv(metabase.EnvMetabaseSessionId),
+		Username:      os.Getenv(metabase.EnvMetabaseUsername),
+		Password:      os.Getenv(metabase.EnvMetabasePassword),
+		TlsSkipVerify: stringsutil.ToBool(os.Getenv(metabase.EnvMetabaseTlsSkipVerify))}
 	fmtutil.PrintJSON(cfg)
 
-	_, authResponse, err := metabase.NewClientPasswordWithSessionId(
-		cfg.BaseUrl,
-		cfg.Username,
-		cfg.Password,
-		cfg.SessionId,
-		true)
+	_, authResponse, err := metabase.NewClient(cfg)
 
 	if err != nil {
 		log.Fatal(err)
