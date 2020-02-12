@@ -1,6 +1,7 @@
 package ringcentral
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"net/url"
@@ -27,17 +28,22 @@ var (
 	EnvPassword     = "RINGCENTRAL_PASSWORD"
 )
 
+type Credentials struct {
+	Application         ApplicationCredentials `json:"application,omitempty"`
+	PasswordCredentials PasswordCredentials    `json:"passwordCredentials,omitempty"`
+}
+
 type ApplicationCredentials struct {
-	ServerURL       string
-	ApplicationID   string
-	ClientID        string
-	ClientSecret    string
-	RedirectURL     string
-	AppName         string
-	AppVersion      string
-	OAuthEndpointID string
-	AccessTokenTTL  int64
-	RefreshTokenTTL int64
+	ServerURL       string `json:"serverURL,omitempty"`
+	ApplicationID   string `json:"applicationID,omitempty"`
+	ClientID        string `json:"clientID,omitempty"`
+	ClientSecret    string `json:"clientSecret,omitempty"`
+	RedirectURL     string `json:"redirectURL,omitempty"`
+	AppName         string `json:"applicationName,omitempty"`
+	AppVersion      string `json:"applicationVersion,omitempty"`
+	OAuthEndpointID string `json:"oauthEndpointID,omitempty"`
+	AccessTokenTTL  int64  `json:"accessTokenTTL,omitempty"`
+	RefreshTokenTTL int64  `json:"refreshTokenTTL,omitempty"`
 }
 
 func (ac *ApplicationCredentials) AppNameAndVersion() string {
@@ -79,9 +85,9 @@ func (app *ApplicationCredentials) Exchange(code string) (*RcToken, error) {
 }
 
 type UserCredentials struct {
-	Username  string
-	Extension string
-	Password  string
+	Username  string `json:"username,omitempty"`
+	Extension string `json:"extension,omitempty"`
+	Password  string `json:"password,omitempty"`
 }
 
 func (uc *UserCredentials) UsernameSimple() string {
@@ -89,6 +95,15 @@ func (uc *UserCredentials) UsernameSimple() string {
 		return strings.Join([]string{uc.Username, uc.Extension}, "*")
 	}
 	return uc.Username
+}
+
+func NewTokenPasswordCredentialsJSON(data []byte) (*oauth2.Token, error) {
+	var creds Credentials
+	err := json.Unmarshal(data, &creds)
+	if err != nil {
+		return nil, err
+	}
+	return NewTokenPassword(creds.Application, creds.PasswordCredentials)
 }
 
 func NewTokenPassword(app ApplicationCredentials, pwd PasswordCredentials) (*oauth2.Token, error) {
@@ -182,9 +197,9 @@ type PasswordCredentials struct {
 	GrantType       string `url:"grant_type"`
 	AccessTokenTTL  int64  `url:"access_token_ttl"`
 	RefreshTokenTTL int64  `url:"refresh_token_ttl"`
-	Username        string `url:"username"`
-	Extension       string `url:"extension"`
-	Password        string `url:"password"`
+	Username        string `url:"username" json:"username"`
+	Extension       string `url:"extension" json:"extension"`
+	Password        string `url:"password" json:"password"`
 	EndpointId      string `url:"endpoint_id"`
 }
 
