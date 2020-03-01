@@ -42,6 +42,28 @@ func (user *User) AddEmail(emailAddr string, isPrimary bool) error {
 	return nil
 }
 
+// GetPrimaryEmail returns an email address or empty string.
+// It prioritizes primary email addresses and then falls
+// back to non-primary email address.
+func (user *User) EmailAddress() string {
+	email := ""
+	for _, em := range user.Emails {
+		if em.Primary && len(strings.TrimSpace(em.Value)) > 0 {
+			email = strings.TrimSpace(em.Value)
+			break
+		}
+	}
+	if len(email) == 0 {
+		for _, em := range user.Emails {
+			if len(strings.TrimSpace(em.Value)) > 0 {
+				email = strings.TrimSpace(em.Value)
+				break
+			}
+		}
+	}
+	return email
+}
+
 // Name is the SCIM user name struct.
 type Name struct {
 	Formatted       string `json:"formatted,omitempty"`
