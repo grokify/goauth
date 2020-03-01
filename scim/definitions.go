@@ -46,22 +46,15 @@ func (user *User) AddEmail(emailAddr string, isPrimary bool) error {
 // It prioritizes primary email addresses and then falls
 // back to non-primary email address.
 func (user *User) EmailAddress() string {
-	email := ""
+	firstSecondaryEmail := ""
 	for _, em := range user.Emails {
 		if em.Primary && len(strings.TrimSpace(em.Value)) > 0 {
-			email = strings.TrimSpace(em.Value)
-			break
+			return strings.TrimSpace(em.Value)
+		} else if len(firstSecondaryEmail) == 0 && len(strings.TrimSpace(em.Value)) > 0 {
+			firstSecondaryEmail = strings.TrimSpace(em.Value)
 		}
 	}
-	if len(email) == 0 {
-		for _, em := range user.Emails {
-			if len(strings.TrimSpace(em.Value)) > 0 {
-				email = strings.TrimSpace(em.Value)
-				break
-			}
-		}
-	}
-	return email
+	return firstSecondaryEmail
 }
 
 // Name is the SCIM user name struct.
