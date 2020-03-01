@@ -16,11 +16,9 @@ You will receive a response like:
 {"id":"11112222-3333-4444-5555-666677778888"}
 ```
 
-You can then use the `id` in the `X-Metabase-Session` header for subsequent API calls.
+You can then use the `id` in the `X-Metabase-Session` header for subsequent API calls. Here's an example:
 
-curl -XGET 'http://example.com/api/database' -H 'X-Metabase-Session: 11112222-3333-4444-5555-666677778888'
-
-
-curl -v -H "Content-Type: application/json" -d '{"username":"myusername","password":"mypassword"}' -XPOST 'http://example.com/api/session'
-
-
+```
+curl -XGET 'https://example.com/api/database' \
+  -H 'X-Metabase-Session: 11112222-3333-4444-5555-666677778888'
+```

@@ -11,6 +11,7 @@ import (
 	"github.com/grokify/gotilla/config"
 	hum "github.com/grokify/gotilla/net/httputilmore"
 	"github.com/grokify/gotilla/net/urlutil"
+	"github.com/grokify/gotilla/type/stringsutil"
 	om "github.com/grokify/oauth2more"
 )
 
@@ -21,10 +22,11 @@ const (
 	RelPathApiUserCurrent = "api/user/current"
 
 	// Example environment variables
-	EnvBaseURL   = "METABASE_BASE_URL"
-	EnvSessionId = "METABASE_SESSION_ID"
-	EnvUsername  = "METABASE_USERNAME"
-	EnvPassword  = "METABASE_PASSWORD"
+	EnvMetabaseBaseUrl       = "METABASE_BASE_URL"
+	EnvMetabaseUsername      = "METABASE_USERNAME"
+	EnvMetabasePassword      = "METABASE_PASSWORD"
+	EnvMetabaseSessionId     = "METABASE_SESSION_ID"
+	EnvMetabaseTlsSkipVerify = "METABASE_TLS_SKIP_VERIFY"
 )
 
 var (
@@ -93,6 +95,46 @@ func NewClientSessionId(sessionId string, tlsSkipVerify bool) *http.Client {
 	return client
 }
 
+// Config is a basic struct to hold API access information for
+// Metabase.
+type Config struct {
+	BaseUrl       string
+	SessionId     string
+	Username      string
+	Password      string
+	TlsSkipVerify bool
+}
+
+// NewConfigEnv returns a new Config instance populated
+// from default environment variables.
+func NewConfigEnv() Config {
+	return Config{
+		BaseUrl:       os.Getenv(EnvMetabaseBaseUrl),
+		SessionId:     os.Getenv(EnvMetabaseSessionId),
+		Username:      os.Getenv(EnvMetabaseUsername),
+		Password:      os.Getenv(EnvMetabasePassword),
+		TlsSkipVerify: stringsutil.ToBool(os.Getenv(EnvMetabaseTlsSkipVerify))}
+}
+
+func NewClient(cfg Config) (*http.Client, *AuthResponse, error) {
+	if len(strings.TrimSpace(cfg.SessionId)) > 0 {
+		httpClient := NewClientSessionId(cfg.SessionId, cfg.TlsSkipVerify)
+		clientUtil := ClientUtil{
+			HTTPClient: httpClient,
+			BaseURL:    cfg.BaseUrl}
+		_, _, err := clientUtil.GetCurrentUser()
+		if err == nil {
+			return httpClient, nil, nil
+		}
+	}
+
+	return NewClientPassword(
+		cfg.BaseUrl,
+		cfg.Username,
+		cfg.Password,
+		cfg.TlsSkipVerify)
+}
+
 type InitConfig struct {
 	LoadEnv              bool
 	EnvPath              string
@@ -103,32 +145,37 @@ type InitConfig struct {
 	TlsSkipVerify        bool
 }
 
-func NewClientEnv(cfg InitConfig) (*http.Client, *AuthResponse, error) {
-	if cfg.LoadEnv && len(cfg.EnvPath) > 0 {
-		err := config.LoadDotEnvSkipEmpty(os.Getenv(cfg.EnvPath), "./.env")
+func (ic *InitConfig) Defaultify() {
+	if len(strings.TrimSpace(ic.EnvMetabaseBaseUrl)) == 0 {
+		ic.EnvMetabaseBaseUrl = EnvMetabaseBaseUrl
+	}
+	if len(strings.TrimSpace(ic.EnvMetabaseUsername)) == 0 {
+		ic.EnvMetabaseUsername = EnvMetabaseUsername
+	}
+	if len(strings.TrimSpace(ic.EnvMetabasePassword)) == 0 {
+		ic.EnvMetabasePassword = EnvMetabasePassword
+	}
+	if len(strings.TrimSpace(ic.EnvMetabaseSessionId)) == 0 {
+		ic.EnvMetabaseSessionId = EnvMetabaseSessionId
+	}
+}
+
+func NewClientEnv(initCfg InitConfig) (*http.Client, *AuthResponse, error) {
+	if initCfg.LoadEnv && len(initCfg.EnvPath) > 0 {
+		err := config.LoadDotEnvSkipEmpty(os.Getenv(initCfg.EnvPath), "./.env")
 		if err != nil {
 			return nil, nil, err
 		}
 	}
 
-	var httpClient *http.Client
-	var authResponse *AuthResponse
+	initCfg.Defaultify()
 
-	if len(os.Getenv(cfg.EnvMetabaseSessionId)) > 0 {
-		httpClient = NewClientSessionId(os.Getenv(cfg.EnvMetabaseSessionId), true)
-	} else {
-		httpClient2, res, err := NewClientPassword(
-			os.Getenv(cfg.EnvMetabaseBaseUrl),
-			os.Getenv(cfg.EnvMetabaseUsername),
-			os.Getenv(cfg.EnvMetabasePassword),
-			cfg.TlsSkipVerify)
-		if err != nil {
-			return nil, authResponse, err
-		}
-		authResponse = res
-		httpClient = httpClient2
-	}
-	return httpClient, authResponse, nil
+	return NewClient(Config{
+		BaseUrl:       os.Getenv(initCfg.EnvMetabaseBaseUrl),
+		Username:      os.Getenv(initCfg.EnvMetabaseUsername),
+		Password:      os.Getenv(initCfg.EnvMetabasePassword),
+		SessionId:     os.Getenv(initCfg.EnvMetabaseSessionId),
+		TlsSkipVerify: initCfg.TlsSkipVerify})
 }
 
 // AuthRequest creates an authentiation request that returns a id that is used

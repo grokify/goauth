@@ -1,16 +1,23 @@
 package metabase
 
 import (
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/grokify/gotilla/net/urlutil"
 	tu "github.com/grokify/gotilla/time/timeutil"
+	"github.com/grokify/oauth2more/scim"
 	"github.com/pkg/errors"
 	log "github.com/sirupsen/logrus"
+)
+
+const (
+	CurrentUserURLPath = "/api/user/current"
 )
 
 type ClientUtil struct {
@@ -79,4 +86,50 @@ func RetrieveQuestions(cu ClientUtil, q2s QuestionsToSlug, dir string) (map[stri
 		log.Info(string(data))
 	}
 	return output, nil
+}
+
+func (apiutil *ClientUtil) GetCurrentUser() (User, *http.Response, error) {
+	user := User{}
+	apiURL := urlutil.JoinAbsolute(apiutil.BaseURL, CurrentUserURLPath)
+	resp, err := apiutil.HTTPClient.Get(apiURL)
+	if err != nil {
+		return user, nil, err
+	} else if resp.StatusCode >= 300 {
+		return user, resp, fmt.Errorf("MB_API_ERROR_STATUS_CODE [%v]", resp.StatusCode)
+	}
+	bytes, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return user, resp, err
+	}
+	err = json.Unmarshal(bytes, &user)
+	return user, resp, err
+}
+
+func (apiutil *ClientUtil) GetSCIMUser() (scim.User, error) {
+	scimUser := scim.User{}
+	mbUser, _, err := apiutil.GetCurrentUser()
+	if err != nil {
+		return scimUser, err
+	}
+	scimUser.AddEmail(mbUser.Email, true)
+	scimUser.Name = scim.Name{
+		GivenName:  strings.TrimSpace(mbUser.FirstName),
+		FamilyName: strings.TrimSpace(mbUser.LastName),
+		Formatted:  strings.TrimSpace(mbUser.CommonName)}
+	return scimUser, nil
+}
+
+type User struct {
+	Email       string    `json:"email,omitempty"`
+	LdapAuth    bool      `json:"ldap_auth,omitempty"`
+	FirstName   string    `json:"first_name,omitempty"`
+	LastLogin   time.Time `json:"last_login,omitempty"`
+	IsActive    bool      `json:"is_active,omitempty"`
+	IsQbnewb    bool      `json:"is_qbnewb,omitempty"`
+	IsSuperuser bool      `json:"is_superuser,omitempty"`
+	ID          int       `json:"id,omitempty"`
+	LastName    string    `json:"last_name,omitempty"`
+	DateJoined  time.Time `json:"date_joined,omitempty"`
+	CommonName  string    `json:"common_name,omitempty"`
+	GoogleAuth  bool      `json:"google_auth,omitempty"`
 }

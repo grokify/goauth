@@ -14,20 +14,20 @@ import (
 	"github.com/grokify/oauth2more/aha"
 	"github.com/grokify/oauth2more/facebook"
 	"github.com/grokify/oauth2more/google"
-	"github.com/grokify/oauth2more/multiservice/common"
-	"github.com/grokify/oauth2more/multiservice/tokenset_memory"
+	"github.com/grokify/oauth2more/multiservice/tokens"
+	"github.com/grokify/oauth2more/multiservice/tokens/tokensetmemory"
 	"github.com/grokify/oauth2more/ringcentral"
 )
 
 type OAuth2Manager struct {
 	ConfigSet *ConfigSet
-	TokenSet  common.TokenSet
+	TokenSet  tokens.TokenSet
 }
 
 func NewOAuth2Manager() *OAuth2Manager {
 	return &OAuth2Manager{
 		ConfigSet: NewConfigSet(),
-		TokenSet:  memory.NewTokenSet(),
+		TokenSet:  tokensetmemory.NewTokenSet(),
 	}
 }
 
@@ -51,29 +51,6 @@ func (cb *OAuth2Manager) GetClient(ctx context.Context, serviceKey string) (*htt
 	return cfg.Client(ctx, tok), nil
 }
 
-/*
-type TokenSet struct {
-	TokenMap map[string]*TokenInfo
-}
-
-func NewTokenSet() *TokenSet {
-	return &TokenSet{TokenMap: map[string]*TokenInfo{}}
-}
-
-func (toks *TokenSet) Get(key string) (*oauth2.Token, error) {
-	if tok, ok := toks.TokenMap[key]; ok {
-		return tok.Token, nil
-	}
-	return nil, fmt.Errorf("AppConfig not found for %v", key)
-}
-*/
-/*
-type TokenInfo struct {
-	ServiceKey  string
-	ServiceType string
-	Token       *oauth2.Token
-}
-*/
 type ConfigSet struct {
 	ConfigsMap map[string]*O2ConfigMore
 }
@@ -177,4 +154,12 @@ func NewClientUtilForProviderType(providerType OAuth2Provider) (oauth2more.OAuth
 	default:
 		return nil, fmt.Errorf("Cannot find ClientUtil for provider type [%s]", providerType)
 	}
+}
+
+func NewClientUtilForProviderTypeString(providerTypeString string) (oauth2more.OAuth2Util, error) {
+	providerType, err := ProviderStringToConst(providerTypeString)
+	if err != nil {
+		return &ringcentral.ClientUtil{}, nil
+	}
+	return NewClientUtilForProviderType(providerType)
 }

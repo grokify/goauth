@@ -3,8 +3,10 @@ package oauth2more
 import (
 	"encoding/base64"
 	"fmt"
+	"net/http"
 	"strings"
 
+	hum "github.com/grokify/gotilla/net/httputilmore"
 	"github.com/grokify/gotilla/time/timeutil"
 	"golang.org/x/oauth2"
 )
@@ -41,4 +43,25 @@ func BasicAuthToken(username, password string) (*oauth2.Token, error) {
 		AccessToken: basicToken,
 		TokenType:   BasicPrefix,
 		Expiry:      timeutil.TimeRFC3339Zero()}, nil
+}
+
+// NewClientBasicAuth returns a *http.Client given a basic auth
+// username and password.
+func NewClientBasicAuth(username, password string, tlsInsecureSkipVerify bool) (*http.Client, error) {
+	authHeaderVal, err := BasicAuthHeader(username, password)
+	if err != nil {
+		return nil, err
+	}
+	client := &http.Client{}
+	header := http.Header{}
+	header.Add(AuthzHeader, authHeaderVal)
+
+	if tlsInsecureSkipVerify {
+		client = ClientTLSInsecureSkipVerify(client)
+	}
+
+	client.Transport = hum.TransportWithHeaders{
+		Header:    header,
+		Transport: client.Transport}
+	return client, nil
 }
