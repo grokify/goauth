@@ -88,7 +88,6 @@ func UserCredentialsDirMk(perm os.FileMode) (string, error) {
 	return dir, err
 }
 
-//
 func NewClientWebTokenStore(ctx context.Context, conf *oauth2.Config, tStore *TokenStoreFile, forceNewToken bool) (*http.Client, error) {
 	err := tStore.Read()
 	client := &http.Client{}

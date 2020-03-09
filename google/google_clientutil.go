@@ -15,21 +15,6 @@ const (
 	GoogleAPIUserinfoURL   = "https://www.googleapis.com/oauth2/v1/userinfo?alt=json"
 	GoogleAPIPlusPeopleURL = "https://www.googleapis.com/plus/v1/people/me"
 	GoogleAPIEmailURL      = "https://www.googleapis.com/userinfo/email" // deprecated
-
-	UserinfoEmailScope   = "https://www.googleapis.com/auth/userinfo#email"
-	UserinfoProfileScope = "https://www.googleapis.com/auth/userinfo.profile"
-
-	SpreadsheetsReadonly     = "https://www.googleapis.com/auth/spreadsheets.readonly"
-	SpreadsheetsReadonlyDesc = "Allows read-only access to the user's sheets and their properties."
-	Spreadsheets             = "https://www.googleapis.com/auth/spreadsheets"
-	SpreadsheetsDesc         = "Allows read/write access to the user's sheets and their properties."
-
-	DriveReadonly     = "https://www.googleapis.com/auth/drive.readonly"
-	DriveReadonlyDesc = "Allows read-only access to the user's file metadata and file content."
-	DriveFile         = "https://www.googleapis.com/auth/drive.file"
-	DriveFileDesc     = "Per-file access to files created or opened by the app."
-	Drive             = "https://www.googleapis.com/auth/drive"
-	DriveDesc         = "Full, permissive scope to access all of a user's files. Request this scope only when it is strictly necessary."
 )
 
 // ClientUtil is a client library to retrieve the /userinfo
@@ -72,7 +57,7 @@ type GoogleUserinfoEmail struct {
 }
 
 func ParseGoogleUserinfoEmail(query string) (GoogleUserinfoEmail, error) {
-	// parse email=johncwang@gmail.com&isVerified=true
+	// parse email=foobar@example.com&isVerified=true
 	params, err := url.ParseQuery(query)
 	googleUserinfoEmail := GoogleUserinfoEmail{}
 	if err != nil {
@@ -92,7 +77,8 @@ func ParseGoogleUserinfoEmail(query string) (GoogleUserinfoEmail, error) {
 
 // GetUserinfo retrieves the userinfo from the
 // https://www.googleapis.com/oauth2/v1/userinfo?alt=json
-// endpoint.
+// endpoint. Requires scope `ScopeUserProfile`
+// `https://www.googleapis.com/auth/userinfo.profile`
 func (apiutil *ClientUtil) GetUserinfo() (GoogleUserinfo, error) {
 	resp, err := apiutil.Client.Get(GoogleAPIUserinfoURL)
 	if err != nil {
