@@ -6,14 +6,10 @@ import (
 	"os"
 	"strings"
 
+	"github.com/grokify/gotilla/type/stringsutil"
 	"github.com/pkg/errors"
 	"golang.org/x/oauth2"
 	o2g "golang.org/x/oauth2/google"
-)
-
-var (
-	ClientSecretEnv         = "GOOGLE_APP_CLIENT_SECRET"
-	EnvGoogleAppCredentials = "GOOGLE_APP_CREDENTIALS"
 )
 
 func ConfigFromFile(file string, scopes []string) (*oauth2.Config, error) {
@@ -26,6 +22,14 @@ func ConfigFromFile(file string, scopes []string) (*oauth2.Config, error) {
 }
 
 func ConfigFromEnv(envVar string, scopes []string) (*oauth2.Config, error) {
+	envVar = strings.TrimSpace(envVar)
+	if len(envVar) == 0 {
+		envVar = EnvGoogleAppCredentials
+	}
+	if len(scopes) == 0 {
+		scopesString := os.Getenv(EnvGoogleAppScopes)
+		scopes = stringsutil.SplitCondenseSpace(scopesString, ",")
+	}
 	return o2g.ConfigFromJSON([]byte(os.Getenv(envVar)), scopes...)
 }
 

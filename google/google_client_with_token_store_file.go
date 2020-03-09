@@ -4,10 +4,12 @@ import (
 	"context"
 	"fmt"
 	"net/http"
+	"os"
 	"sort"
 	"strings"
 
 	"github.com/grokify/gotilla/net/urlutil"
+	"github.com/grokify/gotilla/type/stringsutil"
 	"github.com/grokify/oauth2more"
 	"github.com/pkg/errors"
 
@@ -113,7 +115,23 @@ func NewClientFileStore(
 	if err != nil {
 		return nil, err
 	}
-	return oauth2more.NewClientWebTokenStore(context.Background(), conf, tokenStore, forceNewToken)
+	googHttpClient, err := oauth2more.NewClientWebTokenStore(context.Background(), conf, tokenStore, forceNewToken)
+	if err != nil {
+		return nil, err
+	}
+	if !forceNewToken {
+		cu := NewClientUtil(googHttpClient)
+		_, err := cu.GetUserinfo()
+		if err != nil {
+			fmt.Printf("E_GOOGLE_USER_PROFILE_API_ERROR [%v] ... Getting New Token...\n", err.Error())
+			googHttpClient, err = oauth2more.NewClientWebTokenStore(context.Background(), conf, tokenStore, true)
+			if err != nil {
+				return nil, err
+			}
+		}
+	}
+
+	return googHttpClient, err
 }
 
 // NewClientFileStoreWithDefaults returns a `*http.Client` using file system cache
@@ -131,4 +149,22 @@ func NewClientFileStoreWithDefaults(googleCredentials []byte, googleScopes []str
 		return nil, errors.Wrap(err, "NewGoogleClient - SetDefaultFilepath")
 	}
 	return gcfs.Client()
+}
+
+// NewClientFileStoreWithDefaultsCliEnv instantiates an `*http.Client` for the
+// Google API for use from the command line interface (CLI). It will prompt
+// the user to open the browser to auth when necessary.
+func NewClientFileStoreWithDefaultsCliEnv(googleCredentialsEnvVar, googleScopesEnvVar string) (*http.Client, error) {
+	googleCredentialsEnvVar = strings.TrimSpace(googleCredentialsEnvVar)
+	googleScopesEnvVar = strings.TrimSpace(googleScopesEnvVar)
+	if len(googleCredentialsEnvVar) == 0 {
+		googleCredentialsEnvVar = EnvGoogleAppCredentials
+	}
+	if len(googleScopesEnvVar) == 0 {
+		googleScopesEnvVar = EnvGoogleAppScopes
+	}
+	return NewClientFileStoreWithDefaults(
+		[]byte(os.Getenv(EnvGoogleAppCredentials)),
+		stringsutil.SplitCondenseSpace(os.Getenv(EnvGoogleAppScopes), ","),
+		false)
 }
