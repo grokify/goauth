@@ -2,6 +2,8 @@ package multiservice
 
 import (
 	"encoding/json"
+	"fmt"
+	"math/rand"
 	"strings"
 
 	"golang.org/x/oauth2"
@@ -45,17 +47,42 @@ func (c *O2ConfigMore) ProviderType() (OAuth2Provider, error) {
 	return ProviderStringToConst(c.Provider)
 }
 
-func (c *O2ConfigMore) Config() *oauth2.Config {
+func (cm *O2ConfigMore) Config() *oauth2.Config {
 	return &oauth2.Config{
-		ClientID:     c.ClientId,
-		ClientSecret: c.ClientSecret,
-		RedirectURL:  c.RedirectUris[0],
-		Scopes:       c.Scopes,
+		ClientID:     cm.ClientId,
+		ClientSecret: cm.ClientSecret,
+		RedirectURL:  cm.RedirectURL(),
+		Scopes:       cm.Scopes,
 		Endpoint: oauth2.Endpoint{
-			AuthURL:  c.AuthUri,
-			TokenURL: c.TokenUri,
-		},
+			AuthURL:  cm.AuthUri,
+			TokenURL: cm.TokenUri}}
+}
+
+func (cm *O2ConfigMore) AuthURL(state string) string {
+	return cm.Config().AuthCodeURL(state)
+}
+
+func (cm *O2ConfigMore) RedirectURL() string {
+	redirectURL := ""
+	for _, try := range cm.RedirectUris {
+		try := strings.TrimSpace(try)
+		if len(try) > 0 {
+			redirectURL = try
+			break
+		}
 	}
+	return redirectURL
+}
+
+func RandomState(statePrefix string, randomSuffix bool) string {
+	parts := []string{}
+	if len(statePrefix) > 0 {
+		parts = append(parts, statePrefix)
+	}
+	if randomSuffix {
+		parts = append(parts, fmt.Sprintf("%v", rand.Intn(1000000000)))
+	}
+	return strings.Join(parts, "-")
 }
 
 /*
