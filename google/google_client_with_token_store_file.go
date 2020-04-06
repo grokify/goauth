@@ -164,7 +164,7 @@ func NewClientFileStoreWithDefaultsCliEnv(googleCredentialsEnvVar, googleScopesE
 		googleScopesEnvVar = EnvGoogleAppScopes
 	}
 	return NewClientFileStoreWithDefaults(
-		[]byte(os.Getenv(EnvGoogleAppCredentials)),
-		stringsutil.SplitCondenseSpace(os.Getenv(EnvGoogleAppScopes), ","),
+		[]byte(os.Getenv(googleCredentialsEnvVar)),
+		stringsutil.SplitCondenseSpace(os.Getenv(googleScopesEnvVar), ","),
 		false)
 }
