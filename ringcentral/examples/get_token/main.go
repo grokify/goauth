@@ -15,7 +15,7 @@ import (
 
 type Options struct {
 	EnvPath string `short:"e" long:"envPath" description:"Environment File Path"`
-	EnvVar  string `short:"v" long:"envVar" description:"Environment Varaible Name"`
+	EnvVar  string `short:"v" long:"envVar" description:"Environment Variable Name"`
 	Token   string `short:"t" long:"token" description:"Token"`
 }
 
