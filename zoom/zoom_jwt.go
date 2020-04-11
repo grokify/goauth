@@ -13,8 +13,6 @@ const (
 	EnvZoomApiKey           = "ZOOM_API_KEY"
 	EnvZoomApiSecret        = "ZOOM_API_SECRET"
 	HeaderUserAgentJwtValue = "Zoom-api-Jwt-Request"
-	JwtClaimVarExpiration   = "exp"
-	JwtClaimVarIssuer       = "iss"
 )
 
 func CreateJwtToken(apiKey, apiSecret string, tokenDur time.Duration) (*jwt.Token, string, error) {
