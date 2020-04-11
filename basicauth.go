@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/grokify/gotilla/net/httputilmore"
 	hum "github.com/grokify/gotilla/net/httputilmore"
 	"github.com/grokify/gotilla/time/timeutil"
 	"golang.org/x/oauth2"
@@ -54,7 +55,7 @@ func NewClientBasicAuth(username, password string, tlsInsecureSkipVerify bool) (
 	}
 	client := &http.Client{}
 	header := http.Header{}
-	header.Add(AuthzHeader, authHeaderVal)
+	header.Add(httputilmore.HeaderAuthorization, authHeaderVal)
 
 	if tlsInsecureSkipVerify {
 		client = ClientTLSInsecureSkipVerify(client)
