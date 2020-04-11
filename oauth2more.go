@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/grokify/gotilla/net/httputilmore"
 	hum "github.com/grokify/gotilla/net/httputilmore"
 	"github.com/grokify/gotilla/time/timeutil"
 	"github.com/grokify/oauth2more/scim"
@@ -21,7 +22,6 @@ import (
 const (
 	VERSION      = "0.2.0"
 	PATH         = "github.com/grokify/oauth2more"
-	AuthzHeader  = "Authorization"
 	BasicPrefix  = "Basic"
 	BearerPrefix = "Bearer"
 )
@@ -211,11 +211,26 @@ func NewClientTokenJSON(ctx context.Context, tokenJSON []byte) (*http.Client, er
 	return oAuthConfig.Client(ctx, token), nil
 }
 
+func NewClientHeaders(headersMap map[string]string, tlsInsecureSkipVerify bool) *http.Client {
+	client := &http.Client{}
+	header := httputilmore.NewHeadersMSS(headersMap)
+
+	if tlsInsecureSkipVerify {
+		client = ClientTLSInsecureSkipVerify(client)
+	}
+
+	client.Transport = hum.TransportWithHeaders{
+		Header:    header,
+		Transport: client.Transport}
+
+	return client
+}
+
 func NewClientToken(tokenType, tokenValue string, tlsInsecureSkipVerify bool) *http.Client {
 	client := &http.Client{}
 
 	header := http.Header{}
-	header.Add(AuthzHeader, tokenType+" "+tokenValue)
+	header.Add(httputilmore.HeaderAuthorization, tokenType+" "+tokenValue)
 
 	if tlsInsecureSkipVerify {
 		client = ClientTLSInsecureSkipVerify(client)
