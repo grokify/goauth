@@ -9,6 +9,7 @@ import (
 	"strings"
 
 	"github.com/grokify/gotilla/config"
+	"github.com/grokify/gotilla/encoding/jsonutil"
 	hum "github.com/grokify/gotilla/net/httputilmore"
 	"github.com/grokify/gotilla/net/urlutil"
 	"github.com/grokify/gotilla/type/stringsutil"
@@ -55,7 +56,7 @@ func NewClientPassword(baseUrl, username, password string, tlsSkipVerify bool) (
 	}
 
 	res := &AuthResponse{}
-	err = hum.UnmarshalResponseJSON(resp, res)
+	_, err = jsonutil.UnmarshalIoReader(resp.Body, res)
 	if err != nil {
 		return nil, res, err
 	}

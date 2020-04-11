@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"strings"
 
-	hum "github.com/grokify/gotilla/net/httputilmore"
+	"github.com/grokify/gotilla/encoding/jsonutil"
 	"github.com/grokify/oauth2more/scim"
 )
 
@@ -79,6 +79,6 @@ func GetMe(client *http.Client, subdomain string) (*Me, *http.Response, error) {
 		return nil, resp, err
 	}
 	me := &MeResponse{}
-	err = hum.UnmarshalResponseJSON(resp, me)
+	_, err = jsonutil.UnmarshalIoReader(resp.Body, me)
 	return &me.User, resp, err
 }

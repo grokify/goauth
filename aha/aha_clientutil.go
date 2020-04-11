@@ -3,10 +3,10 @@ package aha
 import (
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"strings"
 
-	hum "github.com/grokify/gotilla/net/httputilmore"
 	"github.com/grokify/gotilla/strconv/humannameparser"
 	"github.com/grokify/oauth2more/scim"
 )
@@ -37,7 +37,7 @@ func (apiutil *ClientUtil) GetUserinfo() (*AhaUserinfo, error) {
 		return nil, fmt.Errorf("Aha.io API returned Status Code %v", resp.StatusCode)
 	}
 
-	bodyBytes, err := hum.ResponseBody(resp)
+	bodyBytes, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}
