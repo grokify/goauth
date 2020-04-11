@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"os"
 
@@ -59,7 +60,7 @@ func main() {
 			log.Fatal(err)
 		}
 		//httputilmore.PrintResponse(resp, true)
-		body, err := httputilmore.ResponseBody(resp)
+		body, err := ioutil.ReadAll(resp.Body)
 		if err != nil {
 			log.Fatal(err)
 		}
