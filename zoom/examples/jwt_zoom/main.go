@@ -38,13 +38,13 @@ func main() {
 	fmt.Printf("TOK [%v]\n", tokenString)
 
 	if 1 == 0 {
-		_, newClaims, err := oauth2more.ParseJwtTokenString(
+		token, err := oauth2more.ParseJwtTokenString(
 			tokenString, apiSecret,
-			&jwt.MapClaims{zoom.JwtClaimVarIssuer: apiKey})
+			&jwt.StandardClaims{Issuer: apiKey})
 		if err != nil {
 			log.Fatal(err)
 		}
-		fmtutil.PrintJSON(newClaims)
+		fmtutil.PrintJSON(token.Claims)
 	}
 
 	client := zoom.NewClientToken(tokenString)
