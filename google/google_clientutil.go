@@ -6,7 +6,6 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/grokify/gotilla/net/httputilmore"
 	"github.com/grokify/oauth2more/scim"
 	json "github.com/pquerna/ffjson/ffjson"
 )
@@ -42,7 +41,7 @@ func (apiutil *ClientUtil) GetUserinfoEmail() (GoogleUserinfoEmail, error) {
 		return GoogleUserinfoEmail{}, err
 	}
 
-	bodyBytes, err := httputilmore.ResponseBody(resp)
+	bodyBytes, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		return GoogleUserinfoEmail{}, err
 	}
@@ -85,7 +84,7 @@ func (apiutil *ClientUtil) GetUserinfo() (GoogleUserinfo, error) {
 		return GoogleUserinfo{}, err
 	}
 
-	bodyBytes, err := httputilmore.ResponseBody(resp)
+	bodyBytes, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		return GoogleUserinfo{}, err
 	}
@@ -118,7 +117,7 @@ func (apiutil *ClientUtil) GetPlusPerson() (GooglePlusPerson, error) {
 		return GooglePlusPerson{}, err
 	}
 
-	bodyBytes, err := httputilmore.ResponseBody(resp)
+	bodyBytes, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		return GooglePlusPerson{}, err
 	}

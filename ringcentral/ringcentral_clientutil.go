@@ -4,11 +4,13 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"golang.org/x/oauth2"
+	"io/ioutil"
 	"net/http"
 	"net/url"
 	"regexp"
 	"strings"
+
+	"golang.org/x/oauth2"
 
 	"github.com/grokify/gotilla/net/httputilmore"
 	"github.com/grokify/gotilla/net/urlutil"
@@ -77,7 +79,7 @@ func (apiutil *ClientUtil) GetUserinfo() (RingCentralExtensionInfo, error) {
 		return RingCentralExtensionInfo{}, err
 	}
 
-	bodyBytes, err := httputilmore.ResponseBody(resp)
+	bodyBytes, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		return RingCentralExtensionInfo{}, err
 	}

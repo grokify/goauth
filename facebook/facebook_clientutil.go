@@ -2,10 +2,10 @@ package facebook
 
 import (
 	"encoding/json"
+	"io/ioutil"
 	"net/http"
 	"strings"
 
-	"github.com/grokify/gotilla/net/httputilmore"
 	"github.com/grokify/oauth2more/scim"
 	"golang.org/x/oauth2"
 	fb "golang.org/x/oauth2/facebook"
@@ -44,7 +44,7 @@ func (apiutil *ClientUtil) GetUserinfo() (FacebookUserinfo, error) {
 		return FacebookUserinfo{}, err
 	}
 
-	bodyBytes, err := httputilmore.ResponseBody(resp)
+	bodyBytes, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		return FacebookUserinfo{}, err
 	}

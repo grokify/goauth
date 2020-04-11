@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"os"
 	"strings"
@@ -104,7 +105,7 @@ func (cfg *appConfig) Oauth2CallbackHandler(w http.ResponseWriter, r *http.Reque
 	if err != nil {
 		log.Fatal(err)
 	}
-	respBody, err := hum.ResponseBody(resp)
+	respBody, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		log.Fatal(err)
 	}
