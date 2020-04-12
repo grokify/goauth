@@ -43,7 +43,7 @@ func BasicAuthToken(username, password string) (*oauth2.Token, error) {
 	return &oauth2.Token{
 		AccessToken: basicToken,
 		TokenType:   BasicPrefix,
-		Expiry:      timeutil.TimeRFC3339Zero()}, nil
+		Expiry:      timeutil.TimeZeroRFC3339()}, nil
 }
 
 // NewClientBasicAuth returns a *http.Client given a basic auth

@@ -255,7 +255,7 @@ func NewClientBearerTokenSimple(accessToken string) *http.Client {
 	token := &oauth2.Token{
 		AccessToken: accessToken,
 		TokenType:   BearerPrefix,
-		Expiry:      timeutil.TimeRFC3339Zero()}
+		Expiry:      timeutil.TimeZeroRFC3339()}
 
 	oAuthConfig := &oauth2.Config{}
 
