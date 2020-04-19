@@ -13,7 +13,6 @@ matrix:
   allow_failures:
     - go: "1.8.x"
     - go: master
-sudo: true
 install:
   - go get -t -v ./...
 script:
