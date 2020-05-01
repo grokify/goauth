@@ -158,10 +158,3 @@ func (uc *PasswordCredentials) UsernameSimple() string {
 	}
 	return uc.Username
 }
-
-/*
-type UserCredentials struct {
-	Username  string `json:"username,omitempty"`
-	Extension string `json:"extension,omitempty"`
-	Password  string `json:"password,omitempty"`
-}*/
