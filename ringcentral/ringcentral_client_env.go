@@ -6,13 +6,11 @@ import (
 	"os"
 	"strings"
 
-	"github.com/caarlos0/env"
-	"golang.org/x/oauth2"
-
 	//"github.com/grokify/gotilla/config"
 	om "github.com/grokify/oauth2more"
 )
 
+/*
 // ApplicationConfigEnv returns a struct designed to be used to
 // read values from the environment.
 type ApplicationConfig struct {
@@ -57,7 +55,7 @@ func (cfg *ApplicationConfig) LoadToken() (*oauth2.Token, error) {
 		cfg.AccessToken = tok.AccessToken
 	}
 	return tok, err
-}
+}*/
 
 func NewHttpClientEnvFlexStatic(envPrefix string) (*http.Client, error) {
 	envPrefix = strings.TrimSpace(envPrefix)
