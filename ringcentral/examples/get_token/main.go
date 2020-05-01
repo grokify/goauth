@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"os"
 
@@ -26,50 +25,33 @@ func main() {
 		log.Fatal(err)
 	}
 
-	err = config.LoadDotEnvSkipEmpty(opts.EnvPath, os.Getenv("ENV_PATH"), "./.env")
+	files, err := config.LoadDotEnv(opts.EnvPath, os.Getenv("ENV_PATH"), "./.env")
 	if err != nil {
 		log.Fatal(errors.Wrap(err, "E_LOAD_DOT_ENV"))
 	}
+	fmtutil.PrintJSON(files)
 
 	if len(opts.EnvVar) > 0 {
 		if len(os.Getenv(opts.EnvVar)) == 0 {
 			log.Fatal("E_NO_VAR")
 		}
-		ac := ringcentral.ApplicationConfig{}
-		err := json.Unmarshal([]byte(os.Getenv(opts.EnvVar)), &ac)
+
+		credentials, err := ringcentral.NewCredentialsJSON([]byte(os.Getenv(opts.EnvVar)))
 		if err != nil {
 			log.Fatal(
 				errors.Wrap(
 					err, fmt.Sprintf("E_JSON_UNMARSHAL [%v]", os.Getenv(opts.EnvVar))))
 		}
-		fmtutil.PrintJSON(ac)
-		token, err := ringcentral.NewTokenPassword(
-			ac.ApplicationCredentials(),
-			ac.PasswordCredentials())
+		token, err := credentials.NewToken()
 		if err != nil {
 			log.Fatal(err)
 		}
+
 		token.Expiry = token.Expiry.UTC()
 
 		fmtutil.PrintJSON(token)
-	}
-
-	if 1 == 0 {
-		token, err := ringcentral.NewTokenPassword(
-			ringcentral.ApplicationCredentials{
-				ClientID:     os.Getenv("RINGCENTRAL_CLIENT_ID"),
-				ClientSecret: os.Getenv("RINGCENTRAL_CLIENT_SECRET"),
-				ServerURL:    os.Getenv("RINGCENTRAL_SERVER_URL")},
-			ringcentral.PasswordCredentials{
-				Username:  os.Getenv("RINGCENTRAL_USERNAME"),
-				Extension: os.Getenv("RINGCENTRAL_EXTENSION"),
-				Password:  os.Getenv("RINGCENTRAL_PASSWORD")})
-		if err != nil {
-			log.Fatal(err)
-		}
-		token.Expiry = token.Expiry.UTC()
-
-		fmtutil.PrintJSON(token)
+	} else {
+		fmt.Printf("No EnvVar [-v]\n")
 	}
 
 	fmt.Println("DONE")

@@ -1,0 +1,167 @@
+package ringcentral
+
+import (
+	"encoding/json"
+	"fmt"
+	"net/http"
+	"net/url"
+	"os"
+	"strconv"
+	"strings"
+
+	"golang.org/x/oauth2"
+)
+
+const (
+	EnvServerURL    = "RINGCENTRAL_SERVER_URL"
+	EnvClientID     = "RINGCENTRAL_CLIENT_ID"
+	EnvClientSecret = "RINGCENTRAL_CLIENT_SECRET"
+	EnvAppName      = "RINGCENTRAL_APP_NAME"
+	EnvAppVersion   = "RINGCENTRAL_APP_VERSION"
+	EnvRedirectURL  = "RINGCENTRAL_OAUTH_REDIRECT_URL"
+	EnvUsername     = "RINGCENTRAL_USERNAME"
+	EnvExtension    = "RINGCENTRAL_EXTENSION"
+	EnvPassword     = "RINGCENTRAL_PASSWORD"
+)
+
+type Credentials struct {
+	Application         ApplicationCredentials `json:"application,omitempty"`
+	PasswordCredentials PasswordCredentials    `json:"passwordCredentials,omitempty"`
+	Token               *oauth2.Token          `json:"token,omitempty"`
+}
+
+func NewCredentialsJSON(jsonData []byte) (Credentials, error) {
+	creds := Credentials{}
+	return creds, json.Unmarshal(jsonData, &creds)
+}
+
+func NewCredentialsEnv() Credentials {
+	return Credentials{
+		Application:         NewApplicationCredentialsEnv(),
+		PasswordCredentials: NewPasswordCredentialsEnv()}
+}
+
+func (creds *Credentials) NewClient() (*http.Client, error) {
+	return NewClientPassword(
+		creds.Application, creds.PasswordCredentials)
+}
+
+func (creds *Credentials) NewToken() (*oauth2.Token, error) {
+	tok, err := NewTokenPassword(
+		creds.Application, creds.PasswordCredentials)
+	if err == nil {
+		creds.Token = tok
+	}
+	return tok, err
+}
+
+type ApplicationCredentials struct {
+	ServerURL       string `json:"serverURL,omitempty"`
+	ApplicationID   string `json:"applicationID,omitempty"`
+	ClientID        string `json:"clientID,omitempty"`
+	ClientSecret    string `json:"clientSecret,omitempty"`
+	RedirectURL     string `json:"redirectURL,omitempty"`
+	AppName         string `json:"applicationName,omitempty"`
+	AppVersion      string `json:"applicationVersion,omitempty"`
+	OAuthEndpointID string `json:"oauthEndpointID,omitempty"`
+	AccessTokenTTL  int64  `json:"accessTokenTTL,omitempty"`
+	RefreshTokenTTL int64  `json:"refreshTokenTTL,omitempty"`
+}
+
+func NewApplicationCredentialsEnv() ApplicationCredentials {
+	return ApplicationCredentials{
+		ServerURL:    os.Getenv(EnvServerURL),
+		ClientID:     os.Getenv(EnvClientID),
+		ClientSecret: os.Getenv(EnvClientSecret),
+		AppName:      os.Getenv(EnvAppName),
+		AppVersion:   os.Getenv(EnvAppVersion)}
+}
+
+func (app *ApplicationCredentials) Config() oauth2.Config {
+	return oauth2.Config{
+		ClientID:     app.ClientID,
+		ClientSecret: app.ClientSecret,
+		Endpoint:     NewEndpoint(app.ServerURL),
+		RedirectURL:  app.RedirectURL}
+}
+
+func (app *ApplicationCredentials) Exchange(code string) (*RcToken, error) {
+	params := url.Values{}
+	params.Set("grant_type", "authorization_code")
+	params.Set("code", code)
+	params.Set("redirect_uri", app.RedirectURL)
+	if len(app.OAuthEndpointID) > 0 {
+		params.Set("endpoint_id", app.OAuthEndpointID)
+	}
+	if app.AccessTokenTTL > 0 {
+		params.Set("accessTokenTtl", strconv.Itoa(int(app.AccessTokenTTL)))
+	}
+	if app.RefreshTokenTTL > 0 {
+		params.Set("refreshTokenTtl", strconv.Itoa(int(app.RefreshTokenTTL)))
+	}
+	return RetrieveRcToken(app.Config(), params)
+}
+
+func (ac *ApplicationCredentials) AppNameAndVersion() string {
+	parts := []string{}
+	ac.AppName = strings.TrimSpace(ac.AppName)
+	ac.AppVersion = strings.TrimSpace(ac.AppVersion)
+	if len(ac.AppName) > 0 {
+		parts = append(parts, ac.AppName)
+	}
+	if len(ac.AppVersion) > 0 {
+		parts = append(parts, fmt.Sprintf("v%v", ac.AppVersion))
+	}
+	return strings.Join(parts, "-")
+}
+
+type PasswordCredentials struct {
+	GrantType       string `url:"grant_type"`
+	AccessTokenTTL  int64  `url:"access_token_ttl"`
+	RefreshTokenTTL int64  `url:"refresh_token_ttl"`
+	Username        string `url:"username" json:"username"`
+	Extension       string `url:"extension" json:"extension"`
+	Password        string `url:"password" json:"password"`
+	EndpointId      string `url:"endpoint_id"`
+}
+
+func NewPasswordCredentialsEnv() PasswordCredentials {
+	return PasswordCredentials{
+		Username:  os.Getenv(EnvUsername),
+		Extension: os.Getenv(EnvExtension),
+		Password:  os.Getenv(EnvPassword)}
+}
+
+func (pw *PasswordCredentials) URLValues() url.Values {
+	v := url.Values{
+		"grant_type": {"password"},
+		"username":   {pw.Username},
+		"password":   {pw.Password}}
+	if pw.AccessTokenTTL != 0 {
+		v.Set("access_token_ttl", strconv.Itoa(int(pw.AccessTokenTTL)))
+	}
+	if pw.RefreshTokenTTL != 0 {
+		v.Set("refresh_token_ttl", strconv.Itoa(int(pw.RefreshTokenTTL)))
+	}
+	if len(pw.Extension) > 0 {
+		v.Set("extension", pw.Extension)
+	}
+	if len(pw.EndpointId) > 0 {
+		v.Set("endpoint_id", pw.EndpointId)
+	}
+	return v
+}
+
+func (uc *PasswordCredentials) UsernameSimple() string {
+	if len(strings.TrimSpace(uc.Extension)) > 0 {
+		return strings.Join([]string{uc.Username, uc.Extension}, "*")
+	}
+	return uc.Username
+}
+
+/*
+type UserCredentials struct {
+	Username  string `json:"username,omitempty"`
+	Extension string `json:"extension,omitempty"`
+	Password  string `json:"password,omitempty"`
+}*/
