@@ -14,29 +14,6 @@ import (
 	"golang.org/x/oauth2"
 )
 
-/*
-var (
-	EnvServerURL    = "RINGCENTRAL_SERVER_URL"
-	EnvClientID     = "RINGCENTRAL_CLIENT_ID"
-	EnvClientSecret = "RINGCENTRAL_CLIENT_SECRET"
-	EnvAppName      = "RINGCENTRAL_APP_NAME"
-	EnvAppVersion   = "RINGCENTRAL_APP_VERSION"
-	EnvRedirectURL  = "RINGCENTRAL_OAUTH_REDIRECT_URL"
-	EnvUsername     = "RINGCENTRAL_USERNAME"
-	EnvExtension    = "RINGCENTRAL_EXTENSION"
-	EnvPassword     = "RINGCENTRAL_PASSWORD"
-)*/
-
-/*
-func NewTokenPasswordCredentialsJSON(data []byte) (*oauth2.Token, error) {
-	var creds Credentials
-	err := json.Unmarshal(data, &creds)
-	if err != nil {
-		return nil, err
-	}
-	return NewTokenPassword(creds.Application, creds.PasswordCredentials)
-}*/
-
 func NewTokenPassword(app ApplicationCredentials, pwd PasswordCredentials) (*oauth2.Token, error) {
 	return RetrieveToken(
 		oauth2.Config{
@@ -102,61 +79,6 @@ func getClientHeader(app ApplicationCredentials) http.Header {
 	return header
 }
 
-/*
-func NewClientPasswordEnv() (*http.Client, error) {
-	return NewClientPassword(
-		NewApplicationCredentialsEnv(),
-		NewPasswordCredentialsEnv())
-}
-
-func NewApplicationCredentialsEnv() ApplicationCredentials {
-	return ApplicationCredentials{
-		ServerURL:    os.Getenv(EnvServerURL),
-		ClientID:     os.Getenv(EnvClientID),
-		ClientSecret: os.Getenv(EnvClientSecret),
-		AppName:      os.Getenv(EnvAppName),
-		AppVersion:   os.Getenv(EnvAppVersion)}
-}
-
-func NewPasswordCredentialsEnv() PasswordCredentials {
-	return PasswordCredentials{
-		Username:  os.Getenv(EnvUsername),
-		Extension: os.Getenv(EnvExtension),
-		Password:  os.Getenv(EnvPassword)}
-}*/
-
-/*
-type PasswordCredentials struct {
-	GrantType       string `url:"grant_type"`
-	AccessTokenTTL  int64  `url:"access_token_ttl"`
-	RefreshTokenTTL int64  `url:"refresh_token_ttl"`
-	Username        string `url:"username" json:"username"`
-	Extension       string `url:"extension" json:"extension"`
-	Password        string `url:"password" json:"password"`
-	EndpointId      string `url:"endpoint_id"`
-}
-
-func (pw *PasswordCredentials) URLValues() url.Values {
-	v := url.Values{
-		"grant_type": {"password"},
-		"username":   {pw.Username},
-		"password":   {pw.Password}}
-	if pw.AccessTokenTTL != 0 {
-		v.Set("access_token_ttl", strconv.Itoa(int(pw.AccessTokenTTL)))
-	}
-	if pw.RefreshTokenTTL != 0 {
-		v.Set("refresh_token_ttl", strconv.Itoa(int(pw.RefreshTokenTTL)))
-	}
-	if len(pw.Extension) > 0 {
-		v.Set("extension", pw.Extension)
-	}
-	if len(pw.EndpointId) > 0 {
-		v.Set("endpoint_id", pw.EndpointId)
-	}
-	return v
-}
-*/
-
 func RetrieveToken(cfg oauth2.Config, params url.Values) (*oauth2.Token, error) {
 	rcToken, err := RetrieveRcToken(cfg, params)
 	if err != nil {
@@ -193,7 +115,6 @@ func RetrieveRcToken(cfg oauth2.Config, params url.Values) (*RcToken, error) {
 
 	rcToken := &RcToken{}
 	_, err = ju.UnmarshalIoReader(resp.Body, rcToken)
-	//err = hum.UnmarshalResponseJSON(resp, rcToken)
 	if err != nil {
 		return nil, err
 	}
