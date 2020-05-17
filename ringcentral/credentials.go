@@ -116,13 +116,14 @@ func (ac *ApplicationCredentials) AppNameAndVersion() string {
 }
 
 type PasswordCredentials struct {
-	GrantType       string `url:"grant_type"`
-	AccessTokenTTL  int64  `url:"access_token_ttl"`
-	RefreshTokenTTL int64  `url:"refresh_token_ttl"`
-	Username        string `url:"username" json:"username"`
-	Extension       string `url:"extension" json:"extension"`
-	Password        string `url:"password" json:"password"`
-	EndpointId      string `url:"endpoint_id"`
+	GrantType            string `url:"grant_type"`
+	AccessTokenTTL       int64  `url:"access_token_ttl"`
+	RefreshTokenTTL      int64  `url:"refresh_token_ttl"`
+	Username             string `json:"username" url:"username"`
+	Extension            string `json:"extension" url:"extension"`
+	Password             string `json:"password" url:"password"`
+	EndpointId           string `url:"endpoint_id"`
+	EngageVoiceAccountId int64  `json:"engageVoiceAccountId"`
 }
 
 func NewPasswordCredentialsEnv() PasswordCredentials {
