@@ -47,6 +47,9 @@ func main() {
 		secretKey,
 		map[string]interface{}{
 			"id": "123", "name": "JohnDoe"})
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	fmt.Println(tokenString)
 
