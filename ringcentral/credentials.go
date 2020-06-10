@@ -9,6 +9,7 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/grokify/oauth2more"
 	"golang.org/x/oauth2"
 )
 
@@ -42,8 +43,14 @@ func NewCredentialsEnv() Credentials {
 }
 
 func (creds *Credentials) NewClient() (*http.Client, error) {
-	return NewClientPassword(
-		creds.Application, creds.PasswordCredentials)
+	tok, err := creds.NewToken()
+	if err != nil {
+		return nil, err
+	}
+	creds.Token = tok
+	return oauth2more.NewClientToken(
+		oauth2more.TokenBearer, tok.AccessToken, false), nil
+	/*return NewClientPassword(creds.Application, creds.PasswordCredentials)*/
 }
 
 func (creds *Credentials) NewToken() (*oauth2.Token, error) {
