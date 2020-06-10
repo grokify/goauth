@@ -3,6 +3,8 @@ package scim
 import (
 	"fmt"
 	"strings"
+
+	"github.com/grokify/gotilla/type/stringsutil"
 )
 
 // User is an object from the full user representation
@@ -25,6 +27,30 @@ type User struct {
 	Timezone          string   `json:"timezone,omitempty"`
 	Active            bool     `json:"active,omitempty"`
 	Password          string   `json:"password,omitempty"`
+}
+
+func (user *User) DisplayNameAny() string {
+	name := strings.TrimSpace(user.DisplayName)
+	if len(name) > 0 {
+		return name
+	}
+	name = strings.TrimSpace(user.Name.Formatted)
+	if len(name) > 0 {
+		return name
+	}
+	names := stringsutil.SliceCondenseSpace([]string{
+		user.Name.GivenName,
+		user.Name.MiddleName,
+		user.Name.FamilyName}, false, false)
+	name = strings.Join(names, " ")
+	if len(name) > 0 {
+		return name
+	}
+	name = strings.TrimSpace(user.NickName)
+	if len(name) > 0 {
+		return name
+	}
+	return strings.TrimSpace(user.UserName)
 }
 
 // AddEmail adds a canonical email address to the user.
