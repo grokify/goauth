@@ -20,10 +20,10 @@ import (
 )
 
 const (
-	VERSION      = "0.2.0"
-	PATH         = "github.com/grokify/oauth2more"
-	BasicPrefix  = "Basic"
-	BearerPrefix = "Bearer"
+	VERSION     = "0.2.0"
+	PATH        = "github.com/grokify/oauth2more"
+	TokenBasic  = "Basic"
+	TokenBearer = "Bearer"
 )
 
 type AuthorizationType int
@@ -254,7 +254,7 @@ func NewClientTokenBase64Encode(tokenType, tokenValue string, tlsInsecureSkipVer
 func NewClientBearerTokenSimple(accessToken string) *http.Client {
 	token := &oauth2.Token{
 		AccessToken: accessToken,
-		TokenType:   BearerPrefix,
+		TokenType:   TokenBasic,
 		Expiry:      timeutil.TimeZeroRFC3339()}
 
 	oAuthConfig := &oauth2.Config{}
