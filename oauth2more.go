@@ -250,11 +250,11 @@ func NewClientTokenBase64Encode(tokenType, tokenValue string, tlsInsecureSkipVer
 		tlsInsecureSkipVerify)
 }
 
-// NewClientBearerTokenSimple return a *http.Client given a bearer token string
-func NewClientBearerTokenSimple(accessToken string) *http.Client {
+// NewClientAuthzTokenSimple return a *http.Client given a token type and token string.
+func NewClientAuthzTokenSimple(tokenType, accessToken string) *http.Client {
 	token := &oauth2.Token{
-		AccessToken: accessToken,
-		TokenType:   TokenBasic,
+		AccessToken: strings.TrimSpace(accessToken),
+		TokenType:   strings.TrimSpace(tokenType),
 		Expiry:      timeutil.TimeZeroRFC3339()}
 
 	oAuthConfig := &oauth2.Config{}
@@ -274,7 +274,7 @@ func NewClientBearerTokenSimpleOrJson(ctx context.Context, tokenOrJson []byte) (
 	} else if strings.Index(tokenOrJsonString, "{") == 0 {
 		return NewClientTokenJSON(ctx, tokenOrJson)
 	} else {
-		return NewClientBearerTokenSimple(tokenOrJsonString), nil
+		return NewClientAuthzTokenSimple(TokenBearer, tokenOrJsonString), nil
 	}
 }
 
