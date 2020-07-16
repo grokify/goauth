@@ -2,7 +2,6 @@ package ringcentral
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -12,15 +11,15 @@ import (
 
 	"golang.org/x/oauth2"
 
-	"github.com/grokify/gotilla/net/httputilmore"
 	"github.com/grokify/gotilla/net/urlutil"
 	"github.com/grokify/oauth2more/scim"
 )
 
+/*
 var (
 	Hostname = "platform.devtest.ringcentral.com"
 )
-
+*/
 const (
 	ServerURLProduction  = "https://platform.ringcentral.com"
 	ServerURLSandbox     = "https://platform.devtest.ringcentral.com"
@@ -55,25 +54,25 @@ func NewEndpoint(hostnameOrBasePath string) oauth2.Endpoint {
 // ClientUtil is a client library to retrieve user info
 // from the Facebook API.
 type ClientUtil struct {
-	Client *http.Client             `json:"-"`
-	User   RingCentralExtensionInfo `json:"user,omitempty"`
+	Client    *http.Client `json:"-"`
+	ServerURL string
+	User      RingCentralExtensionInfo `json:"user,omitempty"`
 }
 
 func NewClientUtil(client *http.Client) ClientUtil {
 	return ClientUtil{Client: client}
 }
 
-func (apiutil *ClientUtil) SetClient(client *http.Client) {
-	apiutil.Client = client
+func (cu *ClientUtil) SetClient(client *http.Client) {
+	cu.Client = client
 }
 
 // GetUserinfo retrieves the userinfo from the
 // https://graph.facebook.com/v2.9/{user-id}
 // endpoint.
-func (apiutil *ClientUtil) GetUserinfo() (RingCentralExtensionInfo, error) {
-	resp, err := apiutil.Client.Get(
-		urlutil.JoinAbsolute(
-			fmt.Sprintf("%v://", httputilmore.SchemeHTTPS), Hostname, MeURL))
+func (cu *ClientUtil) GetUserinfo() (RingCentralExtensionInfo, error) {
+	resp, err := cu.Client.Get(
+		urlutil.JoinAbsolute(cu.ServerURL, MeURL))
 
 	if err != nil {
 		return RingCentralExtensionInfo{}, err
@@ -87,7 +86,7 @@ func (apiutil *ClientUtil) GetUserinfo() (RingCentralExtensionInfo, error) {
 	userinfo := RingCentralExtensionInfo{}
 	err = json.Unmarshal(bodyBytes, &userinfo)
 	if err == nil {
-		apiutil.User = userinfo
+		cu.User = userinfo
 	}
 	return userinfo, err
 }
@@ -142,6 +141,7 @@ func BuildURL(serverURL, urlFragment string, addRestAPI bool, queryValues url.Va
 	return urlutil.BuildURL(apiURL, queryValues)
 }
 
+/*
 func BuildURLPartial(urlFragment string, addRestAPI bool, queryValues url.Values) string {
 	apiURL := fmt.Sprintf("%s://%s", httputilmore.SchemeHTTPS, Hostname)
 	if addRestAPI {
@@ -151,7 +151,8 @@ func BuildURLPartial(urlFragment string, addRestAPI bool, queryValues url.Values
 	}
 	return urlutil.BuildURL(apiURL, queryValues)
 }
-
+*/
+/*
 func SetHostnameForURL(serverURLString string) error {
 	serverURL, err := url.Parse(serverURLString)
 	if err != nil {
@@ -163,3 +164,4 @@ func SetHostnameForURL(serverURLString string) error {
 	}
 	return nil
 }
+*/
