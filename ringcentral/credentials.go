@@ -88,25 +88,29 @@ func (creds *Credentials) NewToken() (*oauth2.Token, error) {
 	return tok, err
 }
 
-func (creds *Credentials) Me() (RingCentralExtensionInfo, error) {
+func (creds *Credentials) clientUtil() (ClientUtil, error) {
 	httpClient, err := creds.NewClient()
+	if err != nil {
+		return ClientUtil{}, err
+	}
+	return ClientUtil{
+		Client:    httpClient,
+		ServerURL: creds.Application.ServerURL}, nil
+}
+
+func (creds *Credentials) Me() (RingCentralExtensionInfo, error) {
+	cu, err := creds.clientUtil()
 	if err != nil {
 		return RingCentralExtensionInfo{}, err
 	}
-	cu := ClientUtil{
-		Client:    httpClient,
-		ServerURL: creds.Application.ServerURL}
 	return cu.GetUserinfo()
 }
 
 func (creds *Credentials) MeScim() (scim.User, error) {
-	httpClient, err := creds.NewClient()
+	cu, err := creds.clientUtil()
 	if err != nil {
 		return scim.User{}, err
 	}
-	cu := ClientUtil{
-		Client:    httpClient,
-		ServerURL: creds.Application.ServerURL}
 	return cu.GetSCIMUser()
 }
 
