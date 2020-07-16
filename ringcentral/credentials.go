@@ -10,6 +10,7 @@ import (
 	"strings"
 
 	"github.com/grokify/oauth2more"
+	"github.com/grokify/oauth2more/scim"
 	"golang.org/x/oauth2"
 )
 
@@ -29,6 +30,31 @@ type Credentials struct {
 	Application         ApplicationCredentials `json:"application,omitempty"`
 	PasswordCredentials PasswordCredentials    `json:"passwordCredentials,omitempty"`
 	Token               *oauth2.Token          `json:"token,omitempty"`
+}
+
+func NewCredentialsJSONs(appJson, userJson, accessToken []byte) (Credentials, error) {
+	creds := Credentials{}
+	if len(appJson) > 1 {
+		app := ApplicationCredentials{}
+		err := json.Unmarshal(appJson, &app)
+		if err != nil {
+			return creds, err
+		}
+		creds.Application = app
+	}
+	if len(userJson) > 0 {
+		user := PasswordCredentials{}
+		err := json.Unmarshal(userJson, &user)
+		if err != nil {
+			return creds, err
+		}
+		creds.PasswordCredentials = user
+	}
+	if len(accessToken) > 0 {
+		creds.Token = &oauth2.Token{
+			AccessToken: string(accessToken)}
+	}
+	return creds, nil
 }
 
 func NewCredentialsJSON(jsonData []byte) (Credentials, error) {
@@ -60,6 +86,28 @@ func (creds *Credentials) NewToken() (*oauth2.Token, error) {
 		creds.Token = tok
 	}
 	return tok, err
+}
+
+func (creds *Credentials) Me() (RingCentralExtensionInfo, error) {
+	httpClient, err := creds.NewClient()
+	if err != nil {
+		return RingCentralExtensionInfo{}, err
+	}
+	cu := ClientUtil{
+		Client:    httpClient,
+		ServerURL: creds.Application.ServerURL}
+	return cu.GetUserinfo()
+}
+
+func (creds *Credentials) MeScim() (scim.User, error) {
+	httpClient, err := creds.NewClient()
+	if err != nil {
+		return scim.User{}, err
+	}
+	cu := ClientUtil{
+		Client:    httpClient,
+		ServerURL: creds.Application.ServerURL}
+	return cu.GetSCIMUser()
 }
 
 type ApplicationCredentials struct {
