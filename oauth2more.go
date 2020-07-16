@@ -250,7 +250,7 @@ func NewClientTokenBase64Encode(tokenType, tokenValue string, tlsInsecureSkipVer
 		tlsInsecureSkipVerify)
 }
 
-// NewClientAuthzTokenSimple return a *http.Client given a token type and token string.
+// NewClientAuthzTokenSimple returns a *http.Client given a token type and token string.
 func NewClientAuthzTokenSimple(tokenType, accessToken string) *http.Client {
 	token := &oauth2.Token{
 		AccessToken: strings.TrimSpace(accessToken),
