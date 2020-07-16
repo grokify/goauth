@@ -8,7 +8,7 @@ import (
 	"github.com/grokify/gotilla/config"
 	"github.com/grokify/gotilla/net/httputilmore"
 	"github.com/grokify/gotilla/net/urlutil"
-	ou "github.com/grokify/oauth2more"
+	"github.com/grokify/oauth2more"
 	"github.com/grokify/oauth2more/ringcentral"
 )
 
@@ -20,7 +20,8 @@ func main() {
 
 	client := &http.Client{}
 	if len(os.Getenv("RINGCENTRAL_ACCESS_TOKEN")) > 0 {
-		client = ou.NewClientBearerTokenSimple(
+		client = oauth2more.NewClientAuthzTokenSimple(
+			oauth2more.TokenBearer,
 			os.Getenv("RINGCENTRAL_ACCESS_TOKEN"))
 	} else {
 		client, err = ringcentral.NewClientPassword(
