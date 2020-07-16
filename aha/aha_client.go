@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	hum "github.com/grokify/gotilla/net/httputilmore"
+	"github.com/grokify/oauth2more"
 	ou "github.com/grokify/oauth2more"
 	"golang.org/x/oauth2"
 )
@@ -28,7 +29,7 @@ func NewEndpoint(subdomain string) oauth2.Endpoint {
 }
 
 func NewClient(subdomain, token string) *http.Client {
-	client := ou.NewClientBearerTokenSimple(token)
+	client := ou.NewClientAuthzTokenSimple(oauth2more.TokenBearer, token)
 
 	header := http.Header{}
 	header.Add(AhaAccountHeader, subdomain)
