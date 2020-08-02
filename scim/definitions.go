@@ -13,6 +13,7 @@ import (
 // https://tools.ietf.org/html/rfc7643
 type User struct {
 	Schemas           []string  `json:"schemas,omitempty"`
+	ID                string    `json:"id,omitempty"`
 	ExternalID        string    `json:"externalId,omitempty"`
 	UserName          string    `json:"userName,omitempty"`
 	Name              Name      `json:"name,omitempty"`
@@ -29,6 +30,15 @@ type User struct {
 	Active            bool      `json:"active,omitempty"`
 	Password          string    `json:"password,omitempty"`
 	Addresses         []Address `json:"addresses,omitempty"`
+}
+
+func NewUser() User {
+	return User{
+		Schemas:      []string{},
+		PhoneNumbers: []Item{},
+		Emails:       []Item{},
+		Addresses:    []Address{},
+	}
 }
 
 func (user *User) DisplayNameAny() string {
@@ -112,4 +122,36 @@ type Address struct {
 	Country       string `json:"country,omitempty"`
 	Formatted     string `json:"formatted,omitempty"`
 	Primary       bool   `json:"primary,omitempty"`
+}
+
+func (addr Address) InflateStreetAddress(force bool) {
+	addr.Formatted = strings.TrimSpace(addr.Formatted)
+	addr.Locality = strings.TrimSpace(addr.Locality)
+	addr.Region = strings.TrimSpace(addr.Region)
+	addr.PostalCode = strings.TrimSpace(addr.PostalCode)
+	addr.Country = strings.TrimSpace(addr.Country)
+	if len(addr.Formatted) > 0 && !force {
+		return
+	}
+	lines := []string{}
+	if len(addr.StreetAddress) > 0 {
+		lines = append(lines, addr.StreetAddress)
+	}
+	parts := []string{}
+	if len(addr.Locality) > 0 {
+		parts = append(parts, addr.Locality+",")
+	}
+	if len(addr.Region) > 0 {
+		parts = append(parts, addr.Region)
+	}
+	if len(addr.PostalCode) > 0 {
+		parts = append(parts, addr.PostalCode)
+	}
+	if len(addr.Country) > 0 {
+		parts = append(parts, addr.Country)
+	}
+	if len(parts) > 0 {
+		lines = append(lines, strings.Join(parts, " "))
+	}
+	addr.Formatted = strings.Join(lines, "\n")
 }
