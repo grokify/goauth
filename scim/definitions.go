@@ -99,7 +99,7 @@ func (user *User) EmailAddress() string {
 }
 
 func (user *User) PhoneNumber() string {
-	one := GetOneItem(user.Emails)
+	one := GetOneItem(user.PhoneNumbers)
 	return one.Value
 }
 
