@@ -84,15 +84,58 @@ func (user *User) AddEmail(emailAddr string, isPrimary bool) error {
 // It prioritizes primary email addresses and then falls
 // back to non-primary email address.
 func (user *User) EmailAddress() string {
-	firstSecondaryEmail := ""
-	for _, em := range user.Emails {
-		if em.Primary && len(strings.TrimSpace(em.Value)) > 0 {
-			return strings.TrimSpace(em.Value)
-		} else if len(firstSecondaryEmail) == 0 && len(strings.TrimSpace(em.Value)) > 0 {
-			firstSecondaryEmail = strings.TrimSpace(em.Value)
+	one := GetOneItem(user.Emails)
+	return one.Value
+	/*
+		firstSecondaryEmail := ""
+		for _, em := range user.Emails {
+			if em.Primary && len(strings.TrimSpace(em.Value)) > 0 {
+				return strings.TrimSpace(em.Value)
+			} else if len(firstSecondaryEmail) == 0 && len(strings.TrimSpace(em.Value)) > 0 {
+				firstSecondaryEmail = strings.TrimSpace(em.Value)
+			}
+		}
+		return firstSecondaryEmail*/
+}
+
+func (user *User) PhoneNumber() string {
+	one := GetOneItem(user.Emails)
+	return one.Value
+}
+
+func GetOneItem(items []Item) Item {
+	if len(items) == 0 {
+		return Item{}
+	}
+	havePrimary := false
+	haveSecondary := false
+	primary := Item{}
+	secondary := Item{}
+	for _, it := range items {
+		it.Value = strings.TrimSpace(it.Value)
+		if it.Primary {
+			if len(it.Value) > 0 {
+				return it
+			}
+			primary = it
+			havePrimary = true
+		} else {
+			if haveSecondary && len(secondary.Value) > 0 {
+				continue
+			} else if len(it.Value) > 0 || !haveSecondary {
+				secondary = it
+				haveSecondary = true
+			}
 		}
 	}
-	return firstSecondaryEmail
+	if havePrimary && len(primary.Value) > 0 {
+		return primary
+	} else if haveSecondary && len(secondary.Value) > 0 {
+		return secondary
+	} else if havePrimary {
+		return primary
+	}
+	return secondary
 }
 
 // Name is the SCIM user name struct.
