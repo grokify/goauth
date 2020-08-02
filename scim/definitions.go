@@ -10,14 +10,15 @@ import (
 // User is an object from the full user representation
 // specified in the SCIM schema:
 // http://www.simplecloud.info/specs/draft-scim-core-schema-01.html#anchor7
+// https://tools.ietf.org/html/rfc7643
 type User struct {
 	Schemas           []string  `json:"schemas,omitempty"`
-	ExternalId        string    `json:"externalId,omitempty"`
+	ExternalID        string    `json:"externalId,omitempty"`
 	UserName          string    `json:"userName,omitempty"`
 	Name              Name      `json:"name,omitempty"`
 	DisplayName       string    `json:"displayName,omitempty"`
 	NickName          string    `json:"nickName,omitempty"`
-	ProfileUrl        string    `json:"profileUrl,omitempty"`
+	ProfileURL        string    `json:"profileUrl,omitempty"`
 	PhoneNumbers      []Item    `json:"phoneNumbers,omitempty"`
 	Emails            []Item    `json:"emails,omitempty"`
 	UserType          string    `json:"userType,omitempty"`
