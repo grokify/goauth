@@ -136,6 +136,10 @@ func NewClient(cfg Config) (*http.Client, *AuthResponse, error) {
 		cfg.TlsSkipVerify)
 }
 
+func (cfg *Config) NewClient() (*http.Client, *AuthResponse, error) {
+	return NewClient(*cfg)
+}
+
 type InitConfig struct {
 	LoadEnv              bool
 	EnvPath              string
