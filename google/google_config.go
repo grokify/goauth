@@ -8,6 +8,7 @@ import (
 
 	"github.com/grokify/gotilla/type/stringsutil"
 	"github.com/pkg/errors"
+	json "github.com/pquerna/ffjson/ffjson"
 	"golang.org/x/oauth2"
 	o2g "golang.org/x/oauth2/google"
 )
@@ -38,6 +39,17 @@ func ConfigFromEnv(envVar string, scopes []string) (*oauth2.Config, error) {
 func ConfigFromBytes(configJson []byte, scopes []string) (*oauth2.Config, error) {
 	if len(strings.TrimSpace(string(configJson))) == 0 {
 		return nil, errors.Wrap(errors.New("No Credentials Provided"), "oauth2more/google.ConfigFromBytes()")
+	}
+
+	if len(scopes) == 0 {
+		cc := CredentialsContainer{}
+		err := json.Unmarshal(configJson, &cc)
+		if err != nil {
+			return nil, errors.Wrap(err, "ConfigFromBytes")
+		}
+		if len(cc.Scopes) > 0 {
+			scopes = append(scopes, cc.Scopes...)
+		}
 	}
 
 	return o2g.ConfigFromJSON(configJson, scopes...)

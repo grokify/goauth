@@ -10,8 +10,9 @@ import (
 )
 
 type CredentialsContainer struct {
-	Web *Credentials `json:"web,omitempty"`
-	Raw []byte       `json:"-"`
+	Web    *Credentials `json:"web,omitempty"`
+	Raw    []byte       `json:"-"`
+	Scopes []string     `json:"scopes,omitempty"` // optional for self-contained app credentials
 }
 
 func (cc *CredentialsContainer) OAuth2Config(scopes ...string) (*oauth2.Config, error) {
