@@ -5,11 +5,11 @@ import (
 	"strings"
 )
 
-type OAuth2Provider int
-
 // OAuth2Provider a constant list of OAuth2 providers.
 // Warning: do not rely on ordering or integer value
 // as this will change as additional providers are added.
+type OAuth2Provider int
+
 const (
 	Aha OAuth2Provider = iota
 	Facebook
@@ -43,7 +43,7 @@ func (p OAuth2Provider) String() string {
 	if Aha <= p && p <= Zendesk {
 		return providers[p]
 	}
-	panic(fmt.Sprintf("Provider not in range [%v]", string(p)))
+	panic(fmt.Sprintf("Provider not in range [%d]", p))
 	return ""
 }
 
