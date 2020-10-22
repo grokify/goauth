@@ -24,8 +24,9 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	fmtutil.PrintJSON(opts)
 
-	files, err := config.LoadDotEnv(opts.EnvPath, os.Getenv("ENV_PATH"), "./.env")
+	files, err := config.LoadDotEnv(opts.EnvPath)
 	if err != nil {
 		log.Fatal(errors.Wrap(err, "E_LOAD_DOT_ENV"))
 	}
@@ -36,12 +37,15 @@ func main() {
 			log.Fatal("E_NO_VAR")
 		}
 
+		fmt.Println(os.Getenv(opts.EnvVar))
+
 		credentials, err := ringcentral.NewCredentialsJSON([]byte(os.Getenv(opts.EnvVar)))
 		if err != nil {
 			log.Fatal(
 				errors.Wrap(
 					err, fmt.Sprintf("E_JSON_UNMARSHAL [%v]", os.Getenv(opts.EnvVar))))
 		}
+		fmtutil.PrintJSON(credentials)
 		token, err := credentials.NewToken()
 		if err != nil {
 			log.Fatal(err)
