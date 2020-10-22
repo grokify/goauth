@@ -23,11 +23,11 @@ func main() {
 	}
 
 	cfg := metabase.Config{
-		BaseUrl:       os.Getenv(metabase.EnvMetabaseBaseUrl),
-		SessionId:     os.Getenv(metabase.EnvMetabaseSessionId),
+		BaseURL:       os.Getenv(metabase.EnvMetabaseBaseUrl),
+		SessionID:     os.Getenv(metabase.EnvMetabaseSessionId),
 		Username:      os.Getenv(metabase.EnvMetabaseUsername),
 		Password:      os.Getenv(metabase.EnvMetabasePassword),
-		TlsSkipVerify: stringsutil.ToBool(os.Getenv(metabase.EnvMetabaseTlsSkipVerify))}
+		TLSSkipVerify: stringsutil.ToBool(os.Getenv(metabase.EnvMetabaseTlsSkipVerify))}
 	fmtutil.PrintJSON(cfg)
 
 	_, authResponse, err := metabase.NewClient(cfg)
