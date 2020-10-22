@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"crypto/tls"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"os"
 	"strings"
@@ -33,6 +34,53 @@ const (
 var (
 	TLSInsecureSkipVerify = false
 )
+
+// Config is a basic struct to hold API access information for
+// Metabase.
+type Config struct {
+	BaseURL       string
+	SessionID     string
+	Username      string
+	Password      string
+	TLSSkipVerify bool
+}
+
+func (cfg *Config) Validate() error {
+	cfg.BaseURL = strings.TrimSpace(cfg.BaseURL)
+	cfg.SessionID = strings.TrimSpace(cfg.SessionID)
+	missing := []string{}
+	if len(cfg.BaseURL) == 0 {
+		missing = append(missing, "BaseURL")
+	}
+	if len(cfg.SessionID) == 0 ||
+		(len(cfg.Username) == 0 || len(cfg.Password) == 0) {
+		missing = append(missing, "SessionID or Username/Password")
+	}
+	if len(missing) > 0 {
+		return fmt.Errorf("Config Missing: [%s]", strings.Join(missing, ","))
+	}
+	return nil
+}
+
+func NewClient(cfg Config) (*http.Client, *AuthResponse, error) {
+	cfg.SessionID = strings.TrimSpace(cfg.SessionID)
+	if len(cfg.SessionID) > 0 {
+		httpClient := NewClientSessionId(cfg.SessionID, cfg.TLSSkipVerify)
+		clientUtil := ClientUtil{
+			HTTPClient: httpClient,
+			BaseURL:    cfg.BaseURL}
+		_, _, err := clientUtil.GetCurrentUser()
+		if err == nil {
+			return httpClient, nil, nil
+		}
+	}
+
+	return NewClientPassword(
+		cfg.BaseURL,
+		cfg.Username,
+		cfg.Password,
+		cfg.TLSSkipVerify)
+}
 
 type authRequest struct {
 	Username string `json:"username,omitempty"`
@@ -96,44 +144,15 @@ func NewClientSessionId(sessionId string, tlsSkipVerify bool) *http.Client {
 	return client
 }
 
-// Config is a basic struct to hold API access information for
-// Metabase.
-type Config struct {
-	BaseUrl       string
-	SessionId     string
-	Username      string
-	Password      string
-	TlsSkipVerify bool
-}
-
 // NewConfigEnv returns a new Config instance populated
 // from default environment variables.
 func NewConfigEnv() Config {
 	return Config{
-		BaseUrl:       os.Getenv(EnvMetabaseBaseUrl),
-		SessionId:     os.Getenv(EnvMetabaseSessionId),
+		BaseURL:       os.Getenv(EnvMetabaseBaseUrl),
+		SessionID:     os.Getenv(EnvMetabaseSessionId),
 		Username:      os.Getenv(EnvMetabaseUsername),
 		Password:      os.Getenv(EnvMetabasePassword),
-		TlsSkipVerify: stringsutil.ToBool(os.Getenv(EnvMetabaseTlsSkipVerify))}
-}
-
-func NewClient(cfg Config) (*http.Client, *AuthResponse, error) {
-	if len(strings.TrimSpace(cfg.SessionId)) > 0 {
-		httpClient := NewClientSessionId(cfg.SessionId, cfg.TlsSkipVerify)
-		clientUtil := ClientUtil{
-			HTTPClient: httpClient,
-			BaseURL:    cfg.BaseUrl}
-		_, _, err := clientUtil.GetCurrentUser()
-		if err == nil {
-			return httpClient, nil, nil
-		}
-	}
-
-	return NewClientPassword(
-		cfg.BaseUrl,
-		cfg.Username,
-		cfg.Password,
-		cfg.TlsSkipVerify)
+		TLSSkipVerify: stringsutil.ToBool(os.Getenv(EnvMetabaseTlsSkipVerify))}
 }
 
 func (cfg *Config) NewClient() (*http.Client, *AuthResponse, error) {
@@ -176,11 +195,11 @@ func NewClientEnv(initCfg InitConfig) (*http.Client, *AuthResponse, error) {
 	initCfg.Defaultify()
 
 	return NewClient(Config{
-		BaseUrl:       os.Getenv(initCfg.EnvMetabaseBaseUrl),
+		BaseURL:       os.Getenv(initCfg.EnvMetabaseBaseUrl),
 		Username:      os.Getenv(initCfg.EnvMetabaseUsername),
 		Password:      os.Getenv(initCfg.EnvMetabasePassword),
-		SessionId:     os.Getenv(initCfg.EnvMetabaseSessionId),
-		TlsSkipVerify: initCfg.TlsSkipVerify})
+		SessionID:     os.Getenv(initCfg.EnvMetabaseSessionId),
+		TLSSkipVerify: initCfg.TlsSkipVerify})
 }
 
 // AuthRequest creates an authentiation request that returns a id that is used
