@@ -24,11 +24,11 @@ const (
 	RelPathApiUserCurrent = "api/user/current"
 
 	// Example environment variables
-	EnvMetabaseBaseUrl       = "METABASE_BASE_URL"
+	EnvMetabaseBaseURL       = "METABASE_BASE_URL"
 	EnvMetabaseUsername      = "METABASE_USERNAME"
 	EnvMetabasePassword      = "METABASE_PASSWORD"
-	EnvMetabaseSessionId     = "METABASE_SESSION_ID"
-	EnvMetabaseTlsSkipVerify = "METABASE_TLS_SKIP_VERIFY"
+	EnvMetabaseSessionID     = "METABASE_SESSION_ID"
+	EnvMetabaseTLSSkipVerify = "METABASE_TLS_SKIP_VERIFY"
 )
 
 var (
@@ -144,47 +144,74 @@ func NewClientSessionId(sessionId string, tlsSkipVerify bool) *http.Client {
 	return client
 }
 
-// NewConfigEnv returns a new Config instance populated
-// from default environment variables.
-func NewConfigEnv() Config {
-	return Config{
-		BaseURL:       os.Getenv(EnvMetabaseBaseUrl),
-		SessionID:     os.Getenv(EnvMetabaseSessionId),
-		Username:      os.Getenv(EnvMetabaseUsername),
-		Password:      os.Getenv(EnvMetabasePassword),
-		TLSSkipVerify: stringsutil.ToBool(os.Getenv(EnvMetabaseTlsSkipVerify))}
-}
-
 func (cfg *Config) NewClient() (*http.Client, *AuthResponse, error) {
 	return NewClient(*cfg)
 }
 
-type InitConfig struct {
-	LoadEnv              bool
-	EnvPath              string
-	EnvMetabaseBaseUrl   string
-	EnvMetabaseSessionId string
-	EnvMetabaseUsername  string
-	EnvMetabasePassword  string
-	TlsSkipVerify        bool
+type ConfigEnvOpts struct {
+	EnvPaths                 []string
+	EnvPathsLoad             bool
+	EnvMetabaseBaseURL       string
+	EnvMetabaseSessionID     string
+	EnvMetabaseUsername      string
+	EnvMetabasePassword      string
+	EnvMetabaseTLSSkipVerify string
 }
 
-func (ic *InitConfig) Defaultify() {
-	if len(strings.TrimSpace(ic.EnvMetabaseBaseUrl)) == 0 {
-		ic.EnvMetabaseBaseUrl = EnvMetabaseBaseUrl
+func (opts *ConfigEnvOpts) Defaultify() {
+	if len(strings.TrimSpace(opts.EnvMetabaseBaseURL)) == 0 {
+		opts.EnvMetabaseBaseURL = EnvMetabaseBaseURL
 	}
-	if len(strings.TrimSpace(ic.EnvMetabaseUsername)) == 0 {
-		ic.EnvMetabaseUsername = EnvMetabaseUsername
+	if len(strings.TrimSpace(opts.EnvMetabaseUsername)) == 0 {
+		opts.EnvMetabaseUsername = EnvMetabaseUsername
 	}
-	if len(strings.TrimSpace(ic.EnvMetabasePassword)) == 0 {
-		ic.EnvMetabasePassword = EnvMetabasePassword
+	if len(strings.TrimSpace(opts.EnvMetabasePassword)) == 0 {
+		opts.EnvMetabasePassword = EnvMetabasePassword
 	}
-	if len(strings.TrimSpace(ic.EnvMetabaseSessionId)) == 0 {
-		ic.EnvMetabaseSessionId = EnvMetabaseSessionId
+	if len(strings.TrimSpace(opts.EnvMetabaseSessionID)) == 0 {
+		opts.EnvMetabaseSessionID = EnvMetabaseSessionID
+	}
+	if len(strings.TrimSpace(opts.EnvMetabaseTLSSkipVerify)) == 0 {
+		opts.EnvMetabaseTLSSkipVerify = EnvMetabaseTLSSkipVerify
 	}
 }
 
-func NewClientEnv(initCfg InitConfig) (*http.Client, *AuthResponse, error) {
+func (opts *ConfigEnvOpts) LoadEnv() error {
+	if opts.EnvPathsLoad && len(opts.EnvPaths) > 0 {
+		return config.LoadDotEnvSkipEmpty(opts.EnvPaths...)
+	}
+	return nil
+}
+
+func (opts *ConfigEnvOpts) Config() Config {
+	return Config{
+		BaseURL:       os.Getenv(opts.EnvMetabaseBaseURL),
+		Username:      os.Getenv(opts.EnvMetabaseUsername),
+		Password:      os.Getenv(opts.EnvMetabasePassword),
+		SessionID:     os.Getenv(opts.EnvMetabaseSessionID),
+		TLSSkipVerify: stringsutil.ToBool(os.Getenv(opts.EnvMetabaseTLSSkipVerify))}
+}
+
+func NewClientEnv(opts *ConfigEnvOpts) (*http.Client, *AuthResponse, *Config, error) {
+	if opts == nil {
+		opts = &ConfigEnvOpts{}
+	} else {
+		if opts.EnvPathsLoad && len(opts.EnvPaths) > 0 {
+			err := opts.LoadEnv()
+			if err != nil {
+				return nil, nil, nil, err
+			}
+		}
+	}
+	opts.Defaultify()
+	cfg := opts.Config()
+
+	client, authres, err := NewClient(cfg)
+	return client, authres, &cfg, err
+}
+
+/*
+func NewClientEnv(initCfg ConfigEnvOpts) (*http.Client, *AuthResponse, error) {
 	if initCfg.LoadEnv && len(initCfg.EnvPath) > 0 {
 		err := config.LoadDotEnvSkipEmpty(os.Getenv(initCfg.EnvPath), "./.env")
 		if err != nil {
@@ -201,6 +228,7 @@ func NewClientEnv(initCfg InitConfig) (*http.Client, *AuthResponse, error) {
 		SessionID:     os.Getenv(initCfg.EnvMetabaseSessionId),
 		TLSSkipVerify: initCfg.TlsSkipVerify})
 }
+*/
 
 // AuthRequest creates an authentiation request that returns a id that is used
 // in Metabase API requests. It follows the following curl command:
