@@ -62,7 +62,9 @@ scimuser, err := rcClientUtil.GetSCIMUser()
 
 ## Test Redirect URL
 
-This repo comes with a generic test OAuth 2 redirect page:
+This repo comes with a generic test OAuth 2 redirect page which can be used with headless (no-UI) apps. To use this test URL, configure the following URL to be your OAuth 2 redirect URI. This will write the Authorization Code in the HTMl which you can then copy and paste into your own app.
+
+The URL is located here:
 
 * [https://grokify.github.io/oauth2more/oauth2callback/](https://grokify.github.io/oauth2more/oauth2callback/)
 
