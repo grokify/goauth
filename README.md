@@ -80,7 +80,7 @@ See the following repo for a Beego-based demo app:
  [build-status-link]: https://github.com/grokify/oauth2more/actions
  [goreport-svg]: https://goreportcard.com/badge/github.com/grokify/oauth2more
  [goreport-link]: https://goreportcard.com/report/github.com/grokify/oauth2more
- [docs-godoc-svg]: https://img.shields.io/badge/docs-godoc-blue.svg
- [docs-godoc-link]: https://godoc.org/github.com/grokify/oauth2more
+ [docs-godoc-svg]: https://pkg.go.dev/badge/github.com/grokify/oauth2more
+ [docs-godoc-link]: https://pkg.go.dev/github.com/grokify/oauth2more
  [license-svg]: https://img.shields.io/badge/license-MIT-blue.svg
  [license-link]: https://github.com/grokify/oauth2more/blob/master/LICENSE.md
