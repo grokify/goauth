@@ -6,9 +6,9 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/grokify/gotilla/net/httputilmore"
-	hum "github.com/grokify/gotilla/net/httputilmore"
-	"github.com/grokify/gotilla/time/timeutil"
+	"github.com/grokify/simplego/net/httputilmore"
+	hum "github.com/grokify/simplego/net/httputilmore"
+	"github.com/grokify/simplego/time/timeutil"
 	"golang.org/x/oauth2"
 )
 

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/grokify/gotilla/encoding/jsonutil"
+	"github.com/grokify/simplego/encoding/jsonutil"
 )
 
 type CredentialsSet struct {

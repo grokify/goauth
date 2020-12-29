@@ -5,11 +5,11 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/grokify/gotilla/config"
-	"github.com/grokify/gotilla/net/httputilmore"
-	"github.com/grokify/gotilla/net/urlutil"
 	"github.com/grokify/oauth2more"
 	"github.com/grokify/oauth2more/ringcentral"
+	"github.com/grokify/simplego/config"
+	"github.com/grokify/simplego/net/httputilmore"
+	"github.com/grokify/simplego/net/urlutil"
 )
 
 func main() {

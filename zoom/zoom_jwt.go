@@ -5,8 +5,8 @@ import (
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
-	"github.com/grokify/gotilla/net/httputilmore"
 	"github.com/grokify/oauth2more"
+	"github.com/grokify/simplego/net/httputilmore"
 )
 
 const (

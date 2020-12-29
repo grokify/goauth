@@ -6,7 +6,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/grokify/gotilla/type/stringsutil"
+	"github.com/grokify/simplego/type/stringsutil"
 	"github.com/pkg/errors"
 	json "github.com/pquerna/ffjson/ffjson"
 	"golang.org/x/oauth2"

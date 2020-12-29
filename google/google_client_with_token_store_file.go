@@ -8,9 +8,9 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/grokify/gotilla/net/urlutil"
-	"github.com/grokify/gotilla/type/stringsutil"
 	"github.com/grokify/oauth2more"
+	"github.com/grokify/simplego/net/urlutil"
+	"github.com/grokify/simplego/type/stringsutil"
 	"github.com/pkg/errors"
 
 	"golang.org/x/oauth2"

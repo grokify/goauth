@@ -7,8 +7,8 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/grokify/gotilla/strconv/humannameparser"
 	"github.com/grokify/oauth2more/scim"
+	"github.com/grokify/simplego/strconv/humannameparser"
 )
 
 // ClientUtil is a client library to retrieve user info

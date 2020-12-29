@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/grokify/gotilla/config"
-	"github.com/grokify/gotilla/fmt/fmtutil"
-	hum "github.com/grokify/gotilla/net/httputilmore"
 	"github.com/grokify/oauth2more/zendesk"
+	"github.com/grokify/simplego/config"
+	"github.com/grokify/simplego/fmt/fmtutil"
+	hum "github.com/grokify/simplego/net/httputilmore"
 )
 
 func MeURL(subdomain string) string {

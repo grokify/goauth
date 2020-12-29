@@ -5,8 +5,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/grokify/gotilla/encoding/jsonutil"
 	"github.com/grokify/oauth2more/scim"
+	"github.com/grokify/simplego/encoding/jsonutil"
 )
 
 const (

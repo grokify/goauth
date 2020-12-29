@@ -11,8 +11,8 @@ import (
 
 	"golang.org/x/oauth2"
 
-	"github.com/grokify/gotilla/net/urlutil"
 	"github.com/grokify/oauth2more/scim"
+	"github.com/grokify/simplego/net/urlutil"
 )
 
 /*

@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"net/http"
 
-	hum "github.com/grokify/gotilla/net/httputilmore"
 	"github.com/grokify/oauth2more"
 	ou "github.com/grokify/oauth2more"
+	hum "github.com/grokify/simplego/net/httputilmore"
 	"golang.org/x/oauth2"
 )
 
