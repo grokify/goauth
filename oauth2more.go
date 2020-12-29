@@ -10,10 +10,10 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/grokify/gotilla/net/httputilmore"
-	hum "github.com/grokify/gotilla/net/httputilmore"
-	"github.com/grokify/gotilla/time/timeutil"
 	"github.com/grokify/oauth2more/scim"
+	"github.com/grokify/simplego/net/httputilmore"
+	hum "github.com/grokify/simplego/net/httputilmore"
+	"github.com/grokify/simplego/time/timeutil"
 	"github.com/pkg/errors"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/facebook"

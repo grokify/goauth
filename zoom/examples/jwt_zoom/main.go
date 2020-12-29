@@ -8,10 +8,10 @@ import (
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
-	"github.com/grokify/gotilla/config"
-	"github.com/grokify/gotilla/fmt/fmtutil"
 	"github.com/grokify/oauth2more"
 	"github.com/grokify/oauth2more/zoom"
+	"github.com/grokify/simplego/config"
+	"github.com/grokify/simplego/fmt/fmtutil"
 )
 
 func main() {

@@ -9,8 +9,8 @@ import (
 
 	"github.com/bmizerany/pat"
 	"github.com/caarlos0/env"
-	"github.com/grokify/gotilla/config"
-	hum "github.com/grokify/gotilla/net/httputilmore"
+	"github.com/grokify/simplego/config"
+	hum "github.com/grokify/simplego/net/httputilmore"
 	log "github.com/sirupsen/logrus"
 
 	"github.com/grokify/oauth2more/auth0"

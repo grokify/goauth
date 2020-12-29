@@ -3,7 +3,7 @@ package ringcentral
 import (
 	"strings"
 
-	"github.com/grokify/gotilla/crypto/hash/argon2"
+	"github.com/grokify/simplego/crypto/hash/argon2"
 )
 
 func UsernameExtensionPasswordToString(username, extension, password string) string {

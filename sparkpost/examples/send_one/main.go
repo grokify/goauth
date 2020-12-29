@@ -5,8 +5,8 @@ import (
 	"os"
 
 	sp "github.com/SparkPost/gosparkpost"
-	"github.com/grokify/gotilla/config"
 	"github.com/grokify/oauth2more/sparkpost"
+	"github.com/grokify/simplego/config"
 	log "github.com/sirupsen/logrus"
 )
 

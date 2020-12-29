@@ -10,8 +10,8 @@ import (
 	"strings"
 	"time"
 
-	hum "github.com/grokify/gotilla/net/httputilmore"
 	om "github.com/grokify/oauth2more"
+	hum "github.com/grokify/simplego/net/httputilmore"
 	"golang.org/x/oauth2"
 )
 

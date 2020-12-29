@@ -6,9 +6,9 @@ import (
 	"net/http"
 	"os"
 
-	hum "github.com/grokify/gotilla/net/httputilmore"
-	"github.com/grokify/gotilla/net/urlutil"
 	"github.com/grokify/oauth2more/metabase"
+	hum "github.com/grokify/simplego/net/httputilmore"
+	"github.com/grokify/simplego/net/urlutil"
 	"github.com/joho/godotenv"
 )
 

@@ -4,9 +4,9 @@ import (
 	"strings"
 
 	"github.com/grokify/gocharts/data/table"
-	"github.com/grokify/gotilla/strconv/phonenumber"
-	"github.com/grokify/gotilla/strings/usstate"
 	"github.com/grokify/oauth2more/scim"
+	"github.com/grokify/simplego/strconv/phonenumber"
+	"github.com/grokify/simplego/strings/usstate"
 	"github.com/nyaruka/phonenumbers"
 )
 

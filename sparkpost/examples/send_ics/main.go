@@ -11,9 +11,9 @@ import (
 
 	"github.com/caarlos0/env"
 
-	"github.com/grokify/gotilla/config"
-	hum "github.com/grokify/gotilla/net/httputilmore"
-	tu "github.com/grokify/gotilla/time/timeutil"
+	"github.com/grokify/simplego/config"
+	hum "github.com/grokify/simplego/net/httputilmore"
+	tu "github.com/grokify/simplego/time/timeutil"
 	log "github.com/sirupsen/logrus"
 
 	sp "github.com/SparkPost/gosparkpost"

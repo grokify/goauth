@@ -7,7 +7,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/grokify/gotilla/os/osutil"
+	"github.com/grokify/simplego/os/osutil"
 
 	"github.com/grokify/oauth2more"
 	"github.com/grokify/oauth2more/aha"

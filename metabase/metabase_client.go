@@ -10,12 +10,12 @@ import (
 	"os"
 	"strings"
 
-	"github.com/grokify/gotilla/config"
-	"github.com/grokify/gotilla/encoding/jsonutil"
-	hum "github.com/grokify/gotilla/net/httputilmore"
-	"github.com/grokify/gotilla/net/urlutil"
-	"github.com/grokify/gotilla/type/stringsutil"
 	om "github.com/grokify/oauth2more"
+	"github.com/grokify/simplego/config"
+	"github.com/grokify/simplego/encoding/jsonutil"
+	hum "github.com/grokify/simplego/net/httputilmore"
+	"github.com/grokify/simplego/net/urlutil"
+	"github.com/grokify/simplego/type/stringsutil"
 )
 
 const (

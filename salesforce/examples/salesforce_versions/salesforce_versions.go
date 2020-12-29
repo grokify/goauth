@@ -7,10 +7,10 @@ import (
 	"log"
 	"os"
 
-	"github.com/grokify/gotilla/config"
-	"github.com/grokify/gotilla/fmt/fmtutil"
-	"github.com/grokify/gotilla/net/httputilmore"
 	"github.com/grokify/oauth2more/salesforce"
+	"github.com/grokify/simplego/config"
+	"github.com/grokify/simplego/fmt/fmtutil"
+	"github.com/grokify/simplego/net/httputilmore"
 
 	su "github.com/grokify/go-salesforce/clientutil"
 	ou "github.com/grokify/oauth2more"

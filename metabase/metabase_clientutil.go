@@ -9,9 +9,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/grokify/gotilla/net/urlutil"
-	tu "github.com/grokify/gotilla/time/timeutil"
 	"github.com/grokify/oauth2more/scim"
+	"github.com/grokify/simplego/net/urlutil"
+	tu "github.com/grokify/simplego/time/timeutil"
 	"github.com/pkg/errors"
 	log "github.com/sirupsen/logrus"
 )
