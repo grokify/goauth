@@ -24,6 +24,7 @@ type GoogleConfigFileStore struct {
 	TokenPath      string
 	UseDefaultDir  bool
 	ForceNewToken  bool
+	State          string
 }
 
 // LoadCredentialsBytes set this after setting Scopes.
@@ -90,7 +91,8 @@ func (gc *GoogleConfigFileStore) Client() (*http.Client, error) {
 		gc.Scopes,
 		gc.TokenPath,
 		gc.UseDefaultDir,
-		gc.ForceNewToken)
+		gc.ForceNewToken,
+		gc.State)
 }
 
 // NewClientFileStore returns a `*http.Client` with Google credentials
@@ -101,7 +103,8 @@ func NewClientFileStore(
 	scopes []string,
 	tokenPath string,
 	useDefaultDir bool,
-	forceNewToken bool) (*http.Client, error) {
+	forceNewToken bool,
+	state string) (*http.Client, error) {
 
 	if len(strings.TrimSpace(string(credentials))) == 0 {
 		return nil, errors.Wrap(errors.New("No Credentials Provided"), "GoogleConfigFileStore.LoadCredentialsBytes()")
@@ -115,7 +118,7 @@ func NewClientFileStore(
 	if err != nil {
 		return nil, err
 	}
-	googHttpClient, err := oauth2more.NewClientWebTokenStore(context.Background(), conf, tokenStore, forceNewToken)
+	googHttpClient, err := oauth2more.NewClientWebTokenStore(context.Background(), conf, tokenStore, forceNewToken, state)
 	if err != nil {
 		return nil, err
 	}
@@ -124,7 +127,7 @@ func NewClientFileStore(
 		_, err := cu.GetUserinfo()
 		if err != nil {
 			fmt.Printf("E_GOOGLE_USER_PROFILE_API_ERROR [%v] ... Getting New Token...\n", err.Error())
-			googHttpClient, err = oauth2more.NewClientWebTokenStore(context.Background(), conf, tokenStore, true)
+			googHttpClient, err = oauth2more.NewClientWebTokenStore(context.Background(), conf, tokenStore, true, state)
 			if err != nil {
 				return nil, err
 			}

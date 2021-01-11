@@ -61,8 +61,8 @@ func (ts *TokenStoreFile) Write() error {
 	return WriteTokenFile(ts.Filepath, ts.Token)
 }
 
-func (ts *TokenStoreFile) NewTokenFromWeb(cfg *oauth2.Config) (*oauth2.Token, error) {
-	tok, err := NewTokenFromWeb(cfg)
+func (ts *TokenStoreFile) NewTokenFromWeb(cfg *oauth2.Config, state string) (*oauth2.Token, error) {
+	tok, err := NewTokenFromWeb(cfg, state)
 	if err != nil {
 		return &oauth2.Token{}, err
 	}
@@ -88,12 +88,12 @@ func UserCredentialsDirMk(perm os.FileMode) (string, error) {
 	return dir, err
 }
 
-func NewClientWebTokenStore(ctx context.Context, conf *oauth2.Config, tStore *TokenStoreFile, forceNewToken bool) (*http.Client, error) {
+func NewClientWebTokenStore(ctx context.Context, conf *oauth2.Config, tStore *TokenStoreFile, forceNewToken bool, state string) (*http.Client, error) {
 	err := tStore.Read()
 	client := &http.Client{}
 
 	if err != nil || forceNewToken {
-		_, err := tStore.NewTokenFromWeb(conf)
+		_, err := tStore.NewTokenFromWeb(conf, state)
 		if err != nil {
 			return client, err
 		}
