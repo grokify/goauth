@@ -27,6 +27,7 @@ type ClientOauthCliTokenStoreConfig struct {
 	Scopes        []string
 	TokenFile     string
 	ForceNewToken bool
+	State         string
 }
 
 func NewClientOauthCliTokenStore(cfg ClientOauthCliTokenStoreConfig) (*http.Client, error) {
@@ -40,7 +41,7 @@ func NewClientOauthCliTokenStore(cfg ClientOauthCliTokenStoreConfig) (*http.Clie
 		return nil, err
 	}
 
-	return om.NewClientWebTokenStore(cfg.Context, conf, tokenStore, cfg.ForceNewToken)
+	return om.NewClientWebTokenStore(cfg.Context, conf, tokenStore, cfg.ForceNewToken, cfg.State)
 }
 
 func NewClientSvcAccountFromFile(ctx context.Context, svcAccountConfigFile string, scopes ...string) (*http.Client, error) {
