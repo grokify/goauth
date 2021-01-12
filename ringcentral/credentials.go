@@ -125,6 +125,7 @@ type ApplicationCredentials struct {
 	OAuthEndpointID string `json:"oauthEndpointID,omitempty"`
 	AccessTokenTTL  int64  `json:"accessTokenTTL,omitempty"`
 	RefreshTokenTTL int64  `json:"refreshTokenTTL,omitempty"`
+	GrantType       string `json:"grantType,omitempty"`
 }
 
 func NewApplicationCredentialsEnv() ApplicationCredentials {
@@ -142,6 +143,11 @@ func (app *ApplicationCredentials) Config() oauth2.Config {
 		ClientSecret: app.ClientSecret,
 		Endpoint:     NewEndpoint(app.ServerURL),
 		RedirectURL:  app.RedirectURL}
+}
+
+func (app *ApplicationCredentials) AuthCodeURL(state string, opts ...oauth2.AuthCodeOption) string {
+	cfg := app.Config()
+	return cfg.AuthCodeURL(state, opts...)
 }
 
 func (app *ApplicationCredentials) Exchange(code string) (*RcToken, error) {
@@ -172,6 +178,13 @@ func (ac *ApplicationCredentials) AppNameAndVersion() string {
 		parts = append(parts, fmt.Sprintf("v%v", ac.AppVersion))
 	}
 	return strings.Join(parts, "-")
+}
+
+func (app *ApplicationCredentials) IsGrantType(grantType string) bool {
+	if strings.TrimSpace(grantType) == strings.TrimSpace(app.GrantType) {
+		return true
+	}
+	return false
 }
 
 type PasswordCredentials struct {
