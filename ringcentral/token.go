@@ -9,10 +9,7 @@ import (
 	"golang.org/x/oauth2"
 )
 
-func NewTokenCli(creds Credentials, state string) (*oauth2.Token, error) {
-	var token *oauth2.Token
-	var err error
-
+func NewTokenCli(creds Credentials, state string) (token *oauth2.Token, err error) {
 	if creds.Application.IsGrantType(oauth2more.GrantTypeAuthorizationCode) {
 		state = strings.TrimSpace(state)
 		if len(state) == 0 {
