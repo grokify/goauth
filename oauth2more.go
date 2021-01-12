@@ -5,7 +5,6 @@ import (
 	"crypto/tls"
 	"encoding/base64"
 	"encoding/json"
-	errr "errors"
 	"fmt"
 	"net/http"
 	"strings"
@@ -20,10 +19,11 @@ import (
 )
 
 const (
-	VERSION     = "0.2.0"
-	PATH        = "github.com/grokify/oauth2more"
-	TokenBasic  = "Basic"
-	TokenBearer = "Bearer"
+	VERSION                    = "0.2.0"
+	PATH                       = "github.com/grokify/oauth2more"
+	TokenBasic                 = "Basic"
+	TokenBearer                = "Bearer"
+	GrantTypeAuthorizationCode = "code"
 )
 
 type AuthorizationType int
@@ -133,7 +133,7 @@ func (w *AppCredentialsWrapper) Config() (*oauth2.Config, error) {
 	} else if w.Installed != nil {
 		c = w.Installed
 	} else {
-		return nil, errr.New("No OAuth2 config info")
+		return nil, errors.New("No OAuth2 config info")
 	}
 	c.Defaultify()
 	return c.Config(), nil
@@ -276,22 +276,6 @@ func NewClientBearerTokenSimpleOrJson(ctx context.Context, tokenOrJson []byte) (
 	} else {
 		return NewClientAuthzTokenSimple(TokenBearer, tokenOrJsonString), nil
 	}
-}
-
-func NewTokenFromWeb(cfg *oauth2.Config) (*oauth2.Token, error) {
-	authURL := cfg.AuthCodeURL("state-token", oauth2.AccessTypeOffline)
-	fmt.Printf("Go to this link in your browser then type the auth code: \n%v\n", authURL)
-
-	code := ""
-	if _, err := fmt.Scan(&code); err != nil {
-		return &oauth2.Token{}, errors.Wrap(err, "Unable to read auth code")
-	}
-
-	tok, err := cfg.Exchange(oauth2.NoContext, code)
-	if err != nil {
-		return tok, errors.Wrap(err, "Unable to retrieve token from web")
-	}
-	return tok, nil
 }
 
 func NewClientTLSToken(ctx context.Context, tlsConfig *tls.Config, token *oauth2.Token) *http.Client {
