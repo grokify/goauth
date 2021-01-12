@@ -7,14 +7,15 @@ import (
 	"encoding/base64"
 	"fmt"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/caarlos0/env"
+	"github.com/rs/zerolog/log"
 
 	"github.com/grokify/simplego/config"
 	hum "github.com/grokify/simplego/net/httputilmore"
 	tu "github.com/grokify/simplego/time/timeutil"
-	log "github.com/sirupsen/logrus"
 
 	sp "github.com/SparkPost/gosparkpost"
 	"github.com/grokify/oauth2more/sparkpost"
@@ -86,24 +87,36 @@ END:VCALENDAR`
 	}
 	id, _, err := client.Send(tx)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal().
+			Err(err).
+			Str("method", "sparkpost client Send()")
 	}
-	log.WithFields(log.Fields{"email-id": id}).Info("email")
+	log.Info().
+		Err(err).
+		Str("method", "sparkpost email client Send()").
+		Str("email-id", id)
 }
 
 func main() {
-	if err := config.LoadDotEnvSkipEmpty(os.Getenv("ENV_PATH"), "./.env"); err != nil {
-		log.Fatalf("Load env files failed: %s\n", err)
+	envFiles := []string{os.Getenv("ENV_PATH"), "./.env"}
+	if err := config.LoadDotEnvSkipEmpty(envFiles...); err != nil {
+		log.Fatal().Err(err).
+			Str("files", strings.Join(envFiles, ",")).
+			Msg("Load env files failed")
 	}
 
 	cfg := appConfig{}
 	if err := env.Parse(&cfg); err != nil {
-		log.Fatal(err)
+		log.Fatal().Err(err).
+			Str("lib", "github.com/caarlos0/env").
+			Msgf("Cannot parse env to %s", "appConfig{}")
 	}
 
 	client, err := sparkpost.NewApiClient(cfg.SparkPostApiKey)
 	if err != nil {
-		log.Fatalf("SparkPost client init failed: %s\n", err)
+		log.Fatal().Err(err).
+			Str("lib", "github.com/oauth2more/sparkpost").
+			Msg("SparkPost client init faile")
 	}
 
 	sendTestEmail(cfg, client)

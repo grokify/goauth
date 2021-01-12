@@ -8,8 +8,7 @@ import (
 	"github.com/grokify/simplego/config"
 	"github.com/grokify/simplego/fmt/fmtutil"
 	"github.com/jessevdk/go-flags"
-	"github.com/pkg/errors"
-	log "github.com/sirupsen/logrus"
+	"github.com/rs/zerolog/log"
 )
 
 type Options struct {
@@ -22,33 +21,36 @@ func main() {
 	opts := Options{}
 	_, err := flags.Parse(&opts)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal().Err(err)
 	}
 	fmtutil.PrintJSON(opts)
 
 	files, err := config.LoadDotEnv(opts.EnvPath)
 	if err != nil {
-		log.Fatal(errors.Wrap(err, "E_LOAD_DOT_ENV"))
+		log.Fatal().
+			Err(err).
+			Msg("E_LOAD_DOT_ENV")
 	}
 	fmtutil.PrintJSON(files)
 
 	if len(opts.EnvVar) > 0 {
 		if len(os.Getenv(opts.EnvVar)) == 0 {
-			log.Fatal("E_NO_VAR")
+			log.Fatal().Msg("E_NO_VAR")
 		}
 
 		fmt.Println(os.Getenv(opts.EnvVar))
 
 		credentials, err := ringcentral.NewCredentialsJSON([]byte(os.Getenv(opts.EnvVar)))
 		if err != nil {
-			log.Fatal(
-				errors.Wrap(
-					err, fmt.Sprintf("E_JSON_UNMARSHAL [%v]", os.Getenv(opts.EnvVar))))
+			log.Fatal().
+				Err(err).
+				Str("envVar", os.Getenv(opts.EnvVar)).
+				Msg("json_unmarshal_error")
 		}
 		fmtutil.PrintJSON(credentials)
 		token, err := credentials.NewToken()
 		if err != nil {
-			log.Fatal(err)
+			log.Fatal().Err(err)
 		}
 
 		token.Expiry = token.Expiry.UTC()

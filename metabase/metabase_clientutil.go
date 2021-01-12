@@ -13,7 +13,8 @@ import (
 	"github.com/grokify/simplego/net/urlutil"
 	tu "github.com/grokify/simplego/time/timeutil"
 	"github.com/pkg/errors"
-	log "github.com/sirupsen/logrus"
+
+	zlog "github.com/rs/zerolog/log"
 )
 
 const (
@@ -82,8 +83,9 @@ func RetrieveQuestions(cu ClientUtil, q2s QuestionsToSlug, dir string) (map[stri
 		}
 		output[name] = data
 
-		log.Info(filename)
-		log.Info(string(data))
+		zlog.Info().
+			Str("filename", filename).
+			Str("data", string(data))
 	}
 	return output, nil
 }

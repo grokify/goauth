@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 	"net/url"
 	"os"
@@ -11,7 +12,8 @@ import (
 	"github.com/grokify/oauth2more/ringcentral"
 	"github.com/grokify/simplego/config"
 	"github.com/grokify/simplego/fmt/fmtutil"
-	log "github.com/sirupsen/logrus"
+	"github.com/rs/zerolog"
+	zlog "github.com/rs/zerolog/log"
 	"golang.org/x/oauth2"
 )
 
@@ -49,18 +51,18 @@ func (app *AppHandler) HandleBotButton(w http.ResponseWriter, req *http.Request)
 func (app *AppHandler) HandleOauth2(w http.ResponseWriter, req *http.Request) {
 	// Retrieve auth code from URL
 	authCode := req.FormValue("code")
-	log.WithFields(log.Fields{
-		"oauth2": "authCodeReceived",
-	}).Info(authCode)
+	zlog.Info().
+		Str("code", authCode).
+		Msg("OAuth2 code receiveds")
 
 	// Exchange auth code for token
 	o2Config := getOauth2Config(app.AppConfig)
 
 	tok, err := o2Config.Exchange(oauth2.NoContext, authCode)
 	if err != nil {
-		log.WithFields(log.Fields{
-			"oauth2": "tokenExchangeError",
-		}).Info(err.Error())
+		zlog.Info().
+			Err(err).
+			Msg("oauth2 tokenExchangeError")
 
 		printString(w, err.Error())
 		return
@@ -73,9 +75,8 @@ func (app *AppHandler) HandleOauth2(w http.ResponseWriter, req *http.Request) {
 	}
 
 	// Log token
-	log.WithFields(log.Fields{
-		"oauth2": "token",
-	}).Info(string(bytes))
+	zlog.Info().Str("auth2_token", string(bytes))
+
 	printString(w, fmt.Sprintf("TOKEN:\n%v\n", string(bytes)))
 
 	client := o2Config.Client(oauth2.NoContext, tok)
@@ -112,29 +113,24 @@ func printString(w http.ResponseWriter, s string) {
 }
 
 func main() {
-	log.SetOutput(os.Stdout)
-	log.SetLevel(log.InfoLevel)
+	zerolog.SetGlobalLevel(zerolog.InfoLevel)
 
 	err := config.LoadDotEnvSkipEmpty(os.Getenv("ENV_PATH"), "./.env")
 	if err != nil {
-		log.WithFields(log.Fields{
-			"config": "dotenvLoadingError",
-		}).Fatal(err.Error())
+		zlog.Fatal().Err(err).
+			Str("config", "dotenvLoadingError")
 	}
 
 	appCfg := RingCentralConfig{}
 	err = env.Parse(&appCfg)
 	if err != nil {
-		log.Fatal(err)
+		zlog.Fatal().Err(err)
 	}
 	appHandler := AppHandler{AppConfig: appCfg}
 
-	log.WithFields(log.Fields{
-		"BotRedirectUrl": "redirect URL",
-	}).Info(appCfg.RedirectURL)
-	log.WithFields(log.Fields{
-		"BotPort": "Local Server Port URL",
-	}).Info(appCfg.AppPort)
+	zlog.Info().
+		Str("BotRedirectUrl", appCfg.RedirectURL).
+		Int64("BotPort Local", appCfg.AppPort)
 
 	http.HandleFunc("/", appHandler.HandleBotButton)
 	http.HandleFunc("/oauth2callback", appHandler.HandleOauth2)

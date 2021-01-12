@@ -17,7 +17,7 @@ func NewTokenCli(creds Credentials, state string) (token *oauth2.Token, err erro
 		}
 		fmt.Printf("OAuth State [%s]\n", state)
 		cfg := creds.Application.Config()
-		token, err = oauth2more.NewTokenFromWeb(&cfg, state)
+		token, err = oauth2more.NewTokenCliFromWeb(&cfg, state)
 		if err != nil {
 			return token, err
 		}

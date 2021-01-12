@@ -61,8 +61,8 @@ func (ts *TokenStoreFile) Write() error {
 	return WriteTokenFile(ts.Filepath, ts.Token)
 }
 
-func (ts *TokenStoreFile) NewTokenFromWeb(cfg *oauth2.Config, state string) (*oauth2.Token, error) {
-	tok, err := NewTokenFromWeb(cfg, state)
+func (ts *TokenStoreFile) NewTokenCliFromWeb(cfg *oauth2.Config, state string) (*oauth2.Token, error) {
+	tok, err := NewTokenCliFromWeb(cfg, state)
 	if err != nil {
 		return &oauth2.Token{}, err
 	}
@@ -93,7 +93,7 @@ func NewClientWebTokenStore(ctx context.Context, conf *oauth2.Config, tStore *To
 	client := &http.Client{}
 
 	if err != nil || forceNewToken {
-		_, err := tStore.NewTokenFromWeb(conf, state)
+		_, err := tStore.NewTokenCliFromWeb(conf, state)
 		if err != nil {
 			return client, err
 		}

@@ -7,7 +7,8 @@ import (
 	sp "github.com/SparkPost/gosparkpost"
 	"github.com/grokify/oauth2more/sparkpost"
 	"github.com/grokify/simplego/config"
-	log "github.com/sirupsen/logrus"
+
+	"github.com/rs/zerolog/log"
 )
 
 func sendTestEmail(client sp.Client) {
@@ -23,20 +24,24 @@ func sendTestEmail(client sp.Client) {
 	}
 	id, _, err := client.Send(tx)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal().Err(err)
 	}
-	log.WithFields(log.Fields{"email-id": id}).Info("email")
+	log.Info().
+		Str("email-id", id).
+		Msg("sparkpost email")
 }
 
 func main() {
 	err := config.LoadDotEnvSkipEmpty(os.Getenv("ENV_PATH"), "./.env")
 	if err != nil {
-		log.Fatalf("Load env files failed: %s\n", err)
+		log.Fatal().Err(err).
+			Msg("Load env files failed")
 	}
 
 	client, err := sparkpost.NewApiClient(os.Getenv("SPARKPOST_API_KEY"))
 	if err != nil {
-		log.Fatalf("SparkPost client init failed: %s\n", err)
+		log.Fatal().Err(err).
+			Msg("SparkPost client init faile")
 	}
 
 	sendTestEmail(client)
