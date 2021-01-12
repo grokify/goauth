@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"os"
 	"strings"
@@ -11,7 +12,9 @@ import (
 	"github.com/caarlos0/env"
 	"github.com/grokify/simplego/config"
 	hum "github.com/grokify/simplego/net/httputilmore"
-	log "github.com/sirupsen/logrus"
+
+	"github.com/rs/zerolog"
+	zlog "github.com/rs/zerolog/log"
 
 	"github.com/grokify/oauth2more/auth0"
 )
@@ -35,7 +38,8 @@ func (cfg *appConfig) PortString() string {
 }
 
 func (cfg *appConfig) LoginHandler(w http.ResponseWriter, r *http.Request) {
-	log.Debug("START_LOGIN_HANDLER")
+	//log.Debug("START_LOGIN_HANDLER")
+	zlog.Debug().Msg("START_LOGIN_HANDLER")
 	authUrlInfo := auth0.PKCEAuthorizationUrlInfo{
 		Host:        cfg.Host,
 		Scope:       cfg.Scope,
@@ -44,15 +48,15 @@ func (cfg *appConfig) LoginHandler(w http.ResponseWriter, r *http.Request) {
 
 	verifier, challenge, authUrl, err := authUrlInfo.Data()
 	if err != nil {
-		log.Fatal(err)
+		zlog.Fatal().Err(err)
 	}
-	log.WithFields(log.Fields{
-		"remoteAddr": r.RemoteAddr,
-		"userAgent":  r.Header.Get(hum.HeaderUserAgent),
-		"authUrl":    authUrl,
-		"challenge":  challenge,
-		"verifier":   verifier},
-	).Debug("loginHandler")
+	zlog.Debug().
+		Str("remoteAddr", r.RemoteAddr).
+		Str("userAgent", r.Header.Get(hum.HeaderUserAgent)).
+		Str("authUrl", authUrl).
+		Str("challenge", challenge).
+		Str("verifier", verifier).
+		Msg("loginHandler")
 
 	tmpl := `<!DOCTYPE html>
 <html>
@@ -75,14 +79,14 @@ func (cfg *appConfig) LoginHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set(hum.HeaderContentType, hum.ContentTypeTextHtmlUtf8)
 	w.WriteHeader(http.StatusOK)
 	fmt.Fprintf(w, tmpl, WebsiteTitle, WebsiteTitle, verifier, challenge, authUrl)
-	log.Debug("END_LOGIN_HANDLER")
+	zlog.Debug().Msg("END_LOGIN_HANDLER")
 }
 
 func (cfg *appConfig) Oauth2CallbackHandler(w http.ResponseWriter, r *http.Request) {
-	log.Debug("START_OAUTH2CALLBACK_HANDLER")
+	zlog.Debug().Msg("START_OAUTH2CALLBACK_HANDLER")
 	codeArr, ok := r.URL.Query()["code"]
 	if !ok {
-		log.Fatal("E_NO_CODE")
+		zlog.Fatal().Msg("E_NO_CODE")
 	}
 	code := ""
 	if len(codeArr) > 0 {
@@ -91,7 +95,7 @@ func (cfg *appConfig) Oauth2CallbackHandler(w http.ResponseWriter, r *http.Reque
 
 	cookie, err := r.Cookie(VerifierCookieName)
 	if err != nil {
-		log.Fatal(err)
+		zlog.Fatal().Err(err)
 	}
 	tokenUrlInfo := auth0.PKCETokenUrlInfo{
 		Host:         cfg.Host,
@@ -103,17 +107,17 @@ func (cfg *appConfig) Oauth2CallbackHandler(w http.ResponseWriter, r *http.Reque
 
 	resp, err := tokenUrlInfo.Exchange()
 	if err != nil {
-		log.Fatal(err)
+		zlog.Fatal().Err(err)
 	}
 	respBody, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		log.Fatal(err)
+		zlog.Fatal().Err(err)
 	}
-	log.WithFields(log.Fields{
-		"verifier":           cookie.Value,
-		"tokenResStatusCode": resp.StatusCode,
-		"tokenResBody":       string(respBody)},
-	).Info("oauth2CallbackHandler")
+	zlog.Info().
+		Int("tokenResStatusCode", resp.StatusCode).
+		Str("tokenResBody", string(respBody)).
+		Str("verifier(cookie value)", cookie.Value).
+		Msg("oauth2CallbackHandler")
 
 	tmpl := `<!DOCTYPE html>
 <html>
@@ -132,18 +136,19 @@ func (cfg *appConfig) Oauth2CallbackHandler(w http.ResponseWriter, r *http.Reque
 	w.Header().Set(hum.HeaderContentType, hum.ContentTypeTextHtmlUtf8)
 	w.WriteHeader(http.StatusOK)
 	fmt.Fprintf(w, tmpl, WebsiteTitle, WebsiteTitle, string(respBody))
-	log.Debug("END_LOGIN_HANDLER")
+	zlog.Debug().Msg("END_LOGIN_HANDLER")
 }
 
 func main() {
-	log.SetLevel(log.DebugLevel)
+	zlog.Logger = zlog.Output(zerolog.ConsoleWriter{Out: os.Stderr})
+
 	if err := config.LoadDotEnvSkipEmpty(os.Getenv("ENV_PATH"), "./.env"); err != nil {
 		panic(err)
 	}
 
 	cfg := appConfig{}
 	if err := env.Parse(&cfg); err != nil {
-		log.Fatal(err)
+		zlog.Fatal().Err(err)
 	}
 
 	m := pat.New()

@@ -24,7 +24,11 @@ func ParseToken(rawToken []byte) (*oauth2.Token, error) {
 	return tok.WithExtra(msi), nil
 }
 
-func NewTokenFromWeb(cfg *oauth2.Config, state string) (*oauth2.Token, error) {
+// NewTokenCliFromWeb enables a CLI app with no UI to generate
+// a OAuth2 AuthURL which is copy and pasted into a web browser to
+// return an an OAuth 2 authorization code and state, where the
+// authorization code is entered on the command line.
+func NewTokenCliFromWeb(cfg *oauth2.Config, state string) (*oauth2.Token, error) {
 	authURL := cfg.AuthCodeURL(state, oauth2.AccessTypeOffline)
 	fmt.Printf("Go to this link in your browser then type in the auth code from the webpage and click `return` to continue: \n%v\n", authURL)
 
