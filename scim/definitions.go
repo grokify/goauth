@@ -13,23 +13,24 @@ import (
 // https://tools.ietf.org/html/rfc7643
 type User struct {
 	Schemas           []string  `json:"schemas,omitempty"`
-	ID                string    `json:"id,omitempty"`
-	ExternalID        string    `json:"externalId,omitempty"`
-	UserName          string    `json:"userName,omitempty"`
-	Name              Name      `json:"name,omitempty"`
+	Active            bool      `json:"active,omitempty"`
+	Addresses         []Address `json:"addresses,omitempty"`
 	DisplayName       string    `json:"displayName,omitempty"`
+	Emails            []Item    `json:"emails,omitempty"`
+	ExternalID        string    `json:"externalId,omitempty"`
+	Groups            []Group   `json:"groups,omitempty"`
+	ID                string    `json:"id,omitempty"`
+	Locale            string    `json:"locale,omitempty"`
+	Name              Name      `json:"name,omitempty"`
 	NickName          string    `json:"nickName,omitempty"`
+	Password          string    `json:"password,omitempty"`
 	ProfileURL        string    `json:"profileUrl,omitempty"`
 	PhoneNumbers      []Item    `json:"phoneNumbers,omitempty"`
-	Emails            []Item    `json:"emails,omitempty"`
-	UserType          string    `json:"userType,omitempty"`
-	Title             string    `json:"title,omitempty"`
 	PreferredLanguage string    `json:"preferredLanguage,omitempty"`
-	Locale            string    `json:"locale,omitempty"`
 	Timezone          string    `json:"timezone,omitempty"`
-	Active            bool      `json:"active,omitempty"`
-	Password          string    `json:"password,omitempty"`
-	Addresses         []Address `json:"addresses,omitempty"`
+	Title             string    `json:"title,omitempty"`
+	UserName          string    `json:"userName,omitempty"`
+	UserType          string    `json:"userType,omitempty"`
 }
 
 func NewUser() User {
