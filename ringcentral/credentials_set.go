@@ -3,6 +3,7 @@ package ringcentral
 import (
 	"fmt"
 	"net/http"
+	"sort"
 
 	"github.com/grokify/simplego/encoding/jsonutil"
 )
@@ -38,4 +39,15 @@ func (set *CredentialsSet) GetClient(key string) (*http.Client, error) {
 		return nil, fmt.Errorf("E_CREDS_KEY_NOT_FOUND [%v]", key)
 	}
 	return creds.NewClient()
+}
+
+func (set *CredentialsSet) Accounts() []string { return set.Keys() }
+
+func (set *CredentialsSet) Keys() []string {
+	keys := []string{}
+	for key := range set.Credentials {
+		keys = append(keys, key)
+	}
+	sort.Strings(keys)
+	return keys
 }
