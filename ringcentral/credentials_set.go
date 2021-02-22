@@ -6,6 +6,7 @@ import (
 	"sort"
 
 	"github.com/grokify/simplego/encoding/jsonutil"
+	"github.com/grokify/simplego/net/http/httpsimple"
 )
 
 type CredentialsSet struct {
@@ -23,6 +24,14 @@ func (set *CredentialsSet) Get(key string) (Credentials, error) {
 		return creds, nil
 	}
 	return Credentials{}, fmt.Errorf("E_CREDS_NOT_FOUND [%s]", key)
+}
+
+func (set *CredentialsSet) NewSimpleClient(key string) (*httpsimple.SimpleClient, error) {
+	creds, ok := set.Credentials[key]
+	if !ok {
+		return nil, fmt.Errorf("client_not_found [%s]", key)
+	}
+	return creds.NewSimpleClient()
 }
 
 func ReadCredentialsFromFile(filename, key string) (Credentials, error) {
