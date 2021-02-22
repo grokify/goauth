@@ -76,7 +76,7 @@ See the following repo for a Beego-based demo app:
 
  [used-by-svg]: https://sourcegraph.com/github.com/grokify/oauth2more/-/badge.svg
  [used-by-url]: https://sourcegraph.com/github.com/grokify/oauth2more?badge
- [build-status-svg]: https://github.com/grokify/oauth2more/workflows/build/badge.svg
+ [build-status-svg]: https://github.com/grokify/oauth2more/workflows/go%20build/badge.svg
  [build-status-url]: https://github.com/grokify/oauth2more/actions
  [goreport-svg]: https://goreportcard.com/badge/github.com/grokify/oauth2more
  [goreport-url]: https://goreportcard.com/report/github.com/grokify/oauth2more
