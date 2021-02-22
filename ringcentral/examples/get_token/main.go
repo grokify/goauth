@@ -2,19 +2,17 @@ package main
 
 import (
 	"fmt"
-	"os"
 
 	"github.com/grokify/oauth2more/ringcentral"
-	"github.com/grokify/simplego/config"
 	"github.com/grokify/simplego/fmt/fmtutil"
 	"github.com/jessevdk/go-flags"
 	"github.com/rs/zerolog/log"
 )
 
 type Options struct {
-	EnvPath string `short:"e" long:"envPath" description:"Environment File Path"`
-	EnvVar  string `short:"v" long:"envVar" description:"Environment Variable Name"`
-	Token   string `short:"t" long:"token" description:"Token"`
+	CredsPath string `short:"c" long:"credspath" description:"Environment File Path"`
+	Account   string `short:"a" long:"account" description:"Environment Variable Name"`
+	Token     string `short:"t" long:"token" description:"Token"`
 }
 
 func main() {
@@ -25,40 +23,28 @@ func main() {
 	}
 	fmtutil.PrintJSON(opts)
 
-	files, err := config.LoadDotEnv(opts.EnvPath)
+	cset, err := ringcentral.ReadFileCredentialsSet(opts.CredsPath)
 	if err != nil {
-		log.Fatal().
-			Err(err).
-			Msg("E_LOAD_DOT_ENV")
+		log.Fatal().Err(err).
+			Str("credentials_filepath", opts.CredsPath).
+			Msg("cannot read credentials file")
 	}
-	fmtutil.PrintJSON(files)
 
-	if len(opts.EnvVar) > 0 {
-		if len(os.Getenv(opts.EnvVar)) == 0 {
-			log.Fatal().Msg("E_NO_VAR")
-		}
-
-		fmt.Println(os.Getenv(opts.EnvVar))
-
-		credentials, err := ringcentral.NewCredentialsJSON([]byte(os.Getenv(opts.EnvVar)))
-		if err != nil {
-			log.Fatal().
-				Err(err).
-				Str("envVar", os.Getenv(opts.EnvVar)).
-				Msg("json_unmarshal_error")
-		}
-		fmtutil.PrintJSON(credentials)
-		token, err := credentials.NewToken()
-		if err != nil {
-			log.Fatal().Err(err)
-		}
-
-		token.Expiry = token.Expiry.UTC()
-
-		fmtutil.PrintJSON(token)
-	} else {
-		fmt.Printf("No EnvVar [-v]\n")
+	credentials, err := cset.Get(opts.Account)
+	if err != nil {
+		log.Fatal().Err(err).
+			Str("credentials_account", opts.Account).
+			Msg("cannot find credentials account")
 	}
+
+	token, err := credentials.NewToken()
+	if err != nil {
+		log.Fatal().Err(err)
+	}
+
+	token.Expiry = token.Expiry.UTC()
+
+	fmtutil.PrintJSON(token)
 
 	fmt.Println("DONE")
 }
