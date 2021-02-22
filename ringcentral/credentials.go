@@ -3,9 +3,11 @@ package ringcentral
 import (
 	"encoding/json"
 	"net/http"
+	"strings"
 
 	"github.com/grokify/oauth2more"
 	"github.com/grokify/oauth2more/scim"
+	"github.com/grokify/simplego/net/http/httpsimple"
 	"golang.org/x/oauth2"
 )
 
@@ -71,7 +73,27 @@ func (creds *Credentials) NewClient() (*http.Client, error) {
 	creds.Token = tok
 	return oauth2more.NewClientToken(
 		oauth2more.TokenBearer, tok.AccessToken, false), nil
-	/*return NewClientPassword(creds.Application, creds.PasswordCredentials)*/
+}
+
+func (creds *Credentials) NewSimpleClient() (*httpsimple.SimpleClient, error) {
+	httpclient, err := creds.NewClient()
+	if err != nil {
+		return nil, err
+	}
+	sc := &httpsimple.SimpleClient{
+		BaseURL:    creds.Application.ServerURL,
+		HTTPClient: httpclient}
+	return sc, nil
+}
+
+func (creds *Credentials) NewClientCli(oauth2State string) (*http.Client, error) {
+	tok, err := creds.NewTokenCli(oauth2State)
+	if err != nil {
+		return nil, err
+	}
+	creds.Token = tok
+	return oauth2more.NewClientToken(
+		oauth2more.TokenBearer, tok.AccessToken, false), nil
 }
 
 func (creds *Credentials) NewToken() (*oauth2.Token, error) {
@@ -79,6 +101,19 @@ func (creds *Credentials) NewToken() (*oauth2.Token, error) {
 		creds.Application, creds.PasswordCredentials)
 	if err == nil {
 		creds.Token = tok
+	}
+	return tok, err
+}
+
+// NewTokenCli retrieves a token using CLI approach for
+// OAuth 2.0 authorization code or password grant.
+func (creds *Credentials) NewTokenCli(oauth2State string) (*oauth2.Token, error) {
+	if strings.ToLower(strings.TrimSpace(creds.Application.GrantType)) == "code" {
+		return NewTokenCli(*creds, oauth2State)
+	}
+	tok, err := NewTokenPassword(
+		creds.Application, creds.PasswordCredentials)
+	if err == nil {
 	}
 	return tok, err
 }
