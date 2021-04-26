@@ -13,11 +13,11 @@ import (
 )
 
 type ApplicationCredentials struct {
-	ServerURL       string `json:"serverURL,omitempty"`
 	ApplicationID   string `json:"applicationID,omitempty"`
 	ClientID        string `json:"clientID,omitempty"`
 	ClientSecret    string `json:"clientSecret,omitempty"`
 	RedirectURL     string `json:"redirectURL,omitempty"`
+	ServerURL       string `json:"serverURL,omitempty"`
 	AppName         string `json:"applicationName,omitempty"`
 	AppVersion      string `json:"applicationVersion,omitempty"`
 	OAuthEndpointID string `json:"oauthEndpointID,omitempty"`
