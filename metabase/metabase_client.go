@@ -105,7 +105,7 @@ func NewClientPassword(baseUrl, username, password string, tlsSkipVerify bool) (
 	}
 
 	res := &AuthResponse{}
-	_, err = jsonutil.UnmarshalIoReader(resp.Body, res)
+	_, err = jsonutil.UnmarshalReader(resp.Body, res)
 	if err != nil {
 		return nil, res, err
 	}

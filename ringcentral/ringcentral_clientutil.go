@@ -15,11 +15,6 @@ import (
 	"github.com/grokify/simplego/net/urlutil"
 )
 
-/*
-var (
-	Hostname = "platform.devtest.ringcentral.com"
-)
-*/
 const (
 	ServerURLProduction  = "https://platform.ringcentral.com"
 	ServerURLSandbox     = "https://platform.devtest.ringcentral.com"
@@ -131,14 +126,18 @@ func (apiutil *ClientUtil) GetSCIMUser() (scim.User, error) {
 	return user, nil
 }
 
-func BuildURL(serverURL, urlFragment string, addRestAPI bool, queryValues url.Values) string {
+func BuildURL(serverURL, urlFragment string, addRestAPI bool, queryValues url.Values) (string, error) {
 	apiURL := serverURL
 	if addRestAPI {
 		apiURL = urlutil.JoinAbsolute(apiURL, RestAPI1dot0Fragment, urlFragment)
 	} else {
 		apiURL = urlutil.JoinAbsolute(apiURL, urlFragment)
 	}
-	return urlutil.BuildURL(apiURL, queryValues)
+	apiUrlGo, err := urlutil.URLAddQueryValuesString(apiURL, queryValues)
+	if err != nil {
+		return serverURL, err
+	}
+	return apiUrlGo.String(), err
 }
 
 /*

@@ -74,9 +74,8 @@ func (sc *SalesforceClient) ExecSOQL(soql string) (*http.Response, error) {
 	//curl https://yourInstance.salesforce.com/services/data/v20.0/query/?q=SELECT+name+from+Account -H "Authorization: Bearer token"
 	apiURL := sc.URLBuilder.Build("/services/data/v40.0/query/")
 	soql = regexp.MustCompile(`\s+`).ReplaceAllString(strings.TrimSpace(soql), "+")
-	q := url.Values{}
-	q.Add("q", soql)
-	apiURLString := urlutil.BuildURL(apiURL.String(), q)
+	qryMap := map[string][]string{"q": {soql}}
+	apiURLString := urlutil.URLAddQuery(&apiURL, qryMap).String()
 	apiURLString = regexp.MustCompile(`\%2B`).ReplaceAllString(strings.TrimSpace(apiURLString), "+")
 	return sc.ClientMore.Client.Get(apiURLString)
 }

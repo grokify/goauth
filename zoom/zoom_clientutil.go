@@ -10,7 +10,11 @@ import (
 )
 
 const (
-	ZoomApiMeURL = "https://api.zoom.us/v2/users/me"
+	ZoomAPIOAuth2AuthzURL = "https://zoom.us/oauth/authorize"
+	ZoomAPIOAuth2TokenURL = "https://zoom.us/oauth/token"
+	ZoomAPIBaseURL        = "https://api.zoom.us/v2/"
+	ZoomAPIMeURL          = "https://api.zoom.us/v2/users/me"
+	ZoomAPIUserIDMe       = "me"
 )
 
 type ClientUtil struct {
@@ -29,13 +33,13 @@ func (apiutil *ClientUtil) SetClient(client *http.Client) {
 }
 
 func (apiutil *ClientUtil) LoadUser() error {
-	resp, err := apiutil.Client.Get(ZoomApiMeURL)
+	resp, err := apiutil.Client.Get(ZoomAPIMeURL)
 	if err != nil {
 		return err
 	}
 
 	nativeUser := ZoomUser{}
-	_, err = jsonutil.UnmarshalIoReader(resp.Body, &nativeUser)
+	_, err = jsonutil.UnmarshalReader(resp.Body, &nativeUser)
 	if err != nil {
 		return err
 	}
