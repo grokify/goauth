@@ -79,6 +79,6 @@ func GetMe(client *http.Client, subdomain string) (*Me, *http.Response, error) {
 		return nil, resp, err
 	}
 	me := &MeResponse{}
-	_, err = jsonutil.UnmarshalIoReader(resp.Body, me)
+	_, err = jsonutil.UnmarshalReader(resp.Body, me)
 	return &me.User, resp, err
 }
