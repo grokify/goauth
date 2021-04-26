@@ -81,6 +81,7 @@ const (
 	Aha
 )
 
+/*
 // ApplicationCredentials represents information for an app.
 type ApplicationCredentials struct {
 	ServerURL    string
@@ -88,7 +89,7 @@ type ApplicationCredentials struct {
 	ClientSecret string
 	Endpoint     oauth2.Endpoint
 }
-
+*/
 type AppCredentials struct {
 	Service      string   `json:"service,omitempty"`
 	ClientID     string   `json:"client_id"`
