@@ -31,17 +31,17 @@ func NewClientPassword(app om.ApplicationCredentials, user om.UserCredentials) (
 	//conf.Endpoint = app.Endpoint
 
 	if 1 == 0 {
-		if len(strings.TrimSpace(app.Endpoint.AuthURL)) == 0 {
+		if len(strings.TrimSpace(app.OAuth2Endpoint.AuthURL)) == 0 {
 			conf.Endpoint = Endpoint
 		} else {
-			conf.Endpoint = app.Endpoint
+			conf.Endpoint = app.OAuth2Endpoint
 		}
 	}
 	if 1 == 1 {
-		if model.IsZero(app.Endpoint) {
+		if model.IsZero(app.OAuth2Endpoint) {
 			conf.Endpoint = Endpoint
 		} else {
-			conf.Endpoint = app.Endpoint
+			conf.Endpoint = app.OAuth2Endpoint
 		}
 	}
 	return om.NewClientPasswordConf(conf, user.Username, user.Password)
