@@ -10,9 +10,9 @@ require (
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/google/go-querystring v1.1.0
 	github.com/grokify/go-salesforce v0.1.2
-	github.com/grokify/gocharts v1.3.0
+	github.com/grokify/gocharts v1.5.0
 	github.com/grokify/gostor v0.1.1
-	github.com/grokify/simplego v0.0.22
+	github.com/grokify/simplego v0.26.5
 	github.com/jessevdk/go-flags v1.5.0
 	github.com/joho/godotenv v1.3.0
 	github.com/nyaruka/phonenumbers v1.0.68
