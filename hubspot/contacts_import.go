@@ -6,7 +6,7 @@ import (
 	"github.com/grokify/gocharts/data/table"
 	"github.com/grokify/oauth2more/scim"
 	"github.com/grokify/simplego/strconv/phonenumber"
-	"github.com/grokify/simplego/strings/usstate"
+	"github.com/grokify/simplego/text/usstate"
 	"github.com/nyaruka/phonenumbers"
 )
 
