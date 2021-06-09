@@ -38,5 +38,10 @@ func main() {
 	fmt.Println("AUTH_RESPONSE:")
 	fmtutil.PrintJSON(authResponse)
 
+	fmt.Printf("EXAMPLE_COMMAND:\ncurl -XGET '%s' -H '%s: %s'\n",
+		metabase.BuildURL(cfg.BaseURL, metabase.RelPathApiDatabase),
+		metabase.MetabaseSessionHeader,
+		authResponse.Id)
+
 	fmt.Println("DONE")
 }

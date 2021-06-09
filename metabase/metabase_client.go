@@ -260,3 +260,10 @@ func AuthRequest(authUrl, username, password string, tlsSkipVerify bool) (*http.
 
 	return client.Do(req)
 }
+
+func BuildURL(server, urlpath string) string {
+	if urlutil.IsHttp(urlpath, true, true) {
+		return urlpath
+	}
+	return urlutil.JoinAbsolute(server, urlpath)
+}
