@@ -1,6 +1,6 @@
 module github.com/grokify/oauth2more
 
-go 1.15
+go 1.16
 
 require (
 	github.com/SparkPost/gosparkpost v0.2.0
