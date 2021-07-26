@@ -2,16 +2,20 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
+	"io"
 	"log"
+	"net/http"
 	"os"
 	"time"
 
-	"github.com/dgrijalva/jwt-go"
+	// "github.com/dgrijalva/jwt-go"
+	"github.com/golang-jwt/jwt"
 	"github.com/grokify/oauth2more"
 	"github.com/grokify/oauth2more/zoom"
 	"github.com/grokify/simplego/config"
 	"github.com/grokify/simplego/fmt/fmtutil"
+	"github.com/grokify/simplego/net/http/httpsimple"
+	"github.com/grokify/simplego/net/urlutil"
 )
 
 func main() {
@@ -53,7 +57,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	bytes, err := ioutil.ReadAll(resp.Body)
+	bytes, err := io.ReadAll(resp.Body)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -67,5 +71,32 @@ func main() {
 	fmtutil.PrintJSON(cu.UserNative)
 	fmtutil.PrintJSON(scimUser)
 
+	resp, err = createMeeting(client)
+	if err != nil {
+		log.Fatal(err)
+	}
+	bytes, err = io.ReadAll(resp.Body)
+	fmt.Println(string(bytes))
+
 	fmt.Println("DONE")
 }
+
+func createMeeting(client *http.Client) (*http.Response, error) {
+	sc := httpsimple.SimpleClient{
+		BaseURL:    zoom.ZoomAPIBaseURL,
+		HTTPClient: client}
+	req := httpsimple.SimpleRequest{
+		Method: http.MethodPost,
+		URL:    urlutil.JoinAbsolute(zoom.ZoomAPIMeURL, "meetings"),
+		Body:   []byte(reqBody),
+		IsJSON: true}
+	return sc.Do(req)
+}
+
+const reqBody = `{
+	"topic":"MeetingOne",
+	"type":2,
+	"start_time":"2021-07-04T00:00:00Z",
+	"duration":30,
+	"agenda":"meet and greet"
+}`
