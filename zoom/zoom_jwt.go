@@ -4,7 +4,8 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/dgrijalva/jwt-go"
+	// "github.com/dgrijalva/jwt-go"
+	"github.com/golang-jwt/jwt"
 	"github.com/grokify/oauth2more"
 	"github.com/grokify/simplego/net/httputilmore"
 )
