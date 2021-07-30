@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	om "github.com/grokify/oauth2more"
+	"github.com/grokify/oauth2more/credentials"
 	"golang.org/x/oauth2"
 	"gopkg.in/jeevatkm/go-model.v1"
 )
@@ -23,7 +24,7 @@ var Endpoint = oauth2.Endpoint{
 	AuthURL:  AuthzURL,
 	TokenURL: TokenURL}
 
-func NewClientPassword(app om.ApplicationCredentials, user om.UserCredentials) (*http.Client, error) {
+func NewClientPassword(app credentials.ApplicationCredentials, user om.UserCredentials) (*http.Client, error) {
 	conf := oauth2.Config{
 		ClientID:     app.ClientID,
 		ClientSecret: app.ClientSecret}
@@ -49,7 +50,7 @@ func NewClientPassword(app om.ApplicationCredentials, user om.UserCredentials) (
 
 func NewClientPasswordSalesforceEnv() (*http.Client, error) {
 	return NewClientPassword(
-		om.ApplicationCredentials{
+		credentials.ApplicationCredentials{
 			ClientID:     os.Getenv("SALESFORCE_CLIENT_ID"),
 			ClientSecret: os.Getenv("SALESFORCE_CLIENT_SECRET")},
 		om.UserCredentials{
