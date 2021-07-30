@@ -29,7 +29,8 @@ func ParseToken(rawToken []byte) (*oauth2.Token, error) {
 // return an an OAuth 2 authorization code and state, where the
 // authorization code is entered on the command line.
 func NewTokenCliFromWeb(cfg *oauth2.Config, state string) (*oauth2.Token, error) {
-	authURL := cfg.AuthCodeURL(state, oauth2.AccessTypeOffline)
+	//authURL := cfg.AuthCodeURL(state, oauth2.AccessTypeOffline)
+	authURL := cfg.AuthCodeURL(state)
 	fmt.Printf("Go to this link in your browser then type in the auth code from the webpage and click `return` to continue: \n%v\n", authURL)
 
 	code := ""
