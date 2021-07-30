@@ -6,10 +6,11 @@ import (
 	"time"
 
 	"github.com/grokify/oauth2more"
+	"github.com/grokify/oauth2more/credentials"
 	"golang.org/x/oauth2"
 )
 
-func NewTokenCli(creds Credentials, state string) (token *oauth2.Token, err error) {
+func NewTokenCli(creds credentials.Credentials, state string) (token *oauth2.Token, err error) {
 	if creds.Application.IsGrantType(oauth2more.GrantTypeAuthorizationCode) {
 		state = strings.TrimSpace(state)
 		if len(state) == 0 {

@@ -1,16 +1,5 @@
 package ringcentral
 
-import (
-	"encoding/json"
-	"net/http"
-	"strings"
-
-	"github.com/grokify/oauth2more"
-	"github.com/grokify/oauth2more/scim"
-	"github.com/grokify/simplego/net/http/httpsimple"
-	"golang.org/x/oauth2"
-)
-
 const (
 	EnvServerURL    = "RINGCENTRAL_SERVER_URL"
 	EnvClientID     = "RINGCENTRAL_CLIENT_ID"
@@ -23,6 +12,7 @@ const (
 	EnvPassword     = "RINGCENTRAL_PASSWORD"
 )
 
+/*
 type Credentials struct {
 	Application         ApplicationCredentials `json:"application,omitempty"`
 	PasswordCredentials PasswordCredentials    `json:"passwordCredentials,omitempty"`
@@ -117,6 +107,10 @@ func (creds *Credentials) NewTokenCli(oauth2State string) (*oauth2.Token, error)
 	}
 	return tok, err
 }
+*/
+
+/*
+type Credentials credentials.Credentials
 
 func (creds *Credentials) NewClientUtil() (ClientUtil, error) {
 	httpClient, err := creds.NewClient()
@@ -143,3 +137,4 @@ func (creds *Credentials) MeScim() (scim.User, error) {
 	}
 	return cu.GetSCIMUser()
 }
+*/

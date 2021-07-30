@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/grokify/oauth2more/ringcentral"
+	"github.com/grokify/oauth2more/credentials"
 	"github.com/grokify/simplego/fmt/fmtutil"
 	"github.com/jessevdk/go-flags"
 	"github.com/rs/zerolog/log"
@@ -23,7 +23,7 @@ func main() {
 	}
 	fmtutil.PrintJSON(opts)
 
-	cset, err := ringcentral.ReadFileCredentialsSet(opts.CredsPath)
+	cset, err := credentials.ReadFileCredentialsSet(opts.CredsPath)
 	if err != nil {
 		log.Fatal().Err(err).
 			Str("credentials_filepath", opts.CredsPath).
@@ -35,11 +35,13 @@ func main() {
 		log.Fatal().Err(err).
 			Str("credentials_account", opts.Account).
 			Msg("cannot find credentials account")
+		panic("fail1")
 	}
 
 	token, err := credentials.NewToken()
 	if err != nil {
-		log.Fatal().Err(err)
+		log.Fatal().Err(err).Msg("cannot get new token")
+		panic("fail2")
 	}
 
 	token.Expiry = token.Expiry.UTC()
