@@ -7,6 +7,7 @@ import (
 	"log"
 	"os"
 
+	"github.com/grokify/oauth2more/credentials"
 	"github.com/grokify/oauth2more/salesforce"
 	"github.com/grokify/simplego/config"
 	"github.com/grokify/simplego/fmt/fmtutil"
@@ -26,7 +27,7 @@ func main() {
 	fmt.Printf(os.Getenv("SALESFORCE_CLIENT_SECRET"))
 
 	client, err := salesforce.NewClientPassword(
-		ou.ApplicationCredentials{
+		credentials.ApplicationCredentials{
 			ClientID:     os.Getenv("SALESFORCE_CLIENT_ID"),
 			ClientSecret: os.Getenv("SALESFORCE_CLIENT_SECRET")},
 		ou.UserCredentials{

@@ -13,6 +13,7 @@ import (
 
 	"github.com/grokify/go-salesforce/sobjects"
 	om "github.com/grokify/oauth2more"
+	"github.com/grokify/oauth2more/credentials"
 	"github.com/grokify/simplego/net/httputilmore"
 	"github.com/grokify/simplego/net/urlutil"
 )
@@ -42,7 +43,7 @@ func NewSalesforceClientEnv() (SalesforceClient, error) {
 }
 
 type ApplicationCredentials struct {
-	om.ApplicationCredentials
+	credentials.ApplicationCredentials
 	InstanceName string
 }
 
