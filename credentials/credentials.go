@@ -79,13 +79,6 @@ func (creds *Credentials) NewToken() (*oauth2.Token, error) {
 		context.Background(),
 		creds.PasswordCredentials.Username,
 		creds.PasswordCredentials.Password)
-	/*
-		tok, err := NewTokenPassword(
-			creds.Application, creds.PasswordCredentials)
-		if err == nil {
-			creds.Token = tok
-		}
-		return tok, err*/
 }
 
 // NewTokenCli retrieves a token using CLI approach for
