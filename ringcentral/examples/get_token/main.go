@@ -26,7 +26,7 @@ func main() {
 	}
 	fmtutil.PrintJSON(opts)
 
-	cset, err := credentials.ReadFileCredentialsSet(opts.CredsPath)
+	cset, err := credentials.ReadFileCredentialsSet(opts.CredsPath, true)
 	if err != nil {
 		log.Fatal().Err(err).
 			Str("credentials_filepath", opts.CredsPath).
