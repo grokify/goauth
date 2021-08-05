@@ -3,15 +3,20 @@ package credentials
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"strings"
 
 	"github.com/grokify/oauth2more"
+	"github.com/grokify/oauth2more/endpoints"
+	"github.com/grokify/simplego/fmt/fmtutil"
 	"github.com/grokify/simplego/net/http/httpsimple"
+	"github.com/pkg/errors"
 	"golang.org/x/oauth2"
 )
 
 type Credentials struct {
+	Service             string                 `json:"service,omitempty"`
 	Application         ApplicationCredentials `json:"application,omitempty"`
 	PasswordCredentials PasswordCredentials    `json:"passwordCredentials,omitempty"`
 	Token               *oauth2.Token          `json:"token,omitempty"`
@@ -42,10 +47,20 @@ func NewCredentialsJSONs(appJson, userJson, accessToken []byte) (Credentials, er
 	return creds, nil
 }
 
+func (creds *Credentials) Inflate() {
+	if creds.Application.OAuth2Endpoint == (oauth2.Endpoint{}) &&
+		len(strings.TrimSpace(creds.Service)) > 0 {
+		ep, err := endpoints.NewEndpoint(creds.Service)
+		if err == nil {
+			creds.Application.OAuth2Endpoint = ep
+		}
+	}
+}
+
 func (creds *Credentials) NewClient() (*http.Client, error) {
 	tok, err := creds.NewToken()
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrap(err, "Credentials.NewClient()")
 	}
 	creds.Token = tok
 	return oauth2more.NewClientToken(
@@ -53,14 +68,15 @@ func (creds *Credentials) NewClient() (*http.Client, error) {
 }
 
 func (creds *Credentials) NewSimpleClient() (*httpsimple.SimpleClient, error) {
+	fmtutil.PrintJSON(creds)
 	httpclient, err := creds.NewClient()
 	if err != nil {
+		fmt.Println("NewSimpleClientError")
 		return nil, err
 	}
-	sc := &httpsimple.SimpleClient{
+	return &httpsimple.SimpleClient{
 		BaseURL:    creds.Application.ServerURL,
-		HTTPClient: httpclient}
-	return sc, nil
+		HTTPClient: httpclient}, nil
 }
 
 func (creds *Credentials) NewClientCli(oauth2State string) (*http.Client, error) {
