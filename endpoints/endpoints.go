@@ -7,23 +7,32 @@ import (
 	"golang.org/x/oauth2"
 )
 
-const (
-	ServiceGoogle             = "google"
-	ServiceRingCentral        = "ringcentral"
-	ServiceRingCentralSandbox = "ringcentralsandbox"
-)
-
 func NewEndpoint(serviceName string) (oauth2.Endpoint, error) {
 	switch strings.ToLower(strings.TrimSpace(serviceName)) {
-	case ServiceRingCentral:
+	case ServiceGoogle:
 		return oauth2.Endpoint{
-			AuthURL:   RingCentralAuthURL,
-			TokenURL:  RingCentralTokenURL,
+			AuthURL:   GoogleAuthzURL,
+			TokenURL:  GoogleTokenURL,
+			AuthStyle: oauth2.AuthStyleInParams}, nil
+	case ServiceHubspot:
+		return oauth2.Endpoint{
+			AuthURL:   HubspotAuthzURL,
+			TokenURL:  HubspotTokenURL,
+			AuthStyle: oauth2.AuthStyleAutoDetect}, nil
+	case ServiceMonday:
+		return oauth2.Endpoint{
+			AuthURL:   MondayAuthzURL,
+			TokenURL:  MondayTokenURL,
+			AuthStyle: oauth2.AuthStyleAutoDetect}, nil
+	case ServiceRingcentral:
+		return oauth2.Endpoint{
+			AuthURL:   RingcentralAuthzURL,
+			TokenURL:  RingcentralTokenURL,
 			AuthStyle: oauth2.AuthStyleInHeader}, nil
-	case ServiceRingCentralSandbox:
+	case ServiceRingcentralSandbox:
 		return oauth2.Endpoint{
-			AuthURL:   RingCentralAuthURLSandbox,
-			TokenURL:  RingCentralTokenURLSandbox,
+			AuthURL:   RingcentralAuthzURLSandbox,
+			TokenURL:  RingcentralTokenURLSandbox,
 			AuthStyle: oauth2.AuthStyleInHeader}, nil
 	}
 	return oauth2.Endpoint{}, fmt.Errorf("service not found [%s]", serviceName)
