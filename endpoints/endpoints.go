@@ -93,6 +93,11 @@ func NewEndpoint(serviceName, subdomain string) (oauth2.Endpoint, error) {
 			AuthURL:   PipedriveAuthzURL,
 			TokenURL:  PipedriveTokenURL,
 			AuthStyle: oauth2.AuthStyleAutoDetect}, nil
+	case ServicePracticesuite:
+		return oauth2.Endpoint{
+			AuthURL:   "",
+			TokenURL:  PracticesuiteTokenURL,
+			AuthStyle: oauth2.AuthStyleAutoDetect}, nil
 	case ServiceRingcentral:
 		return oauth2.Endpoint{
 			AuthURL:   RingcentralAuthzURL,
