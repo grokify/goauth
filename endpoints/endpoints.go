@@ -23,6 +23,11 @@ func NewEndpoint(serviceName, subdomain string) (oauth2.Endpoint, error) {
 			AuthURL:   AsanaAuthzURL,
 			TokenURL:  AsanaTokenURL,
 			AuthStyle: oauth2.AuthStyleAutoDetect}, nil
+	case ServiceAtlassian:
+		return oauth2.Endpoint{
+			AuthURL:   AtlassianAuthzURL,
+			TokenURL:  AtlassianTokenURL,
+			AuthStyle: oauth2.AuthStyleAutoDetect}, nil
 	case ServiceEbay:
 		return oauth2.Endpoint{
 			AuthURL:   EbayAuthzURL,
@@ -108,6 +113,20 @@ func NewEndpoint(serviceName, subdomain string) (oauth2.Endpoint, error) {
 			AuthURL:   RingcentralAuthzURLSandbox,
 			TokenURL:  RingcentralTokenURLSandbox,
 			AuthStyle: oauth2.AuthStyleInHeader}, nil
+	case ServiceShippo:
+		return oauth2.Endpoint{
+			AuthURL:   ShippoAuthzURL,
+			TokenURL:  ShippoTokenURL,
+			AuthStyle: oauth2.AuthStyleAutoDetect}, nil
+	case ServiceShopify:
+		subdomain = strings.TrimSpace(subdomain)
+		if len(subdomain) == 0 {
+			return oauth2.Endpoint{}, fmt.Errorf("service [%s] requires subddomain", ServiceShopify)
+		}
+		return oauth2.Endpoint{
+			AuthURL:   fmt.Sprintf(ShopifyAuthzURLFormat, subdomain),
+			TokenURL:  fmt.Sprintf(ShopifyTokenURLFormat, subdomain),
+			AuthStyle: oauth2.AuthStyleAutoDetect}, nil
 	case ServiceSlack:
 		return oauth2.Endpoint{
 			AuthURL:   SlackAuthzURL,
