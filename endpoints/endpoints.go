@@ -133,10 +133,25 @@ func NewEndpoint(serviceName, subdomain string) (oauth2.Endpoint, error) {
 			AuthURL:   UberAuthzURL,
 			TokenURL:  UberTokenURL,
 			AuthStyle: oauth2.AuthStyleAutoDetect}, nil
+	case ServiceWepay:
+		return oauth2.Endpoint{
+			AuthURL:   WepayAuthzURL,
+			TokenURL:  WepayTokenURL,
+			AuthStyle: oauth2.AuthStyleAutoDetect}, nil
+	case ServiceWepaySandbox:
+		return oauth2.Endpoint{
+			AuthURL:   WepayAuthzURLSandbox,
+			TokenURL:  WepayTokenURLSandbox,
+			AuthStyle: oauth2.AuthStyleAutoDetect}, nil
 	case ServiceWrike:
 		return oauth2.Endpoint{
 			AuthURL:   WrikeAuthzURL,
 			TokenURL:  WrikeTokenURL,
+			AuthStyle: oauth2.AuthStyleAutoDetect}, nil
+	case ServiceWunderlist:
+		return oauth2.Endpoint{
+			AuthURL:   WunderlistAuthzURL,
+			TokenURL:  WunderlistTokenURL,
 			AuthStyle: oauth2.AuthStyleAutoDetect}, nil
 	}
 	return oauth2.Endpoint{}, fmt.Errorf("service not found [%s]", serviceName)
