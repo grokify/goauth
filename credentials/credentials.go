@@ -17,6 +17,7 @@ import (
 
 type Credentials struct {
 	Service             string                 `json:"service,omitempty"`
+	Subdomain           string                 `json:"subdomain,omitempty"`
 	Application         ApplicationCredentials `json:"application,omitempty"`
 	PasswordCredentials PasswordCredentials    `json:"passwordCredentials,omitempty"`
 	Token               *oauth2.Token          `json:"token,omitempty"`
@@ -50,7 +51,7 @@ func NewCredentialsJSONs(appJson, userJson, accessToken []byte) (Credentials, er
 func (creds *Credentials) Inflate() {
 	if creds.Application.OAuth2Endpoint == (oauth2.Endpoint{}) &&
 		len(strings.TrimSpace(creds.Service)) > 0 {
-		ep, err := endpoints.NewEndpoint(creds.Service)
+		ep, err := endpoints.NewEndpoint(creds.Service, creds.Subdomain)
 		if err == nil {
 			creds.Application.OAuth2Endpoint = ep
 		}
