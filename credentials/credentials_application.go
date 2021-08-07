@@ -34,13 +34,6 @@ func (app *ApplicationCredentials) Config() oauth2.Config {
 		RedirectURL:  app.RedirectURL}
 }
 
-/*
-func (app *ApplicationCredentials) NewEndpoint() oauth2.Endpoint {
-	return oauth2.Endpoint{
-		AuthURL:  app.OAuth2AuthzURL,
-		TokenURL: app.OAuth2TokenURL}
-}*/
-
 func (app *ApplicationCredentials) AuthCodeURL(state string, opts ...oauth2.AuthCodeOption) string {
 	cfg := app.Config()
 	return cfg.AuthCodeURL(state, opts...)
