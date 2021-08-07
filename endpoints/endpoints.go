@@ -63,6 +63,11 @@ func NewEndpoint(serviceName, subdomain string) (oauth2.Endpoint, error) {
 			AuthURL:   LyftAuthzURL,
 			TokenURL:  LyftTokenURL,
 			AuthStyle: oauth2.AuthStyleAutoDetect}, nil
+	case ServiceMailchimp:
+		return oauth2.Endpoint{
+			AuthURL:   MailchimpAuthzURL,
+			TokenURL:  MailchimpTokenURL,
+			AuthStyle: oauth2.AuthStyleAutoDetect}, nil
 	case ServiceMonday:
 		return oauth2.Endpoint{
 			AuthURL:   MondayAuthzURL,
@@ -112,6 +117,11 @@ func NewEndpoint(serviceName, subdomain string) (oauth2.Endpoint, error) {
 		return oauth2.Endpoint{
 			AuthURL:   StripeAuthzURL,
 			TokenURL:  StripeTokenURL,
+			AuthStyle: oauth2.AuthStyleAutoDetect}, nil
+	case ServiceTodoist:
+		return oauth2.Endpoint{
+			AuthURL:   TodoistAuthzURL,
+			TokenURL:  TodoistTokenURL,
 			AuthStyle: oauth2.AuthStyleAutoDetect}, nil
 	case ServiceUber:
 		return oauth2.Endpoint{
