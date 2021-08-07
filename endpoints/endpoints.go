@@ -23,11 +23,26 @@ func NewEndpoint(serviceName, subdomain string) (oauth2.Endpoint, error) {
 			AuthURL:   AsanaAuthzURL,
 			TokenURL:  AsanaTokenURL,
 			AuthStyle: oauth2.AuthStyleAutoDetect}, nil
+	case ServiceEbay:
+		return oauth2.Endpoint{
+			AuthURL:   EbayAuthzURL,
+			TokenURL:  EbayTokenURL,
+			AuthStyle: oauth2.AuthStyleAutoDetect}, nil
+	case ServiceEbaySandbox:
+		return oauth2.Endpoint{
+			AuthURL:   EbayAuthzURLSandbox,
+			TokenURL:  EbayTokenURLSandbox,
+			AuthStyle: oauth2.AuthStyleAutoDetect}, nil
 	case ServiceFacebook:
 		return oauth2.Endpoint{
 			AuthURL:   FacebookAuthzURL,
 			TokenURL:  FacebookTokenURL,
 			AuthStyle: oauth2.AuthStyleInParams}, nil
+	case ServiceGithub:
+		return oauth2.Endpoint{
+			AuthURL:   GithubAuthzURL,
+			TokenURL:  GithubTokenURL,
+			AuthStyle: oauth2.AuthStyleAutoDetect}, nil
 	case ServiceGoogle:
 		return oauth2.Endpoint{
 			AuthURL:   GoogleAuthzURL,
@@ -58,6 +73,21 @@ func NewEndpoint(serviceName, subdomain string) (oauth2.Endpoint, error) {
 			AuthURL:   PagerdutyAuthzURL,
 			TokenURL:  PagerdutyTokenURL,
 			AuthStyle: oauth2.AuthStyleAutoDetect}, nil
+	case ServicePaypal:
+		return oauth2.Endpoint{
+			AuthURL:   PaypalAuthzURL,
+			TokenURL:  PaypalTokenURL,
+			AuthStyle: oauth2.AuthStyleAutoDetect}, nil
+	case ServicePaypalSandbox:
+		return oauth2.Endpoint{
+			AuthURL:   PaypalAuthzURLSandbox,
+			TokenURL:  PaypalTokenURLSandbox,
+			AuthStyle: oauth2.AuthStyleAutoDetect}, nil
+	case ServicePipedrive:
+		return oauth2.Endpoint{
+			AuthURL:   PipedriveAuthzURL,
+			TokenURL:  PipedriveTokenURL,
+			AuthStyle: oauth2.AuthStyleAutoDetect}, nil
 	case ServiceRingcentral:
 		return oauth2.Endpoint{
 			AuthURL:   RingcentralAuthzURL,
@@ -68,6 +98,11 @@ func NewEndpoint(serviceName, subdomain string) (oauth2.Endpoint, error) {
 			AuthURL:   RingcentralAuthzURLSandbox,
 			TokenURL:  RingcentralTokenURLSandbox,
 			AuthStyle: oauth2.AuthStyleInHeader}, nil
+	case ServiceSlack:
+		return oauth2.Endpoint{
+			AuthURL:   SlackAuthzURL,
+			TokenURL:  SlackTokenURL,
+			AuthStyle: oauth2.AuthStyleAutoDetect}, nil
 	case ServiceStackoverflow:
 		return oauth2.Endpoint{
 			AuthURL:   StackoverflowAuthzURL,
@@ -77,6 +112,16 @@ func NewEndpoint(serviceName, subdomain string) (oauth2.Endpoint, error) {
 		return oauth2.Endpoint{
 			AuthURL:   StripeAuthzURL,
 			TokenURL:  StripeTokenURL,
+			AuthStyle: oauth2.AuthStyleAutoDetect}, nil
+	case ServiceUber:
+		return oauth2.Endpoint{
+			AuthURL:   UberAuthzURL,
+			TokenURL:  UberTokenURL,
+			AuthStyle: oauth2.AuthStyleAutoDetect}, nil
+	case ServiceWrike:
+		return oauth2.Endpoint{
+			AuthURL:   WrikeAuthzURL,
+			TokenURL:  WrikeTokenURL,
 			AuthStyle: oauth2.AuthStyleAutoDetect}, nil
 	}
 	return oauth2.Endpoint{}, fmt.Errorf("service not found [%s]", serviceName)
