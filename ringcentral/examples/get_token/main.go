@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/grokify/oauth2more/credentials"
 	"github.com/grokify/oauth2more/ringcentral"
@@ -12,10 +13,10 @@ import (
 )
 
 type Options struct {
-	CredsPath  string `short:"c" long:"credspath" description:"Environment File Path"`
-	AccountKey string `short:"a" long:"account" description:"Environment Variable Name"`
-	Token      string `short:"t" long:"token" description:"Token"`
-	CLI        []bool `long:"cli" description:"CLI"`
+	CredsPath string `short:"c" long:"credspath" description:"Environment File Path"`
+	Account   string `short:"a" long:"account" description:"Environment Variable Name"`
+	Token     string `short:"t" long:"token" description:"Token"`
+	CLI       []bool `long:"cli" description:"CLI"`
 }
 
 func main() {
@@ -32,11 +33,15 @@ func main() {
 			Str("credentials_filepath", opts.CredsPath).
 			Msg("cannot read credentials file")
 	}
-
-	credentials, err := cset.Get(opts.AccountKey)
+	if len(strings.TrimSpace(opts.Account)) == 0 {
+		log.Fatal().Err(err).
+			Strs("available accounts", cset.Accounts()).
+			Msg("no account specified")
+	}
+	credentials, err := cset.Get(opts.Account)
 	if err != nil {
 		log.Fatal().Err(err).
-			Str("credentials_account", opts.AccountKey).
+			Str("credentials_account", opts.Account).
 			Msg("cannot find credentials account")
 		panic("fail1")
 	}
@@ -52,7 +57,7 @@ func main() {
 		log.Fatal().
 			Err(err).
 			Str("filepath", opts.CredsPath).
-			Str("account", opts.AccountKey).
+			Str("account", opts.Account).
 			Msg("failed to get new token")
 		panic("failed")
 	}
