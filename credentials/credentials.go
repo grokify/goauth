@@ -23,8 +23,18 @@ type Credentials struct {
 	Token               *oauth2.Token          `json:"token,omitempty"`
 }
 
+func NewCredentialsJSON(data []byte) (Credentials, error) {
+	var creds Credentials
+	err := json.Unmarshal(data, &creds)
+	if err != nil {
+		return creds, err
+	}
+	err = creds.Inflate()
+	return creds, err
+}
+
 func NewCredentialsJSONs(appJson, userJson, accessToken []byte) (Credentials, error) {
-	creds := Credentials{}
+	var creds Credentials
 	if len(appJson) > 1 {
 		app := ApplicationCredentials{}
 		err := json.Unmarshal(appJson, &app)
@@ -48,14 +58,16 @@ func NewCredentialsJSONs(appJson, userJson, accessToken []byte) (Credentials, er
 	return creds, nil
 }
 
-func (creds *Credentials) Inflate() {
+func (creds *Credentials) Inflate() error {
 	if creds.Application.OAuth2Endpoint == (oauth2.Endpoint{}) &&
 		len(strings.TrimSpace(creds.Service)) > 0 {
 		ep, err := endpoints.NewEndpoint(creds.Service, creds.Subdomain)
-		if err == nil {
-			creds.Application.OAuth2Endpoint = ep
+		if err != nil {
+			return err
 		}
+		creds.Application.OAuth2Endpoint = ep
 	}
+	return nil
 }
 
 func (creds *Credentials) NewClient() (*http.Client, error) {
