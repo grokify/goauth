@@ -71,11 +71,15 @@ func (creds *Credentials) Inflate() error {
 }
 
 func (creds *Credentials) NewClient() (*http.Client, error) {
-	tok, err := creds.NewToken()
-	if err != nil {
-		return nil, errors.Wrap(err, "Credentials.NewClient()")
+	tok := creds.Token
+	if tok == nil {
+		var err error
+		tok, err = creds.NewToken()
+		if err != nil {
+			return nil, errors.Wrap(err, "Credentials.NewClient()")
+		}
+		creds.Token = tok
 	}
-	creds.Token = tok
 	return oauth2more.NewClientToken(
 		oauth2more.TokenBearer, tok.AccessToken, false), nil
 }
