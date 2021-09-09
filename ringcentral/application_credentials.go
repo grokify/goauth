@@ -7,6 +7,7 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/grokify/oauth2more/credentials"
 	"github.com/grokify/simplego/net/urlutil"
 
 	"golang.org/x/oauth2"
@@ -26,8 +27,8 @@ type ApplicationCredentials struct {
 	GrantType       string `json:"grantType,omitempty"`
 }
 
-func NewApplicationCredentialsEnv() ApplicationCredentials {
-	return ApplicationCredentials{
+func NewApplicationCredentialsEnv() credentials.ApplicationCredentials {
+	return credentials.ApplicationCredentials{
 		ServerURL:    os.Getenv(EnvServerURL),
 		ClientID:     os.Getenv(EnvClientID),
 		ClientSecret: os.Getenv(EnvClientSecret),
