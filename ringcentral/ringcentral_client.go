@@ -11,11 +11,12 @@ import (
 	"time"
 
 	om "github.com/grokify/oauth2more"
+	"github.com/grokify/oauth2more/credentials"
 	hum "github.com/grokify/simplego/net/httputilmore"
 	"golang.org/x/oauth2"
 )
 
-func NewTokenPassword(app ApplicationCredentials, pwd PasswordCredentials) (*oauth2.Token, error) {
+func NewTokenPassword(app credentials.ApplicationCredentials, pwd credentials.PasswordCredentials) (*oauth2.Token, error) {
 	return RetrieveToken(
 		oauth2.Config{
 			ClientID:     app.ClientID,
@@ -25,7 +26,7 @@ func NewTokenPassword(app ApplicationCredentials, pwd PasswordCredentials) (*oau
 }
 
 // NewClientPassword uses dedicated password grant handling.
-func NewClientPassword(app ApplicationCredentials, pwd PasswordCredentials) (*http.Client, error) {
+func NewClientPassword(app credentials.ApplicationCredentials, pwd credentials.PasswordCredentials) (*http.Client, error) {
 	c := app.Config()
 	token, err := RetrieveToken(c, pwd.URLValues())
 	if err != nil {
@@ -44,7 +45,7 @@ func NewClientPassword(app ApplicationCredentials, pwd PasswordCredentials) (*ht
 }
 
 // NewClientPasswordSimple uses OAuth2 package password grant handling.
-func NewClientPasswordSimple(app ApplicationCredentials, user PasswordCredentials) (*http.Client, error) {
+func NewClientPasswordSimple(app credentials.ApplicationCredentials, user credentials.PasswordCredentials) (*http.Client, error) {
 	httpClient, err := om.NewClientPasswordConf(
 		oauth2.Config{
 			ClientID:     app.ClientID,
@@ -65,7 +66,7 @@ func NewClientPasswordSimple(app ApplicationCredentials, user PasswordCredential
 	return httpClient, nil
 }
 
-func getClientHeader(app ApplicationCredentials) http.Header {
+func getClientHeader(app credentials.ApplicationCredentials) http.Header {
 	userAgentParts := []string{om.PathVersion()}
 	if len(app.AppNameAndVersion()) > 0 {
 		userAgentParts = append([]string{app.AppNameAndVersion()}, userAgentParts...)
