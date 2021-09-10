@@ -47,12 +47,13 @@ func (set *CredentialsSet) NewSimpleClient(key string) (*httpsimple.SimpleClient
 	return creds.NewSimpleClient()
 }
 
-func ReadCredentialsFromFile(filename, key string, inflateEndpoints bool) (Credentials, error) {
+func ReadCredentialsFromFile(filename, key string, inflateEndpoints bool) (CredentialsSet, Credentials, error) {
 	set, err := ReadFileCredentialsSet(filename, inflateEndpoints)
 	if err != nil {
-		return Credentials{}, err
+		return set, Credentials{}, err
 	}
-	return set.Get(key)
+	creds, err := set.Get(key)
+	return set, creds, err
 }
 
 func (set *CredentialsSet) GetClient(key string) (*http.Client, error) {
