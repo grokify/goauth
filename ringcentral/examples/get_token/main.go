@@ -5,7 +5,6 @@ import (
 	"strings"
 
 	"github.com/grokify/oauth2more/credentials"
-	"github.com/grokify/oauth2more/ringcentral"
 	"github.com/grokify/simplego/fmt/fmtutil"
 	"github.com/jessevdk/go-flags"
 	"github.com/rs/zerolog/log"
@@ -49,7 +48,7 @@ func main() {
 	var token *oauth2.Token
 
 	if len(opts.CLI) > 0 {
-		token, err = ringcentral.NewTokenCli(credentials, "mystate")
+		token, err = credentials.NewTokenCli("mystate")
 	} else {
 		token, err = credentials.NewToken()
 	}
