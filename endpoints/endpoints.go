@@ -135,12 +135,12 @@ func NewEndpoint(serviceName, subdomain string) (oauth2.Endpoint, string, error)
 		return oauth2.Endpoint{
 			AuthURL:   SlackAuthzURL,
 			TokenURL:  SlackTokenURL,
-			AuthStyle: oauth2.AuthStyleAutoDetect}, "", nil
+			AuthStyle: oauth2.AuthStyleAutoDetect}, SlackServerURL, nil
 	case ServiceStackoverflow:
 		return oauth2.Endpoint{
 			AuthURL:   StackoverflowAuthzURL,
 			TokenURL:  StackoverflowTokenURL,
-			AuthStyle: oauth2.AuthStyleAutoDetect}, "", nil
+			AuthStyle: oauth2.AuthStyleAutoDetect}, StackoverflowTokenURL, nil
 	case ServiceStripe:
 		return oauth2.Endpoint{
 			AuthURL:   StripeAuthzURL,
