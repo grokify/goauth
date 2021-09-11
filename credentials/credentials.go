@@ -59,13 +59,17 @@ func NewCredentialsJSONs(appJson, userJson, accessToken []byte) (Credentials, er
 }
 
 func (creds *Credentials) Inflate() error {
-	if creds.Application.OAuth2Endpoint == (oauth2.Endpoint{}) &&
-		len(strings.TrimSpace(creds.Service)) > 0 {
-		ep, err := endpoints.NewEndpoint(creds.Service, creds.Subdomain)
+	if len(strings.TrimSpace(creds.Service)) > 0 {
+		ep, svcUrl, err := endpoints.NewEndpoint(creds.Service, creds.Subdomain)
 		if err != nil {
 			return err
 		}
-		creds.Application.OAuth2Endpoint = ep
+		if creds.Application.OAuth2Endpoint == (oauth2.Endpoint{}) {
+			creds.Application.OAuth2Endpoint = ep
+		}
+		if len(strings.TrimSpace(creds.Application.ServerURL)) == 0 {
+			creds.Application.ServerURL = svcUrl
+		}
 	}
 	return nil
 }
