@@ -17,9 +17,11 @@ func NewEndpoint(serviceName, subdomain string) (oauth2.Endpoint, string, error)
 			return oauth2.Endpoint{}, "", fmt.Errorf("service [%s] requires subddomain", ServiceAha)
 		}
 		return oauth2.Endpoint{
-			AuthURL:   fmt.Sprintf(AhaAuthzURLFormat, subdomain),
-			TokenURL:  fmt.Sprintf(AhaTokenURLFormat, subdomain),
-			AuthStyle: oauth2.AuthStyleAutoDetect}, "", nil
+				AuthURL:   fmt.Sprintf(AhaAuthzURLFormat, subdomain),
+				TokenURL:  fmt.Sprintf(AhaTokenURLFormat, subdomain),
+				AuthStyle: oauth2.AuthStyleAutoDetect},
+			fmt.Sprintf(AhaServerURLFormat, subdomain),
+			nil
 	case ServiceAsana:
 		return oauth2.Endpoint{
 			AuthURL:   AsanaAuthzURL,
@@ -49,7 +51,7 @@ func NewEndpoint(serviceName, subdomain string) (oauth2.Endpoint, string, error)
 		return oauth2.Endpoint{
 			AuthURL:   GithubAuthzURL,
 			TokenURL:  GithubTokenURL,
-			AuthStyle: oauth2.AuthStyleAutoDetect}, "", nil
+			AuthStyle: oauth2.AuthStyleAutoDetect}, GithubServerURL, nil
 	case ServiceGoogle:
 		return oauth2.Endpoint{
 			AuthURL:   GoogleAuthzURL,
@@ -79,12 +81,12 @@ func NewEndpoint(serviceName, subdomain string) (oauth2.Endpoint, string, error)
 		return oauth2.Endpoint{
 			AuthURL:   MondayAuthzURL,
 			TokenURL:  MondayTokenURL,
-			AuthStyle: oauth2.AuthStyleAutoDetect}, "", nil
+			AuthStyle: oauth2.AuthStyleAutoDetect}, MondayServerURL, nil
 	case ServicePagerduty:
 		return oauth2.Endpoint{
 			AuthURL:   PagerdutyAuthzURL,
 			TokenURL:  PagerdutyTokenURL,
-			AuthStyle: oauth2.AuthStyleAutoDetect}, "", nil
+			AuthStyle: oauth2.AuthStyleAutoDetect}, PagerdutyServerURL, nil
 	case ServicePaypal:
 		return oauth2.Endpoint{
 			AuthURL:   PaypalAuthzURL,
