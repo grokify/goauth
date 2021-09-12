@@ -293,8 +293,8 @@ github.com/grokify/simplego v0.27.2/go.mod h1:UKobvO2/X3aFy5fwNUxaW6YFK8A3IKCoIR
 github.com/grokify/simplego v0.30.0/go.mod h1:UKobvO2/X3aFy5fwNUxaW6YFK8A3IKCoIRqtVNhsdZU=
 github.com/grokify/simplego v0.30.2/go.mod h1:UKobvO2/X3aFy5fwNUxaW6YFK8A3IKCoIRqtVNhsdZU=
 github.com/grokify/simplego v0.30.6/go.mod h1:khOzEF+4r3PIi12Aq+psSPaylUdB2a8rnRlZh9IvtFI=
-github.com/grokify/simplego v0.30.8 h1:QuaRCS8Dals7o0CMveK8hvt+ZKq1usIe82T41sKa8UY=
-github.com/grokify/simplego v0.30.8/go.mod h1:WDfu/ovM3UDMORrEHYQD5oJXISGCOFuIzYiSv/cdwvs=
+github.com/grokify/simplego v0.30.9 h1:/ep15xay4u5hUzjPx37ich4r5x3UDwRwFw5AZxTMuPk=
+github.com/grokify/simplego v0.30.9/go.mod h1:WDfu/ovM3UDMORrEHYQD5oJXISGCOFuIzYiSv/cdwvs=
 github.com/grpc-ecosystem/go-grpc-middleware v1.0.0/go.mod h1:FiyG127CGDf3tlThmgyCl78X/SZQqEOJBCDaAfeWzPs=
 github.com/grpc-ecosystem/go-grpc-prometheus v1.2.0/go.mod h1:8NvIoxWQoOIhqOTXgfV/d3M/q6VIi02HzZEHgUlZvzk=
 github.com/grpc-ecosystem/grpc-gateway v1.9.0/go.mod h1:vNeuVxBJEsws4ogUvrchl83t/GYV9WGTSLVdBhOQFDY=
@@ -539,8 +539,9 @@ github.com/rs/zerolog v1.15.0/go.mod h1:xYTKnLHcpfU2225ny5qZjxnj9NvkumZYjJHlAThC
 github.com/rs/zerolog v1.21.0/go.mod h1:ZPhntP/xmq1nnND05hhpAh2QMhSsA4UN3MGZ6O2J3hM=
 github.com/rs/zerolog v1.22.0/go.mod h1:ZPhntP/xmq1nnND05hhpAh2QMhSsA4UN3MGZ6O2J3hM=
 github.com/rs/zerolog v1.23.0/go.mod h1:6c7hFfxPOy7TacJc4Fcdi24/J0NKYGzjG8FWRI916Qo=
-github.com/rs/zerolog v1.24.0 h1:76ivFxmVSRs1u2wUwJVg5VZDYQgeH1JpoS6ndgr9Wy8=
 github.com/rs/zerolog v1.24.0/go.mod h1:7KHcEGe0QZPOm2IE4Kpb5rTh6n1h2hIgS5OOnu1rUaI=
+github.com/rs/zerolog v1.25.0 h1:Rj7XygbUHKUlDPcVdoLyR91fJBsduXj5fRxyqIQj/II=
+github.com/rs/zerolog v1.25.0/go.mod h1:7KHcEGe0QZPOm2IE4Kpb5rTh6n1h2hIgS5OOnu1rUaI=
 github.com/russross/blackfriday/v2 v2.0.1/go.mod h1:+Rmxgy9KzJVeS9/2gXHxylqXiyQDYRxCVz55jmeOWTM=
 github.com/russross/blackfriday/v2 v2.1.0/go.mod h1:+Rmxgy9KzJVeS9/2gXHxylqXiyQDYRxCVz55jmeOWTM=
 github.com/rustyoz/Mtransform v0.0.0-20190224104252-60c8c35a3681/go.mod h1:LoYQicvJKiYtg51aHi/pslb7cyYUevSnMuB5IlkjuF0=
