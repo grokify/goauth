@@ -11,15 +11,8 @@ import (
 	"golang.org/x/oauth2"
 )
 
-type Options struct {
-	CredsPath string `short:"c" long:"credspath" description:"Environment File Path"`
-	Account   string `short:"a" long:"account" description:"Environment Variable Name"`
-	Token     string `short:"t" long:"token" description:"Token"`
-	CLI       []bool `long:"cli" description:"CLI"`
-}
-
 func main() {
-	opts := Options{}
+	opts := credentials.Options{}
 	_, err := flags.Parse(&opts)
 	if err != nil {
 		log.Fatal().Err(err)
