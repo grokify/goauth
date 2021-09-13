@@ -15,9 +15,9 @@ type CredentialsSet struct {
 	Credentials map[string]Credentials
 }
 
-func ReadFileCredentialsSet(filename string, inflateEndpoints bool) (CredentialsSet, error) {
+func ReadFileCredentialsSet(credentialsSetFilename string, inflateEndpoints bool) (CredentialsSet, error) {
 	set := CredentialsSet{}
-	_, err := jsonutil.ReadFile(filename, &set)
+	_, err := jsonutil.ReadFile(credentialsSetFilename, &set)
 	if err != nil {
 		return set, err
 	}
@@ -41,20 +41,20 @@ func (set *CredentialsSet) Inflate() {
 	}
 }
 
-func (set *CredentialsSet) NewSimpleClient(key string) (*httpsimple.SimpleClient, error) {
-	creds, ok := set.Credentials[key]
+func (set *CredentialsSet) NewSimpleClient(accountKey string) (*httpsimple.SimpleClient, error) {
+	creds, ok := set.Credentials[accountKey]
 	if !ok {
-		return nil, fmt.Errorf("client_not_found [%s]", key)
+		return nil, fmt.Errorf("client_not_found [%s]", accountKey)
 	}
 	return creds.NewSimpleClient()
 }
 
-func ReadCredentialsFromFile(filename, key string, inclAccountsOnError bool) (Credentials, error) {
-	set, err := ReadFileCredentialsSet(filename, true)
+func ReadCredentialsFromFile(credentialsSetFilename, accountKey string, inclAccountsOnError bool) (Credentials, error) {
+	set, err := ReadFileCredentialsSet(credentialsSetFilename, true)
 	if err != nil {
 		return Credentials{}, err
 	}
-	creds, err := set.Get(key)
+	creds, err := set.Get(accountKey)
 	if err != nil {
 		if inclAccountsOnError {
 			return creds, errors.Wrap(err,
