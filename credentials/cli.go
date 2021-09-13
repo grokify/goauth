@@ -8,3 +8,10 @@ type Options struct {
 	Token     string `long:"token" description:"Token"`
 	CLI       []bool `long:"cli" description:"CLI"`
 }
+
+func (opts *Options)UseCLI() bool {
+	if len(opts.CLI)>0 {
+		return true
+	}
+	return false
+}

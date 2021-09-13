@@ -75,18 +75,28 @@ func main() {
 		fmtutil.PrintJSON(sr)
 	}
 
-	cset, err := credentials.ReadFileCredentialsSet(opts.CredsPath, true)
+	creds, err := credentials.ReadCredentialsFromFile(
+		opts.CredsPath, opts.Account, true)
 	if err != nil {
 		log.Fatal().Err(err).
-			Str("credentials_filepath", opts.CredsPath).
-			Msg("cannot read credentials file")
+			Str("credsPath", opts.CredsPath).
+			Str("accountKey", opts.Account).
+			Msg("cannot read credentials")
 	}
-	if len(strings.TrimSpace(opts.Account)) == 0 {
+
+	var httpClient *http.Client
+	if opts.UseCLI() {
+		httpClient, err = creds.NewClientCli("mystate")
+	} else {
+		httpClient, err = creds.NewClient()
+	}
+	if err != nil {
 		log.Fatal().Err(err).
-			Strs("available accounts", cset.Accounts()).
-			Msg("no account specified")
+			Bool("useCLI", opts.UseCLI()).
+			Msg("creds.NewClient() or creds.NewClientCLI()")
 	}
-	sclient, err := cset.NewSimpleClient(opts.Account)
+
+	sclient, err := creds.NewSimpleClient(httpClient)
 	if err != nil {
 		fmt.Println(string(err.Error()))
 		log.Fatal().Err(err).

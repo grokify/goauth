@@ -7,7 +7,6 @@ import (
 	"strings"
 
 	"github.com/grokify/simplego/encoding/jsonutil"
-	"github.com/grokify/simplego/net/http/httpsimple"
 	"github.com/pkg/errors"
 )
 
@@ -41,6 +40,7 @@ func (set *CredentialsSet) Inflate() {
 	}
 }
 
+/*
 func (set *CredentialsSet) NewSimpleClient(accountKey string) (*httpsimple.SimpleClient, error) {
 	creds, ok := set.Credentials[accountKey]
 	if !ok {
@@ -48,6 +48,7 @@ func (set *CredentialsSet) NewSimpleClient(accountKey string) (*httpsimple.Simpl
 	}
 	return creds.NewSimpleClient()
 }
+*/
 
 func ReadCredentialsFromFile(credentialsSetFilename, accountKey string, inclAccountsOnError bool) (Credentials, error) {
 	set, err := ReadFileCredentialsSet(credentialsSetFilename, true)
