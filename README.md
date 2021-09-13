@@ -4,6 +4,7 @@
 [![Go Report Card][goreport-svg]][goreport-url]
 [![Used By][used-by-svg]][used-by-url]
 [![Docs][docs-godoc-svg]][docs-godoc-url]
+[![LOC][loc-svg]][repo-url]
 [![License][license-svg]][license-url]
 
 More [OAuth 2.0 - https://github.com/golang/oauth2](https://github.com/golang/oauth2) functionality. Currently provides:
@@ -82,5 +83,7 @@ See the following repo for a Beego-based demo app:
  [goreport-url]: https://goreportcard.com/report/github.com/grokify/oauth2more
  [docs-godoc-svg]: https://pkg.go.dev/badge/github.com/grokify/oauth2more
  [docs-godoc-url]: https://pkg.go.dev/github.com/grokify/oauth2more
+ [loc-svg]: https://tokei.rs/b1/github/grokify/oauth2more
+ [repo-url]: https://github.com/grokify/oauth2more
  [license-svg]: https://img.shields.io/badge/license-MIT-blue.svg
  [license-url]: https://github.com/grokify/oauth2more/blob/master/LICENSE.md
