@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"strings"
 
 	"github.com/grokify/oauth2more/credentials"
 	"github.com/grokify/simplego/fmt/fmtutil"
@@ -19,31 +18,21 @@ func main() {
 	}
 	fmtutil.PrintJSON(opts)
 
-	cset, err := credentials.ReadFileCredentialsSet(opts.CredsPath, true)
+	creds, err := credentials.ReadCredentialsFromFile(
+		opts.CredsPath, opts.Account, true)
 	if err != nil {
 		log.Fatal().Err(err).
-			Str("credentials_filepath", opts.CredsPath).
-			Msg("cannot read credentials file")
-	}
-	if len(strings.TrimSpace(opts.Account)) == 0 {
-		log.Fatal().Err(err).
-			Strs("available accounts", cset.Accounts()).
-			Msg("no account specified")
-	}
-	credentials, err := cset.Get(opts.Account)
-	if err != nil {
-		log.Fatal().Err(err).
-			Str("credentials_account", opts.Account).
-			Msg("cannot find credentials account")
-		panic("fail1")
+			Str("credsPath", opts.CredsPath).
+			Str("accountKey", opts.Account).
+			Msg("cannot read credentials")
 	}
 
 	var token *oauth2.Token
 
 	if len(opts.CLI) > 0 {
-		token, err = credentials.NewTokenCli("mystate")
+		token, err = creds.NewTokenCli("mystate")
 	} else {
-		token, err = credentials.NewToken()
+		token, err = creds.NewToken()
 	}
 	if err != nil {
 		log.Fatal().

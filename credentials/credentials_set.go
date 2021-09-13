@@ -4,9 +4,11 @@ import (
 	"fmt"
 	"net/http"
 	"sort"
+	"strings"
 
 	"github.com/grokify/simplego/encoding/jsonutil"
 	"github.com/grokify/simplego/net/http/httpsimple"
+	"github.com/pkg/errors"
 )
 
 type CredentialsSet struct {
@@ -47,13 +49,20 @@ func (set *CredentialsSet) NewSimpleClient(key string) (*httpsimple.SimpleClient
 	return creds.NewSimpleClient()
 }
 
-func ReadCredentialsFromFile(filename, key string, inflateEndpoints bool) (CredentialsSet, Credentials, error) {
-	set, err := ReadFileCredentialsSet(filename, inflateEndpoints)
+func ReadCredentialsFromFile(filename, key string, inclAccountsOnError bool) (Credentials, error) {
+	set, err := ReadFileCredentialsSet(filename, true)
 	if err != nil {
-		return set, Credentials{}, err
+		return Credentials{}, err
 	}
 	creds, err := set.Get(key)
-	return set, creds, err
+	if err != nil {
+		if inclAccountsOnError {
+			return creds, errors.Wrap(err,
+				fmt.Sprintf("validAccounts [%s]", strings.Join(set.Accounts(), ",")))
+		}
+		return creds, err
+	}
+	return creds, nil
 }
 
 func (set *CredentialsSet) GetClient(key string) (*http.Client, error) {
