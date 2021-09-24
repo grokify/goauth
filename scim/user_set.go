@@ -1,12 +1,27 @@
 package scim
 
 import (
+	"encoding/json"
 	"fmt"
+	"os"
 	"strings"
 )
 
 type UserSet struct {
-	Users []User
+	Users []User `json:"users,omitempty"`
+}
+
+func NewUserSet() UserSet {
+	return UserSet{Users: []User{}}
+}
+
+func ReadFileUserSet(filename string) (UserSet, err) {
+	set := NewUserSet()
+	bytes, err := os.ReadFile(filename)
+	if err != nil {
+		return set, err
+	}
+	return set, json.Unmarshal(bytes, &set)
 }
 
 func (set *UserSet) Count() int {
