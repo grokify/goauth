@@ -15,7 +15,7 @@ func NewUserSet() UserSet {
 	return UserSet{Users: []User{}}
 }
 
-func ReadFileUserSet(filename string) (UserSet, err) {
+func ReadFileUserSet(filename string) (UserSet, error) {
 	set := NewUserSet()
 	bytes, err := os.ReadFile(filename)
 	if err != nil {
