@@ -42,6 +42,12 @@ func NewUser() User {
 	}
 }
 
+func (user *User) InflateDisplayName(inclPrefix, inclMiddleName bool) {
+	if len(strings.TrimSpace(user.DisplayName)) == 0 {
+		user.DisplayName = user.Name.BuildDisplayName(inclPrefix, inclMiddleName)
+	}
+}
+
 func (user *User) DisplayNameAny() string {
 	name := strings.TrimSpace(user.DisplayName)
 	if len(name) > 0 {
@@ -147,6 +153,20 @@ type Name struct {
 	MiddleName      string `json:"middleName,omitempty"`
 	HonorificPrefix string `json:"honorificPrefix,omitempty"`
 	HonorificSuffix string `json:"honorificSuffix,omitempty"`
+}
+
+func (n *Name) BuildDisplayName(inclPrefix, inclMiddleName bool) string {
+	parts := []string{}
+	if inclPrefix {
+		parts = append(parts, n.HonorificPrefix)
+	}
+	parts = append(parts, n.GivenName)
+	if inclMiddleName {
+		parts = append(parts, n.MiddleName)
+	}
+	parts = append(parts, n.FamilyName)
+	parts = append(parts, n.HonorificSuffix)
+	return strings.Join(stringsutil.SliceCondenseSpace(parts, false, false), " ")
 }
 
 // Item is a SCIM struct used for email and phone numbers.
