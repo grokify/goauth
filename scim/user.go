@@ -38,13 +38,13 @@ func NewUser() User {
 		Schemas:      []string{},
 		PhoneNumbers: []Item{},
 		Emails:       []Item{},
-		Addresses:    []Address{},
-	}
+		Addresses:    []Address{}}
 }
 
-func (user *User) InflateDisplayName(inclPrefix, inclMiddleName bool) {
+func (user *User) InflateDisplayName(inclPrefix, inclMiddleName, inclSuffix bool) {
 	if len(strings.TrimSpace(user.DisplayName)) == 0 {
-		user.DisplayName = user.Name.BuildDisplayName(inclPrefix, inclMiddleName)
+		user.Name.Inflate()
+		user.DisplayName = user.Name.BuildDisplayName(inclPrefix, inclMiddleName, inclSuffix)
 	}
 }
 
@@ -148,14 +148,30 @@ func GetOneItem(items []Item) Item {
 // Name is the SCIM user name struct.
 type Name struct {
 	Formatted       string `json:"formatted,omitempty"`
-	FamilyName      string `json:"familyName,omitempty"`
+	HonorificPrefix string `json:"honorificPrefix,omitempty"`
 	GivenName       string `json:"givenName,omitempty"`
 	MiddleName      string `json:"middleName,omitempty"`
-	HonorificPrefix string `json:"honorificPrefix,omitempty"`
+	FamilyName      string `json:"familyName,omitempty"`
 	HonorificSuffix string `json:"honorificSuffix,omitempty"`
 }
 
-func (n *Name) BuildDisplayName(inclPrefix, inclMiddleName bool) string {
+func (n *Name) TrimSpace() {
+	n.Formatted = strings.TrimSpace(n.Formatted)
+	n.HonorificPrefix = strings.TrimSpace(n.HonorificPrefix)
+	n.GivenName = strings.TrimSpace(n.GivenName)
+	n.MiddleName = strings.TrimSpace(n.MiddleName)
+	n.FamilyName = strings.TrimSpace(n.FamilyName)
+	n.HonorificSuffix = strings.TrimSpace(n.HonorificSuffix)
+}
+
+func (n *Name) Inflate() {
+	if len(strings.TrimSpace(n.Formatted)) == 0 {
+		n.Formatted = n.BuildDisplayName(true, true, true)
+	}
+}
+
+func (n *Name) BuildDisplayName(inclPrefix, inclMiddleName, inclSuffix bool) string {
+	n.TrimSpace()
 	parts := []string{}
 	if inclPrefix {
 		parts = append(parts, n.HonorificPrefix)
@@ -165,8 +181,15 @@ func (n *Name) BuildDisplayName(inclPrefix, inclMiddleName bool) string {
 		parts = append(parts, n.MiddleName)
 	}
 	parts = append(parts, n.FamilyName)
-	parts = append(parts, n.HonorificSuffix)
-	return strings.Join(stringsutil.SliceCondenseSpace(parts, false, false), " ")
+	name := strings.Join(stringsutil.SliceCondenseSpace(parts, false, false), " ")
+	if inclSuffix && len(n.HonorificSuffix) > 0 {
+		if len(name) > 0 {
+			name += ", " + n.HonorificSuffix
+		} else {
+			name = n.HonorificSuffix
+		}
+	}
+	return name
 }
 
 // Item is a SCIM struct used for email and phone numbers.
