@@ -12,14 +12,14 @@ require (
 	github.com/grokify/go-salesforce v0.1.7
 	github.com/grokify/gocharts v1.16.1
 	github.com/grokify/gostor v0.2.1
-	github.com/grokify/simplego v0.30.9
+	github.com/grokify/simplego v0.30.11
 	github.com/jessevdk/go-flags v1.5.0
-	github.com/joho/godotenv v1.3.0
-	github.com/nyaruka/phonenumbers v1.0.71
+	github.com/joho/godotenv v1.4.0
+	github.com/nyaruka/phonenumbers v1.0.72
 	github.com/pkg/errors v0.9.1
 	github.com/pquerna/ffjson v0.0.0-20190930134022-aa0246cd15f7
 	github.com/rs/zerolog v1.25.0
-	golang.org/x/oauth2 v0.0.0-20210819190943-2bc19b11175f
-	google.golang.org/api v0.56.0
+	golang.org/x/oauth2 v0.0.0-20211005180243-6b3c2da341f1
+	google.golang.org/api v0.58.0
 	gopkg.in/jeevatkm/go-model.v1 v1.1.0
 )
