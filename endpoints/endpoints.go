@@ -20,8 +20,7 @@ func NewEndpoint(serviceName, subdomain string) (oauth2.Endpoint, string, error)
 				AuthURL:   fmt.Sprintf(AhaAuthzURLFormat, subdomain),
 				TokenURL:  fmt.Sprintf(AhaTokenURLFormat, subdomain),
 				AuthStyle: oauth2.AuthStyleAutoDetect},
-			fmt.Sprintf(AhaServerURLFormat, subdomain),
-			nil
+			fmt.Sprintf(AhaServerURLFormat, subdomain), nil
 	case ServiceAsana:
 		return oauth2.Endpoint{
 			AuthURL:   AsanaAuthzURL,
@@ -176,6 +175,11 @@ func NewEndpoint(serviceName, subdomain string) (oauth2.Endpoint, string, error)
 			AuthURL:   WunderlistAuthzURL,
 			TokenURL:  WunderlistTokenURL,
 			AuthStyle: oauth2.AuthStyleAutoDetect}, "", nil
+	case ServiceZoom:
+		return oauth2.Endpoint{
+			AuthURL:   ZoomAuthzURL,
+			TokenURL:  ZoomTokenURL,
+			AuthStyle: oauth2.AuthStyleAutoDetect}, ZoomServerURL, nil
 	}
 	return oauth2.Endpoint{}, "", fmt.Errorf("service not found [%s]", serviceName)
 }

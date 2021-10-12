@@ -34,6 +34,7 @@ const (
 	ServiceWepaySandbox       = "wepaysandbox"
 	ServiceWrike              = "wrike"
 	ServiceWunderlist         = "wunderlist"
+	ServiceZoom               = "zoom"
 
 	AhaAuthzURLFormat           = "https://%s.aha.io/oauth/authorize"
 	AhaTokenURLFormat           = "https://%s.aha.io/oauth/token"
@@ -105,4 +106,7 @@ const (
 	WrikeTokenURL               = "https://login.wrike.com/oauth2/token"
 	WunderlistAuthzURL          = "https://www.wunderlist.com/oauth/authorize"
 	WunderlistTokenURL          = "https://www.wunderlist.com/oauth/access_token"
+	ZoomAuthzURL                = "https://zoom.us/oauth/authorize"
+	ZoomTokenURL                = "https://zoom.us/oauth/token"
+	ZoomServerURL               = "https://api.zoom.us/v2"
 )
