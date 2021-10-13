@@ -31,8 +31,7 @@ func (jc *JWTCredentials) StandardToken(tokenDuration time.Duration) (*jwt.Token
 		stdClaims.ExpiresAt = time.Now().Add(tokenDuration).Unix()
 	}
 	token := jwt.NewWithClaims(
-		jwt.GetSigningMethod(
-			strings.ToUpper(strings.TrimSpace(jc.SigningMethod))),
+		jwt.GetSigningMethod(strings.ToUpper(strings.TrimSpace(jc.SigningMethod))),
 		stdClaims)
 	tokenString, err := token.SignedString([]byte(jc.PrivateKey))
 	return token, tokenString, err
