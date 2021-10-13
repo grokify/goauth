@@ -13,11 +13,18 @@ import (
 	"golang.org/x/oauth2"
 )
 
+const (
+	TypeOAuth2 = "oauth2"
+	TypeJWT    = "jwt"
+)
+
 type Credentials struct {
 	Service             string                 `json:"service,omitempty"`
+	Type                string                 `json:"type,omitempty"`
 	Subdomain           string                 `json:"subdomain,omitempty"`
 	Application         ApplicationCredentials `json:"application,omitempty"`
 	PasswordCredentials PasswordCredentials    `json:"passwordCredentials,omitempty"`
+	JWT                 JWTCredentials         `json:"jwt,omitempty"`
 	Token               *oauth2.Token          `json:"token,omitempty"`
 }
 
