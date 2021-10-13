@@ -109,4 +109,5 @@ const (
 	ZoomAuthzURL                = "https://zoom.us/oauth/authorize"
 	ZoomTokenURL                = "https://zoom.us/oauth/token"
 	ZoomServerURL               = "https://api.zoom.us/v2"
+	ZoomJWTSigningMethod        = "HS256"
 )

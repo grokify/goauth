@@ -4,9 +4,10 @@ import (
 	"net/http"
 	"time"
 
-	// "github.com/dgrijalva/jwt-go"
 	"github.com/golang-jwt/jwt"
 	"github.com/grokify/oauth2more"
+	"github.com/grokify/oauth2more/credentials"
+	"github.com/grokify/oauth2more/endpoints"
 	"github.com/grokify/simplego/net/httputilmore"
 )
 
@@ -17,13 +18,20 @@ const (
 )
 
 func CreateJwtToken(apiKey, apiSecret string, tokenDuration time.Duration) (*jwt.Token, string, error) {
-	token := jwt.NewWithClaims(
-		jwt.SigningMethodHS256,
-		jwt.StandardClaims{
-			Issuer:    apiKey,
-			ExpiresAt: time.Now().Add(tokenDuration).Unix()})
-	tokenString, err := token.SignedString([]byte(apiSecret))
-	return token, tokenString, err
+	jwtCreds := credentials.JWTCredentials{
+		Issuer:        apiKey,
+		PrivateKey:    apiSecret,
+		SigningMethod: endpoints.ZoomJWTSigningMethod}
+	return jwtCreds.StandardToken(tokenDuration)
+	/*
+		token := jwt.NewWithClaims(
+			jwt.SigningMethodHS256,
+			jwt.StandardClaims{
+				Issuer:    apiKey,
+				ExpiresAt: time.Now().Add(tokenDuration).Unix()})
+		tokenString, err := token.SignedString([]byte(apiSecret))
+		return token, tokenString, err
+	*/
 }
 
 func NewClient(apiKey, apiSecret string, tokenDuration time.Duration) (*http.Client, error) {
