@@ -7,11 +7,13 @@
 [![LOC][loc-svg]][repo-url]
 [![License][license-svg]][license-url]
 
-More [OAuth 2.0 - https://github.com/golang/oauth2](https://github.com/golang/oauth2) functionality. Currently provides:
+More [OAuth 2.0 - https://github.com/golang/oauth2](https://github.com/golang/oauth2) and JWT functionality. Major features include:
 
-* `NewClient()` functions to create `*http.Client` structs for services not supported in `oauth2` like `aha`, `metabase`, `ringcentral`, `salesforce`, `visa`, etc. Generating `*http.Client` structs is especially useful for using with Swagger Codegen auto-generated SDKs to support different auth models.
-* Helper libraries to retrieve canonical user information from services. The [SCIM](http://www.simplecloud.info/) user schema is used for a canonical user model.
-* Multi-service libraries to more transparently handle OAuth 2 for multiple services, e.g. a website that supports Google and Facebook auth. This is demoed in [grokify/beego-oauth2-demo](https://github.com/grokify/beego-oauth2-demo)
+1. Create `*http.Client` for multiple API services. Use `NewClient()` functions to create `*http.Client` structs for services not supported in `oauth2` like `aha`, `metabase`, `ringcentral`, `salesforce`, `visa`, etc. Generating `*http.Client` structs is especially useful for using with Swagger Codegen auto-generated SDKs to support different auth models.
+1. Generically store and retrieve multiple app credentials in a single JSON object via `credentials`. Supports both OAuth 2 and JWT.
+1. Create OAuth 2.0 authorization code token from the command line (for test purposes). No website is needed.
+1. Retrieve canonical user information via helper libraries to retrieve canonical user information from services. The [SCIM](http://www.simplecloud.info/) user schema is used for a canonical user model. This may be replaced/augmented by OIDC `userinfo` in the future.
+1. Transparently handle OAuth 2 for multiple services, e.g. a website that supports Google and Facebook auth. This is demoed in [grokify/beego-oauth2-demo](https://github.com/grokify/beego-oauth2-demo)
 
 ## Installation
 
