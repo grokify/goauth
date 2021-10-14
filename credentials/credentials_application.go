@@ -21,6 +21,8 @@ const (
 	GrantTypeRefreshToken      = "refresh_token"
 )
 
+// ApplicationCredentials supports OAuth 2.0 authorization_code, password,
+// and client_credentials grant flows.
 type ApplicationCredentials struct {
 	ServerURL       string          `json:"serverURL,omitempty"`
 	ApplicationID   string          `json:"applicationID,omitempty"`
