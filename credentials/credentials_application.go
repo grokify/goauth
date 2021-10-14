@@ -98,9 +98,9 @@ func (app *ApplicationCredentials) InflateURL(apiUrlPath string) string {
 	return urlutil.JoinAbsolute(app.ServerURL, apiUrlPath)
 }
 
-// Client returns a `*http.Client` for applications using `client_credentials`
+// NewClient returns a `*http.Client` for applications using `client_credentials`
 // grant. The client can be modified using context, e.g. ignoring bad certs or otherwise.
-func (app *ApplicationCredentials) Client(ctx context.Context) (*http.Client, error) {
+func (app *ApplicationCredentials) NewClient(ctx context.Context) (*http.Client, error) {
 	if app.GrantType != GrantTypeClientCredentials {
 		return nil, errors.New("grant type is not client_credentials")
 	}
