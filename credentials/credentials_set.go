@@ -1,6 +1,7 @@
 package credentials
 
 import (
+	"context"
 	"fmt"
 	"net/http"
 	"sort"
@@ -66,12 +67,12 @@ func ReadCredentialsFromFile(credentialsSetFilename, accountKey string, inclAcco
 	return creds, nil
 }
 
-func (set *CredentialsSet) GetClient(key string) (*http.Client, error) {
+func (set *CredentialsSet) GetClient(ctx context.Context, key string) (*http.Client, error) {
 	creds, ok := set.Credentials[key]
 	if !ok {
 		return nil, fmt.Errorf("E_CREDS_KEY_NOT_FOUND [%v]", key)
 	}
-	return creds.NewClient()
+	return creds.NewClient(ctx)
 }
 
 func (set *CredentialsSet) Accounts() []string { return set.Keys() }

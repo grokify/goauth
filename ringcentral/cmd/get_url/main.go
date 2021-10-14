@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -88,7 +89,7 @@ func main() {
 	if opts.UseCLI() {
 		httpClient, err = creds.NewClientCli("mystate")
 	} else {
-		httpClient, err = creds.NewClient()
+		httpClient, err = creds.NewClient(context.Background())
 	}
 	if err != nil {
 		log.Fatal().Err(err).
