@@ -44,7 +44,18 @@ func (app *ApplicationCredentials) Config() oauth2.Config {
 		ClientID:     app.ClientID,
 		ClientSecret: app.ClientSecret,
 		Endpoint:     app.OAuth2Endpoint,
-		RedirectURL:  app.RedirectURL}
+		RedirectURL:  app.RedirectURL,
+		Scopes:       app.Scopes}
+}
+
+func (app *ApplicationCredentials) ConfigClientCredentials() clientcredentials.Config {
+	return clientcredentials.Config{
+		ClientID:     app.ClientID,
+		ClientSecret: app.ClientSecret,
+		TokenURL:     app.OAuth2Endpoint.TokenURL,
+		Scopes:       app.Scopes,
+		AuthStyle:    oauth2.AuthStyleAutoDetect}
+
 }
 
 func (app *ApplicationCredentials) AuthCodeURL(state string, opts ...oauth2.AuthCodeOption) string {
@@ -104,12 +115,14 @@ func (app *ApplicationCredentials) NewClient(ctx context.Context) (*http.Client,
 	if app.GrantType != GrantTypeClientCredentials {
 		return nil, errors.New("grant type is not client_credentials")
 	}
-
-	config := clientcredentials.Config{
-		ClientID:     app.ClientID,
-		ClientSecret: app.ClientSecret,
-		TokenURL:     app.OAuth2Endpoint.TokenURL,
-		Scopes:       app.Scopes}
-
+	config := app.ConfigClientCredentials()
 	return config.Client(ctx), nil
+}
+
+func (app *ApplicationCredentials) NewToken(ctx context.Context) (*oauth2.Token, error) {
+	if app.GrantType != GrantTypeClientCredentials {
+		return nil, errors.New("grant type is not client_credentials")
+	}
+	config := app.ConfigClientCredentials()
+	return config.Token(ctx)
 }
