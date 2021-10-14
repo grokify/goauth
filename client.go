@@ -51,9 +51,8 @@ func NewClientTokenJSON(ctx context.Context, tokenJSON []byte) (*http.Client, er
 	return oAuthConfig.Client(ctx, token), nil
 }
 
-func NewClientHeaders(headersMap map[string]string, tlsInsecureSkipVerify bool) *http.Client {
+func NewClientHeaders(header http.Header, tlsInsecureSkipVerify bool) *http.Client {
 	client := &http.Client{}
-	header := httputilmore.NewHeadersMSS(headersMap)
 
 	if tlsInsecureSkipVerify {
 		client = ClientTLSInsecureSkipVerify(client)
