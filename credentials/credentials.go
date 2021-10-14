@@ -80,15 +80,23 @@ func (creds *Credentials) Inflate() error {
 }
 
 func (creds *Credentials) NewClient() (*http.Client, error) {
-	tok := creds.Token
-	if tok == nil {
-		var err error
-		tok, err = creds.NewToken()
-		if err != nil {
-			return nil, errors.Wrap(err, "Credentials.NewClient()")
-		}
-		creds.Token = tok
+	if creds.Type == TypeJWT {
+		return nil, errors.New("NewClient() does not support jwt")
 	}
+	tok := creds.Token
+	if tok != nil {
+		return oauth2more.NewClientToken(
+			oauth2more.TokenBearer, tok.AccessToken, false), nil
+	}
+	if creds.Application.GrantType == GrantTypeClientCredentials {
+		return creds.Application.NewClient(context.Background())
+	}
+	var err error
+	tok, err = creds.NewToken()
+	if err != nil {
+		return nil, errors.Wrap(err, "Credentials.NewToken()")
+	}
+	creds.Token = tok
 	return oauth2more.NewClientToken(
 		oauth2more.TokenBearer, tok.AccessToken, false), nil
 }
