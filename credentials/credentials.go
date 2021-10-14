@@ -83,15 +83,13 @@ func (creds *Credentials) NewClient(ctx context.Context) (*http.Client, error) {
 	if creds.Type == TypeJWT {
 		return nil, errors.New("NewClient() does not support jwt")
 	}
-	tok := creds.Token
-	if tok != nil {
-		return oauth2more.NewClientToken(oauth2more.TokenBearer, tok.AccessToken, false), nil
+	if creds.Token != nil {
+		return oauth2more.NewClientToken(oauth2more.TokenBearer, creds.Token.AccessToken, false), nil
 	}
 	if creds.Application.GrantType == GrantTypeClientCredentials {
 		return creds.Application.NewClient(ctx)
 	}
-	var err error
-	tok, err = creds.NewToken()
+	tok, err := creds.NewToken()
 	if err != nil {
 		return nil, errors.Wrap(err, "Credentials.NewToken()")
 	}
