@@ -4,6 +4,8 @@ import (
 	"net/url"
 	"strconv"
 	"strings"
+
+	"github.com/grokify/oauth2more"
 )
 
 type PasswordCredentials struct {
@@ -19,7 +21,7 @@ type PasswordCredentials struct {
 
 func (pw *PasswordCredentials) URLValues() url.Values {
 	v := url.Values{
-		"grant_type": {"password"},
+		"grant_type": {oauth2more.GrantTypePassword},
 		"username":   {pw.Username},
 		"password":   {pw.Password}}
 	if pw.AccessTokenTTL != 0 {
