@@ -92,10 +92,9 @@ func (ac *ApplicationCredentials) AppNameAndVersion() string {
 }
 
 func (app *ApplicationCredentials) IsGrantType(grantType string) bool {
-	if strings.TrimSpace(grantType) == strings.TrimSpace(app.GrantType) {
-		return true
-	}
-	return false
+	return strings.EqualFold(
+		strings.TrimSpace(grantType),
+		strings.TrimSpace(app.GrantType))
 }
 
 func (app *ApplicationCredentials) InflateURL(apiUrlPath string) string {
