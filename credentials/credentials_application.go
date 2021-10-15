@@ -112,6 +112,9 @@ func (app *ApplicationCredentials) NewClient(ctx context.Context) (*http.Client,
 	return config.Client(ctx), nil
 }
 
+// NewToken retrieves an `*oauth2.Token` when the requisite information is available.
+// Note this uses `clientcredentials.Config.Token()` which doesn't always work. In
+// This situation, use `oauth2more.TokenClientCredentials()` as an alternative.
 func (app *ApplicationCredentials) NewToken(ctx context.Context) (*oauth2.Token, error) {
 	if app.GrantType != oauth2more.GrantTypeClientCredentials {
 		return nil, errors.New("grant type is not client_credentials")
