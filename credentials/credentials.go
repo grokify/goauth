@@ -86,7 +86,7 @@ func (creds *Credentials) NewClient(ctx context.Context) (*http.Client, error) {
 	if creds.Token != nil {
 		return oauth2more.NewClientToken(oauth2more.TokenBearer, creds.Token.AccessToken, false), nil
 	}
-	if creds.Application.GrantType == GrantTypeClientCredentials {
+	if creds.Application.GrantType == oauth2more.GrantTypeClientCredentials {
 		return creds.Application.NewClient(ctx)
 	}
 	tok, err := creds.NewToken()

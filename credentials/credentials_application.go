@@ -7,18 +7,11 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/grokify/oauth2more"
 	"github.com/grokify/simplego/net/urlutil"
 	"github.com/pkg/errors"
-	"golang.org/x/oauth2/clientcredentials"
-
 	"golang.org/x/oauth2"
-)
-
-const (
-	GrantTypeAuthCode          = "authorization_code"
-	GrantTypePassword          = "password"
-	GrantTypeClientCredentials = "client_credentials"
-	GrantTypeRefreshToken      = "refresh_token"
+	"golang.org/x/oauth2/clientcredentials"
 )
 
 // ApplicationCredentials supports OAuth 2.0 authorization_code, password,
@@ -112,7 +105,7 @@ func (app *ApplicationCredentials) InflateURL(apiUrlPath string) string {
 // NewClient returns a `*http.Client` for applications using `client_credentials`
 // grant. The client can be modified using context, e.g. ignoring bad certs or otherwise.
 func (app *ApplicationCredentials) NewClient(ctx context.Context) (*http.Client, error) {
-	if app.GrantType != GrantTypeClientCredentials {
+	if app.GrantType != oauth2more.GrantTypeClientCredentials {
 		return nil, errors.New("grant type is not client_credentials")
 	}
 	config := app.ConfigClientCredentials()
@@ -120,7 +113,7 @@ func (app *ApplicationCredentials) NewClient(ctx context.Context) (*http.Client,
 }
 
 func (app *ApplicationCredentials) NewToken(ctx context.Context) (*oauth2.Token, error) {
-	if app.GrantType != GrantTypeClientCredentials {
+	if app.GrantType != oauth2more.GrantTypeClientCredentials {
 		return nil, errors.New("grant type is not client_credentials")
 	}
 	config := app.ConfigClientCredentials()
