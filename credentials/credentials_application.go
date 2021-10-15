@@ -67,15 +67,13 @@ func (app *ApplicationCredentials) Exchange(code string) (*oauth2.Token, error) 
 	if app.AccessTokenTTL > 0 {
 		authCodeOptions = append(authCodeOptions,
 			oauth2.SetAuthURLParam("accessTokenTtl", strconv.Itoa(int(app.AccessTokenTTL))))
-		//params.Set("accessTokenTtl", strconv.Itoa(int(app.AccessTokenTTL)))
 	}
 	if app.RefreshTokenTTL > 0 {
 		authCodeOptions = append(authCodeOptions,
 			oauth2.SetAuthURLParam("refreshTokenTtl", strconv.Itoa(int(app.RefreshTokenTTL))))
-		//params.Set("refreshTokenTtl", strconv.Itoa(int(app.RefreshTokenTTL)))
 	}
 
-	return cfg.Exchange(context.Background(), code)
+	return cfg.Exchange(context.Background(), code, authCodeOptions...)
 }
 
 func (ac *ApplicationCredentials) AppNameAndVersion() string {
