@@ -12,7 +12,7 @@ require (
 	github.com/grokify/go-salesforce v0.1.7
 	github.com/grokify/gocharts v1.16.1
 	github.com/grokify/gostor v0.2.1
-	github.com/grokify/simplego v0.30.11
+	github.com/grokify/simplego v0.30.12
 	github.com/jessevdk/go-flags v1.5.0
 	github.com/joho/godotenv v1.4.0
 	github.com/nyaruka/phonenumbers v1.0.72
