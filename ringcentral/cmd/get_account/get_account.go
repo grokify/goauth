@@ -27,13 +27,12 @@ func main() {
 			os.Getenv("RINGCENTRAL_ACCESS_TOKEN"))
 	} else {
 		client, err = ringcentral.NewClientPassword(
-			credentials.ApplicationCredentials{
+			credentials.OAuth2Credentials{
 				ClientID:     os.Getenv("RINGCENTRAL_CLIENT_ID"),
 				ClientSecret: os.Getenv("RINGCENTRAL_CLIENT_SECRET"),
-				ServerURL:    os.Getenv("RINGCENTRAL_SERVER_URL")},
-			credentials.PasswordCredentials{
-				Username: os.Getenv("RINGCENTRAL_USERNAME"),
-				Password: os.Getenv("RINGCENTRAL_PASSWORD")})
+				ServerURL:    os.Getenv("RINGCENTRAL_SERVER_URL"),
+				Username:     os.Getenv("RINGCENTRAL_USERNAME"),
+				Password:     os.Getenv("RINGCENTRAL_PASSWORD")})
 	}
 	if err != nil {
 		panic(err)

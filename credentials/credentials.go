@@ -19,34 +19,41 @@ const (
 )
 
 type Credentials struct {
-	Service             string                 `json:"service,omitempty"`
-	Type                string                 `json:"type,omitempty"`
-	Subdomain           string                 `json:"subdomain,omitempty"`
-	Application         ApplicationCredentials `json:"application,omitempty"`
-	PasswordCredentials PasswordCredentials    `json:"passwordCredentials,omitempty"`
-	JWT                 JWTCredentials         `json:"jwt,omitempty"`
-	Token               *oauth2.Token          `json:"token,omitempty"`
+	Service   string            `json:"service,omitempty"`
+	Type      string            `json:"type,omitempty"`
+	Subdomain string            `json:"subdomain,omitempty"`
+	OAuth2    OAuth2Credentials `json:"oauth2,omitempty"`
+	JWT       JWTCredentials    `json:"jwt,omitempty"`
+	Token     *oauth2.Token     `json:"token,omitempty"`
 }
 
-func NewCredentialsJSON(data []byte) (Credentials, error) {
+func NewCredentialsJSON(credsData, accessToken []byte) (Credentials, error) {
 	var creds Credentials
-	err := json.Unmarshal(data, &creds)
+	err := json.Unmarshal(credsData, &creds)
 	if err != nil {
 		return creds, err
 	}
 	err = creds.Inflate()
-	return creds, err
+	if err != nil {
+		return creds, err
+	}
+	if len(accessToken) > 0 {
+		creds.Token = &oauth2.Token{
+			AccessToken: string(accessToken)}
+	}
+	return creds, nil
 }
 
-func NewCredentialsJSONs(appJson, userJson, accessToken []byte) (Credentials, error) {
+/*
+func NewCredentialsJSONs(credsJson, accessToken []byte) (Credentials, error) {
 	var creds Credentials
 	if len(appJson) > 1 {
-		app := ApplicationCredentials{}
-		err := json.Unmarshal(appJson, &app)
+		oc := OAuth2Credentials{}
+		err := json.Unmarshal(appJson, &oc)
 		if err != nil {
-			return creds, err
+			return oc, err
 		}
-		creds.Application = app
+		creds.OAuth2 = oc
 	}
 	if len(userJson) > 0 {
 		user := PasswordCredentials{}
@@ -62,6 +69,7 @@ func NewCredentialsJSONs(appJson, userJson, accessToken []byte) (Credentials, er
 	}
 	return creds, nil
 }
+*/
 
 func (creds *Credentials) Inflate() error {
 	if len(strings.TrimSpace(creds.Service)) > 0 {
@@ -69,11 +77,11 @@ func (creds *Credentials) Inflate() error {
 		if err != nil {
 			return err
 		}
-		if creds.Application.OAuth2Endpoint == (oauth2.Endpoint{}) {
-			creds.Application.OAuth2Endpoint = ep
+		if creds.OAuth2.OAuth2Endpoint == (oauth2.Endpoint{}) {
+			creds.OAuth2.OAuth2Endpoint = ep
 		}
-		if len(strings.TrimSpace(creds.Application.ServerURL)) == 0 {
-			creds.Application.ServerURL = svcUrl
+		if len(strings.TrimSpace(creds.OAuth2.ServerURL)) == 0 {
+			creds.OAuth2.ServerURL = svcUrl
 		}
 	}
 	return nil
@@ -86,8 +94,8 @@ func (creds *Credentials) NewClient(ctx context.Context) (*http.Client, error) {
 	if creds.Token != nil {
 		return oauth2more.NewClientToken(oauth2more.TokenBearer, creds.Token.AccessToken, false), nil
 	}
-	if creds.Application.GrantType == oauth2more.GrantTypeClientCredentials {
-		return creds.Application.NewClient(ctx)
+	if creds.OAuth2.GrantType == oauth2more.GrantTypeClientCredentials {
+		return creds.OAuth2.NewClient(ctx)
 	}
 	tok, err := creds.NewToken()
 	if err != nil {
@@ -99,7 +107,7 @@ func (creds *Credentials) NewClient(ctx context.Context) (*http.Client, error) {
 
 func (creds *Credentials) NewSimpleClient(httpClient *http.Client) (*httpsimple.SimpleClient, error) {
 	return &httpsimple.SimpleClient{
-		BaseURL:    creds.Application.ServerURL,
+		BaseURL:    creds.OAuth2.ServerURL,
 		HTTPClient: httpClient}, nil
 }
 
@@ -114,17 +122,17 @@ func (creds *Credentials) NewClientCli(oauth2State string) (*http.Client, error)
 }
 
 func (creds *Credentials) NewToken() (*oauth2.Token, error) {
-	cfg := creds.Application.Config()
+	cfg := creds.OAuth2.Config()
 	return cfg.PasswordCredentialsToken(
 		context.Background(),
-		creds.PasswordCredentials.Username,
-		creds.PasswordCredentials.Password)
+		creds.OAuth2.Username,
+		creds.OAuth2.Password)
 }
 
 // NewTokenCli retrieves a token using CLI approach for
 // OAuth 2.0 authorization code or password grant.
 func (creds *Credentials) NewTokenCli(oauth2State string) (*oauth2.Token, error) {
-	if strings.ToLower(strings.TrimSpace(creds.Application.GrantType)) == "code" {
+	if strings.ToLower(strings.TrimSpace(creds.OAuth2.GrantType)) == "code" {
 		return NewTokenCli(*creds, oauth2State)
 	}
 	return creds.NewToken()

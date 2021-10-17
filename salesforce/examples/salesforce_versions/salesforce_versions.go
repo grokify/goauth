@@ -14,7 +14,6 @@ import (
 	"github.com/grokify/simplego/net/httputilmore"
 
 	su "github.com/grokify/go-salesforce/clientutil"
-	ou "github.com/grokify/oauth2more"
 )
 
 func main() {
@@ -27,11 +26,10 @@ func main() {
 	fmt.Printf(os.Getenv("SALESFORCE_CLIENT_SECRET"))
 
 	client, err := salesforce.NewClientPassword(
-		credentials.ApplicationCredentials{
+		credentials.OAuth2Credentials{
 			ClientID:     os.Getenv("SALESFORCE_CLIENT_ID"),
-			ClientSecret: os.Getenv("SALESFORCE_CLIENT_SECRET")},
-		ou.UserCredentials{
-			Username: os.Getenv("SALESFORCE_USERNAME"),
+			ClientSecret: os.Getenv("SALESFORCE_CLIENT_SECRET"),
+			Username:     os.Getenv("SALESFORCE_USERNAME"),
 			Password: fmt.Sprintf("%v%v",
 				os.Getenv("SALESFORCE_PASSWORD"),
 				os.Getenv("SALESFORCE_SECURITY_KEY"))})

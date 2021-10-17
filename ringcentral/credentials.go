@@ -1,5 +1,6 @@
 package ringcentral
 
+/*
 const (
 	EnvServerURL    = "RINGCENTRAL_SERVER_URL"
 	EnvClientID     = "RINGCENTRAL_CLIENT_ID"
@@ -12,7 +13,6 @@ const (
 	EnvPassword     = "RINGCENTRAL_PASSWORD"
 )
 
-/*
 type Credentials struct {
 	Application         ApplicationCredentials `json:"application,omitempty"`
 	PasswordCredentials PasswordCredentials    `json:"passwordCredentials,omitempty"`

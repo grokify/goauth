@@ -1,5 +1,6 @@
 package ringcentral
 
+/*
 import (
 	"net/url"
 	"os"
@@ -48,3 +49,4 @@ func (uc *PasswordCredentials) UsernameSimple() string {
 	//}
 	return uc.Username
 }
+*/
