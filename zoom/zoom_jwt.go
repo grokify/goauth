@@ -23,15 +23,6 @@ func CreateJwtToken(apiKey, apiSecret string, tokenDuration time.Duration) (*jwt
 		PrivateKey:    apiSecret,
 		SigningMethod: endpoints.ZoomJWTSigningMethod}
 	return jwtCreds.StandardToken(tokenDuration)
-	/*
-		token := jwt.NewWithClaims(
-			jwt.SigningMethodHS256,
-			jwt.StandardClaims{
-				Issuer:    apiKey,
-				ExpiresAt: time.Now().Add(tokenDuration).Unix()})
-		tokenString, err := token.SignedString([]byte(apiSecret))
-		return token, tokenString, err
-	*/
 }
 
 func NewClient(apiKey, apiSecret string, tokenDuration time.Duration) (*http.Client, error) {
