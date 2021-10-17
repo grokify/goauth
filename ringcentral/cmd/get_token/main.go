@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/grokify/oauth2more/credentials"
+	"github.com/grokify/goauth/credentials"
 	"github.com/grokify/simplego/fmt/fmtutil"
 	"github.com/jessevdk/go-flags"
 	"github.com/rs/zerolog/log"

@@ -9,13 +9,13 @@ import (
 
 	"github.com/grokify/simplego/os/osutil"
 
-	"github.com/grokify/oauth2more"
-	"github.com/grokify/oauth2more/aha"
-	"github.com/grokify/oauth2more/facebook"
-	"github.com/grokify/oauth2more/google"
-	"github.com/grokify/oauth2more/multiservice/tokens"
-	"github.com/grokify/oauth2more/multiservice/tokens/tokensetmemory"
-	"github.com/grokify/oauth2more/ringcentral"
+	"github.com/grokify/goauth"
+	"github.com/grokify/goauth/aha"
+	"github.com/grokify/goauth/facebook"
+	"github.com/grokify/goauth/google"
+	"github.com/grokify/goauth/multiservice/tokens"
+	"github.com/grokify/goauth/multiservice/tokens/tokensetmemory"
+	"github.com/grokify/goauth/ringcentral"
 )
 
 type OAuth2Manager struct {
@@ -81,7 +81,7 @@ func EnvOAuth2ConfigMap(env []osutil.EnvVar, prefix string) (*ConfigMoreSet, err
 	return cfgs, nil
 }
 
-func NewClientUtilForProviderType(providerType OAuth2Provider) (oauth2more.OAuth2Util, error) {
+func NewClientUtilForProviderType(providerType OAuth2Provider) (goauth.OAuth2Util, error) {
 	switch providerType {
 	case Aha:
 		return &aha.ClientUtil{}, nil
@@ -96,7 +96,7 @@ func NewClientUtilForProviderType(providerType OAuth2Provider) (oauth2more.OAuth
 	}
 }
 
-func NewClientUtilForProviderTypeString(providerTypeString string) (oauth2more.OAuth2Util, error) {
+func NewClientUtilForProviderTypeString(providerTypeString string) (goauth.OAuth2Util, error) {
 	providerType, err := ProviderStringToConst(providerTypeString)
 	if err != nil {
 		return &ringcentral.ClientUtil{}, nil

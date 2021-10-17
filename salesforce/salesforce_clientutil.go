@@ -12,7 +12,7 @@ import (
 	"strings"
 
 	"github.com/grokify/go-salesforce/sobjects"
-	"github.com/grokify/oauth2more/credentials"
+	"github.com/grokify/goauth/credentials"
 	"github.com/grokify/simplego/net/httputilmore"
 	"github.com/grokify/simplego/net/urlutil"
 )

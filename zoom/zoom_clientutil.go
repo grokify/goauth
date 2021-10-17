@@ -5,7 +5,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/grokify/oauth2more/scim"
+	"github.com/grokify/goauth/scim"
 	"github.com/grokify/simplego/encoding/jsonutil"
 )
 

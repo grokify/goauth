@@ -38,7 +38,7 @@ func ConfigFromEnv(envVar string, scopes []string) (*oauth2.Config, error) {
 // containing the Google client_secret.json data.
 func ConfigFromBytes(configJson []byte, scopes []string) (*oauth2.Config, error) {
 	if len(strings.TrimSpace(string(configJson))) == 0 {
-		return nil, errors.Wrap(errors.New("No Credentials Provided"), "oauth2more/google.ConfigFromBytes()")
+		return nil, errors.Wrap(errors.New("No Credentials Provided"), "goauth/google.ConfigFromBytes()")
 	}
 
 	if len(scopes) == 0 {

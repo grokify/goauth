@@ -3,7 +3,7 @@ package ringcentral
 import (
 	"strings"
 
-	"github.com/grokify/oauth2more/credentials"
+	"github.com/grokify/goauth/credentials"
 	"github.com/grokify/simplego/crypto/hash/argon2"
 )
 

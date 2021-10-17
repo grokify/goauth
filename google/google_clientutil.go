@@ -6,7 +6,7 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/grokify/oauth2more/scim"
+	"github.com/grokify/goauth/scim"
 	json "github.com/pquerna/ffjson/ffjson"
 )
 

@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/grokify/oauth2more/scim"
+	"github.com/grokify/goauth/scim"
 	"golang.org/x/oauth2"
 	fb "golang.org/x/oauth2/facebook"
 )

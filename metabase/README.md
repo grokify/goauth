@@ -2,10 +2,10 @@
 
 ## Usage
 
-Using default environment variiable names:
+Using default environment variable names:
 
 ```go
-import ("github.com/grokify/oauth2more")
+import ("github.com/grokify/goauth")
 
 httpClient, authResponse, clientConfig, err :=
   metabase.NewClientEnv(nil)

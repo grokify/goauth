@@ -9,8 +9,8 @@ import (
 	"os"
 
 	"github.com/caarlos0/env"
-	"github.com/grokify/oauth2more/credentials"
-	"github.com/grokify/oauth2more/ringcentral"
+	"github.com/grokify/goauth/credentials"
+	"github.com/grokify/goauth/ringcentral"
 	"github.com/grokify/simplego/config"
 	"github.com/grokify/simplego/fmt/fmtutil"
 	"github.com/rs/zerolog"

@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/grokify/oauth2more/zendesk"
+	"github.com/grokify/goauth/zendesk"
 	"github.com/grokify/simplego/config"
 	"github.com/grokify/simplego/fmt/fmtutil"
 	hum "github.com/grokify/simplego/net/httputilmore"

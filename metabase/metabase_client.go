@@ -10,7 +10,7 @@ import (
 	"os"
 	"strings"
 
-	om "github.com/grokify/oauth2more"
+	"github.com/grokify/goauth"
 	"github.com/grokify/simplego/config"
 	"github.com/grokify/simplego/encoding/jsonutil"
 	hum "github.com/grokify/simplego/net/httputilmore"
@@ -135,7 +135,7 @@ func NewClientSessionId(sessionId string, tlsSkipVerify bool) *http.Client {
 	header.Add(MetabaseSessionHeader, sessionId)
 
 	if tlsSkipVerify {
-		client = om.ClientTLSInsecureSkipVerify(client)
+		client = goauth.ClientTLSInsecureSkipVerify(client)
 	}
 
 	client.Transport = hum.TransportWithHeaders{

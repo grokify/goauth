@@ -1,4 +1,4 @@
-package oauth2more
+package goauth
 
 import (
 	"github.com/golang-jwt/jwt"

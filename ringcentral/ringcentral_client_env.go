@@ -6,9 +6,8 @@ import (
 	"os"
 	"strings"
 
-	"github.com/grokify/oauth2more"
-	om "github.com/grokify/oauth2more"
-	"github.com/grokify/oauth2more/credentials"
+	"github.com/grokify/goauth"
+	"github.com/grokify/goauth/credentials"
 )
 
 func NewHttpClientEnvFlexStatic(envPrefix string) (*http.Client, error) {
@@ -21,7 +20,7 @@ func NewHttpClientEnvFlexStatic(envPrefix string) (*http.Client, error) {
 	//token := config.JoinEnvNumbered(envToken, "", 2, true)
 	token := os.Getenv(envToken)
 	if len(token) > 0 {
-		return om.NewClientAuthzTokenSimple(oauth2more.TokenBearer, token), nil
+		return goauth.NewClientAuthzTokenSimple(goauth.TokenBearer, token), nil
 	}
 
 	envPassword := strings.TrimSpace(envPrefix + "PASSWORD")
