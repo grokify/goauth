@@ -16,7 +16,7 @@ import (
 	"github.com/rs/zerolog"
 	zlog "github.com/rs/zerolog/log"
 
-	"github.com/grokify/oauth2more/auth0"
+	"github.com/grokify/goauth/auth0"
 )
 
 const (

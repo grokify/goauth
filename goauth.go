@@ -1,11 +1,11 @@
-package oauth2more
+package goauth
 
 import (
 	"encoding/json"
 	"fmt"
 	"net/http"
 
-	"github.com/grokify/oauth2more/scim"
+	"github.com/grokify/goauth/scim"
 	"github.com/pkg/errors"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/facebook"
@@ -13,7 +13,7 @@ import (
 
 const (
 	VERSION                    = "0.2.0"
-	PATH                       = "github.com/grokify/oauth2more"
+	PATH                       = "github.com/grokify/goauth"
 	TokenBasic                 = "Basic"
 	TokenBearer                = "Bearer"
 	GrantTypeAuthorizationCode = "code"

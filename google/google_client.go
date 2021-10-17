@@ -6,7 +6,7 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	om "github.com/grokify/oauth2more"
+	"github.com/grokify/goauth"
 	"github.com/pkg/errors"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
@@ -36,12 +36,12 @@ func NewClientOauthCliTokenStore(cfg ClientOauthCliTokenStoreConfig) (*http.Clie
 		return nil, err
 	}
 
-	tokenStore, err := om.NewTokenStoreFileDefault(cfg.TokenFile, true, 0700)
+	tokenStore, err := goauth.NewTokenStoreFileDefault(cfg.TokenFile, true, 0700)
 	if err != nil {
 		return nil, err
 	}
 
-	return om.NewClientWebTokenStore(cfg.Context, conf, tokenStore, cfg.ForceNewToken, cfg.State)
+	return goauth.NewClientWebTokenStore(cfg.Context, conf, tokenStore, cfg.ForceNewToken, cfg.State)
 }
 
 func NewClientSvcAccountFromFile(ctx context.Context, svcAccountConfigFile string, scopes ...string) (*http.Client, error) {

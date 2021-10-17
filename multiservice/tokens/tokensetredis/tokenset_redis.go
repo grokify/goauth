@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/grokify/goauth/multiservice/tokens"
 	"github.com/grokify/gostor"
 	rds "github.com/grokify/gostor/redis"
-	"github.com/grokify/oauth2more/multiservice/tokens"
 	"golang.org/x/oauth2"
 )
 

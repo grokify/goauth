@@ -1,4 +1,4 @@
-package oauth2more
+package goauth
 
 type Scope struct {
 	Name        string `json:"name"`

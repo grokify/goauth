@@ -1,9 +1,9 @@
 package monday
 
-import "github.com/grokify/oauth2more"
+import "github.com/grokify/goauth"
 
-func GetScopes() []oauth2more.Scope {
-	return []oauth2more.Scope{
+func GetScopes() []goauth.Scope {
+	return []goauth.Scope{
 		{Name: "me:read", Description: "Read your basic personal details"},
 		{Name: "boards:read", Description: "Read boards data"},
 		{Name: "boards:write", Description: "Modify boards data"},

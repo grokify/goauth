@@ -9,8 +9,8 @@ import (
 	"time"
 
 	"github.com/golang-jwt/jwt"
-	"github.com/grokify/oauth2more"
-	"github.com/grokify/oauth2more/zoom"
+	"github.com/grokify/goauth"
+	"github.com/grokify/goauth/zoom"
 	"github.com/grokify/simplego/config"
 	"github.com/grokify/simplego/fmt/fmtutil"
 	"github.com/grokify/simplego/net/http/httpsimple"
@@ -41,7 +41,7 @@ func main() {
 	fmt.Printf("TOK [%v]\n", tokenString)
 
 	if 1 == 0 {
-		token, err := oauth2more.ParseJwtTokenString(
+		token, err := goauth.ParseJwtTokenString(
 			tokenString, apiSecret,
 			&jwt.StandardClaims{Issuer: apiKey})
 		if err != nil {

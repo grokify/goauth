@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/grokify/oauth2more"
+	"github.com/grokify/goauth"
 	"github.com/grokify/simplego/crypto/tlsutil"
 )
 
@@ -44,10 +44,10 @@ func NewClient(cfg Config) (*http.Client, error) {
 
 	tlsConfig.Inflate()
 
-	if token, err := oauth2more.BasicAuthToken(cfg.Username, cfg.Password); err != nil {
+	if token, err := goauth.BasicAuthToken(cfg.Username, cfg.Password); err != nil {
 		return nil, err
 	} else {
-		return oauth2more.NewClientTLSToken(
+		return goauth.NewClientTLSToken(
 			context.Background(), tlsConfig.Config, token), nil
 	}
 }

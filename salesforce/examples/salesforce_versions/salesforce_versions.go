@@ -7,8 +7,8 @@ import (
 	"log"
 	"os"
 
-	"github.com/grokify/oauth2more/credentials"
-	"github.com/grokify/oauth2more/salesforce"
+	"github.com/grokify/goauth/credentials"
+	"github.com/grokify/goauth/salesforce"
 	"github.com/grokify/simplego/config"
 	"github.com/grokify/simplego/fmt/fmtutil"
 	"github.com/grokify/simplego/net/httputilmore"

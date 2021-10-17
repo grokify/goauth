@@ -3,9 +3,9 @@ package main
 import (
 	"fmt"
 
-	ou "github.com/grokify/oauth2more"
-	"github.com/grokify/oauth2more/aha"
-	"github.com/grokify/oauth2more/facebook"
+	"github.com/grokify/goauth"
+	"github.com/grokify/goauth/aha"
+	"github.com/grokify/goauth/facebook"
 )
 
 type Interface interface {
@@ -35,7 +35,7 @@ func PrintInterfaceFunction(i Interface) {
 	fmt.Println(i.Function())
 }
 
-func ChooseClient(s string) ou.OAuth2Util {
+func ChooseClient(s string) goauth.OAuth2Util {
 	if s == "aha" {
 		return &aha.ClientUtil{}
 	}
@@ -48,7 +48,7 @@ func main() {
 	PrintInterfaceFunction(item)
 	//fmt.Println(item.Function())
 
-	var clientUtil ou.OAuth2Util
+	var clientUtil goauth.OAuth2Util
 	clientUtil = ChooseClient("aha")
 	fmt.Printf("%v\n", clientUtil)
 	fmt.Println("DONE'")

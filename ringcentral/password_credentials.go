@@ -6,7 +6,7 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/grokify/oauth2more/credentials"
+	"github.com/grokify/goauth/credentials"
 )
 
 type PasswordCredentials struct {

@@ -9,7 +9,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/grokify/oauth2more/scim"
+	"github.com/grokify/goauth/scim"
 	"github.com/grokify/simplego/net/urlutil"
 	tu "github.com/grokify/simplego/time/timeutil"
 	"github.com/pkg/errors"

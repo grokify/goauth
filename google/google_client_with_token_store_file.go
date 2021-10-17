@@ -8,7 +8,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/grokify/oauth2more"
+	"github.com/grokify/goauth"
 	"github.com/grokify/simplego/net/urlutil"
 	"github.com/grokify/simplego/type/stringsutil"
 	"github.com/pkg/errors"
@@ -114,11 +114,11 @@ func NewClientFileStore(
 	if err != nil {
 		return nil, err
 	}
-	tokenStore, err := oauth2more.NewTokenStoreFileDefault(tokenPath, useDefaultDir, 0700)
+	tokenStore, err := goauth.NewTokenStoreFileDefault(tokenPath, useDefaultDir, 0700)
 	if err != nil {
 		return nil, err
 	}
-	googHttpClient, err := oauth2more.NewClientWebTokenStore(context.Background(), conf, tokenStore, forceNewToken, state)
+	googHttpClient, err := goauth.NewClientWebTokenStore(context.Background(), conf, tokenStore, forceNewToken, state)
 	if err != nil {
 		return nil, err
 	}
@@ -127,7 +127,7 @@ func NewClientFileStore(
 		_, err := cu.GetUserinfo()
 		if err != nil {
 			fmt.Printf("E_GOOGLE_USER_PROFILE_API_ERROR [%v] ... Getting New Token...\n", err.Error())
-			googHttpClient, err = oauth2more.NewClientWebTokenStore(context.Background(), conf, tokenStore, true, state)
+			googHttpClient, err = goauth.NewClientWebTokenStore(context.Background(), conf, tokenStore, true, state)
 			if err != nil {
 				return nil, err
 			}

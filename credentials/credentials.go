@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/grokify/oauth2more"
-	"github.com/grokify/oauth2more/endpoints"
+	"github.com/grokify/goauth"
+	"github.com/grokify/goauth/endpoints"
 	"github.com/grokify/simplego/net/http/httpsimple"
 	"github.com/pkg/errors"
 	"golang.org/x/oauth2"
@@ -92,9 +92,9 @@ func (creds *Credentials) NewClient(ctx context.Context) (*http.Client, error) {
 		return nil, errors.New("NewClient() does not support jwt")
 	}
 	if creds.Token != nil {
-		return oauth2more.NewClientToken(oauth2more.TokenBearer, creds.Token.AccessToken, false), nil
+		return goauth.NewClientToken(goauth.TokenBearer, creds.Token.AccessToken, false), nil
 	}
-	if creds.OAuth2.GrantType == oauth2more.GrantTypeClientCredentials {
+	if creds.OAuth2.GrantType == goauth.GrantTypeClientCredentials {
 		return creds.OAuth2.NewClient(ctx)
 	}
 	tok, err := creds.NewToken()
@@ -102,7 +102,7 @@ func (creds *Credentials) NewClient(ctx context.Context) (*http.Client, error) {
 		return nil, errors.Wrap(err, "Credentials.NewToken()")
 	}
 	creds.Token = tok
-	return oauth2more.NewClientToken(oauth2more.TokenBearer, tok.AccessToken, false), nil
+	return goauth.NewClientToken(goauth.TokenBearer, tok.AccessToken, false), nil
 }
 
 func (creds *Credentials) NewSimpleClient(httpClient *http.Client) (*httpsimple.SimpleClient, error) {
@@ -117,8 +117,8 @@ func (creds *Credentials) NewClientCli(oauth2State string) (*http.Client, error)
 		return nil, err
 	}
 	creds.Token = tok
-	return oauth2more.NewClientToken(
-		oauth2more.TokenBearer, tok.AccessToken, false), nil
+	return goauth.NewClientToken(
+		goauth.TokenBearer, tok.AccessToken, false), nil
 }
 
 func (creds *Credentials) NewToken() (*oauth2.Token, error) {

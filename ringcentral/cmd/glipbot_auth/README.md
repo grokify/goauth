@@ -22,11 +22,11 @@ Go to the RingCentral Developer Portal and create a bot:
 
 1. Clone the app:
 
-`$ go get github.com/grokify/oauth2more`
+`$ go get github.com/grokify/goauth`
 
 2. Change directory to the example file:
 
-`$ cd $GOPATH/src/github.com/grokify/oauth2more/ringcentral/examples/glipbot_auth`
+`$ cd $GOPATH/src/github.com/grokify/goauth/ringcentral/examples/glipbot_auth`
 
 3. Create the `.env` file
 

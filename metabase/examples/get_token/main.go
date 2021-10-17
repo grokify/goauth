@@ -5,7 +5,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/grokify/oauth2more/metabase"
+	"github.com/grokify/goauth/metabase"
 	"github.com/grokify/simplego/config"
 	"github.com/grokify/simplego/fmt/fmtutil"
 	"github.com/grokify/simplego/type/stringsutil"

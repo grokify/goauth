@@ -61,8 +61,8 @@ func (creds *Credentials) NewClient() (*http.Client, error) {
 		return nil, err
 	}
 	creds.Token = tok
-	return oauth2more.NewClientToken(
-		oauth2more.TokenBearer, tok.AccessToken, false), nil
+	return goauth.NewClientToken(
+		goauth.TokenBearer, tok.AccessToken, false), nil
 }
 
 func (creds *Credentials) NewSimpleClient() (*httpsimple.SimpleClient, error) {
@@ -82,8 +82,8 @@ func (creds *Credentials) NewClientCli(oauth2State string) (*http.Client, error)
 		return nil, err
 	}
 	creds.Token = tok
-	return oauth2more.NewClientToken(
-		oauth2more.TokenBearer, tok.AccessToken, false), nil
+	return goauth.NewClientToken(
+		goauth.TokenBearer, tok.AccessToken, false), nil
 }
 
 func (creds *Credentials) NewToken() (*oauth2.Token, error) {

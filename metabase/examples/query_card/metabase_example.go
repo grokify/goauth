@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/grokify/oauth2more/metabase"
+	"github.com/grokify/goauth/metabase"
 	hum "github.com/grokify/simplego/net/httputilmore"
 	"github.com/grokify/simplego/net/urlutil"
 	"github.com/joho/godotenv"

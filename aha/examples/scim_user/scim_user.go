@@ -6,7 +6,7 @@ import (
 
 	"github.com/joho/godotenv"
 
-	"github.com/grokify/oauth2more/aha"
+	"github.com/grokify/goauth/aha"
 	"github.com/grokify/simplego/fmt/fmtutil"
 )
 

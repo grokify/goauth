@@ -5,9 +5,9 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/grokify/oauth2more"
-	"github.com/grokify/oauth2more/credentials"
-	"github.com/grokify/oauth2more/ringcentral"
+	"github.com/grokify/goauth"
+	"github.com/grokify/goauth/credentials"
+	"github.com/grokify/goauth/ringcentral"
 	"github.com/grokify/simplego/config"
 	"github.com/grokify/simplego/net/httputilmore"
 	"github.com/grokify/simplego/net/urlutil"
@@ -22,8 +22,8 @@ func main() {
 	// client := &http.Client{}
 	var client *http.Client
 	if len(os.Getenv("RINGCENTRAL_ACCESS_TOKEN")) > 0 {
-		client = oauth2more.NewClientAuthzTokenSimple(
-			oauth2more.TokenBearer,
+		client = goauth.NewClientAuthzTokenSimple(
+			goauth.TokenBearer,
 			os.Getenv("RINGCENTRAL_ACCESS_TOKEN"))
 	} else {
 		client, err = ringcentral.NewClientPassword(

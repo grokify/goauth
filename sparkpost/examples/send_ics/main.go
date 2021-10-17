@@ -18,7 +18,7 @@ import (
 	tu "github.com/grokify/simplego/time/timeutil"
 
 	sp "github.com/SparkPost/gosparkpost"
-	"github.com/grokify/oauth2more/sparkpost"
+	"github.com/grokify/goauth/sparkpost"
 )
 
 const DefaultExampleEmail = "john@example.com"
@@ -172,7 +172,7 @@ func main() {
 	client, err := sparkpost.NewApiClient(cfg.SparkPostApiKey)
 	if err != nil {
 		log.Fatal().Err(err).
-			Str("lib", "github.com/oauth2more/sparkpost").
+			Str("lib", "github.com/goauth/sparkpost").
 			Msg("SparkPost client init faile")
 	}
 

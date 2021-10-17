@@ -1,4 +1,4 @@
-package oauth2more
+package goauth
 
 import (
 	"encoding/json"

@@ -2,10 +2,9 @@ package beegouser
 
 import (
 	"github.com/astaxie/beego"
-	//ms "github.com/grokify/oauth2more/multiservice"
-	"github.com/grokify/oauth2more/multiservice/tokens"
-	"github.com/grokify/oauth2more/multiservice/tokens/tokensetmemory"
-	"github.com/grokify/oauth2more/scim"
+	"github.com/grokify/goauth/multiservice/tokens"
+	"github.com/grokify/goauth/multiservice/tokens/tokensetmemory"
+	"github.com/grokify/goauth/scim"
 )
 
 var (

@@ -1,4 +1,4 @@
-module github.com/grokify/oauth2more
+module github.com/grokify/goauth
 
 go 1.16
 

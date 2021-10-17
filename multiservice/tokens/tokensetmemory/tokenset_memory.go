@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/grokify/oauth2more/multiservice/tokens"
+	"github.com/grokify/goauth/multiservice/tokens"
 	"golang.org/x/oauth2"
 )
 
