@@ -9,9 +9,6 @@ type Options struct {
 	CLI       []bool `long:"cli" description:"CLI"`
 }
 
-func (opts *Options)UseCLI() bool {
-	if len(opts.CLI)>0 {
-		return true
-	}
-	return false
+func (opts *Options) UseCLI() bool {
+	return len(opts.CLI) > 0
 }
