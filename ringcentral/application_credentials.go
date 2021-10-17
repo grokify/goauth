@@ -1,5 +1,6 @@
 package ringcentral
 
+/*
 import (
 	"fmt"
 	"net/url"
@@ -89,3 +90,4 @@ func (app *ApplicationCredentials) IsGrantType(grantType string) bool {
 func (app *ApplicationCredentials) InflateURL(apiUrlPath string) string {
 	return urlutil.JoinAbsolute(app.ServerURL, apiUrlPath)
 }
+*/

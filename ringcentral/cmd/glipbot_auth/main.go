@@ -9,6 +9,7 @@ import (
 	"os"
 
 	"github.com/caarlos0/env"
+	"github.com/grokify/oauth2more/credentials"
 	"github.com/grokify/oauth2more/ringcentral"
 	"github.com/grokify/simplego/config"
 	"github.com/grokify/simplego/fmt/fmtutil"
@@ -99,7 +100,7 @@ func (app *AppHandler) HandleOauth2(w http.ResponseWriter, req *http.Request) {
 }
 
 func getOauth2Config(appCfg RingCentralConfig) oauth2.Config {
-	app := ringcentral.ApplicationCredentials{
+	app := credentials.OAuth2Credentials{
 		ClientID:     appCfg.ClientId,
 		ClientSecret: appCfg.ClientSecret,
 		ServerURL:    appCfg.ServerURL,

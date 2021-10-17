@@ -3,6 +3,7 @@ package ringcentral
 import (
 	"strings"
 
+	"github.com/grokify/oauth2more/credentials"
 	"github.com/grokify/simplego/crypto/hash/argon2"
 )
 
@@ -18,7 +19,7 @@ func UsernameExtensionPasswordToHash(username, extension, password string, salt 
 		salt)
 }
 
-func PasswordCredentialsToHash(pwdCreds PasswordCredentials, salt []byte) string {
+func PasswordCredentialsToHash(pwdCreds credentials.OAuth2Credentials, salt []byte) string {
 	return argon2.HashSimpleBase36(
 		[]byte(UsernameExtensionPasswordToString(
 			pwdCreds.Username, pwdCreds.Password)),

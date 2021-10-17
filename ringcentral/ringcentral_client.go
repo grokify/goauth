@@ -16,26 +16,26 @@ import (
 	"golang.org/x/oauth2"
 )
 
-func NewTokenPassword(app credentials.ApplicationCredentials, pwd credentials.PasswordCredentials) (*oauth2.Token, error) {
+func NewTokenPassword(oc credentials.OAuth2Credentials) (*oauth2.Token, error) {
 	return RetrieveToken(
 		oauth2.Config{
-			ClientID:     app.ClientID,
-			ClientSecret: app.ClientSecret,
-			Endpoint:     NewEndpoint(app.ServerURL)},
-		pwd.URLValues())
+			ClientID:     oc.ClientID,
+			ClientSecret: oc.ClientSecret,
+			Endpoint:     oc.OAuth2Endpoint},
+		oc.PasswordRequestBody())
 }
 
 // NewClientPassword uses dedicated password grant handling.
-func NewClientPassword(app credentials.ApplicationCredentials, pwd credentials.PasswordCredentials) (*http.Client, error) {
-	c := app.Config()
-	token, err := RetrieveToken(c, pwd.URLValues())
+func NewClientPassword(oc credentials.OAuth2Credentials) (*http.Client, error) {
+	c := oc.Config()
+	token, err := RetrieveToken(c, oc.PasswordRequestBody())
 	if err != nil {
 		return nil, err
 	}
 
 	httpClient := c.Client(oauth2.NoContext, token)
 
-	header := getClientHeader(app)
+	header := getClientHeader(oc)
 	if len(header) > 0 {
 		httpClient.Transport = hum.TransportWithHeaders{
 			Transport: httpClient.Transport,
@@ -45,19 +45,19 @@ func NewClientPassword(app credentials.ApplicationCredentials, pwd credentials.P
 }
 
 // NewClientPasswordSimple uses OAuth2 package password grant handling.
-func NewClientPasswordSimple(app credentials.ApplicationCredentials, user credentials.PasswordCredentials) (*http.Client, error) {
+func NewClientPasswordSimple(oc credentials.OAuth2Credentials) (*http.Client, error) {
 	httpClient, err := om.NewClientPasswordConf(
 		oauth2.Config{
-			ClientID:     app.ClientID,
-			ClientSecret: app.ClientSecret,
-			Endpoint:     NewEndpoint(app.ServerURL)},
-		user.UsernameSimple(),
-		user.Password)
+			ClientID:     oc.ClientID,
+			ClientSecret: oc.ClientSecret,
+			Endpoint:     oc.OAuth2Endpoint},
+		oc.Username,
+		oc.Password)
 	if err != nil {
 		return nil, err
 	}
 
-	header := getClientHeader(app)
+	header := getClientHeader(oc)
 	if len(header) > 0 {
 		httpClient.Transport = hum.TransportWithHeaders{
 			Transport: httpClient.Transport,
@@ -66,10 +66,10 @@ func NewClientPasswordSimple(app credentials.ApplicationCredentials, user creden
 	return httpClient, nil
 }
 
-func getClientHeader(app credentials.ApplicationCredentials) http.Header {
+func getClientHeader(oc credentials.OAuth2Credentials) http.Header {
 	userAgentParts := []string{om.PathVersion()}
-	if len(app.AppNameAndVersion()) > 0 {
-		userAgentParts = append([]string{app.AppNameAndVersion()}, userAgentParts...)
+	if len(oc.AppNameAndVersion()) > 0 {
+		userAgentParts = append([]string{oc.AppNameAndVersion()}, userAgentParts...)
 	}
 	userAgent := strings.TrimSpace(strings.Join(userAgentParts, "; "))
 
