@@ -75,6 +75,9 @@ func main() {
 		log.Fatal(err)
 	}
 	bytes, err = io.ReadAll(resp.Body)
+	if err != nil {
+		log.Fatal(err)
+	}
 	fmt.Println(string(bytes))
 
 	fmt.Println("DONE")
