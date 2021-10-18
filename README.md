@@ -7,7 +7,7 @@
 [![LOC][loc-svg]][repo-url]
 [![License][license-svg]][license-url]
 
-GoAuth provides helper libraries for authentication in Go, with a focus on API services. It covers [OAuth 2.0 - https://github.com/golang/oauth2](https://github.com/golang/oauth2), JWT, TLS client authentication and Basic Auth. A primary goal is to be able to create a `*http.Client` from a single JSON application definition.
+GoAuth provides helper libraries for authentication in Go, with a focus on API services. It covers [OAuth 2.0](https://github.com/golang/oauth2), [JWT](https://github.com/golang-jwt/jwt), TLS client authentication and Basic Auth. A primary goal is to be able to create a `*http.Client` from a single JSON application definition.
 
 Major features include:
 
