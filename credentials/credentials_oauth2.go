@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
+	"os"
 	"strconv"
 	"strings"
 
@@ -142,4 +143,17 @@ func (oc *OAuth2Credentials) PasswordRequestBody() url.Values {
 		}
 	}
 	return body
+}
+
+func NewOAuth2CredentialsEnv(envPrefix string) OAuth2Credentials {
+	creds := OAuth2Credentials{
+		ClientID:     os.Getenv(envPrefix + "CLIENT_ID"),
+		ClientSecret: os.Getenv(envPrefix + "CLIENT_SECRET"),
+		ServerURL:    os.Getenv(envPrefix + "SERVER_URL"),
+		Username:     os.Getenv(envPrefix + "USERNAME"),
+		Password:     os.Getenv(envPrefix + "PASSWORD")}
+	if len(strings.TrimSpace(creds.Username)) > 0 {
+		creds.GrantType = goauth.GrantTypePassword
+	}
+	return creds
 }
