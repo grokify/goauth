@@ -13,8 +13,8 @@ import (
 
 	"github.com/grokify/go-salesforce/sobjects"
 	"github.com/grokify/goauth/credentials"
-	"github.com/grokify/simplego/net/httputilmore"
-	"github.com/grokify/simplego/net/urlutil"
+	"github.com/grokify/mogo/net/httputilmore"
+	"github.com/grokify/mogo/net/urlutil"
 )
 
 type SalesforceClient struct {

@@ -6,9 +6,9 @@ import (
 	"os"
 
 	"github.com/grokify/goauth/metabase"
-	"github.com/grokify/simplego/config"
-	"github.com/grokify/simplego/fmt/fmtutil"
-	"github.com/grokify/simplego/type/stringsutil"
+	"github.com/grokify/mogo/config"
+	"github.com/grokify/mogo/fmt/fmtutil"
+	"github.com/grokify/mogo/type/stringsutil"
 )
 
 func main() {

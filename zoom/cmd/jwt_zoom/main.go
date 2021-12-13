@@ -11,10 +11,10 @@ import (
 	"github.com/golang-jwt/jwt"
 	"github.com/grokify/goauth"
 	"github.com/grokify/goauth/zoom"
-	"github.com/grokify/simplego/config"
-	"github.com/grokify/simplego/fmt/fmtutil"
-	"github.com/grokify/simplego/net/http/httpsimple"
-	"github.com/grokify/simplego/net/urlutil"
+	"github.com/grokify/mogo/config"
+	"github.com/grokify/mogo/fmt/fmtutil"
+	"github.com/grokify/mogo/net/http/httpsimple"
+	"github.com/grokify/mogo/net/urlutil"
 )
 
 func main() {

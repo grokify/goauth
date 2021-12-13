@@ -12,7 +12,7 @@ import (
 	"net/http"
 
 	"github.com/google/go-querystring/query"
-	hum "github.com/grokify/simplego/net/httputilmore"
+	"github.com/grokify/mogo/net/httputilmore"
 )
 
 func CreatePKCECodeVerifier() string {
@@ -83,7 +83,7 @@ func (tu *PKCETokenUrlInfo) Exchange() (*http.Response, error) {
 	if err != nil {
 		return nil, err
 	}
-	req.Header.Set(hum.HeaderContentType, hum.ContentTypeAppJsonUtf8)
+	req.Header.Set(httputilmore.HeaderContentType, httputilmore.ContentTypeAppJsonUtf8)
 	client := &http.Client{}
 	return client.Do(req)
 }

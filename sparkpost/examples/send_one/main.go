@@ -6,7 +6,7 @@ import (
 
 	sp "github.com/SparkPost/gosparkpost"
 	"github.com/grokify/goauth/sparkpost"
-	"github.com/grokify/simplego/config"
+	"github.com/grokify/mogo/config"
 
 	"github.com/rs/zerolog/log"
 )

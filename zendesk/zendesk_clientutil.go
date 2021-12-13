@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"github.com/grokify/goauth/scim"
-	"github.com/grokify/simplego/encoding/jsonutil"
+	"github.com/grokify/mogo/encoding/jsonutil"
 )
 
 // ClientUtil is a client library to retrieve user info

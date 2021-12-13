@@ -6,7 +6,7 @@ import (
 	"os"
 
 	"github.com/grokify/goauth"
-	"github.com/grokify/simplego/crypto/tlsutil"
+	"github.com/grokify/mogo/crypto/tlsutil"
 )
 
 var (

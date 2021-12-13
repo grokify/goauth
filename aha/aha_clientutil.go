@@ -8,7 +8,7 @@ import (
 	"strings"
 
 	"github.com/grokify/goauth/scim"
-	"github.com/grokify/simplego/strconv/humannameparser"
+	"github.com/grokify/mogo/strconv/humannameparser"
 )
 
 // ClientUtil is a client library to retrieve user info

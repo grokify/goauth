@@ -8,9 +8,9 @@ import (
 	"github.com/grokify/goauth"
 	"github.com/grokify/goauth/credentials"
 	"github.com/grokify/goauth/ringcentral"
-	"github.com/grokify/simplego/config"
-	"github.com/grokify/simplego/net/httputilmore"
-	"github.com/grokify/simplego/net/urlutil"
+	"github.com/grokify/mogo/config"
+	"github.com/grokify/mogo/net/httputilmore"
+	"github.com/grokify/mogo/net/urlutil"
 )
 
 func main() {

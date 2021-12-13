@@ -12,7 +12,7 @@ import (
 	"golang.org/x/oauth2"
 
 	"github.com/grokify/goauth/scim"
-	"github.com/grokify/simplego/net/urlutil"
+	"github.com/grokify/mogo/net/urlutil"
 )
 
 const (

@@ -6,9 +6,9 @@ import (
 	"os"
 
 	"github.com/grokify/goauth/zendesk"
-	"github.com/grokify/simplego/config"
-	"github.com/grokify/simplego/fmt/fmtutil"
-	hum "github.com/grokify/simplego/net/httputilmore"
+	"github.com/grokify/mogo/config"
+	"github.com/grokify/mogo/fmt/fmtutil"
+	"github.com/grokify/mogo/net/httputilmore"
 )
 
 func MeURL(subdomain string) string {
@@ -39,7 +39,7 @@ func main() {
 			panic(err)
 		}
 
-		err = hum.PrintResponse(resp, true)
+		err = httputilmore.PrintResponse(resp, true)
 		if err != nil {
 			panic(err)
 		}

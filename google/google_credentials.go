@@ -3,7 +3,7 @@ package google
 import (
 	"io/ioutil"
 
-	"github.com/grokify/simplego/encoding/jsonutil"
+	"github.com/grokify/mogo/encoding/jsonutil"
 	json "github.com/pquerna/ffjson/ffjson"
 	"golang.org/x/oauth2"
 	o2g "golang.org/x/oauth2/google"

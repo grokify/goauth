@@ -9,8 +9,8 @@ import (
 	"strings"
 
 	"github.com/grokify/goauth"
-	"github.com/grokify/simplego/net/urlutil"
-	"github.com/grokify/simplego/type/stringsutil"
+	"github.com/grokify/mogo/net/urlutil"
+	"github.com/grokify/mogo/type/stringsutil"
 	"github.com/pkg/errors"
 
 	"golang.org/x/oauth2"

@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/grokify/goauth"
-	hum "github.com/grokify/simplego/net/httputilmore"
+	"github.com/grokify/mogo/net/httputilmore"
 	"golang.org/x/oauth2"
 )
 
@@ -33,7 +33,7 @@ func NewClient(subdomain, token string) *http.Client {
 	header := http.Header{}
 	header.Add(AhaAccountHeader, subdomain)
 
-	client.Transport = hum.TransportWithHeaders{
+	client.Transport = httputilmore.TransportWithHeaders{
 		Transport: client.Transport,
 		Header:    header}
 	return client

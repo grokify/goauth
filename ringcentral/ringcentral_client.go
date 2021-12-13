@@ -12,7 +12,7 @@ import (
 
 	"github.com/grokify/goauth"
 	"github.com/grokify/goauth/credentials"
-	hum "github.com/grokify/simplego/net/httputilmore"
+	hum "github.com/grokify/mogo/net/httputilmore"
 	"golang.org/x/oauth2"
 )
 
