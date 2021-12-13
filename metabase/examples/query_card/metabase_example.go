@@ -7,8 +7,8 @@ import (
 	"os"
 
 	"github.com/grokify/goauth/metabase"
-	hum "github.com/grokify/simplego/net/httputilmore"
-	"github.com/grokify/simplego/net/urlutil"
+	"github.com/grokify/mogo/net/httputilmore"
+	"github.com/grokify/mogo/net/urlutil"
 	"github.com/joho/godotenv"
 )
 
@@ -50,7 +50,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	hum.PrintResponse(resp, true)
+	httputilmore.PrintResponse(resp, true)
 
 	cardUrl := fmt.Sprintf("api/card/%v/query/%s", cardId, "json")
 	cardUrl = urlutil.JoinAbsolute(baseUrl, cardUrl)
@@ -66,7 +66,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	hum.PrintResponse(resp, true)
+	httputilmore.PrintResponse(resp, true)
 
 	fmt.Println("DONE")
 }

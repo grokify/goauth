@@ -6,9 +6,8 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/grokify/simplego/net/httputilmore"
-	hum "github.com/grokify/simplego/net/httputilmore"
-	"github.com/grokify/simplego/time/timeutil"
+	"github.com/grokify/mogo/net/httputilmore"
+	"github.com/grokify/mogo/time/timeutil"
 	"golang.org/x/oauth2"
 )
 
@@ -61,7 +60,7 @@ func NewClientBasicAuth(username, password string, tlsInsecureSkipVerify bool) (
 		client = ClientTLSInsecureSkipVerify(client)
 	}
 
-	client.Transport = hum.TransportWithHeaders{
+	client.Transport = httputilmore.TransportWithHeaders{
 		Header:    header,
 		Transport: client.Transport}
 	return client, nil

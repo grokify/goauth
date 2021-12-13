@@ -13,9 +13,9 @@ import (
 	"github.com/caarlos0/env"
 	"github.com/rs/zerolog/log"
 
-	"github.com/grokify/simplego/config"
-	hum "github.com/grokify/simplego/net/httputilmore"
-	tu "github.com/grokify/simplego/time/timeutil"
+	"github.com/grokify/mogo/config"
+	hum "github.com/grokify/mogo/net/httputilmore"
+	tu "github.com/grokify/mogo/time/timeutil"
 
 	sp "github.com/SparkPost/gosparkpost"
 	"github.com/grokify/goauth/sparkpost"

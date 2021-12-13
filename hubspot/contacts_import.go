@@ -5,8 +5,8 @@ import (
 
 	"github.com/grokify/goauth/scim"
 	"github.com/grokify/gocharts/data/table"
-	"github.com/grokify/simplego/strconv/phonenumber"
-	"github.com/grokify/simplego/text/usstate"
+	"github.com/grokify/mogo/strconv/phonenumber"
+	"github.com/grokify/mogo/text/usstate"
 	"github.com/nyaruka/phonenumbers"
 )
 

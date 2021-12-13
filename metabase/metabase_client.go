@@ -11,11 +11,11 @@ import (
 	"strings"
 
 	"github.com/grokify/goauth"
-	"github.com/grokify/simplego/config"
-	"github.com/grokify/simplego/encoding/jsonutil"
-	hum "github.com/grokify/simplego/net/httputilmore"
-	"github.com/grokify/simplego/net/urlutil"
-	"github.com/grokify/simplego/type/stringsutil"
+	"github.com/grokify/mogo/config"
+	"github.com/grokify/mogo/encoding/jsonutil"
+	"github.com/grokify/mogo/net/httputilmore"
+	"github.com/grokify/mogo/net/urlutil"
+	"github.com/grokify/mogo/type/stringsutil"
 )
 
 const (
@@ -138,7 +138,7 @@ func NewClientSessionId(sessionId string, tlsSkipVerify bool) *http.Client {
 		client = goauth.ClientTLSInsecureSkipVerify(client)
 	}
 
-	client.Transport = hum.TransportWithHeaders{
+	client.Transport = httputilmore.TransportWithHeaders{
 		Transport: client.Transport,
 		Header:    header}
 
@@ -248,7 +248,7 @@ func AuthRequest(authUrl, username, password string, tlsSkipVerify bool) (*http.
 		return nil, err
 	}
 
-	req.Header.Add(hum.HeaderContentType, hum.ContentTypeAppJsonUtf8)
+	req.Header.Add(httputilmore.HeaderContentType, httputilmore.ContentTypeAppJsonUtf8)
 
 	client := &http.Client{}
 

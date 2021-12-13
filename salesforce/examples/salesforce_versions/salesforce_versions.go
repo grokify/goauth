@@ -9,9 +9,9 @@ import (
 
 	"github.com/grokify/goauth/credentials"
 	"github.com/grokify/goauth/salesforce"
-	"github.com/grokify/simplego/config"
-	"github.com/grokify/simplego/fmt/fmtutil"
-	"github.com/grokify/simplego/net/httputilmore"
+	"github.com/grokify/mogo/config"
+	"github.com/grokify/mogo/fmt/fmtutil"
+	"github.com/grokify/mogo/net/httputilmore"
 
 	su "github.com/grokify/go-salesforce/clientutil"
 )

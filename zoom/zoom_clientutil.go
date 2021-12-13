@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/grokify/goauth/scim"
-	"github.com/grokify/simplego/encoding/jsonutil"
+	"github.com/grokify/mogo/encoding/jsonutil"
 )
 
 const (

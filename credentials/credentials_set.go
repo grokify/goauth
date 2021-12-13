@@ -7,7 +7,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/grokify/simplego/encoding/jsonutil"
+	"github.com/grokify/mogo/encoding/jsonutil"
 	"github.com/pkg/errors"
 )
 

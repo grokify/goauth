@@ -10,8 +10,8 @@ import (
 	"time"
 
 	"github.com/grokify/goauth/scim"
-	"github.com/grokify/simplego/net/urlutil"
-	tu "github.com/grokify/simplego/time/timeutil"
+	"github.com/grokify/mogo/net/urlutil"
+	"github.com/grokify/mogo/time/timeutil"
 	"github.com/pkg/errors"
 
 	zlog "github.com/rs/zerolog/log"
@@ -73,7 +73,7 @@ type QuestionsToSlug struct {
 
 func RetrieveQuestions(cu ClientUtil, q2s QuestionsToSlug, dir string) (map[string][]byte, error) {
 	dt := time.Now()
-	dt8 := dt.Format(tu.DT8)
+	dt8 := dt.Format(timeutil.DT8)
 	output := map[string][]byte{}
 	for name, cardId := range q2s.QuestionMap {
 		filename := fmt.Sprintf("data_%v_%v.json", dt8, name)

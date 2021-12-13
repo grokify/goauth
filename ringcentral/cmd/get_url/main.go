@@ -9,9 +9,9 @@ import (
 	"strings"
 
 	"github.com/grokify/goauth/credentials"
-	"github.com/grokify/simplego/fmt/fmtutil"
-	"github.com/grokify/simplego/net/http/httpsimple"
-	"github.com/grokify/simplego/net/httputilmore"
+	"github.com/grokify/mogo/fmt/fmtutil"
+	"github.com/grokify/mogo/net/http/httpsimple"
+	"github.com/grokify/mogo/net/httputilmore"
 	"github.com/jessevdk/go-flags"
 	"github.com/rs/zerolog/log"
 )

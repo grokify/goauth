@@ -10,8 +10,8 @@ import (
 
 	"github.com/bmizerany/pat"
 	"github.com/caarlos0/env"
-	"github.com/grokify/simplego/config"
-	hum "github.com/grokify/simplego/net/httputilmore"
+	"github.com/grokify/mogo/config"
+	"github.com/grokify/mogo/net/httputilmore"
 
 	"github.com/rs/zerolog"
 	zlog "github.com/rs/zerolog/log"
@@ -52,7 +52,7 @@ func (cfg *appConfig) LoginHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	zlog.Debug().
 		Str("remoteAddr", r.RemoteAddr).
-		Str("userAgent", r.Header.Get(hum.HeaderUserAgent)).
+		Str("userAgent", r.Header.Get(httputilmore.HeaderUserAgent)).
 		Str("authUrl", authUrl).
 		Str("challenge", challenge).
 		Str("verifier", verifier).
@@ -76,7 +76,7 @@ func (cfg *appConfig) LoginHandler(w http.ResponseWriter, r *http.Request) {
 	// in production.
 	cookie := http.Cookie{Name: VerifierCookieName, Value: verifier}
 	http.SetCookie(w, &cookie)
-	w.Header().Set(hum.HeaderContentType, hum.ContentTypeTextHtmlUtf8)
+	w.Header().Set(httputilmore.HeaderContentType, httputilmore.ContentTypeTextHtmlUtf8)
 	w.WriteHeader(http.StatusOK)
 	fmt.Fprintf(w, tmpl, WebsiteTitle, WebsiteTitle, verifier, challenge, authUrl)
 	zlog.Debug().Msg("END_LOGIN_HANDLER")
@@ -133,7 +133,7 @@ func (cfg *appConfig) Oauth2CallbackHandler(w http.ResponseWriter, r *http.Reque
   </body>
 </html>`
 
-	w.Header().Set(hum.HeaderContentType, hum.ContentTypeTextHtmlUtf8)
+	w.Header().Set(httputilmore.HeaderContentType, httputilmore.ContentTypeTextHtmlUtf8)
 	w.WriteHeader(http.StatusOK)
 	fmt.Fprintf(w, tmpl, WebsiteTitle, WebsiteTitle, string(respBody))
 	zlog.Debug().Msg("END_LOGIN_HANDLER")

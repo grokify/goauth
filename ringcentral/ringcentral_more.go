@@ -4,7 +4,7 @@ import (
 	"strings"
 
 	"github.com/grokify/goauth/credentials"
-	"github.com/grokify/simplego/crypto/hash/argon2"
+	"github.com/grokify/mogo/crypto/hash/argon2"
 )
 
 func UsernameExtensionPasswordToString(username, password string) string {
