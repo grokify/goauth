@@ -1,8 +1,10 @@
 package goauth
 
 const (
-	GrantTypeAuthCode          = "authorization_code"
-	GrantTypePassword          = "password"
+	GrantTypeAuthorizationCode = "authorization_code"
 	GrantTypeClientCredentials = "client_credentials"
+	GrantTypePassword          = "password"
 	GrantTypeRefreshToken      = "refresh_token"
+	TokenBasic                 = "Basic"
+	TokenBearer                = "Bearer"
 )

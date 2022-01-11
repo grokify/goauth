@@ -12,11 +12,8 @@ import (
 )
 
 const (
-	VERSION                    = "0.2.0"
-	PATH                       = "github.com/grokify/goauth"
-	TokenBasic                 = "Basic"
-	TokenBearer                = "Bearer"
-	GrantTypeAuthorizationCode = "code"
+	VERSION = "0.10"
+	PATH    = "github.com/grokify/goauth"
 )
 
 type AuthorizationType int
