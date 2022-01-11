@@ -9,8 +9,8 @@ require (
 	github.com/caarlos0/env v3.5.0+incompatible
 	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/google/go-querystring v1.1.0
-	github.com/grokify/go-salesforce v0.1.9
-	github.com/grokify/gocharts v1.16.4
+	github.com/grokify/go-salesforce v0.1.10
+	github.com/grokify/gocharts v1.16.5
 	github.com/grokify/gostor v0.2.1
 	github.com/grokify/mogo v0.33.6
 	github.com/jessevdk/go-flags v1.5.0
