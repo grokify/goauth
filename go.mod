@@ -4,7 +4,6 @@ go 1.16
 
 require (
 	github.com/SparkPost/gosparkpost v0.2.0
-	github.com/astaxie/beego v1.12.3
 	github.com/bmizerany/pat v0.0.0-20210406213842-e4b6760bdd6f
 	github.com/caarlos0/env v3.5.0+incompatible
 	github.com/golang-jwt/jwt v3.2.2+incompatible
