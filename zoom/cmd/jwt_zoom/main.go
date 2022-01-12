@@ -11,9 +11,9 @@ import (
 	"github.com/golang-jwt/jwt"
 	"github.com/grokify/goauth"
 	"github.com/grokify/goauth/zoom"
+	"github.com/grokify/gohttp/httpsimple"
 	"github.com/grokify/mogo/config"
 	"github.com/grokify/mogo/fmt/fmtutil"
-	"github.com/grokify/mogo/net/http/httpsimple"
 	"github.com/grokify/mogo/net/urlutil"
 )
 
