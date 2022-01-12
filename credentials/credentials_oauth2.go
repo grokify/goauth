@@ -31,6 +31,7 @@ type OAuth2Credentials struct {
 	AccessTokenTTL  int64               `json:"accessTokenTTL,omitempty"`
 	RefreshTokenTTL int64               `json:"refreshTokenTTL,omitempty"`
 	GrantType       string              `json:"grantType,omitempty"`
+	PKCE            bool                `json:"pkce"`
 	Username        string              `json:"username,omitempty"`
 	Password        string              `json:"password,omitempty"`
 	OtherParams     map[string][]string `json:"otherParams,omitempty"`
@@ -55,6 +56,7 @@ func (oc *OAuth2Credentials) ConfigClientCredentials() clientcredentials.Config 
 		AuthStyle:    oauth2.AuthStyleAutoDetect}
 }
 
+// func (oc *OAuth2Credentials) AuthCodeURL(state string, opts url.Values) string {
 func (oc *OAuth2Credentials) AuthCodeURL(state string, opts ...oauth2.AuthCodeOption) string {
 	cfg := oc.Config()
 	return cfg.AuthCodeURL(state, opts...)
