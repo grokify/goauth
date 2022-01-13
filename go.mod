@@ -9,7 +9,7 @@ require (
 	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/google/go-querystring v1.1.0
 	github.com/grokify/go-salesforce v0.1.11
-	github.com/grokify/gocharts v1.16.8
+	github.com/grokify/gocharts v1.16.9
 	github.com/grokify/gohttp v0.1.0
 	github.com/grokify/gostor v0.2.1
 	github.com/grokify/mogo v0.33.8
