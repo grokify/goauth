@@ -8,8 +8,8 @@ import (
 	"net/url"
 	"strings"
 
+	"github.com/grokify/mogo/errors/errorsutil"
 	"github.com/grokify/mogo/net/httputilmore"
-	"github.com/pkg/errors"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/clientcredentials"
 )
@@ -41,12 +41,12 @@ func NewTokenCliFromWeb(cfg *oauth2.Config, state string) (*oauth2.Token, error)
 
 	code := ""
 	if _, err := fmt.Scan(&code); err != nil {
-		return nil, errors.Wrap(err, "Unable to read auth code")
+		return nil, errorsutil.Wrap(err, "Unable to read auth code")
 	}
 
 	tok, err := cfg.Exchange(oauth2.NoContext, code)
 	if err != nil {
-		return tok, errors.Wrap(err, "Unable to retrieve token from web")
+		return tok, errorsutil.Wrap(err, "Unable to retrieve token from web")
 	}
 	return tok, nil
 }

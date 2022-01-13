@@ -7,7 +7,7 @@ import (
 	"net/http"
 
 	"github.com/grokify/goauth"
-	"github.com/pkg/errors"
+	"github.com/grokify/mogo/errors/errorsutil"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
 )
@@ -15,7 +15,7 @@ import (
 func ClientFromFile(ctx context.Context, filepath string, scopes []string, tok *oauth2.Token) (*http.Client, error) {
 	conf, err := ConfigFromFile(filepath, scopes)
 	if err != nil {
-		return &http.Client{}, errors.Wrap(err, fmt.Sprintf("Unable to read app config file: %v", filepath))
+		return &http.Client{}, errorsutil.Wrap(err, fmt.Sprintf("Unable to read app config file: %v", filepath))
 	}
 
 	return conf.Client(ctx, tok), nil
