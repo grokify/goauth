@@ -9,7 +9,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/pkg/errors"
+	"github.com/grokify/mogo/errors/errorsutil"
 	"golang.org/x/oauth2"
 )
 
@@ -33,7 +33,7 @@ func ReadTokenFile(fpath string) (*oauth2.Token, error) {
 func WriteTokenFile(fpath string, tok *oauth2.Token) error {
 	f, err := os.OpenFile(fpath, os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0600)
 	if err != nil {
-		return errors.Wrap(err, "Unable to write OAuth token")
+		return errorsutil.Wrap(err, "Unable to write OAuth token")
 	}
 	defer f.Close()
 	return json.NewEncoder(f).Encode(tok)

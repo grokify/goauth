@@ -10,9 +10,9 @@ import (
 	"time"
 
 	"github.com/grokify/goauth/scim"
+	"github.com/grokify/mogo/errors/errorsutil"
 	"github.com/grokify/mogo/net/urlutil"
 	"github.com/grokify/mogo/time/timeutil"
-	"github.com/pkg/errors"
 
 	zlog "github.com/rs/zerolog/log"
 )
@@ -79,7 +79,7 @@ func RetrieveQuestions(cu ClientUtil, q2s QuestionsToSlug, dir string) (map[stri
 		filename := fmt.Sprintf("data_%v_%v.json", dt8, name)
 		data, err := cu.GetStoreQuestionData(cardId, filename, 0644)
 		if err != nil {
-			return output, errors.Wrap(err, fmt.Sprintf("Error Retrieving Card #[%v] Name[%v]", cardId, name))
+			return output, errorsutil.Wrap(err, fmt.Sprintf("Error Retrieving Card #[%v] Name[%v]", cardId, name))
 		}
 		output[name] = data
 

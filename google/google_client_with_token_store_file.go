@@ -2,6 +2,7 @@ package google
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"net/http"
 	"os"
@@ -9,9 +10,9 @@ import (
 	"strings"
 
 	"github.com/grokify/goauth"
+	"github.com/grokify/mogo/errors/errorsutil"
 	"github.com/grokify/mogo/net/urlutil"
 	"github.com/grokify/mogo/type/stringsutil"
-	"github.com/pkg/errors"
 
 	"golang.org/x/oauth2"
 )
@@ -30,16 +31,16 @@ type GoogleConfigFileStore struct {
 // LoadCredentialsBytes set this after setting Scopes.
 func (gc *GoogleConfigFileStore) LoadCredentialsBytes(bytes []byte) error {
 	if len(strings.TrimSpace(string(bytes))) == 0 {
-		return errors.Wrap(errors.New("No Credentials Provided"), "GoogleConfigFileStore.LoadCredentialsBytes()")
+		return errorsutil.Wrap(errors.New("No Credentials Provided"), "GoogleConfigFileStore.LoadCredentialsBytes()")
 	}
 	o2Config, err := ConfigFromBytes(bytes, gc.Scopes)
 	if err != nil {
-		return errors.Wrap(err, "GoogleConfigFileStore.LoadCredentialsBytes() - ConfigFromBytes")
+		return errorsutil.Wrap(err, "GoogleConfigFileStore.LoadCredentialsBytes() - ConfigFromBytes")
 	}
 	gc.CredentialsRaw = bytes
 	credsContainer, err := CredentialsContainerFromBytes(bytes)
 	if err != nil {
-		return errors.Wrap(err, "GoogleConfigFileStore.LoadCredentialsBytes() - CredentialsContainerFromBytes")
+		return errorsutil.Wrap(err, "GoogleConfigFileStore.LoadCredentialsBytes() - CredentialsContainerFromBytes")
 	}
 	gc.Credentials = credsContainer.Credentials()
 	gc.OAuthConfig = o2Config
@@ -67,7 +68,7 @@ func (gc *GoogleConfigFileStore) SetDefaultFilepath() error {
 	for _, scope := range gc.Scopes {
 		leaf, err := urlutil.GetPathLeaf(scope)
 		if err != nil {
-			return errors.Wrap(err, "GoogleConfigFileStore.SetDefaultFilepath - GetPathLeaf")
+			return errorsutil.Wrap(err, "GoogleConfigFileStore.SetDefaultFilepath - GetPathLeaf")
 		}
 		leaf = strings.TrimSpace(leaf)
 		if len(leaf) > 0 {
@@ -107,7 +108,7 @@ func NewClientFileStore(
 	state string) (*http.Client, error) {
 
 	if len(strings.TrimSpace(string(credentials))) == 0 {
-		return nil, errors.Wrap(errors.New("No Credentials Provided"), "GoogleConfigFileStore.LoadCredentialsBytes()")
+		return nil, errorsutil.Wrap(errors.New("No Credentials Provided"), "GoogleConfigFileStore.LoadCredentialsBytes()")
 	}
 
 	conf, err := ConfigFromBytes(credentials, scopes)
@@ -145,11 +146,11 @@ func NewClientFileStoreWithDefaults(googleCredentials []byte, googleScopes []str
 		ForceNewToken: forceNewToken}
 	err := gcfs.LoadCredentialsBytes(googleCredentials)
 	if err != nil {
-		return nil, errors.Wrap(err, "NewGoogleClient - LoadCredentialsBytes")
+		return nil, errorsutil.Wrap(err, "NewGoogleClient - LoadCredentialsBytes")
 	}
 	err = gcfs.SetDefaultFilepath()
 	if err != nil {
-		return nil, errors.Wrap(err, "NewGoogleClient - SetDefaultFilepath")
+		return nil, errorsutil.Wrap(err, "NewGoogleClient - SetDefaultFilepath")
 	}
 	return gcfs.Client()
 }
