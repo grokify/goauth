@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"regexp"
 	"strings"
@@ -13,12 +14,11 @@ import (
 	"github.com/grokify/mogo/fmt/fmtutil"
 	"github.com/grokify/mogo/net/httputilmore"
 	"github.com/jessevdk/go-flags"
-	"github.com/rs/zerolog/log"
 )
 
 type Options struct {
 	credentials.Options
-	URL    string   `short:"U" long:"url" description:"URL"`
+	URL    string   `short:"U" long:"url" description:"URL" required:"true"`
 	Method string   `short:"X" long:"request" description:"Method"`
 	Header []string `short:"H" long:"header" description:"HTTP Headers"`
 	Body   string   `short:"d" long:"data" description:"HTTP Body"`
@@ -52,6 +52,9 @@ func (opts *Options) SimpleRequest() (httpsimple.SimpleRequest, error) {
 	}
 	if len(opts.Body) > 0 {
 		sr.Body = opts.Body
+		if strings.Index(strings.TrimSpace(opts.Body), "{") == 0 {
+			sr.IsJSON = true
+		}
 	}
 	return sr, nil
 }
@@ -62,27 +65,14 @@ func main() {
 	opts := Options{}
 	_, err := flags.Parse(&opts)
 	if err != nil {
-		log.Fatal().Err(err).Msg("required properties not present")
-		panic("Z")
+		log.Fatal(err)
 	}
 	fmtutil.PrintJSON(opts)
-
-	if 1 == 1 {
-		sr, err := opts.SimpleRequest()
-		if err != nil {
-			log.Fatal().Err(err).Msg("simple request failure")
-			panic("Z")
-		}
-		fmtutil.PrintJSON(sr)
-	}
 
 	creds, err := credentials.ReadCredentialsFromFile(
 		opts.CredsPath, opts.Account, true)
 	if err != nil {
-		log.Fatal().Err(err).
-			Str("credsPath", opts.CredsPath).
-			Str("accountKey", opts.Account).
-			Msg("cannot read credentials")
+		log.Fatal(err)
 	}
 
 	var httpClient *http.Client
@@ -92,26 +82,28 @@ func main() {
 		httpClient, err = creds.NewClient(context.Background())
 	}
 	if err != nil {
-		log.Fatal().Err(err).
-			Bool("useCLI", opts.UseCLI()).
-			Msg("creds.NewClient() or creds.NewClientCLI()")
+		log.Fatal(err)
 	}
 
+	sr, err := opts.SimpleRequest()
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmtutil.PrintJSON(sr)
 	sclient, err := creds.NewSimpleClient(httpClient)
 	if err != nil {
 		fmt.Println(string(err.Error()))
-		log.Fatal().Err(err).
-			Msg("cannot create simpleclient")
+		log.Fatal(err)
 	}
 
-	resp, err := sclient.Get(opts.URL)
+	resp, err := sclient.Do(sr)
 	if err != nil {
-		log.Fatal().Err(err).Msg("get URL error")
+		log.Fatal(err)
 	}
 	fmt.Printf("STATUS [%d]", resp.StatusCode)
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		log.Fatal().Err(err).Msg("parse body error")
+		log.Fatal(err)
 	}
 	fmt.Println(string(body))
 
