@@ -8,7 +8,7 @@ import (
 	"strings"
 
 	"github.com/grokify/mogo/encoding/jsonutil"
-	"github.com/pkg/errors"
+	"github.com/grokify/mogo/errors/errorsutil"
 )
 
 type CredentialsSet struct {
@@ -59,7 +59,7 @@ func ReadCredentialsFromFile(credentialsSetFilename, accountKey string, inclAcco
 	creds, err := set.Get(accountKey)
 	if err != nil {
 		if inclAccountsOnError {
-			return creds, errors.Wrap(err,
+			return creds, errorsutil.Wrap(err,
 				fmt.Sprintf("validAccounts [%s]", strings.Join(set.Accounts(), ",")))
 		}
 		return creds, err
