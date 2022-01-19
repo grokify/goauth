@@ -1,7 +1,7 @@
 package google
 
 import (
-	"io/ioutil"
+	"os"
 
 	"github.com/grokify/mogo/encoding/jsonutil"
 	json "github.com/pquerna/ffjson/ffjson"
@@ -44,7 +44,7 @@ func CredentialsContainerFromBytes(bytes []byte) (CredentialsContainer, error) {
 }
 
 func CredentialsContainerFromFile(file string) (CredentialsContainer, error) {
-	bytes, err := ioutil.ReadFile(file)
+	bytes, err := os.ReadFile(file)
 	if err != nil {
 		return CredentialsContainer{}, err
 	}
@@ -53,7 +53,7 @@ func CredentialsContainerFromFile(file string) (CredentialsContainer, error) {
 
 func CredentialsFromFile(file string) (Credentials, error) {
 	c := Credentials{}
-	bytes, err := ioutil.ReadFile(file)
+	bytes, err := os.ReadFile(file)
 	if err != nil {
 		return c, err
 	}

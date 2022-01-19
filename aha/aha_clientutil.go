@@ -3,7 +3,7 @@ package aha
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"strings"
 
@@ -37,7 +37,7 @@ func (apiutil *ClientUtil) GetUserinfo() (*AhaUserinfo, error) {
 		return nil, fmt.Errorf("Aha.io API returned Status Code %v", resp.StatusCode)
 	}
 
-	bodyBytes, err := ioutil.ReadAll(resp.Body)
+	bodyBytes, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}

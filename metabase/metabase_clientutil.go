@@ -3,7 +3,7 @@ package metabase
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"os"
 	"strings"
@@ -42,7 +42,7 @@ func (cu *ClientUtil) GetStoreQuestionData(cardId int, filename string, perm os.
 	if err != nil {
 		return data, err
 	}
-	return data, ioutil.WriteFile(filename, data, perm)
+	return data, os.WriteFile(filename, data, perm)
 }
 
 func (cu *ClientUtil) GetQuestionData(cardId int) ([]byte, error) {
@@ -59,7 +59,7 @@ func (cu *ClientUtil) GetQuestionData(cardId int) ([]byte, error) {
 		return []byte(""), fmt.Errorf("Metabase API Error Status: %v", resp.StatusCode)
 	}
 
-	return ioutil.ReadAll(resp.Body)
+	return io.ReadAll(resp.Body)
 }
 
 func (cu *ClientUtil) BuildMetabaseCardAPI(cardId int, format string) string {
@@ -99,7 +99,7 @@ func (apiutil *ClientUtil) GetCurrentUser() (User, *http.Response, error) {
 	} else if resp.StatusCode >= 300 {
 		return user, resp, fmt.Errorf("MB_API_ERROR_STATUS_CODE [%v]", resp.StatusCode)
 	}
-	bytes, err := ioutil.ReadAll(resp.Body)
+	bytes, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return user, resp, err
 	}

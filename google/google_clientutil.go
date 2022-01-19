@@ -1,7 +1,7 @@
 package google
 
 import (
-	"io/ioutil"
+	"io"
 	"net/http"
 	"net/url"
 	"strings"
@@ -41,7 +41,7 @@ func (apiutil *ClientUtil) GetUserinfoEmail() (GoogleUserinfoEmail, error) {
 		return GoogleUserinfoEmail{}, err
 	}
 
-	bodyBytes, err := ioutil.ReadAll(resp.Body)
+	bodyBytes, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return GoogleUserinfoEmail{}, err
 	}
@@ -84,7 +84,7 @@ func (apiutil *ClientUtil) GetUserinfo() (GoogleUserinfo, error) {
 		return GoogleUserinfo{}, err
 	}
 
-	bodyBytes, err := ioutil.ReadAll(resp.Body)
+	bodyBytes, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return GoogleUserinfo{}, err
 	}
@@ -117,7 +117,7 @@ func (apiutil *ClientUtil) GetPlusPerson() (GooglePlusPerson, error) {
 		return GooglePlusPerson{}, err
 	}
 
-	bodyBytes, err := ioutil.ReadAll(resp.Body)
+	bodyBytes, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return GooglePlusPerson{}, err
 	}
@@ -159,7 +159,7 @@ func (apiutil *ClientUtil) GetSCIMUser() (scim.User, error) {
 	if err != nil {
 		return scimUser, err
 	}
-	bodyBytes, err := ioutil.ReadAll(resp.Body)
+	bodyBytes, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return scimUser, err
 	}

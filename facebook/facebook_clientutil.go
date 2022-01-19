@@ -2,7 +2,7 @@ package facebook
 
 import (
 	"encoding/json"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"strings"
 
@@ -44,7 +44,7 @@ func (apiutil *ClientUtil) GetUserinfo() (FacebookUserinfo, error) {
 		return FacebookUserinfo{}, err
 	}
 
-	bodyBytes, err := ioutil.ReadAll(resp.Body)
+	bodyBytes, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return FacebookUserinfo{}, err
 	}
