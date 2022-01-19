@@ -3,7 +3,7 @@ package ringcentral
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"net/url"
 	"regexp"
@@ -73,7 +73,7 @@ func (cu *ClientUtil) GetUserinfo() (RingCentralExtensionInfo, error) {
 		return RingCentralExtensionInfo{}, err
 	}
 
-	bodyBytes, err := ioutil.ReadAll(resp.Body)
+	bodyBytes, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return RingCentralExtensionInfo{}, err
 	}

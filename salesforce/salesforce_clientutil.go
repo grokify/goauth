@@ -3,7 +3,7 @@ package salesforce
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"net/url"
 	"os"
@@ -173,7 +173,7 @@ func (sc *SalesforceClient) UserInfo() (User, error) {
 		return user, err
 	}
 
-	bytes, err := ioutil.ReadAll(resp.Body)
+	bytes, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return user, err
 	}

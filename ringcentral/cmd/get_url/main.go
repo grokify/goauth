@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"log"
 	"net/http"
 	"regexp"
@@ -101,7 +101,7 @@ func main() {
 		log.Fatal(err)
 	}
 	fmt.Printf("STATUS [%d]", resp.StatusCode)
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		log.Fatal(err)
 	}

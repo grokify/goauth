@@ -3,8 +3,8 @@ package google
 import (
 	"context"
 	"fmt"
-	"io/ioutil"
 	"net/http"
+	"os"
 
 	"github.com/grokify/goauth"
 	"github.com/grokify/mogo/errors/errorsutil"
@@ -45,7 +45,7 @@ func NewClientOauthCliTokenStore(cfg ClientOauthCliTokenStoreConfig) (*http.Clie
 }
 
 func NewClientSvcAccountFromFile(ctx context.Context, svcAccountConfigFile string, scopes ...string) (*http.Client, error) {
-	svcAccountConfig, err := ioutil.ReadFile(svcAccountConfigFile)
+	svcAccountConfig, err := os.ReadFile(svcAccountConfigFile)
 	if err != nil {
 		return nil, err
 	}

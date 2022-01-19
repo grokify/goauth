@@ -2,7 +2,7 @@ package google
 
 import (
 	"encoding/json"
-	"io/ioutil"
+	"io"
 	"net/http"
 )
 
@@ -37,7 +37,7 @@ func HttpGetBearerTokenBody(url, token string) (*http.Response, []byte, error) {
 	if err != nil {
 		return resp, []byte(""), err
 	}
-	bytes, err := ioutil.ReadAll(resp.Body)
+	bytes, err := io.ReadAll(resp.Body)
 	return resp, bytes, err
 }
 

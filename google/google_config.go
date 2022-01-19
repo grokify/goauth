@@ -3,7 +3,6 @@ package google
 import (
 	"errors"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"strings"
 
@@ -15,7 +14,7 @@ import (
 )
 
 func ConfigFromFile(file string, scopes []string) (*oauth2.Config, error) {
-	b, err := ioutil.ReadFile(file) // Google client_secret.json
+	b, err := os.ReadFile(file) // Google client_secret.json
 	if err != nil {
 		return &oauth2.Config{},
 			errorsutil.Wrap(err, fmt.Sprintf("Unable to read client secret file: %v", err))

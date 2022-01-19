@@ -3,7 +3,7 @@ package ringcentral
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -112,7 +112,7 @@ func RetrieveRcToken(cfg oauth2.Config, params url.Values) (*RcToken, error) {
 	if err != nil {
 		return nil, err
 	}
-	bytes, err := ioutil.ReadAll(resp.Body)
+	bytes, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}
