@@ -3,13 +3,14 @@ package credentials
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"net/http"
 	"strings"
 
 	"github.com/grokify/goauth"
 	"github.com/grokify/goauth/endpoints"
 	"github.com/grokify/gohttp/httpsimple"
-	"github.com/pkg/errors"
+	"github.com/grokify/mogo/errors/errorsutil"
 	"golang.org/x/oauth2"
 )
 
@@ -99,7 +100,7 @@ func (creds *Credentials) NewClient(ctx context.Context) (*http.Client, error) {
 	}
 	tok, err := creds.NewToken()
 	if err != nil {
-		return nil, errors.Wrap(err, "Credentials.NewToken()")
+		return nil, errorsutil.Wrap(err, "Credentials.NewToken()")
 	}
 	creds.Token = tok
 	return goauth.NewClientToken(goauth.TokenBearer, tok.AccessToken, false), nil

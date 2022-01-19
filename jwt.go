@@ -2,7 +2,7 @@ package goauth
 
 import (
 	"github.com/golang-jwt/jwt"
-	"github.com/pkg/errors"
+	"github.com/grokify/mogo/errors/errorsutil"
 )
 
 func ParseJwtTokenString(tokenString string, secretKey string, claims jwt.Claims) (*jwt.Token, error) {
@@ -12,7 +12,7 @@ func ParseJwtTokenString(tokenString string, secretKey string, claims jwt.Claims
 			return []byte(secretKey), nil
 		})
 		if err != nil {
-			return nil, errors.Wrap(err, "ParseTokenString.jwt.Parse")
+			return nil, errorsutil.Wrap(err, "ParseTokenString.jwt.Parse")
 		}
 		return token, nil
 	}
@@ -22,7 +22,7 @@ func ParseJwtTokenString(tokenString string, secretKey string, claims jwt.Claims
 		return []byte(secretKey), nil
 	})
 	if err != nil {
-		return nil, errors.Wrap(err, "ParseTokenString.jwt.ParseWithClaims")
+		return nil, errorsutil.Wrap(err, "ParseTokenString.jwt.ParseWithClaims")
 	}
 	return token, nil
 }
