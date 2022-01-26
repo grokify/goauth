@@ -133,7 +133,7 @@ func (creds *Credentials) NewToken() (*oauth2.Token, error) {
 // NewTokenCli retrieves a token using CLI approach for
 // OAuth 2.0 authorization code or password grant.
 func (creds *Credentials) NewTokenCli(oauth2State string) (*oauth2.Token, error) {
-	if strings.ToLower(strings.TrimSpace(creds.OAuth2.GrantType)) == "code" {
+	if strings.EqualFold(strings.TrimSpace(creds.OAuth2.GrantType), goauth.GrantTypeAuthorizationCode) {
 		return NewTokenCli(*creds, oauth2State)
 	}
 	return creds.NewToken()
