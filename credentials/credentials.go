@@ -45,33 +45,6 @@ func NewCredentialsJSON(credsData, accessToken []byte) (Credentials, error) {
 	return creds, nil
 }
 
-/*
-func NewCredentialsJSONs(credsJson, accessToken []byte) (Credentials, error) {
-	var creds Credentials
-	if len(appJson) > 1 {
-		oc := OAuth2Credentials{}
-		err := json.Unmarshal(appJson, &oc)
-		if err != nil {
-			return oc, err
-		}
-		creds.OAuth2 = oc
-	}
-	if len(userJson) > 0 {
-		user := PasswordCredentials{}
-		err := json.Unmarshal(userJson, &user)
-		if err != nil {
-			return creds, err
-		}
-		creds.PasswordCredentials = user
-	}
-	if len(accessToken) > 0 {
-		creds.Token = &oauth2.Token{
-			AccessToken: string(accessToken)}
-	}
-	return creds, nil
-}
-*/
-
 func (creds *Credentials) Inflate() error {
 	if len(strings.TrimSpace(creds.Service)) > 0 {
 		ep, svcUrl, err := endpoints.NewEndpoint(creds.Service, creds.Subdomain)
