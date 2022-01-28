@@ -8,7 +8,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/golang-jwt/jwt"
+	"github.com/golang-jwt/jwt/v4"
 	"github.com/grokify/goauth"
 	"github.com/grokify/goauth/zoom"
 	"github.com/grokify/gohttp/httpsimple"
