@@ -8,7 +8,7 @@ import (
 	"net/url"
 	"os"
 
-	"github.com/caarlos0/env"
+	"github.com/caarlos0/env/v6"
 	"github.com/grokify/goauth/credentials"
 	"github.com/grokify/goauth/ringcentral"
 	"github.com/grokify/mogo/config"

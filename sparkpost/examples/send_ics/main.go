@@ -10,7 +10,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/caarlos0/env"
+	"github.com/caarlos0/env/v6"
 	"github.com/rs/zerolog/log"
 
 	"github.com/grokify/mogo/config"
@@ -165,7 +165,7 @@ func main() {
 	cfg := appConfig{}
 	if err := env.Parse(&cfg); err != nil {
 		log.Fatal().Err(err).
-			Str("lib", "github.com/caarlos0/env").
+			Str("lib", "github.com/caarlos0/env/v6").
 			Msgf("Cannot parse env to %s", "appConfig{}")
 	}
 
