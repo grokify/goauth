@@ -5,7 +5,7 @@ go 1.16
 require (
 	github.com/SparkPost/gosparkpost v0.2.0
 	github.com/caarlos0/env v3.5.0+incompatible
-	github.com/golang-jwt/jwt v3.2.2+incompatible
+	github.com/golang-jwt/jwt/v4 v4.2.0
 	github.com/google/go-querystring v1.1.0
 	github.com/grokify/go-salesforce v0.1.11
 	github.com/grokify/gocharts v1.16.9
