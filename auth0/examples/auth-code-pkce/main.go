@@ -8,7 +8,6 @@ import (
 	"os"
 	"strings"
 
-	"github.com/bmizerany/pat"
 	"github.com/caarlos0/env"
 	"github.com/grokify/mogo/config"
 	"github.com/grokify/mogo/net/httputilmore"
@@ -151,10 +150,15 @@ func main() {
 		zlog.Fatal().Err(err)
 	}
 
-	m := pat.New()
-	m.Get("/", http.HandlerFunc(cfg.LoginHandler))
-	m.Get("/oauth2callback", http.HandlerFunc(cfg.Oauth2CallbackHandler))
-	http.Handle("/", m)
+	http.Handle("/", http.HandlerFunc(cfg.LoginHandler))
+	http.Handle("/oauth2callback", http.HandlerFunc(cfg.Oauth2CallbackHandler))
+
+	/*
+		m := pat.New()
+		m.Get("/", http.HandlerFunc(cfg.LoginHandler))
+		m.Get("/oauth2callback", http.HandlerFunc(cfg.Oauth2CallbackHandler))
+		http.Handle("/", m)
+	*/
 
 	log.Fatal(http.ListenAndServe(cfg.PortString(), nil))
 }
