@@ -44,8 +44,7 @@ func NewTokenOAuth2Jwt(tokenURL, clientId, clientSecret, jwtBase64Enc string) (*
 	if err != nil {
 		return nil, err
 	}
-	req.Header.Add(httputilmore.HeaderContentType,
-		httputilmore.ContentTypeAppFormUrlEncoded)
+	req.Header.Add(httputilmore.HeaderContentType, httputilmore.ContentTypeAppFormUrlEncoded)
 
 	if len(clientId) > 0 || len(clientSecret) > 0 {
 		b64Enc, err := RFC7617UserPass(clientId, clientSecret)
