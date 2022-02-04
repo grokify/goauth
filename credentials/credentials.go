@@ -51,8 +51,8 @@ func (creds *Credentials) Inflate() error {
 		if err != nil {
 			return err
 		}
-		if creds.OAuth2.OAuth2Endpoint == (oauth2.Endpoint{}) {
-			creds.OAuth2.OAuth2Endpoint = ep
+		if creds.OAuth2.Endpoint == (oauth2.Endpoint{}) {
+			creds.OAuth2.Endpoint = ep
 		}
 		if len(strings.TrimSpace(creds.OAuth2.ServerURL)) == 0 {
 			creds.OAuth2.ServerURL = svcUrl

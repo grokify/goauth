@@ -22,7 +22,7 @@ type OAuth2Credentials struct {
 	ApplicationID   string              `json:"applicationID,omitempty"`
 	ClientID        string              `json:"clientID,omitempty"`
 	ClientSecret    string              `json:"clientSecret,omitempty"`
-	OAuth2Endpoint  oauth2.Endpoint     `json:"oauth2Endpoint,omitempty"`
+	Endpoint        oauth2.Endpoint     `json:"oauth2Endpoint,omitempty"`
 	RedirectURL     string              `json:"redirectURL,omitempty"`
 	AppName         string              `json:"applicationName,omitempty"`
 	AppVersion      string              `json:"applicationVersion,omitempty"`
@@ -42,7 +42,7 @@ func (oc *OAuth2Credentials) Config() oauth2.Config {
 	return oauth2.Config{
 		ClientID:     oc.ClientID,
 		ClientSecret: oc.ClientSecret,
-		Endpoint:     oc.OAuth2Endpoint,
+		Endpoint:     oc.Endpoint,
 		RedirectURL:  oc.RedirectURL,
 		Scopes:       oc.Scopes}
 }
@@ -51,7 +51,7 @@ func (oc *OAuth2Credentials) ConfigClientCredentials() clientcredentials.Config 
 	return clientcredentials.Config{
 		ClientID:     oc.ClientID,
 		ClientSecret: oc.ClientSecret,
-		TokenURL:     oc.OAuth2Endpoint.TokenURL,
+		TokenURL:     oc.Endpoint.TokenURL,
 		Scopes:       oc.Scopes,
 		AuthStyle:    oauth2.AuthStyleAutoDetect}
 }
@@ -127,7 +127,7 @@ func (oc *OAuth2Credentials) NewClient(ctx context.Context) (*http.Client, error
 // This situation, use `goauth.TokenClientCredentials()` as an alternative.
 func (oc *OAuth2Credentials) NewToken(ctx context.Context) (*oauth2.Token, error) {
 	if strings.Contains(strings.ToLower(oc.GrantType), "jwt") {
-		return goauth.NewTokenOAuth2Jwt(oc.OAuth2Endpoint.TokenURL,
+		return goauth.NewTokenOAuth2Jwt(oc.Endpoint.TokenURL,
 			oc.ClientID, oc.ClientSecret, oc.JWT)
 	} else if oc.GrantType == goauth.GrantTypeClientCredentials {
 		config := oc.ConfigClientCredentials()

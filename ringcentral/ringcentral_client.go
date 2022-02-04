@@ -21,7 +21,7 @@ func NewTokenPassword(oc credentials.OAuth2Credentials) (*oauth2.Token, error) {
 		oauth2.Config{
 			ClientID:     oc.ClientID,
 			ClientSecret: oc.ClientSecret,
-			Endpoint:     oc.OAuth2Endpoint},
+			Endpoint:     oc.Endpoint},
 		oc.PasswordRequestBody())
 }
 
@@ -50,7 +50,7 @@ func NewClientPasswordSimple(oc credentials.OAuth2Credentials) (*http.Client, er
 		oauth2.Config{
 			ClientID:     oc.ClientID,
 			ClientSecret: oc.ClientSecret,
-			Endpoint:     oc.OAuth2Endpoint},
+			Endpoint:     oc.Endpoint},
 		oc.Username,
 		oc.Password)
 	if err != nil {
