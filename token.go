@@ -14,11 +14,19 @@ import (
 	"golang.org/x/oauth2/clientcredentials"
 )
 
+func ParseTokenReader(r io.Reader) (*oauth2.Token, error) {
+	data, err := io.ReadAll(r)
+	if err != nil {
+		return nil, err
+	}
+	return ParseToken(data)
+}
+
 // ParseToken parses a OAuth 2 token and returns an
 // `*oauth2.Token` with custom properties.
 func ParseToken(rawToken []byte) (*oauth2.Token, error) {
 	tok := &oauth2.Token{}
-	err := json.Unmarshal([]byte(rawToken), tok)
+	err := json.Unmarshal(rawToken, tok)
 	if err != nil {
 		return tok, err
 	}
