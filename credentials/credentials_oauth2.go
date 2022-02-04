@@ -2,7 +2,6 @@ package credentials
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"net/http"
 	"net/url"
@@ -34,6 +33,7 @@ type OAuth2Credentials struct {
 	PKCE            bool                `json:"pkce"`
 	Username        string              `json:"username,omitempty"`
 	Password        string              `json:"password,omitempty"`
+	JWT             string              `json:"jwt,omitempty"`
 	OtherParams     map[string][]string `json:"otherParams,omitempty"`
 	Scopes          []string            `json:"scopes,omitempty"`
 }
@@ -108,29 +108,39 @@ func (oc *OAuth2Credentials) InflateURL(apiUrlPath string) string {
 // NewClient returns a `*http.Client` for applications using `client_credentials`
 // grant. The client can be modified using context, e.g. ignoring bad certs or otherwise.
 func (oc *OAuth2Credentials) NewClient(ctx context.Context) (*http.Client, error) {
-	if oc.GrantType != goauth.GrantTypeClientCredentials {
-		return nil, errors.New("grant type is not client_credentials")
+	if strings.Contains(strings.ToLower(oc.GrantType), "jwt") {
+		tok, err := oc.NewToken(ctx)
+		if err != nil {
+			return nil, err
+		}
+		return goauth.NewClientToken(
+			goauth.TokenBearer, tok.AccessToken, false), nil
+	} else if oc.GrantType == goauth.GrantTypeClientCredentials {
+		config := oc.ConfigClientCredentials()
+		return config.Client(ctx), nil
 	}
-	config := oc.ConfigClientCredentials()
-	return config.Client(ctx), nil
+	return nil, fmt.Errorf("grant type is not client_credentials or jwt-bearer [%s]", oc.GrantType)
 }
 
 // NewToken retrieves an `*oauth2.Token` when the requisite information is available.
 // Note this uses `clientcredentials.Config.Token()` which doesn't always work. In
 // This situation, use `goauth.TokenClientCredentials()` as an alternative.
 func (oc *OAuth2Credentials) NewToken(ctx context.Context) (*oauth2.Token, error) {
-	if oc.GrantType != goauth.GrantTypeClientCredentials {
-		return nil, errors.New("grant type is not client_credentials")
+	if strings.Contains(strings.ToLower(oc.GrantType), "jwt") {
+		return goauth.NewTokenOAuth2Jwt(oc.OAuth2Endpoint.TokenURL,
+			oc.ClientID, oc.ClientSecret, oc.JWT)
+	} else if oc.GrantType == goauth.GrantTypeClientCredentials {
+		config := oc.ConfigClientCredentials()
+		return config.Token(ctx)
 	}
-	config := oc.ConfigClientCredentials()
-	return config.Token(ctx)
+	return nil, fmt.Errorf("grant type is not client_credentials or jwt-bearer [%s]", oc.GrantType)
 }
 
 func (oc *OAuth2Credentials) PasswordRequestBody() url.Values {
 	body := url.Values{
-		"grant_type": {goauth.GrantTypePassword},
-		"username":   {oc.Username},
-		"password":   {oc.Password}}
+		goauth.ParamGrantType: {goauth.GrantTypePassword},
+		goauth.ParamUsername:  {oc.Username},
+		goauth.ParamPassword:  {oc.Password}}
 	if oc.AccessTokenTTL != 0 {
 		body.Set("access_token_ttl", strconv.Itoa(int(oc.AccessTokenTTL)))
 	}
