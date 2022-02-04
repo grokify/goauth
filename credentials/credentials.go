@@ -23,8 +23,8 @@ type Credentials struct {
 	Service   string            `json:"service,omitempty"`
 	Type      string            `json:"type,omitempty"`
 	Subdomain string            `json:"subdomain,omitempty"`
-	OAuth2    OAuth2Credentials `json:"oauth2,omitempty"`
-	JWT       JWTCredentials    `json:"jwt,omitempty"`
+	OAuth2    CredentialsOAuth2 `json:"oauth2,omitempty"`
+	JWT       CredentialsJWT    `json:"jwt,omitempty"`
 	Token     *oauth2.Token     `json:"token,omitempty"`
 }
 

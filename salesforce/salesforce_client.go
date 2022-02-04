@@ -24,7 +24,7 @@ var Endpoint = oauth2.Endpoint{
 	AuthURL:  AuthzURL,
 	TokenURL: TokenURL}
 
-func NewClientPassword(oc credentials.OAuth2Credentials) (*http.Client, error) {
+func NewClientPassword(oc credentials.CredentialsOAuth2) (*http.Client, error) {
 	conf := oauth2.Config{
 		ClientID:     oc.ClientID,
 		ClientSecret: oc.ClientSecret}
@@ -48,7 +48,7 @@ func NewClientPassword(oc credentials.OAuth2Credentials) (*http.Client, error) {
 
 func NewClientPasswordSalesforceEnv() (*http.Client, error) {
 	return NewClientPassword(
-		credentials.OAuth2Credentials{
+		credentials.CredentialsOAuth2{
 			ClientID:     os.Getenv("SALESFORCE_CLIENT_ID"),
 			ClientSecret: os.Getenv("SALESFORCE_CLIENT_SECRET"),
 			Username:     os.Getenv("SALESFORCE_USERNAME"),

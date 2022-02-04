@@ -26,7 +26,7 @@ func NewHttpClientEnvFlexStatic(envPrefix string) (*http.Client, error) {
 	envPassword := strings.TrimSpace(envPrefix + "PASSWORD")
 	password := os.Getenv(envPassword)
 	if len(password) > 0 {
-		return NewClientPassword(credentials.NewOAuth2CredentialsEnv(envPrefix))
+		return NewClientPassword(credentials.NewCredentialsOAuth2Env(envPrefix))
 	}
 
 	return nil, fmt.Errorf("Cannot load client from ENV for prefix [%v]", envPassword)

@@ -19,7 +19,7 @@ func UsernameExtensionPasswordToHash(username, extension, password string, salt 
 		salt)
 }
 
-func PasswordCredentialsToHash(pwdCreds credentials.OAuth2Credentials, salt []byte) string {
+func PasswordCredentialsToHash(pwdCreds credentials.CredentialsOAuth2, salt []byte) string {
 	return argon2.HashSimpleBase36(
 		[]byte(UsernameExtensionPasswordToString(
 			pwdCreds.Username, pwdCreds.Password)),

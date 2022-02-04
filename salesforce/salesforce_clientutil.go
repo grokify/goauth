@@ -42,12 +42,12 @@ func NewSalesforceClientEnv() (SalesforceClient, error) {
 }
 
 type OAuth2Credentials struct {
-	credentials.OAuth2Credentials
+	credentials.CredentialsOAuth2
 	InstanceName string
 }
 
 func NewSalesforceClientPassword(soc OAuth2Credentials) (SalesforceClient, error) {
-	httpClient, err := NewClientPassword(soc.OAuth2Credentials)
+	httpClient, err := NewClientPassword(soc.CredentialsOAuth2)
 	if err != nil {
 		return SalesforceClient{}, err
 	}

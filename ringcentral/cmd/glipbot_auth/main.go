@@ -100,7 +100,7 @@ func (app *AppHandler) HandleOauth2(w http.ResponseWriter, req *http.Request) {
 }
 
 func getOauth2Config(appCfg RingCentralConfig) oauth2.Config {
-	app := credentials.OAuth2Credentials{
+	app := credentials.CredentialsOAuth2{
 		ClientID:     appCfg.ClientId,
 		ClientSecret: appCfg.ClientSecret,
 		ServerURL:    appCfg.ServerURL,

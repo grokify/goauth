@@ -16,13 +16,13 @@ const (
 	SigningMethodHS512 = "HS512"
 )
 
-type JWTCredentials struct {
+type CredentialsJWT struct {
 	Issuer        string `json:"issuer,omitempty"`
 	PrivateKey    string `json:"privateKey,omitempty"`
 	SigningMethod string `json:"signingMethod,omitempty"`
 }
 
-func (jc *JWTCredentials) StandardToken(tokenDuration time.Duration) (*jwt.Token, string, error) {
+func (jc *CredentialsJWT) StandardToken(tokenDuration time.Duration) (*jwt.Token, string, error) {
 	stdClaims := jwt.StandardClaims{}
 	if len(jc.Issuer) > 0 {
 		stdClaims.Issuer = jc.Issuer

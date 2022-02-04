@@ -15,9 +15,9 @@ import (
 	"golang.org/x/oauth2/clientcredentials"
 )
 
-// OAuth2Credentials supports OAuth 2.0 authorization_code, password,
+// CredentialsOAuth2 supports OAuth 2.0 authorization_code, password,
 // and client_credentials grant flows.
-type OAuth2Credentials struct {
+type CredentialsOAuth2 struct {
 	ServerURL       string              `json:"serverURL,omitempty"`
 	ApplicationID   string              `json:"applicationID,omitempty"`
 	ClientID        string              `json:"clientID,omitempty"`
@@ -38,7 +38,7 @@ type OAuth2Credentials struct {
 	Scopes          []string            `json:"scopes,omitempty"`
 }
 
-func (oc *OAuth2Credentials) Config() oauth2.Config {
+func (oc *CredentialsOAuth2) Config() oauth2.Config {
 	return oauth2.Config{
 		ClientID:     oc.ClientID,
 		ClientSecret: oc.ClientSecret,
@@ -47,7 +47,7 @@ func (oc *OAuth2Credentials) Config() oauth2.Config {
 		Scopes:       oc.Scopes}
 }
 
-func (oc *OAuth2Credentials) ConfigClientCredentials() clientcredentials.Config {
+func (oc *CredentialsOAuth2) ConfigClientCredentials() clientcredentials.Config {
 	return clientcredentials.Config{
 		ClientID:     oc.ClientID,
 		ClientSecret: oc.ClientSecret,
@@ -56,13 +56,13 @@ func (oc *OAuth2Credentials) ConfigClientCredentials() clientcredentials.Config 
 		AuthStyle:    oauth2.AuthStyleAutoDetect}
 }
 
-// func (oc *OAuth2Credentials) AuthCodeURL(state string, opts url.Values) string {
-func (oc *OAuth2Credentials) AuthCodeURL(state string, opts ...oauth2.AuthCodeOption) string {
+// func (oc *CredentialsOAuth2) AuthCodeURL(state string, opts url.Values) string {
+func (oc *CredentialsOAuth2) AuthCodeURL(state string, opts ...oauth2.AuthCodeOption) string {
 	cfg := oc.Config()
 	return cfg.AuthCodeURL(state, opts...)
 }
 
-func (oc *OAuth2Credentials) Exchange(code string) (*oauth2.Token, error) {
+func (oc *CredentialsOAuth2) Exchange(code string) (*oauth2.Token, error) {
 	cfg := oc.Config()
 	authCodeOptions := []oauth2.AuthCodeOption{}
 
@@ -82,7 +82,7 @@ func (oc *OAuth2Credentials) Exchange(code string) (*oauth2.Token, error) {
 	return cfg.Exchange(context.Background(), code, authCodeOptions...)
 }
 
-func (oc *OAuth2Credentials) AppNameAndVersion() string {
+func (oc *CredentialsOAuth2) AppNameAndVersion() string {
 	parts := []string{}
 	oc.AppName = strings.TrimSpace(oc.AppName)
 	oc.AppVersion = strings.TrimSpace(oc.AppVersion)
@@ -95,19 +95,19 @@ func (oc *OAuth2Credentials) AppNameAndVersion() string {
 	return strings.Join(parts, "-")
 }
 
-func (oc *OAuth2Credentials) IsGrantType(grantType string) bool {
+func (oc *CredentialsOAuth2) IsGrantType(grantType string) bool {
 	return strings.EqualFold(
 		strings.TrimSpace(grantType),
 		strings.TrimSpace(oc.GrantType))
 }
 
-func (oc *OAuth2Credentials) InflateURL(apiUrlPath string) string {
+func (oc *CredentialsOAuth2) InflateURL(apiUrlPath string) string {
 	return urlutil.JoinAbsolute(oc.ServerURL, apiUrlPath)
 }
 
 // NewClient returns a `*http.Client` for applications using `client_credentials`
 // grant. The client can be modified using context, e.g. ignoring bad certs or otherwise.
-func (oc *OAuth2Credentials) NewClient(ctx context.Context) (*http.Client, error) {
+func (oc *CredentialsOAuth2) NewClient(ctx context.Context) (*http.Client, error) {
 	if strings.Contains(strings.ToLower(oc.GrantType), "jwt") {
 		tok, err := oc.NewToken(ctx)
 		if err != nil {
@@ -125,7 +125,7 @@ func (oc *OAuth2Credentials) NewClient(ctx context.Context) (*http.Client, error
 // NewToken retrieves an `*oauth2.Token` when the requisite information is available.
 // Note this uses `clientcredentials.Config.Token()` which doesn't always work. In
 // This situation, use `goauth.TokenClientCredentials()` as an alternative.
-func (oc *OAuth2Credentials) NewToken(ctx context.Context) (*oauth2.Token, error) {
+func (oc *CredentialsOAuth2) NewToken(ctx context.Context) (*oauth2.Token, error) {
 	if strings.Contains(strings.ToLower(oc.GrantType), "jwt") {
 		return goauth.NewTokenOAuth2Jwt(oc.Endpoint.TokenURL,
 			oc.ClientID, oc.ClientSecret, oc.JWT)
@@ -136,7 +136,7 @@ func (oc *OAuth2Credentials) NewToken(ctx context.Context) (*oauth2.Token, error
 	return nil, fmt.Errorf("grant type is not client_credentials or jwt-bearer [%s]", oc.GrantType)
 }
 
-func (oc *OAuth2Credentials) PasswordRequestBody() url.Values {
+func (oc *CredentialsOAuth2) PasswordRequestBody() url.Values {
 	body := url.Values{
 		goauth.ParamGrantType: {goauth.GrantTypePassword},
 		goauth.ParamUsername:  {oc.Username},
@@ -157,8 +157,8 @@ func (oc *OAuth2Credentials) PasswordRequestBody() url.Values {
 	return body
 }
 
-func NewOAuth2CredentialsEnv(envPrefix string) OAuth2Credentials {
-	creds := OAuth2Credentials{
+func NewCredentialsOAuth2Env(envPrefix string) CredentialsOAuth2 {
+	creds := CredentialsOAuth2{
 		ClientID:     os.Getenv(envPrefix + "CLIENT_ID"),
 		ClientSecret: os.Getenv(envPrefix + "CLIENT_SECRET"),
 		ServerURL:    os.Getenv(envPrefix + "SERVER_URL"),

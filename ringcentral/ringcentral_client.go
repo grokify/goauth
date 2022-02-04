@@ -16,7 +16,7 @@ import (
 	"golang.org/x/oauth2"
 )
 
-func NewTokenPassword(oc credentials.OAuth2Credentials) (*oauth2.Token, error) {
+func NewTokenPassword(oc credentials.CredentialsOAuth2) (*oauth2.Token, error) {
 	return RetrieveToken(
 		oauth2.Config{
 			ClientID:     oc.ClientID,
@@ -26,7 +26,7 @@ func NewTokenPassword(oc credentials.OAuth2Credentials) (*oauth2.Token, error) {
 }
 
 // NewClientPassword uses dedicated password grant handling.
-func NewClientPassword(oc credentials.OAuth2Credentials) (*http.Client, error) {
+func NewClientPassword(oc credentials.CredentialsOAuth2) (*http.Client, error) {
 	c := oc.Config()
 	token, err := RetrieveToken(c, oc.PasswordRequestBody())
 	if err != nil {
@@ -45,7 +45,7 @@ func NewClientPassword(oc credentials.OAuth2Credentials) (*http.Client, error) {
 }
 
 // NewClientPasswordSimple uses OAuth2 package password grant handling.
-func NewClientPasswordSimple(oc credentials.OAuth2Credentials) (*http.Client, error) {
+func NewClientPasswordSimple(oc credentials.CredentialsOAuth2) (*http.Client, error) {
 	httpClient, err := goauth.NewClientPasswordConf(
 		oauth2.Config{
 			ClientID:     oc.ClientID,
@@ -66,7 +66,7 @@ func NewClientPasswordSimple(oc credentials.OAuth2Credentials) (*http.Client, er
 	return httpClient, nil
 }
 
-func getClientHeader(oc credentials.OAuth2Credentials) http.Header {
+func getClientHeader(oc credentials.CredentialsOAuth2) http.Header {
 	userAgentParts := []string{goauth.PathVersion()}
 	if len(oc.AppNameAndVersion()) > 0 {
 		userAgentParts = append([]string{oc.AppNameAndVersion()}, userAgentParts...)
