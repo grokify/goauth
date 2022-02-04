@@ -27,7 +27,7 @@ func main() {
 			os.Getenv("RINGCENTRAL_ACCESS_TOKEN"))
 	} else {
 		client, err = ringcentral.NewClientPassword(
-			credentials.OAuth2Credentials{
+			credentials.CredentialsOAuth2{
 				ClientID:     os.Getenv("RINGCENTRAL_CLIENT_ID"),
 				ClientSecret: os.Getenv("RINGCENTRAL_CLIENT_SECRET"),
 				ServerURL:    os.Getenv("RINGCENTRAL_SERVER_URL"),

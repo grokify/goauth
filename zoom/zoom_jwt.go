@@ -18,7 +18,7 @@ const (
 )
 
 func CreateJwtToken(apiKey, apiSecret string, tokenDuration time.Duration) (*jwt.Token, string, error) {
-	jwtCreds := credentials.JWTCredentials{
+	jwtCreds := credentials.CredentialsJWT{
 		Issuer:        apiKey,
 		PrivateKey:    apiSecret,
 		SigningMethod: endpoints.ZoomJWTSigningMethod}

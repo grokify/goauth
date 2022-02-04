@@ -26,7 +26,7 @@ func main() {
 	fmt.Printf(os.Getenv("SALESFORCE_CLIENT_SECRET"))
 
 	client, err := salesforce.NewClientPassword(
-		credentials.OAuth2Credentials{
+		credentials.CredentialsOAuth2{
 			ClientID:     os.Getenv("SALESFORCE_CLIENT_ID"),
 			ClientSecret: os.Getenv("SALESFORCE_CLIENT_SECRET"),
 			Username:     os.Getenv("SALESFORCE_USERNAME"),
