@@ -34,6 +34,7 @@ type CredentialsOAuth2 struct {
 	Username        string              `json:"username,omitempty"`
 	Password        string              `json:"password,omitempty"`
 	JWT             string              `json:"jwt,omitempty"`
+	Token           *oauth2.Token       `json:"token,omitempty"`
 	OtherParams     map[string][]string `json:"otherParams,omitempty"`
 	Scopes          []string            `json:"scopes,omitempty"`
 }
@@ -108,13 +109,16 @@ func (oc *CredentialsOAuth2) InflateURL(apiUrlPath string) string {
 // NewClient returns a `*http.Client` for applications using `client_credentials`
 // grant. The client can be modified using context, e.g. ignoring bad certs or otherwise.
 func (oc *CredentialsOAuth2) NewClient(ctx context.Context) (*http.Client, error) {
-	if strings.Contains(strings.ToLower(oc.GrantType), "jwt") {
+	if oc.Token != nil && len(strings.TrimSpace(oc.Token.AccessToken)) > 0 {
+		config := oc.Config()
+		return config.Client(ctx, oc.Token), nil
+	} else if strings.Contains(strings.ToLower(oc.GrantType), "jwt") {
 		tok, err := oc.NewToken(ctx)
 		if err != nil {
 			return nil, err
 		}
-		return goauth.NewClientToken(
-			goauth.TokenBearer, tok.AccessToken, false), nil
+		config := oc.Config()
+		return config.Client(ctx, tok), nil
 	} else if oc.GrantType == goauth.GrantTypeClientCredentials {
 		config := oc.ConfigClientCredentials()
 		return config.Client(ctx), nil
@@ -126,7 +130,9 @@ func (oc *CredentialsOAuth2) NewClient(ctx context.Context) (*http.Client, error
 // Note this uses `clientcredentials.Config.Token()` which doesn't always work. In
 // This situation, use `goauth.TokenClientCredentials()` as an alternative.
 func (oc *CredentialsOAuth2) NewToken(ctx context.Context) (*oauth2.Token, error) {
-	if strings.Contains(strings.ToLower(oc.GrantType), "jwt") {
+	if oc.Token != nil && len(strings.TrimSpace(oc.Token.AccessToken)) > 0 {
+		return oc.Token, nil
+	} else if strings.Contains(strings.ToLower(oc.GrantType), "jwt") {
 		return goauth.NewTokenOAuth2Jwt(oc.Endpoint.TokenURL,
 			oc.ClientID, oc.ClientSecret, oc.JWT)
 	} else if oc.GrantType == goauth.GrantTypeClientCredentials {
