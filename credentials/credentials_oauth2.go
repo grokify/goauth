@@ -120,7 +120,7 @@ func (oc *CredentialsOAuth2) NewClient(ctx context.Context) (*http.Client, error
 		}
 		config := oc.Config()
 		return config.Client(ctx, tok), nil
-	} else if oc.GrantType == goauth.GrantTypeClientCredentials {
+	} else if oc.IsGrantType(goauth.GrantTypeClientCredentials) {
 		config := oc.ConfigClientCredentials()
 		return config.Client(ctx), nil
 	}
