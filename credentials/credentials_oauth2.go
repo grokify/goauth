@@ -22,7 +22,7 @@ type CredentialsOAuth2 struct {
 	ApplicationID   string              `json:"applicationID,omitempty"`
 	ClientID        string              `json:"clientID,omitempty"`
 	ClientSecret    string              `json:"clientSecret,omitempty"`
-	Endpoint        oauth2.Endpoint     `json:"oauth2Endpoint,omitempty"`
+	Endpoint        oauth2.Endpoint     `json:"endpoint,omitempty"`
 	RedirectURL     string              `json:"redirectURL,omitempty"`
 	AppName         string              `json:"applicationName,omitempty"`
 	AppVersion      string              `json:"applicationVersion,omitempty"`
