@@ -112,7 +112,8 @@ func (oc *CredentialsOAuth2) NewClient(ctx context.Context) (*http.Client, error
 	if oc.Token != nil && len(strings.TrimSpace(oc.Token.AccessToken)) > 0 {
 		config := oc.Config()
 		return config.Client(ctx, oc.Token), nil
-	} else if strings.Contains(strings.ToLower(oc.GrantType), "jwt") {
+	} else if strings.Contains(strings.ToLower(oc.GrantType), "jwt") ||
+		oc.IsGrantType(goauth.GrantTypePassword) {
 		tok, err := oc.NewToken(ctx)
 		if err != nil {
 			return nil, err
@@ -123,7 +124,7 @@ func (oc *CredentialsOAuth2) NewClient(ctx context.Context) (*http.Client, error
 		config := oc.ConfigClientCredentials()
 		return config.Client(ctx), nil
 	}
-	return nil, fmt.Errorf("grant type is not client_credentials or jwt-bearer [%s]", oc.GrantType)
+	return nil, fmt.Errorf("grant type is not supported in CredentialsOAuth2.NewClient() [%s]", oc.GrantType)
 }
 
 // NewToken retrieves an `*oauth2.Token` when the requisite information is available.
@@ -135,11 +136,14 @@ func (oc *CredentialsOAuth2) NewToken(ctx context.Context) (*oauth2.Token, error
 	} else if strings.Contains(strings.ToLower(oc.GrantType), "jwt") {
 		return goauth.NewTokenOAuth2Jwt(oc.Endpoint.TokenURL,
 			oc.ClientID, oc.ClientSecret, oc.JWT)
-	} else if oc.GrantType == goauth.GrantTypeClientCredentials {
+	} else if oc.IsGrantType(goauth.GrantTypeClientCredentials) {
 		config := oc.ConfigClientCredentials()
 		return config.Token(ctx)
+	} else if oc.IsGrantType(goauth.GrantTypePassword) {
+		cfg := oc.Config()
+		return cfg.PasswordCredentialsToken(ctx, oc.Username, oc.Password)
 	}
-	return nil, fmt.Errorf("grant type is not client_credentials or jwt-bearer [%s]", oc.GrantType)
+	return nil, fmt.Errorf("grant type is not supported in CredentialsOAuth2.NewToken() [%s]", oc.GrantType)
 }
 
 func (oc *CredentialsOAuth2) PasswordRequestBody() url.Values {
