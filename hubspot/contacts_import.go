@@ -1,13 +1,12 @@
 package hubspot
 
 import (
+	"regexp"
 	"strings"
 
 	"github.com/grokify/goauth/scim"
 	"github.com/grokify/gocharts/data/table"
-	"github.com/grokify/mogo/strconv/phonenumber"
 	"github.com/grokify/mogo/text/usstate"
-	"github.com/nyaruka/phonenumbers"
 )
 
 func WriteContactsXLSX(filename string, users []scim.User) error {
@@ -28,7 +27,7 @@ func userToScim(user scim.User) []interface{} {
 		user.Name.GivenName,
 		user.Name.FamilyName,
 		user.EmailAddress(),
-		phonenumber.MustE164Format(user.PhoneNumber(), "US", phonenumbers.NATIONAL)}
+		MustE164FormatUS(user.PhoneNumber())}
 	if len(user.Addresses) > 0 {
 		addr := user.Addresses[0]
 		row = append(row,
@@ -55,4 +54,17 @@ func columnsInterface() []interface{} {
 		cols = append(cols, str)
 	}
 	return cols
+}
+
+var rxNonDigit = regexp.MustCompile(`\D`)
+
+func MustE164FormatUS(num string) string {
+	num = rxNonDigit.ReplaceAllString(num, "")
+	if len(num) == 10 {
+		num = "1" + num
+	}
+	if len(num) != 11 && strings.Index(num, "1") != 0 {
+		panic("not US number")
+	}
+	return "+" + num
 }
