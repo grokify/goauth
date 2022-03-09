@@ -92,7 +92,7 @@ func NewClientUtilForProviderType(providerType OAuth2Provider) (goauth.OAuth2Uti
 	case RingCentral:
 		return &ringcentral.ClientUtil{}, nil
 	default:
-		return nil, fmt.Errorf("Cannot find ClientUtil for provider type [%s]", providerType)
+		return nil, fmt.Errorf("cannot find ClientUtil for provider type [%s]", providerType)
 	}
 }
 

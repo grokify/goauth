@@ -24,8 +24,8 @@ func main() {
 
 	fmtutil.MustPrintJSON(files)
 
-	apiKey := os.Getenv(zoom.EnvZoomApiKey)
-	apiSecret := os.Getenv(zoom.EnvZoomApiSecret)
+	apiKey := os.Getenv(zoom.EnvZoomAPIKey)
+	apiSecret := os.Getenv(zoom.EnvZoomAPISecret)
 
 	tokenString := ""
 
