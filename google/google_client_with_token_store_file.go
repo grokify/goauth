@@ -118,23 +118,23 @@ func NewClientFileStore(
 	if err != nil {
 		return nil, err
 	}
-	googHttpClient, err := goauth.NewClientWebTokenStore(context.Background(), conf, tokenStore, forceNewToken, state)
+	googHTTPClient, err := goauth.NewClientWebTokenStore(context.Background(), conf, tokenStore, forceNewToken, state)
 	if err != nil {
 		return nil, err
 	}
 	if !forceNewToken {
-		cu := NewClientUtil(googHttpClient)
+		cu := NewClientUtil(googHTTPClient)
 		_, err := cu.GetUserinfo()
 		if err != nil {
 			fmt.Printf("error for Google user profile API [%v] ... Getting New Token", err.Error())
-			googHttpClient, err = goauth.NewClientWebTokenStore(context.Background(), conf, tokenStore, true, state)
+			googHTTPClient, err = goauth.NewClientWebTokenStore(context.Background(), conf, tokenStore, true, state)
 			if err != nil {
 				return nil, err
 			}
 		}
 	}
 
-	return googHttpClient, err
+	return googHTTPClient, err
 }
 
 // NewClientFileStoreWithDefaults returns a `*http.Client` using file system cache

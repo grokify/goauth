@@ -102,8 +102,8 @@ func (oc *CredentialsOAuth2) IsGrantType(grantType string) bool {
 		strings.TrimSpace(oc.GrantType))
 }
 
-func (oc *CredentialsOAuth2) InflateURL(apiUrlPath string) string {
-	return urlutil.JoinAbsolute(oc.ServerURL, apiUrlPath)
+func (oc *CredentialsOAuth2) InflateURL(apiURLPath string) string {
+	return urlutil.JoinAbsolute(oc.ServerURL, apiURLPath)
 }
 
 // NewClient returns a `*http.Client` for applications using `client_credentials`

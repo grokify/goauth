@@ -7,7 +7,7 @@ import (
 )
 
 const (
-	GoogleApiUrlUserinfo = "https://openidconnect.googleapis.com/v1/userinfo"
+	GoogleAPIURLUserinfo = "https://openidconnect.googleapis.com/v1/userinfo"
 )
 
 type GoogleUserinfoOpenIdConnectV2 struct {
@@ -23,7 +23,7 @@ type GoogleUserinfoOpenIdConnectV2 struct {
 
 func GetMeInfo(bearerToken string) (GoogleUserinfoOpenIdConnectV2, error) {
 	usr := GoogleUserinfoOpenIdConnectV2{}
-	_, bodyBytes, err := HttpGetBearerTokenBody(GoogleApiUrlUserinfo, bearerToken)
+	_, bodyBytes, err := HttpGetBearerTokenBody(GoogleAPIURLUserinfo, bearerToken)
 	if err != nil {
 		return usr, err
 	}
