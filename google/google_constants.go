@@ -3,7 +3,7 @@ package google
 import "google.golang.org/api/slides/v1"
 
 const (
-	ClientSecretEnv         = "GOOGLE_APP_CLIENT_SECRET"
+	ClientSecretEnv         = "GOOGLE_APP_CLIENT_SECRET" // #nosec G101
 	EnvGoogleAppCredentials = "GOOGLE_APP_CREDENTIALS"
 	EnvGoogleAppScopes      = "GOOGLE_APP_SCOPES"
 	ScopeDrive              = slides.DriveScope                 // See, edit, create, and delete all of your Google Drive files
