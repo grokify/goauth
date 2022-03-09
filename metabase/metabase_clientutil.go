@@ -113,7 +113,10 @@ func (apiutil *ClientUtil) GetSCIMUser() (scim.User, error) {
 	if err != nil {
 		return scimUser, err
 	}
-	scimUser.AddEmail(mbUser.Email, true)
+	err = scimUser.AddEmail(mbUser.Email, true)
+	if err != nil {
+		return scimUser, err
+	}
 	scimUser.Name = scim.Name{
 		GivenName:  strings.TrimSpace(mbUser.FirstName),
 		FamilyName: strings.TrimSpace(mbUser.LastName),

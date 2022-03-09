@@ -16,7 +16,7 @@ func main() {
 	if err != nil {
 		log.Fatal().Err(err)
 	}
-	fmtutil.PrintJSON(opts)
+	fmtutil.MustPrintJSON(opts)
 
 	creds, err := credentials.ReadCredentialsFromFile(
 		opts.CredsPath, opts.Account, true)
@@ -45,7 +45,7 @@ func main() {
 
 	token.Expiry = token.Expiry.UTC()
 
-	fmtutil.PrintJSON(token)
+	fmtutil.MustPrintJSON(token)
 
 	fmt.Println("DONE")
 }

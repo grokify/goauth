@@ -34,11 +34,15 @@ func (set *CredentialsSet) Get(key string) (Credentials, error) {
 	return Credentials{}, fmt.Errorf("E_CREDS_NOT_FOUND [%s]", key)
 }
 
-func (set *CredentialsSet) Inflate() {
+func (set *CredentialsSet) Inflate() error {
 	for k, v := range set.Credentials {
-		v.Inflate()
+		err := v.Inflate()
+		if err != nil {
+			return err
+		}
 		set.Credentials[k] = v
 	}
+	return nil
 }
 
 /*

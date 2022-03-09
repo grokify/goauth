@@ -44,7 +44,10 @@ func (apiutil *ClientUtil) LoadUser() error {
 		return err
 	}
 	apiutil.UserNative = nativeUser
-	apiutil.UserScim = ZoomUserToScimUser(nativeUser)
+	apiutil.UserScim, err = ZoomUserToScimUser(nativeUser)
+	if err != nil {
+		return err
+	}
 	apiutil.UserLoaded = true
 	return nil
 }
@@ -59,15 +62,18 @@ func (apiutil *ClientUtil) GetSCIMUser() (scim.User, error) {
 	return apiutil.UserScim, nil
 }
 
-func ZoomUserToScimUser(nativeUser ZoomUser) scim.User {
+func ZoomUserToScimUser(nativeUser ZoomUser) (scim.User, error) {
 	scimUser := scim.User{}
-	scimUser.AddEmail(strings.TrimSpace(nativeUser.Email), true)
+	err := scimUser.AddEmail(strings.TrimSpace(nativeUser.Email), true)
+	if err != nil {
+		return scimUser, err
+	}
 	scimUser.Name = scim.Name{
 		GivenName:  strings.TrimSpace(nativeUser.FirstName),
 		FamilyName: strings.TrimSpace(nativeUser.LastName),
 		Formatted: strings.TrimSpace(nativeUser.FirstName) +
 			" " + strings.TrimSpace(nativeUser.LastName)}
-	return scimUser
+	return scimUser, nil
 }
 
 type ZoomUser struct {
