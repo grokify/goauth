@@ -254,8 +254,7 @@ func AuthRequest(authURL, username, password string, tlsSkipVerify bool) (*http.
 
 	if tlsSkipVerify {
 		client.Transport = &http.Transport{
-			TLSClientConfig: &tls.Config{InsecureSkipVerify: tlsSkipVerify}, // #nosec G402
-		}
+			TLSClientConfig: &tls.Config{InsecureSkipVerify: tlsSkipVerify}} // #nosec G402
 	}
 
 	return client.Do(req)
