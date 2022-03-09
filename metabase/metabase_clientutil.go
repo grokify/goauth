@@ -26,29 +26,29 @@ type ClientUtil struct {
 	BaseURL    string
 }
 
-func NewClientUtil(baseUrl, username, password string, tlsSkipVerify bool) (*ClientUtil, error) {
-	httpClient, _, err := NewClientPassword(baseUrl, username, password, tlsSkipVerify)
+func NewClientUtil(baseURL, username, password string, tlsSkipVerify bool) (*ClientUtil, error) {
+	httpClient, _, err := NewClientPassword(baseURL, username, password, tlsSkipVerify)
 	if err != nil {
 		return nil, err
 	}
 	return &ClientUtil{
 		HTTPClient: httpClient,
-		BaseURL:    baseUrl,
+		BaseURL:    baseURL,
 	}, nil
 }
 
-func (cu *ClientUtil) GetStoreQuestionData(cardId int, filename string, perm os.FileMode) ([]byte, error) {
-	data, err := cu.GetQuestionData(cardId)
+func (cu *ClientUtil) GetStoreQuestionData(cardID int, filename string, perm os.FileMode) ([]byte, error) {
+	data, err := cu.GetQuestionData(cardID)
 	if err != nil {
 		return data, err
 	}
 	return data, os.WriteFile(filename, data, perm)
 }
 
-func (cu *ClientUtil) GetQuestionData(cardId int) ([]byte, error) {
-	cardUrl := cu.BuildMetabaseCardAPI(cardId, "json")
+func (cu *ClientUtil) GetQuestionData(cardID int) ([]byte, error) {
+	cardURL := cu.BuildMetabaseCardAPI(cardID, "json")
 
-	req, err := http.NewRequest(http.MethodPost, cardUrl, nil)
+	req, err := http.NewRequest(http.MethodPost, cardURL, nil)
 	if err != nil {
 		return []byte(""), err
 	}
@@ -56,14 +56,14 @@ func (cu *ClientUtil) GetQuestionData(cardId int) ([]byte, error) {
 	if err != nil {
 		return []byte(""), err
 	} else if resp.StatusCode >= 300 {
-		return []byte(""), fmt.Errorf("Metabase API Error Status: %v", resp.StatusCode)
+		return []byte(""), fmt.Errorf("metabase API Error Status: %v", resp.StatusCode)
 	}
 
 	return io.ReadAll(resp.Body)
 }
 
-func (cu *ClientUtil) BuildMetabaseCardAPI(cardId int, format string) string {
-	relUrl := fmt.Sprintf("api/card/%v/query/%s", cardId, format)
+func (cu *ClientUtil) BuildMetabaseCardAPI(cardID int, format string) string {
+	relUrl := fmt.Sprintf("api/card/%v/query/%s", cardID, format)
 	return urlutil.JoinAbsolute(cu.BaseURL, relUrl)
 }
 
@@ -75,11 +75,11 @@ func RetrieveQuestions(cu ClientUtil, q2s QuestionsToSlug, dir string) (map[stri
 	dt := time.Now()
 	dt8 := dt.Format(timeutil.DT8)
 	output := map[string][]byte{}
-	for name, cardId := range q2s.QuestionMap {
+	for name, cardID := range q2s.QuestionMap {
 		filename := fmt.Sprintf("data_%v_%v.json", dt8, name)
-		data, err := cu.GetStoreQuestionData(cardId, filename, 0644)
+		data, err := cu.GetStoreQuestionData(cardID, filename, 0644)
 		if err != nil {
-			return output, errorsutil.Wrap(err, fmt.Sprintf("Error Retrieving Card #[%v] Name[%v]", cardId, name))
+			return output, errorsutil.Wrap(err, fmt.Sprintf("error retrieving card #[%v] name[%v]", cardID, name))
 		}
 		output[name] = data
 
