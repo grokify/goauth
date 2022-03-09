@@ -217,30 +217,29 @@ func (addr Address) InflateStreetAddress(force bool) {
 	addr.Region = strings.TrimSpace(addr.Region)
 	addr.PostalCode = strings.TrimSpace(addr.PostalCode)
 	addr.Country = strings.TrimSpace(addr.Country)
-	if len(addr.Formatted) > 0 && !force {
-		return
-	}
-	var lines []string
-	if len(addr.StreetAddress) > 0 {
-		lines = append(lines, addr.StreetAddress)
-	}
-	var parts []string
-	if len(addr.Locality) > 0 {
-		parts = append(parts, addr.Locality+",")
-	}
-	if len(addr.Region) > 0 {
-		parts = append(parts, addr.Region)
-	}
-	if len(addr.PostalCode) > 0 {
-		parts = append(parts, addr.PostalCode)
-	}
-	if len(addr.Country) > 0 {
-		parts = append(parts, addr.Country)
-	}
-	if len(parts) > 0 {
-		lines = append(lines, strings.Join(parts, " "))
-	}
-	if len(lines) > 0 {
-		addr.Formatted = strings.Join(lines, "\n")
+	if len(addr.Formatted) == 0 || force {
+		var lines []string
+		if len(addr.StreetAddress) > 0 {
+			lines = append(lines, addr.StreetAddress)
+		}
+		var parts []string
+		if len(addr.Locality) > 0 {
+			parts = append(parts, addr.Locality+",")
+		}
+		if len(addr.Region) > 0 {
+			parts = append(parts, addr.Region)
+		}
+		if len(addr.PostalCode) > 0 {
+			parts = append(parts, addr.PostalCode)
+		}
+		if len(addr.Country) > 0 {
+			parts = append(parts, addr.Country)
+		}
+		if len(parts) > 0 {
+			lines = append(lines, strings.Join(parts, " "))
+		}
+		if len(lines) > 0 {
+			addr.Formatted = strings.Join(lines, "\n")
+		}
 	}
 }
