@@ -28,15 +28,15 @@ func NewClientPasswordConf(conf oauth2.Config, username, password string) (*http
 		return &http.Client{}, err
 	}
 
-	return conf.Client(oauth2.NoContext, token), nil
+	return conf.Client(context.Background(), token), nil
 }
 
 func NewClientAuthCode(conf oauth2.Config, authCode string) (*http.Client, error) {
-	token, err := conf.Exchange(oauth2.NoContext, authCode)
+	token, err := conf.Exchange(context.Background(), authCode)
 	if err != nil {
 		return &http.Client{}, err
 	}
-	return conf.Client(oauth2.NoContext, token), nil
+	return conf.Client(context.Background(), token), nil
 }
 
 func NewClientTokenJSON(ctx context.Context, tokenJSON []byte) (*http.Client, error) {
@@ -98,18 +98,18 @@ func NewClientAuthzTokenSimple(tokenType, accessToken string) *http.Client {
 
 	oAuthConfig := &oauth2.Config{}
 
-	return oAuthConfig.Client(oauth2.NoContext, token)
+	return oAuthConfig.Client(context.Background(), token)
 }
 
 func NewClientTokenOAuth2(token *oauth2.Token) *http.Client {
 	oAuthConfig := &oauth2.Config{}
-	return oAuthConfig.Client(oauth2.NoContext, token)
+	return oAuthConfig.Client(context.Background(), token)
 }
 
-func NewClientBearerTokenSimpleOrJson(ctx context.Context, tokenOrJson []byte) (*http.Client, error) {
+func NewClientBearerTokenSimpleOrJSON(ctx context.Context, tokenOrJson []byte) (*http.Client, error) {
 	tokenOrJsonString := strings.TrimSpace(string(tokenOrJson))
 	if len(tokenOrJsonString) == 0 {
-		return nil, fmt.Errorf("No token [%v]", string(tokenOrJson))
+		return nil, fmt.Errorf("no token [%v]", string(tokenOrJson))
 	} else if strings.Index(tokenOrJsonString, "{") == 0 {
 		return NewClientTokenJSON(ctx, tokenOrJson)
 	} else {
