@@ -90,10 +90,10 @@ func RetrieveQuestions(cu ClientUtil, q2s QuestionsToSlug, dir string) (map[stri
 	return output, nil
 }
 
-func (apiutil *ClientUtil) GetCurrentUser() (User, *http.Response, error) {
+func (cu *ClientUtil) GetCurrentUser() (User, *http.Response, error) {
 	user := User{}
-	apiURL := urlutil.JoinAbsolute(apiutil.BaseURL, CurrentUserURLPath)
-	resp, err := apiutil.HTTPClient.Get(apiURL)
+	apiURL := urlutil.JoinAbsolute(cu.BaseURL, CurrentUserURLPath)
+	resp, err := cu.HTTPClient.Get(apiURL)
 	if err != nil {
 		return user, nil, err
 	} else if resp.StatusCode >= 300 {
@@ -107,9 +107,9 @@ func (apiutil *ClientUtil) GetCurrentUser() (User, *http.Response, error) {
 	return user, resp, err
 }
 
-func (apiutil *ClientUtil) GetSCIMUser() (scim.User, error) {
+func (cu *ClientUtil) GetSCIMUser() (scim.User, error) {
 	scimUser := scim.User{}
-	mbUser, _, err := apiutil.GetCurrentUser()
+	mbUser, _, err := cu.GetCurrentUser()
 	if err != nil {
 		return scimUser, err
 	}
