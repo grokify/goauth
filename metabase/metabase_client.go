@@ -207,7 +207,7 @@ func NewClientEnv(opts *ConfigEnvOpts) (*http.Client, *AuthResponse, *Config, er
 	opts.Defaultify()
 	cfg := opts.Config()
 	if len(strings.TrimSpace(cfg.Username)) == 0 {
-		return nil, nil, nil, errors.New("Metabase Client: No 'username' configured")
+		return nil, nil, nil, errors.New("metabase client: no 'username' configured")
 	}
 
 	client, authres, err := NewClient(cfg)

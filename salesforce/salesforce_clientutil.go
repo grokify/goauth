@@ -191,8 +191,8 @@ func (sc *SalesforceClient) UserInfo() (User, error) {
 }
 
 type User struct {
-	UserId         string `json:"user_id,omitempty"`
-	OrganizationId string `json:"organization_id,omitempty"`
+	UserID         string `json:"user_id,omitempty"`
+	OrganizationID string `json:"organization_id,omitempty"`
 }
 
 type URLBuilder struct {

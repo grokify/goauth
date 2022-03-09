@@ -31,7 +31,7 @@ func (toks *TokenSet) GetTokenInfo(key string) (*tokens.TokenInfo, error) {
 	key = tokens.FormatKey(key)
 	data := toks.gsClient.GetOrEmptyString(key)
 	if len(strings.TrimSpace(data)) == 0 {
-		return nil, fmt.Errorf("No token for [%v]", key)
+		return nil, fmt.Errorf("no token for [%v]", key)
 	}
 	return tokens.ParseTokenInfo([]byte(data))
 }
