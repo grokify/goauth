@@ -13,7 +13,7 @@ var (
 	VisaAppKeyFileEnv     = "VISA_APP_KEY_FILE"
 	VisaAppCertFileEnv    = "VISA_APP_CERT_FILE"
 	VisaAppUserIdEnv      = "VISA_APP_USERID"
-	VisaAppPasswordEnv    = "VISA_APP_PASSWORD"
+	VisaAppPasswordEnv    = "VISA_APP_PASSWORD" // #nosec G101
 	VDPCACertFileEnv      = "VISA_VDP_CA_CERT_FILE"
 	GeoTrustCACertFileEnv = "VISA_GEOTRUST_CA_CERT_FILE"
 )
