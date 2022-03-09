@@ -220,11 +220,11 @@ func (addr Address) InflateStreetAddress(force bool) {
 	if len(addr.Formatted) > 0 && !force {
 		return
 	}
-	lines := []string{}
+	var lines []string
 	if len(addr.StreetAddress) > 0 {
 		lines = append(lines, addr.StreetAddress)
 	}
-	parts := []string{}
+	var parts []string
 	if len(addr.Locality) > 0 {
 		parts = append(parts, addr.Locality+",")
 	}
@@ -240,5 +240,7 @@ func (addr Address) InflateStreetAddress(force bool) {
 	if len(parts) > 0 {
 		lines = append(lines, strings.Join(parts, " "))
 	}
-	addr.Formatted = strings.Join(lines, "\n")
+	if len(lines) > 0 {
+		addr.Formatted = strings.Join(lines, "\n")
+	}
 }
