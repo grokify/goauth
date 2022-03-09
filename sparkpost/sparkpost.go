@@ -4,11 +4,11 @@ import (
 	"github.com/SparkPost/gosparkpost"
 )
 
-const BaseUrl = "https://api.sparkpost.com"
+const BaseURL = "https://api.sparkpost.com"
 
 func NewConfig(apiKey string) *gosparkpost.Config {
 	return &gosparkpost.Config{
-		BaseUrl:    BaseUrl, //nolint:gosec
+		BaseUrl:    BaseURL,
 		ApiKey:     apiKey,
 		ApiVersion: 1}
 }
