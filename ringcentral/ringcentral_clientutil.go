@@ -105,10 +105,10 @@ type RingCentralAccount struct {
 	ID  string `json:"id,omitempty"`
 }
 
-func (apiutil *ClientUtil) GetSCIMUser() (scim.User, error) {
+func (cu *ClientUtil) GetSCIMUser() (scim.User, error) {
 	user := scim.User{}
 
-	rcUser, err := apiutil.GetUserinfo()
+	rcUser, err := cu.GetUserinfo()
 	if err != nil {
 		return user, err
 	}

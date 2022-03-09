@@ -43,8 +43,8 @@ func NewO2ConfigMoreFromJSON(bytes []byte) (*O2ConfigMore, error) {
 	return &o2cc, nil
 }
 
-func (c *O2ConfigMore) ProviderType() (OAuth2Provider, error) {
-	return ProviderStringToConst(c.Provider)
+func (cm *O2ConfigMore) ProviderType() (OAuth2Provider, error) {
+	return ProviderStringToConst(cm.Provider)
 }
 
 func (cm *O2ConfigMore) Config() *oauth2.Config {
