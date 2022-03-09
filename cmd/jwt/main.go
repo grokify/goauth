@@ -12,12 +12,9 @@ import (
 
 func createJWT(secretKey string, data map[string]interface{}) (string, error) {
 	claims := &jwt.MapClaims{
-		"iss": "issuer",
-		"exp": time.Now().Add(time.Hour).Unix(),
-		"data": map[string]string{
-			"id":   "123",
-			"name": "JohnDoe",
-		},
+		"iss":  "issuer",
+		"exp":  time.Now().Add(time.Hour).Unix(),
+		"data": data,
 	}
 
 	token := jwt.NewWithClaims(

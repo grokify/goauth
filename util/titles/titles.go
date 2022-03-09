@@ -53,11 +53,11 @@ func (d Department) String() string { return departments[d] }
 
 func ParseDepartment(s string) (Department, error) {
 	for i, dept := range departments {
-		if strings.ToLower(strings.TrimSpace(s)) == strings.ToLower(dept) {
+		if strings.EqualFold(strings.TrimSpace(s), dept) {
 			return Department(i), nil
 		}
 	}
-	return SoftwareEngineering, fmt.Errorf("Cannot parse %s", s)
+	return SoftwareEngineering, fmt.Errorf("cannot parse %s", s)
 }
 
 var parseOrder = []string{
@@ -194,7 +194,7 @@ func NewParser() Parser {
 	}
 	err := json.Unmarshal([]byte(RegularExpressionsRaw), &p)
 	if err != nil {
-		panic(fmt.Sprintf("Cannot parse RegularExpressionsRaw: %v", err))
+		panic(fmt.Sprintf("cannot parse RegularExpressionsRaw: %v", err))
 	}
 	for deptString, mapPatterns := range p.DepartmentPatterns {
 		for _, mapPattern := range mapPatterns {
@@ -222,11 +222,11 @@ func (p *Parser) ParseTitle(s string) (Department, error) {
 			if len(m) > 0 {
 				dept, err := ParseDepartment(deptString)
 				if err != nil {
-					panic(fmt.Sprintf("Cannot parse parseOrder Department String: %v", deptString))
+					panic(fmt.Sprintf("cannot parse parseOrder Department String: %v", deptString))
 				}
 				return dept, nil
 			}
 		}
 	}
-	return SoftwareEngineering, fmt.Errorf("Cannot match title %s", s)
+	return SoftwareEngineering, fmt.Errorf("cannot match title %s", s)
 }

@@ -28,11 +28,8 @@ func ParseTokenInfo(data []byte) (*TokenInfo, error) {
 	return tok, json.Unmarshal(data, tok)
 }
 
-func NewClientWithTokenSet(
-	ctx context.Context, conf *oauth2.Config, token *oauth2.Token,
-	tokenSet TokenSet, tokenKey, serviceKey, serviceType string,
-) (*http.Client, error) {
-
+func NewClientWithTokenSet(ctx context.Context, conf *oauth2.Config, token *oauth2.Token,
+	tokenSet TokenSet, tokenKey, serviceKey, serviceType string) (*http.Client, error) {
 	tokenSource := conf.TokenSource(ctx, token)
 
 	if newToken, err := tokenSource.Token(); err != nil {

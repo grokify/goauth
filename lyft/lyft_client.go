@@ -27,9 +27,9 @@ func Endpoint() oauth2.Endpoint {
 		TokenURL: TokenURL}
 }
 
-func NewClientCredentials(ctx context.Context, clientId, clientSecret string, scopes []string) *http.Client {
+func NewClientCredentials(ctx context.Context, clientID, clientSecret string, scopes []string) *http.Client {
 	config := clientcredentials.Config{
-		ClientID:     clientId,
+		ClientID:     clientID,
 		ClientSecret: clientSecret,
 		TokenURL:     TokenURL,
 		Scopes:       scopes}
