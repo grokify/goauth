@@ -23,12 +23,12 @@ type CredentialsJWT struct {
 }
 
 func (jc *CredentialsJWT) StandardToken(tokenDuration time.Duration) (*jwt.Token, string, error) {
-	stdClaims := jwt.StandardClaims{}
+	stdClaims := jwt.RegisteredClaims{}
 	if len(jc.Issuer) > 0 {
 		stdClaims.Issuer = jc.Issuer
 	}
 	if tokenDuration > 0 {
-		stdClaims.ExpiresAt = time.Now().Add(tokenDuration).Unix()
+		stdClaims.ExpiresAt = jwt.NewNumericDate(time.Now().Add(tokenDuration))
 	}
 	token := jwt.NewWithClaims(
 		jwt.GetSigningMethod(strings.ToUpper(strings.TrimSpace(jc.SigningMethod))),

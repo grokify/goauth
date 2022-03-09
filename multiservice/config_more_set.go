@@ -15,7 +15,7 @@ func NewConfigMoreSet() *ConfigMoreSet {
 	return &ConfigMoreSet{ConfigMoreMap: map[string]*O2ConfigMore{}}
 }
 
-func (cfgs *ConfigMoreSet) AddConfigMoreJson(key string, val []byte) error {
+func (cfgs *ConfigMoreSet) AddConfigMoreJSON(key string, val []byte) error {
 	key = strings.TrimSpace(key)
 	cfg, err := NewO2ConfigMoreFromJSON(val)
 	if err != nil {

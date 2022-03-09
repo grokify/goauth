@@ -37,7 +37,7 @@ func main() {
 	if 1 == 0 {
 		token, err := goauth.ParseJwtTokenString(
 			tokenString, apiSecret,
-			&jwt.StandardClaims{Issuer: apiKey})
+			&jwt.RegisteredClaims{Issuer: apiKey})
 		logutil.FatalOnError(err)
 
 		fmtutil.MustPrintJSON(token.Claims)
