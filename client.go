@@ -132,6 +132,6 @@ func NewClientTLSToken(ctx context.Context, tlsConfig *tls.Config, token *oauth2
 func ClientTLSInsecureSkipVerify(client *http.Client) *http.Client {
 	client.Transport = &http.Transport{
 		TLSClientConfig: &tls.Config{
-			InsecureSkipVerify: true}}
+			InsecureSkipVerify: true}} // #nosec G402
 	return client
 }

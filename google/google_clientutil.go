@@ -155,7 +155,7 @@ type GooglePlusPersonImage struct {
 func (apiutil *ClientUtil) GetSCIMUser() (scim.User, error) {
 	scimUser := scim.User{}
 
-	resp, err := apiutil.Client.Get(GoogleApiUrlUserinfo)
+	resp, err := apiutil.Client.Get(GoogleAPIURLUserinfo)
 	if err != nil {
 		return scimUser, err
 	}
