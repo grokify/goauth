@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -61,7 +62,7 @@ func (app *AppHandler) HandleOauth2(w http.ResponseWriter, req *http.Request) {
 	// Exchange auth code for token
 	o2Config := getOauth2Config(app.AppConfig)
 
-	tok, err := o2Config.Exchange(oauth2.NoContext, authCode)
+	tok, err := o2Config.Exchange(context.Background(), authCode)
 	if err != nil {
 		zlog.Info().
 			Err(err).
@@ -82,7 +83,7 @@ func (app *AppHandler) HandleOauth2(w http.ResponseWriter, req *http.Request) {
 
 	printString(w, fmt.Sprintf("TOKEN:\n%v\n", string(bytes)))
 
-	client := o2Config.Client(oauth2.NoContext, tok)
+	client := o2Config.Client(context.Background(), tok)
 
 	// API Call
 	cu := ringcentral.NewClientUtil(client)
