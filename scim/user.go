@@ -211,7 +211,7 @@ type Address struct {
 	Primary       bool   `json:"primary,omitempty"`
 }
 
-func (addr Address) InflateStreetAddress(force bool) {
+func (addr *Address) InflateStreetAddress(force bool) {
 	addr.Formatted = strings.TrimSpace(addr.Formatted)
 	addr.Locality = strings.TrimSpace(addr.Locality)
 	addr.Region = strings.TrimSpace(addr.Region)
