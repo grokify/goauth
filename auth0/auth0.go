@@ -29,29 +29,29 @@ func CreatePKCEChallengeS256(verifier string) string {
 	return base64.RawURLEncoding.EncodeToString(challenge[:])
 }
 
-type PKCEAuthorizationUrlInfo struct {
+type PKCEAuthorizationURLInfo struct {
 	Host                string `url:"-"`
 	Audience            string `url:"audience"`
 	Scope               string `url:"scope"`
 	ResponseType        string `url:"response_type"`
-	ClientId            string `url:"client_id"`
+	ClientID            string `url:"client_id"`
 	CodeChallenge       string `url:"code_challenge"`
 	CodeChallengeMethod string `url:"code_challenge_method"`
-	RedirectUri         string `url:"redirect_uri"`
+	RedirectURI         string `url:"redirect_uri"`
 }
 
-func (au *PKCEAuthorizationUrlInfo) url() (string, error) {
-	baseUrl := fmt.Sprintf("https://%s/authorize", au.Host)
+func (au *PKCEAuthorizationURLInfo) url() (string, error) {
+	baseURL := fmt.Sprintf("https://%s/authorize", au.Host)
 	au.ResponseType = "code"
 	au.CodeChallengeMethod = "S256"
 	v, err := query.Values(au)
 	if err != nil {
-		return baseUrl, err
+		return baseURL, err
 	}
-	return baseUrl + "?" + v.Encode(), nil
+	return baseURL + "?" + v.Encode(), nil
 }
 
-func (au *PKCEAuthorizationUrlInfo) Data() (string, string, string, error) {
+func (au *PKCEAuthorizationURLInfo) Data() (string, string, string, error) {
 	verifier, err := CreatePKCECodeVerifier()
 	if err != nil {
 		return "", "", "", err
@@ -62,24 +62,24 @@ func (au *PKCEAuthorizationUrlInfo) Data() (string, string, string, error) {
 	return verifier, challenge, myUrl, err
 }
 
-type PKCETokenUrlInfo struct {
+type PKCETokenURLInfo struct {
 	Host         string `json:"-"`
 	GrantType    string `json:"grant_type"`
-	ClientId     string `json:"client_id"`
+	ClientID     string `json:"client_id"`
 	CodeVerifier string `json:"code_verifier"`
 	Code         string `json:"code"`
-	RedirectUri  string `json:"redirect_uri"`
+	RedirectURI  string `json:"redirect_uri"`
 }
 
-func (tu *PKCETokenUrlInfo) URL() string {
+func (tu *PKCETokenURLInfo) URL() string {
 	return fmt.Sprintf("https://%s/oauth/token", tu.Host)
 }
 
-func (tu *PKCETokenUrlInfo) Body() ([]byte, error) {
+func (tu *PKCETokenURLInfo) Body() ([]byte, error) {
 	return json.Marshal(tu)
 }
 
-func (tu *PKCETokenUrlInfo) Exchange() (*http.Response, error) {
+func (tu *PKCETokenURLInfo) Exchange() (*http.Response, error) {
 	body, err := tu.Body()
 	if err != nil {
 		return nil, err

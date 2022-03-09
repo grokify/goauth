@@ -39,11 +39,11 @@ func (cfg *appConfig) PortString() string {
 func (cfg *appConfig) LoginHandler(w http.ResponseWriter, r *http.Request) {
 	//log.Debug("START_LOGIN_HANDLER")
 	zlog.Debug().Msg("START_LOGIN_HANDLER")
-	authUrlInfo := auth0.PKCEAuthorizationUrlInfo{
+	authUrlInfo := auth0.PKCEAuthorizationURLInfo{
 		Host:        cfg.Host,
 		Scope:       cfg.Scope,
-		ClientId:    cfg.ClientId,
-		RedirectUri: cfg.RedirectUri}
+		ClientID:    cfg.ClientId,
+		RedirectURI: cfg.RedirectUri}
 
 	verifier, challenge, authUrl, err := authUrlInfo.Data()
 	if err != nil {
@@ -96,13 +96,13 @@ func (cfg *appConfig) Oauth2CallbackHandler(w http.ResponseWriter, r *http.Reque
 	if err != nil {
 		zlog.Fatal().Err(err)
 	}
-	tokenUrlInfo := auth0.PKCETokenUrlInfo{
+	tokenUrlInfo := auth0.PKCETokenURLInfo{
 		Host:         cfg.Host,
 		GrantType:    "authorization_code",
-		ClientId:     cfg.ClientId,
+		ClientID:     cfg.ClientId,
 		CodeVerifier: cookie.Value,
 		Code:         code,
-		RedirectUri:  cfg.RedirectUri}
+		RedirectURI:  cfg.RedirectUri}
 
 	resp, err := tokenUrlInfo.Exchange()
 	if err != nil {
