@@ -11,7 +11,7 @@ require (
 	github.com/grokify/gocharts v1.17.1
 	github.com/grokify/gohttp v0.1.0
 	github.com/grokify/gostor v0.2.1
-	github.com/grokify/mogo v0.37.2
+	github.com/grokify/mogo v0.37.3
 	github.com/jessevdk/go-flags v1.5.0
 	github.com/joho/godotenv v1.4.0
 	github.com/pquerna/ffjson v0.0.0-20190930134022-aa0246cd15f7

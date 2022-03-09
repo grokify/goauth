@@ -15,10 +15,13 @@ import (
 	"github.com/grokify/mogo/net/httputilmore"
 )
 
-func CreatePKCECodeVerifier() string {
+func CreatePKCECodeVerifier() (string, error) {
 	verifier := make([]byte, 32)
-	rand.Read(verifier)
-	return base64.RawURLEncoding.EncodeToString(verifier[:])
+	_, err := rand.Read(verifier)
+	if err != nil {
+		return "", err
+	}
+	return base64.RawURLEncoding.EncodeToString(verifier[:]), nil
 }
 
 func CreatePKCEChallengeS256(verifier string) string {
@@ -49,7 +52,10 @@ func (au *PKCEAuthorizationUrlInfo) url() (string, error) {
 }
 
 func (au *PKCEAuthorizationUrlInfo) Data() (string, string, string, error) {
-	verifier := CreatePKCECodeVerifier()
+	verifier, err := CreatePKCECodeVerifier()
+	if err != nil {
+		return "", "", "", err
+	}
 	challenge := CreatePKCEChallengeS256(verifier)
 	au.CodeChallenge = challenge
 	myUrl, err := au.url()

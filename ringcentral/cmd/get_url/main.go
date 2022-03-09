@@ -6,12 +6,12 @@ import (
 	"io"
 	"log"
 	"net/http"
-	"regexp"
 	"strings"
 
 	"github.com/grokify/goauth/credentials"
 	"github.com/grokify/gohttp/httpsimple"
 	"github.com/grokify/mogo/fmt/fmtutil"
+	"github.com/grokify/mogo/log/logutil"
 	"github.com/grokify/mogo/net/httputilmore"
 	"github.com/jessevdk/go-flags"
 )
@@ -59,21 +59,15 @@ func (opts *Options) SimpleRequest() (httpsimple.SimpleRequest, error) {
 	return sr, nil
 }
 
-var rxParseHeader = regexp.MustCompile(`^([^:]+):(.+)$`)
-
 func main() {
 	opts := Options{}
 	_, err := flags.Parse(&opts)
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmtutil.PrintJSON(opts)
+	logutil.FatalOnError(err)
+	fmtutil.MustPrintJSON(opts)
 
 	creds, err := credentials.ReadCredentialsFromFile(
 		opts.CredsPath, opts.Account, true)
-	if err != nil {
-		log.Fatal(err)
-	}
+	logutil.FatalOnError(err)
 
 	var httpClient *http.Client
 	if opts.UseCLI() {
@@ -81,15 +75,12 @@ func main() {
 	} else {
 		httpClient, err = creds.NewClient(context.Background())
 	}
-	if err != nil {
-		log.Fatal(err)
-	}
+	logutil.FatalOnError(err)
 
 	sr, err := opts.SimpleRequest()
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmtutil.PrintJSON(sr)
+	logutil.FatalOnError(err)
+
+	fmtutil.MustPrintJSON(sr)
 	sclient, err := creds.NewSimpleClient(httpClient)
 	if err != nil {
 		fmt.Println(string(err.Error()))
@@ -97,14 +88,12 @@ func main() {
 	}
 
 	resp, err := sclient.Do(sr)
-	if err != nil {
-		log.Fatal(err)
-	}
+	logutil.FatalOnError(err)
+
 	fmt.Printf("STATUS [%d]", resp.StatusCode)
 	body, err := io.ReadAll(resp.Body)
-	if err != nil {
-		log.Fatal(err)
-	}
+	logutil.FatalOnError(err)
+
 	fmt.Println(string(body))
 
 	fmt.Println("DONE")

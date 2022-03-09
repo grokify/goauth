@@ -28,9 +28,11 @@ type RingCentralConfig struct {
 	AppPort      int64  `env:"PORT"`
 }
 
+/*
 func handleHelloWorld(w http.ResponseWriter, req *http.Request) {
 	fmt.Fprintf(w, "RingCentral Glip OAuth Bootstrap Bot %s!\n", req.URL.Path[1:])
 }
+*/
 
 type AppHandler struct {
 	AppConfig RingCentralConfig
