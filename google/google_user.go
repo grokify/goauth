@@ -10,7 +10,7 @@ const (
 	GoogleAPIURLUserinfo = "https://openidconnect.googleapis.com/v1/userinfo"
 )
 
-type GoogleUserinfoOpenIdConnectV2 struct {
+type GoogleUserinfoOpenIDConnectV2 struct {
 	Sub          string `json:"sub,omitempty"`
 	Name         string `json:"name,omitempty"`
 	GivenName    string `json:"given_name,omitempty"`
@@ -21,9 +21,9 @@ type GoogleUserinfoOpenIdConnectV2 struct {
 	Locale       string `json:"locale,omitempty"`
 }
 
-func GetMeInfo(bearerToken string) (GoogleUserinfoOpenIdConnectV2, error) {
-	usr := GoogleUserinfoOpenIdConnectV2{}
-	_, bodyBytes, err := HttpGetBearerTokenBody(GoogleAPIURLUserinfo, bearerToken)
+func GetMeInfo(bearerToken string) (GoogleUserinfoOpenIDConnectV2, error) {
+	usr := GoogleUserinfoOpenIDConnectV2{}
+	_, bodyBytes, err := HTTPGetBearerTokenBody(GoogleAPIURLUserinfo, bearerToken)
 	if err != nil {
 		return usr, err
 	}
@@ -32,8 +32,8 @@ func GetMeInfo(bearerToken string) (GoogleUserinfoOpenIdConnectV2, error) {
 	return usr, err
 }
 
-func HttpGetBearerTokenBody(url, token string) (*http.Response, []byte, error) {
-	resp, err := HttpGetBearerToken(url, token)
+func HTTPGetBearerTokenBody(url, token string) (*http.Response, []byte, error) {
+	resp, err := HTTPGetBearerToken(url, token)
 	if err != nil {
 		return resp, []byte(""), err
 	}
@@ -41,7 +41,7 @@ func HttpGetBearerTokenBody(url, token string) (*http.Response, []byte, error) {
 	return resp, bytes, err
 }
 
-func HttpGetBearerToken(url, token string) (*http.Response, error) {
+func HTTPGetBearerToken(url, token string) (*http.Response, error) {
 	req, err := http.NewRequest(http.MethodGet, url, nil)
 	if err != nil {
 		return nil, err
