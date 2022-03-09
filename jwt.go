@@ -33,7 +33,7 @@ func ParseJwtTokenString(tokenString string, secretKey string, claims jwt.Claims
 	return token, nil
 }
 
-func NewTokenOAuth2Jwt(tokenURL, clientId, clientSecret, jwtBase64Enc string) (*oauth2.Token, error) {
+func NewTokenOAuth2JWT(tokenURL, clientID, clientSecret, jwtBase64Enc string) (*oauth2.Token, error) {
 	body := url.Values{
 		ParamGrantType: {GrantTypeJWTBearer},
 		ParamAssertion: {jwtBase64Enc}}
@@ -46,8 +46,8 @@ func NewTokenOAuth2Jwt(tokenURL, clientId, clientSecret, jwtBase64Enc string) (*
 	}
 	req.Header.Add(httputilmore.HeaderContentType, httputilmore.ContentTypeAppFormURLEncoded)
 
-	if len(clientId) > 0 || len(clientSecret) > 0 {
-		b64Enc, err := RFC7617UserPass(clientId, clientSecret)
+	if len(clientID) > 0 || len(clientSecret) > 0 {
+		b64Enc, err := RFC7617UserPass(clientID, clientSecret)
 		if err != nil {
 			return nil, err
 		}
