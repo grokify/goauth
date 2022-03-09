@@ -42,7 +42,7 @@ func NewClient(cfg Config) (*http.Client, error) {
 		return nil, err
 	}
 
-	tlsConfig.Inflate()
+	// tlsConfig.Inflate()
 
 	if token, err := goauth.BasicAuthToken(cfg.Username, cfg.Password); err != nil {
 		return nil, err

@@ -80,7 +80,7 @@ func TokenClientCredentials(cfg clientcredentials.Config) (*oauth2.Token, error)
 	if err != nil {
 		return nil, err
 	}
-	req.Header.Add(httputilmore.HeaderContentType, httputilmore.ContentTypeAppFormUrlEncoded)
+	req.Header.Add(httputilmore.HeaderContentType, httputilmore.ContentTypeAppFormURLEncoded)
 	req.Header.Add(httputilmore.HeaderAuthorization, "Basic "+b64)
 
 	client := http.Client{}
