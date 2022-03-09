@@ -23,7 +23,7 @@ const (
 	AuthURLFormat        = "https://%s/restapi/oauth/authorize"
 	TokenURLFormat       = "https://%s/restapi/oauth/token" // #nosec G101
 	AuthURLPart          = "restapi/oauth/authorize"
-	TokenURLPart         = "restapi/oauth/token"
+	TokenURLPart         = "restapi/oauth/token" // #nosec G101
 	MeURL                = "/restapi/v1.0/account/~/extension/~"
 	RestAPI1dot0Fragment = "restapi/v1.0"
 )

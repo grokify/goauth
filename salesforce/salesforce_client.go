@@ -7,14 +7,15 @@ import (
 
 	"github.com/grokify/goauth"
 	"github.com/grokify/goauth/credentials"
+	"github.com/grokify/goauth/endpoints"
 	"golang.org/x/oauth2"
 	"gopkg.in/jeevatkm/go-model.v1"
 )
 
 const (
-	AuthzURL        = "https://login.salesforce.com/services/oauth2/authorize"
-	TokenURL        = "https://login.salesforce.com/services/oauth2/token"
-	RevokeURL       = "https://login.salesforce.com/services/oauth2/revoke"
+	AuthzURL        = endpoints.SalesforceAuthzURL
+	TokenURL        = endpoints.SalesforceTokenURL // #nosec G101
+	RevokeURL       = endpoints.SalesforceRevokeURL
 	ServerURLFormat = "https://%v.salesforce.com"
 	HostFormat      = "%v.salesforce.com"
 	TestServerURL   = "https://test.salesforce.com"

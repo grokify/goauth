@@ -25,7 +25,7 @@ func main() {
 
 	client := aha.NewClient(
 		os.Getenv(aha.AhaAccountEnv),
-		os.Getenv(aha.AhaApiKeyEnv),
+		os.Getenv(aha.AhaAPIKeyEnv),
 	)
 
 	clientUtil := aha.NewClientUtil(client)
