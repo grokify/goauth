@@ -20,9 +20,9 @@ import (
 
 const (
 	MetabaseSessionHeader = "X-Metabase-Session"
-	RelPathApiDatabase    = "api/database"
-	RelPathApiSession     = "api/session"
-	RelPathApiUserCurrent = "api/user/current"
+	RelPathAPIDatabase    = "api/database"
+	RelPathAPISession     = "api/session"
+	RelPathAPIUserCurrent = "api/user/current"
 
 	// Example environment variables
 	EnvMetabaseBaseURL       = "METABASE_BASE_URL"
@@ -66,7 +66,7 @@ func (cfg *Config) Validate() error {
 func NewClient(cfg Config) (*http.Client, *AuthResponse, error) {
 	cfg.SessionID = strings.TrimSpace(cfg.SessionID)
 	if len(cfg.SessionID) > 0 {
-		httpClient := NewClientSessionId(cfg.SessionID, cfg.TLSSkipVerify)
+		httpClient := NewClientSessionID(cfg.SessionID, cfg.TLSSkipVerify)
 		clientUtil := ClientUtil{
 			HTTPClient: httpClient,
 			BaseURL:    cfg.BaseURL}
@@ -94,9 +94,9 @@ type AuthResponse struct {
 
 // NewClient returns a *http.Client that will add the Metabase Session
 // header to each request.
-func NewClientPassword(baseUrl, username, password string, tlsSkipVerify bool) (*http.Client, *AuthResponse, error) {
+func NewClientPassword(baseURL, username, password string, tlsSkipVerify bool) (*http.Client, *AuthResponse, error) {
 	resp, err := AuthRequest(
-		urlutil.JoinAbsolute(baseUrl, RelPathApiSession),
+		urlutil.JoinAbsolute(baseURL, RelPathAPISession),
 		username,
 		password,
 		tlsSkipVerify)
@@ -110,29 +110,29 @@ func NewClientPassword(baseUrl, username, password string, tlsSkipVerify bool) (
 		return nil, res, err
 	}
 
-	return NewClientSessionId(res.Id, tlsSkipVerify), res, nil
+	return NewClientSessionID(res.Id, tlsSkipVerify), res, nil
 }
 
 // NewClientPasswordWithSessionId returns a *http.Client first attempting to use
 // the supplied `sessionId` with a fallback to `username` and `password`.
-func NewClientPasswordWithSessionId(baseUrl, username, password, sessionId string, tlsSkipVerify bool) (*http.Client, *AuthResponse, error) {
-	sessionId = strings.TrimSpace(sessionId)
-	if len(sessionId) > 0 {
-		httpClient := NewClientSessionId(sessionId, tlsSkipVerify)
-		userUrl := urlutil.JoinAbsolute(baseUrl, RelPathApiUserCurrent)
-		resp, err := httpClient.Get(userUrl)
+func NewClientPasswordWithSessionID(baseURL, username, password, sessionID string, tlsSkipVerify bool) (*http.Client, *AuthResponse, error) {
+	sessionID = strings.TrimSpace(sessionID)
+	if len(sessionID) > 0 {
+		httpClient := NewClientSessionID(sessionID, tlsSkipVerify)
+		userURL := urlutil.JoinAbsolute(baseURL, RelPathAPIUserCurrent)
+		resp, err := httpClient.Get(userURL)
 		if err == nil && resp.StatusCode == 200 {
 			return httpClient, nil, nil
 		}
 	}
-	return NewClientPassword(baseUrl, username, password, tlsSkipVerify)
+	return NewClientPassword(baseURL, username, password, tlsSkipVerify)
 }
 
-func NewClientSessionId(sessionId string, tlsSkipVerify bool) *http.Client {
+func NewClientSessionID(sessionID string, tlsSkipVerify bool) *http.Client {
 	client := &http.Client{}
 
 	header := http.Header{}
-	header.Add(MetabaseSessionHeader, sessionId)
+	header.Add(MetabaseSessionHeader, sessionID)
 
 	if tlsSkipVerify {
 		client = goauth.ClientTLSInsecureSkipVerify(client)
@@ -155,7 +155,7 @@ type ConfigEnvOpts struct {
 	EnvMetabaseBaseURL       string
 	EnvMetabaseSessionID     string
 	EnvMetabaseUsername      string
-	EnvMetabasePassword      string
+	EnvMetabasePassword      string // #nosec G101
 	EnvMetabaseTLSSkipVerify string
 }
 

@@ -163,7 +163,7 @@ func (apiutil *ClientUtil) GetSCIMUser() (scim.User, error) {
 	if err != nil {
 		return scimUser, err
 	}
-	googUser := GoogleUserinfoOpenIdConnectV2{}
+	googUser := GoogleUserinfoOpenIDConnectV2{}
 	err = json.Unmarshal(bodyBytes, &googUser)
 	if err != nil {
 		return scimUser, err
