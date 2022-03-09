@@ -72,7 +72,7 @@ func EnvOAuth2ConfigMap(env []osutil.EnvVar, prefix string) (*ConfigMoreSet, err
 		m := rx.FindStringSubmatch(key)
 		if len(m) > 0 {
 			key := m[1]
-			err := cfgs.AddConfigMoreJson(key, []byte(val))
+			err := cfgs.AddConfigMoreJSON(key, []byte(val))
 			if err != nil {
 				return nil, err
 			}
