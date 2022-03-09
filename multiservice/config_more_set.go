@@ -59,8 +59,8 @@ func (cfgs *ConfigMoreSet) ClientURLsMap() map[string]AppURLs {
 	apps := map[string]AppURLs{}
 	for slug, cfg := range cfgs.ConfigMoreMap {
 		apps[slug] = AppURLs{
-			AuthURL:     cfg.AuthUri,
-			RedirectURL: stringsutil.SliceIndexOrEmpty(cfg.RedirectUris, 0),
+			AuthURL:     cfg.AuthURI,
+			RedirectURL: stringsutil.SliceIndexOrEmpty(cfg.RedirectURIs, 0),
 		}
 	}
 	return apps

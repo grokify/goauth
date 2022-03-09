@@ -58,8 +58,8 @@ func (au *PKCEAuthorizationURLInfo) Data() (string, string, string, error) {
 	}
 	challenge := CreatePKCEChallengeS256(verifier)
 	au.CodeChallenge = challenge
-	myUrl, err := au.url()
-	return verifier, challenge, myUrl, err
+	myURL, err := au.url()
+	return verifier, challenge, myURL, err
 }
 
 type PKCETokenURLInfo struct {

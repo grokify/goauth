@@ -13,13 +13,13 @@ import (
 // O2ConfigCanonical is similar to Google but includes scopes
 type O2ConfigMore struct {
 	Provider                string   `json:"provider,omitempty"`
-	ClientId                string   `json:"client_id,omitempty"`
+	ClientID                string   `json:"client_id,omitempty"`
 	ClientSecret            string   `json:"client_secret,omitempty"`
-	ProjectId               string   `json:"project_id,omitempty"`
-	AuthUri                 string   `json:"auth_uri,omitempty"`
-	TokenUri                string   `json:"token_uri,omitempty"`
-	AuthProviderX509CertUrl string   `json:"auth_provider_x509_cert_url,omitempty"`
-	RedirectUris            []string `json:"redirect_uris,omitempty"`
+	ProjectID               string   `json:"project_id,omitempty"`
+	AuthURI                 string   `json:"auth_uri,omitempty"`
+	TokenURI                string   `json:"token_uri,omitempty"`
+	AuthProviderX509CertURL string   `json:"auth_provider_x509_cert_url,omitempty"`
+	RedirectURIs            []string `json:"redirect_uris,omitempty"`
 	JavaScriptOrigins       []string `json:"javascript_origins,omitempty"`
 	Scopes                  []string `json:"scopes,omitempty"`
 }
@@ -33,11 +33,11 @@ func NewO2ConfigMoreFromJSON(bytes []byte) (*O2ConfigMore, error) {
 	o2cc.Provider = strings.ToLower(strings.TrimSpace(o2cc.Provider))
 	switch o2cc.Provider {
 	case "facebook":
-		if len(strings.TrimSpace(o2cc.AuthUri)) == 0 {
-			o2cc.AuthUri = facebook.Endpoint.AuthURL
+		if len(strings.TrimSpace(o2cc.AuthURI)) == 0 {
+			o2cc.AuthURI = facebook.Endpoint.AuthURL
 		}
-		if len(strings.TrimSpace(o2cc.TokenUri)) == 0 {
-			o2cc.TokenUri = facebook.Endpoint.TokenURL
+		if len(strings.TrimSpace(o2cc.TokenURI)) == 0 {
+			o2cc.TokenURI = facebook.Endpoint.TokenURL
 		}
 	}
 	return &o2cc, nil
@@ -49,13 +49,13 @@ func (cm *O2ConfigMore) ProviderType() (OAuth2Provider, error) {
 
 func (cm *O2ConfigMore) Config() *oauth2.Config {
 	return &oauth2.Config{
-		ClientID:     cm.ClientId,
+		ClientID:     cm.ClientID,
 		ClientSecret: cm.ClientSecret,
 		RedirectURL:  cm.RedirectURL(),
 		Scopes:       cm.Scopes,
 		Endpoint: oauth2.Endpoint{
-			AuthURL:  cm.AuthUri,
-			TokenURL: cm.TokenUri}}
+			AuthURL:  cm.AuthURI,
+			TokenURL: cm.TokenURI}}
 }
 
 func (cm *O2ConfigMore) AuthURL(state string) string {
@@ -64,7 +64,7 @@ func (cm *O2ConfigMore) AuthURL(state string) string {
 
 func (cm *O2ConfigMore) RedirectURL() string {
 	redirectURL := ""
-	for _, try := range cm.RedirectUris {
+	for _, try := range cm.RedirectURIs {
 		try := strings.TrimSpace(try)
 		if len(try) > 0 {
 			redirectURL = try
