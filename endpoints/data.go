@@ -79,14 +79,14 @@ const (
 	RingcentralTokenURL         = "https://platform.ringcentral.com/restapi/oauth/token" // #nosec G101
 	RingcentralServerURL        = "https://platform.ringcentral.com"
 	RingcentralSandboxAuthzURL  = "https://platform.devtest.ringcentral.com/restapi/oauth/authorize"
-	RingcentralSandboxTokenURL  = "https://platform.devtest.ringcentral.com/restapi/oauth/token"
+	RingcentralSandboxTokenURL  = "https://platform.devtest.ringcentral.com/restapi/oauth/token" // #nosec G101
 	RingcentralSandboxServerURL = "https://platform.devtest.ringcentral.com"
 	ShippoAuthzURL              = "https://goshippo.com/oauth/authorize"
 	ShippoTokenURL              = "https://goshippo.com/oauth/access_token" // #nosec G101
 	ShopifyAuthzURLFormat       = "https://%s.myshopify.com/admin/oauth/authorize"
 	ShopifyTokenURLFormat       = "https://%s.myshopify.com/admin/oauth/access_token" // #nosec G101
 	SlackAuthzURL               = "https://slack.com/oauth/authorize"
-	SlackTokenURL               = "https://slack.com/api/oauth.access"
+	SlackTokenURL               = "https://slack.com/api/oauth.access" // #nosec G101
 	SlackServerURL              = "https://slack.com/api"
 	StackoverflowAuthzURL       = "https://stackoverflow.com/oauth"
 	StackoverflowTokenURL       = "https://stackoverflow.com/oauth/access_token" // #nosec G101
@@ -99,7 +99,7 @@ const (
 	UberAuthzURL                = "https://login.uber.com/oauth/v2/authorize"
 	UberTokenURL                = "https://login.uber.com/oauth/v2/token" // #nosec G101
 	WepayAuthzURL               = "https://www.wepay.com/v2/oauth2/authorize"
-	WepayTokenURL               = "https://wepayapi.com/v2/oauth2/token"
+	WepayTokenURL               = "https://wepayapi.com/v2/oauth2/token" // #nosec G101
 	WepaySandboxAuthzURL        = "https://stage.wepay.com/v2/oauth2/authorize"
 	WepaySandboxTokenURL        = "https://stage.wepayapi.com/v2/oauth2/token" // #nosec G101
 	WrikeAuthzURL               = "https://login.wrike.com/oauth2/authorize/v4"

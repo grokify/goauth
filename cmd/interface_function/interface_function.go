@@ -43,13 +43,11 @@ func ChooseClient(s string) goauth.OAuth2Util {
 }
 
 func main() {
-	var item Interface
-	item = Choose("b")
+	item := Choose("b")
 	PrintInterfaceFunction(item)
 	//fmt.Println(item.Function())
 
-	var clientUtil goauth.OAuth2Util
-	clientUtil = ChooseClient("aha")
+	clientUtil := ChooseClient("aha")
 	fmt.Printf("%v\n", clientUtil)
 	fmt.Println("DONE'")
 }
