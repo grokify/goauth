@@ -30,7 +30,7 @@ func (cu *ClientUtil) GetUserinfo() (*Me, error) {
 	if err != nil {
 		return nil, err
 	} else if resp.StatusCode >= 300 {
-		return nil, fmt.Errorf("Zendesk API Status Code %v", resp.StatusCode)
+		return nil, fmt.Errorf("zendesk api status code [%v]", resp.StatusCode)
 	}
 	cu.MeUser = *me
 	return me, err
