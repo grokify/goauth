@@ -89,7 +89,7 @@ type authRequest struct {
 }
 
 type AuthResponse struct {
-	Id string `json:"id,omitempty"`
+	ID string `json:"id,omitempty"`
 }
 
 // NewClient returns a *http.Client that will add the Metabase Session
@@ -110,7 +110,7 @@ func NewClientPassword(baseURL, username, password string, tlsSkipVerify bool) (
 		return nil, res, err
 	}
 
-	return NewClientSessionID(res.Id, tlsSkipVerify), res, nil
+	return NewClientSessionID(res.ID, tlsSkipVerify), res, nil
 }
 
 // NewClientPasswordWithSessionId returns a *http.Client first attempting to use
@@ -237,13 +237,13 @@ func NewClientEnv(initCfg ConfigEnvOpts) (*http.Client, *AuthResponse, error) {
 // AuthRequest creates an authentiation request that returns a id that is used
 // in Metabase API requests. It follows the following curl command:
 // curl -v -H "Content-Type: application/json" -d '{"username":"myusername","password":"mypassword"}' -XPOST 'http://example.com/api/session'
-func AuthRequest(authUrl, username, password string, tlsSkipVerify bool) (*http.Response, error) {
+func AuthRequest(authURL, username, password string, tlsSkipVerify bool) (*http.Response, error) {
 	bodyBytes, err := json.Marshal(authRequest{Username: username, Password: password})
 	if err != nil {
 		return nil, err
 	}
 
-	req, err := http.NewRequest(http.MethodPost, authUrl, bytes.NewBuffer(bodyBytes))
+	req, err := http.NewRequest(http.MethodPost, authURL, bytes.NewBuffer(bodyBytes))
 	if err != nil {
 		return nil, err
 	}
