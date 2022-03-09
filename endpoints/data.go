@@ -81,6 +81,9 @@ const (
 	RingcentralSandboxAuthzURL  = "https://platform.devtest.ringcentral.com/restapi/oauth/authorize"
 	RingcentralSandboxTokenURL  = "https://platform.devtest.ringcentral.com/restapi/oauth/token" // #nosec G101
 	RingcentralSandboxServerURL = "https://platform.devtest.ringcentral.com"
+	SalesforceAuthzURL          = "https://login.salesforce.com/services/oauth2/authorize"
+	SalesforceTokenURL          = "https://login.salesforce.com/services/oauth2/token" // #nosec G101
+	SalesforceRevokeURL         = "https://login.salesforce.com/services/oauth2/revoke"
 	ShippoAuthzURL              = "https://goshippo.com/oauth/authorize"
 	ShippoTokenURL              = "https://goshippo.com/oauth/access_token" // #nosec G101
 	ShopifyAuthzURLFormat       = "https://%s.myshopify.com/admin/oauth/authorize"
