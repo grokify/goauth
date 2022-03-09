@@ -75,7 +75,7 @@ func (cfg *appConfig) LoginHandler(w http.ResponseWriter, r *http.Request) {
 	// in production.
 	cookie := http.Cookie{Name: VerifierCookieName, Value: verifier}
 	http.SetCookie(w, &cookie)
-	w.Header().Set(httputilmore.HeaderContentType, httputilmore.ContentTypeTextHtmlUtf8)
+	w.Header().Set(httputilmore.HeaderContentType, httputilmore.ContentTypeTextHTMLUtf8)
 	w.WriteHeader(http.StatusOK)
 	fmt.Fprintf(w, tmpl, WebsiteTitle, WebsiteTitle, verifier, challenge, authUrl)
 	zlog.Debug().Msg("END_LOGIN_HANDLER")
@@ -132,7 +132,7 @@ func (cfg *appConfig) Oauth2CallbackHandler(w http.ResponseWriter, r *http.Reque
   </body>
 </html>`
 
-	w.Header().Set(httputilmore.HeaderContentType, httputilmore.ContentTypeTextHtmlUtf8)
+	w.Header().Set(httputilmore.HeaderContentType, httputilmore.ContentTypeTextHTMLUtf8)
 	w.WriteHeader(http.StatusOK)
 	fmt.Fprintf(w, tmpl, WebsiteTitle, WebsiteTitle, string(respBody))
 	zlog.Debug().Msg("END_LOGIN_HANDLER")

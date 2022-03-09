@@ -248,7 +248,7 @@ func AuthRequest(authUrl, username, password string, tlsSkipVerify bool) (*http.
 		return nil, err
 	}
 
-	req.Header.Add(httputilmore.HeaderContentType, httputilmore.ContentTypeAppJsonUtf8)
+	req.Header.Add(httputilmore.HeaderContentType, httputilmore.ContentTypeAppJSONUtf8)
 
 	client := &http.Client{}
 
@@ -262,7 +262,7 @@ func AuthRequest(authUrl, username, password string, tlsSkipVerify bool) (*http.
 }
 
 func BuildURL(server, urlpath string) string {
-	if urlutil.IsHttp(urlpath, true, true) {
+	if urlutil.IsHTTP(urlpath, true, true) {
 		return urlpath
 	}
 	return urlutil.JoinAbsolute(server, urlpath)

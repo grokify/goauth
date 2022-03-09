@@ -83,7 +83,7 @@ func (tu *PKCETokenUrlInfo) Exchange() (*http.Response, error) {
 	if err != nil {
 		return nil, err
 	}
-	req.Header.Set(httputilmore.HeaderContentType, httputilmore.ContentTypeAppJsonUtf8)
+	req.Header.Set(httputilmore.HeaderContentType, httputilmore.ContentTypeAppJSONUtf8)
 	client := &http.Client{}
 	return client.Do(req)
 }
