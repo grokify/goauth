@@ -22,7 +22,10 @@ func ReadFileCredentialsSet(credentialsSetFilename string, inflateEndpoints bool
 		return set, err
 	}
 	if inflateEndpoints {
-		set.Inflate()
+		err := set.Inflate()
+		if err != nil {
+			return set, err
+		}
 	}
 	return set, nil
 }

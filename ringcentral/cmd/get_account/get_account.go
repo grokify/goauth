@@ -9,15 +9,14 @@ import (
 	"github.com/grokify/goauth/credentials"
 	"github.com/grokify/goauth/ringcentral"
 	"github.com/grokify/mogo/config"
+	"github.com/grokify/mogo/log/logutil"
 	"github.com/grokify/mogo/net/httputilmore"
 	"github.com/grokify/mogo/net/urlutil"
 )
 
 func main() {
 	err := config.LoadDotEnvSkipEmpty(os.Getenv("ENV_PATH"), "./.env")
-	if err != nil {
-		panic(err)
-	}
+	logutil.FatalOnError(err)
 
 	// client := &http.Client{}
 	var client *http.Client
@@ -34,20 +33,16 @@ func main() {
 				Username:     os.Getenv("RINGCENTRAL_USERNAME"),
 				Password:     os.Getenv("RINGCENTRAL_PASSWORD")})
 	}
-	if err != nil {
-		panic(err)
-	}
+	logutil.FatalOnError(err)
 
 	urlPath := "restapi/v1.0/account/~"
 
 	apiURL := urlutil.JoinAbsolute(os.Getenv("RINGCENTRAL_SERVER_URL"), urlPath)
 
 	resp, err := client.Get(apiURL)
-	if err != nil {
-		panic(err)
-	}
+	logutil.FatalOnError(err)
 
-	httputilmore.PrintResponse(resp, true)
+	logutil.FatalOnError(httputilmore.PrintResponse(resp, true))
 
 	fmt.Println("DONE")
 }
