@@ -1,20 +1,20 @@
 package sparkpost
 
 import (
-	sp "github.com/SparkPost/gosparkpost"
+	"github.com/SparkPost/gosparkpost"
 )
 
 const BaseUrl = "https://api.sparkpost.com"
 
-func NewConfig(apiKey string) *sp.Config {
-	return &sp.Config{
-		BaseUrl:    BaseUrl,
+func NewConfig(apiKey string) *gosparkpost.Config {
+	return &gosparkpost.Config{
+		BaseUrl:    BaseUrl, //nolint:gosec
 		ApiKey:     apiKey,
 		ApiVersion: 1}
 }
 
-func NewApiClient(apiKey string) (sp.Client, error) {
-	var client sp.Client
+func NewAPIClient(apiKey string) (gosparkpost.Client, error) {
+	var client gosparkpost.Client
 	err := client.Init(NewConfig(apiKey))
 	return client, err
 }

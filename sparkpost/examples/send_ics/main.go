@@ -169,7 +169,7 @@ func main() {
 			Msgf("Cannot parse env to %s", "appConfig{}")
 	}
 
-	client, err := sparkpost.NewApiClient(cfg.SparkPostApiKey)
+	client, err := sparkpost.NewAPIClient(cfg.SparkPostApiKey)
 	if err != nil {
 		log.Fatal().Err(err).
 			Str("lib", "github.com/goauth/sparkpost").
