@@ -78,7 +78,7 @@ func (user *User) DisplayNameAny() string {
 func (user *User) AddEmail(emailAddr string, isPrimary bool) error {
 	emailAddrCanonical := strings.ToLower(strings.TrimSpace(emailAddr))
 	if len(emailAddr) < 1 {
-		return fmt.Errorf("Invalid Email Address: %v", emailAddr)
+		return fmt.Errorf("invalid email address: %v", emailAddr)
 	}
 	email := Item{
 		Value:   emailAddrCanonical,
