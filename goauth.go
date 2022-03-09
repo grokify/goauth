@@ -124,7 +124,7 @@ func (w *AppCredentialsWrapper) Config() (*oauth2.Config, error) {
 	} else if w.Installed != nil {
 		c = w.Installed
 	} else {
-		return nil, errors.New("No OAuth2 config info")
+		return nil, errors.New("no OAuth2 config info")
 	}
 	c.Defaultify()
 	return c.Config(), nil
@@ -139,17 +139,17 @@ func NewAppCredentialsWrapperFromBytes(data []byte) (AppCredentialsWrapper, erro
 	return acw, err
 }
 
-func (c *AppCredentials) Config() *oauth2.Config {
+func (ac *AppCredentials) Config() *oauth2.Config {
 	cfg := &oauth2.Config{
-		ClientID:     c.ClientID,
-		ClientSecret: c.ClientSecret,
-		Scopes:       c.Scopes,
+		ClientID:     ac.ClientID,
+		ClientSecret: ac.ClientSecret,
+		Scopes:       ac.Scopes,
 		Endpoint: oauth2.Endpoint{
-			AuthURL:  c.AuthURI,
-			TokenURL: c.TokenURI}}
+			AuthURL:  ac.AuthURI,
+			TokenURL: ac.TokenURI}}
 
-	if len(c.RedirectURIs) > 0 {
-		cfg.RedirectURL = c.RedirectURIs[0]
+	if len(ac.RedirectURIs) > 0 {
+		cfg.RedirectURL = ac.RedirectURIs[0]
 	}
 	return cfg
 }
