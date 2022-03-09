@@ -1,6 +1,7 @@
 package ringcentral
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -33,7 +34,7 @@ func NewClientPassword(oc credentials.CredentialsOAuth2) (*http.Client, error) {
 		return nil, err
 	}
 
-	httpClient := c.Client(oauth2.NoContext, token)
+	httpClient := c.Client(context.Background(), token)
 
 	header := getClientHeader(oc)
 	if len(header) > 0 {

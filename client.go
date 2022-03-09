@@ -23,7 +23,7 @@ func NewClientPassword(conf oauth2.Config, ctx context.Context, username, passwo
 }
 
 func NewClientPasswordConf(conf oauth2.Config, username, password string) (*http.Client, error) {
-	token, err := conf.PasswordCredentialsToken(oauth2.NoContext, username, password)
+	token, err := conf.PasswordCredentialsToken(context.Background(), username, password)
 	if err != nil {
 		return &http.Client{}, err
 	}

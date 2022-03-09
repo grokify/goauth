@@ -5,13 +5,14 @@ import (
 	"strings"
 	"time"
 
+	"github.com/grokify/goauth/endpoints"
 	"github.com/grokify/goauth/scim"
 	"github.com/grokify/mogo/encoding/jsonutil"
 )
 
 const (
-	ZoomAPIOAuth2AuthzURL = "https://zoom.us/oauth/authorize"
-	ZoomAPIOAuth2TokenURL = "https://zoom.us/oauth/token"
+	ZoomAPIOAuth2AuthzURL = endpoints.ZoomAuthzURL
+	ZoomAPIOAuth2TokenURL = endpoints.ZoomTokenURL // #nosec G101
 	ZoomAPIBaseURL        = "https://api.zoom.us/v2/"
 	ZoomAPIMeURL          = "https://api.zoom.us/v2/users/me"
 	ZoomAPIUserIDMe       = "me"

@@ -21,7 +21,7 @@ const (
 	ProductionHostname   = "platform.ringcentral.com"
 	SandboxHostname      = "platform.devtest.ringcentral.com"
 	AuthURLFormat        = "https://%s/restapi/oauth/authorize"
-	TokenURLFormat       = "https://%s/restapi/oauth/token"
+	TokenURLFormat       = "https://%s/restapi/oauth/token" // #nosec G101
 	AuthURLPart          = "restapi/oauth/authorize"
 	TokenURLPart         = "restapi/oauth/token"
 	MeURL                = "/restapi/v1.0/account/~/extension/~"

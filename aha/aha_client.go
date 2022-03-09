@@ -12,7 +12,7 @@ import (
 const (
 	APIMeURL         = "https://secure.aha.io/api/v1/me"
 	AuthURLFormat    = "https://%s.aha.io/oauth/authorize"
-	TokenURLFormat   = "https://%s.aha.io/oauth/token"
+	TokenURLFormat   = "https://%s.aha.io/oauth/token" // #nosec G101
 	AhaAccountHeader = "X-AHA-ACCOUNT"
 )
 

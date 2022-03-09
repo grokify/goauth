@@ -1,6 +1,7 @@
 package goauth
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -52,7 +53,7 @@ func NewTokenCliFromWeb(cfg *oauth2.Config, state string) (*oauth2.Token, error)
 		return nil, errorsutil.Wrap(err, "Unable to read auth code")
 	}
 
-	tok, err := cfg.Exchange(oauth2.NoContext, code)
+	tok, err := cfg.Exchange(context.Background(), code)
 	if err != nil {
 		return tok, errorsutil.Wrap(err, "Unable to retrieve token from web")
 	}
