@@ -4,6 +4,7 @@ import (
 	"crypto/subtle"
 	"encoding/base64"
 	"fmt"
+	"log"
 	"net/http"
 	"strings"
 
@@ -75,7 +76,10 @@ func HandlerFuncWrapBasicAuth(handler http.HandlerFunc, username, password, real
 			subtle.ConstantTimeCompare([]byte(pass), []byte(password)) != 1 {
 			w.Header().Set(httputilmore.HeaderWWWAuthenticate, `Basic realm="`+realm+`"`)
 			w.WriteHeader(http.StatusUnauthorized)
-			w.Write([]byte("Unauthorized.\n"))
+			_, err := w.Write([]byte("Unauthorized.\n"))
+			if err != nil {
+				log.Println(err.Error())
+			}
 			return
 		}
 
