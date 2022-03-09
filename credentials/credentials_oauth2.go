@@ -134,7 +134,7 @@ func (oc *CredentialsOAuth2) NewToken(ctx context.Context) (*oauth2.Token, error
 	if oc.Token != nil && len(strings.TrimSpace(oc.Token.AccessToken)) > 0 {
 		return oc.Token, nil
 	} else if strings.Contains(strings.ToLower(oc.GrantType), "jwt") {
-		return goauth.NewTokenOAuth2Jwt(oc.Endpoint.TokenURL, oc.ClientID, oc.ClientSecret, oc.JWT)
+		return goauth.NewTokenOAuth2JWT(oc.Endpoint.TokenURL, oc.ClientID, oc.ClientSecret, oc.JWT)
 	} else if oc.IsGrantType(goauth.GrantTypeClientCredentials) {
 		config := oc.ConfigClientCredentials()
 		return config.Token(ctx)

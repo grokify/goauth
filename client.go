@@ -106,14 +106,14 @@ func NewClientTokenOAuth2(token *oauth2.Token) *http.Client {
 	return oAuthConfig.Client(context.Background(), token)
 }
 
-func NewClientBearerTokenSimpleOrJSON(ctx context.Context, tokenOrJson []byte) (*http.Client, error) {
-	tokenOrJsonString := strings.TrimSpace(string(tokenOrJson))
-	if len(tokenOrJsonString) == 0 {
-		return nil, fmt.Errorf("no token [%v]", string(tokenOrJson))
-	} else if strings.Index(tokenOrJsonString, "{") == 0 {
-		return NewClientTokenJSON(ctx, tokenOrJson)
+func NewClientBearerTokenSimpleOrJSON(ctx context.Context, tokenOrJSON []byte) (*http.Client, error) {
+	tokenOrJSONString := strings.TrimSpace(string(tokenOrJSON))
+	if len(tokenOrJSONString) == 0 {
+		return nil, fmt.Errorf("no token [%v]", string(tokenOrJSON))
+	} else if strings.Index(tokenOrJSONString, "{") == 0 {
+		return NewClientTokenJSON(ctx, tokenOrJSON)
 	} else {
-		return NewClientAuthzTokenSimple(TokenBearer, tokenOrJsonString), nil
+		return NewClientAuthzTokenSimple(TokenBearer, tokenOrJSONString), nil
 	}
 }
 
