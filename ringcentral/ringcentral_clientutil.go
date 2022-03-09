@@ -133,11 +133,11 @@ func BuildURL(serverURL, urlFragment string, addRestAPI bool, queryValues url.Va
 	} else {
 		apiURL = urlutil.JoinAbsolute(apiURL, urlFragment)
 	}
-	apiUrlGo, err := urlutil.URLAddQueryValuesString(apiURL, queryValues)
+	apiURLGo, err := urlutil.URLAddQueryValuesString(apiURL, queryValues)
 	if err != nil {
 		return serverURL, err
 	}
-	return apiUrlGo.String(), err
+	return apiURLGo.String(), err
 }
 
 /*

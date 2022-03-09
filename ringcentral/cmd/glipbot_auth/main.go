@@ -20,8 +20,8 @@ import (
 )
 
 type RingCentralConfig struct {
-	AppId        string `env:"RINGCENTRAL_APP_ID"`
-	ClientId     string `env:"RINGCENTRAL_CLIENT_ID"`
+	AppID        string `env:"RINGCENTRAL_APP_ID"`
+	ClientID     string `env:"RINGCENTRAL_CLIENT_ID"`
 	ClientSecret string `env:"RINGCENTRAL_CLIENT_SECRET"`
 	ServerURL    string `env:"RINGCENTRAL_SERVER_URL"`
 	RedirectURL  string `env:"RINGCENTRAL_REDIRECT_URL"`
@@ -48,7 +48,7 @@ func (app *AppHandler) HandleBotButton(w http.ResponseWriter, req *http.Request)
 
 	fmt.Fprintf(w,
 		bodyFormat,
-		app.AppConfig.AppId,
+		app.AppConfig.AppID,
 		url.QueryEscape(app.AppConfig.LandingURL))
 }
 
@@ -104,7 +104,7 @@ func (app *AppHandler) HandleOauth2(w http.ResponseWriter, req *http.Request) {
 
 func getOauth2Config(appCfg RingCentralConfig) oauth2.Config {
 	app := credentials.CredentialsOAuth2{
-		ClientID:     appCfg.ClientId,
+		ClientID:     appCfg.ClientID,
 		ClientSecret: appCfg.ClientSecret,
 		ServerURL:    appCfg.ServerURL,
 		RedirectURL:  appCfg.RedirectURL}
