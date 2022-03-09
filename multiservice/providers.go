@@ -44,7 +44,6 @@ func (p OAuth2Provider) String() string {
 		return providers[p]
 	}
 	panic(fmt.Sprintf("Provider not in range [%d]", p))
-	return ""
 }
 
 // ProviderStringToConst returns an OAuth2Provider type constant

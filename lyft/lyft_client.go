@@ -4,15 +4,12 @@ import (
 	"context"
 	"net/http"
 
+	"github.com/grokify/goauth/endpoints"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/clientcredentials"
 )
 
 const (
-	// OAuth 2.0 Endpoint URIs
-	AuthURL  = "https://api.lyft.com/oauth/authorize"
-	TokenURL = "https://api.lyft.com/oauth/token"
-
 	// OAuth 2.0 Scopes
 	Offline      = "offline"
 	Profile      = "profile"
@@ -23,15 +20,15 @@ const (
 
 func Endpoint() oauth2.Endpoint {
 	return oauth2.Endpoint{
-		AuthURL:  AuthURL,
-		TokenURL: TokenURL}
+		AuthURL:  endpoints.LyftAuthzURL,
+		TokenURL: endpoints.LyftTokenURL}
 }
 
 func NewClientCredentials(ctx context.Context, clientID, clientSecret string, scopes []string) *http.Client {
 	config := clientcredentials.Config{
 		ClientID:     clientID,
 		ClientSecret: clientSecret,
-		TokenURL:     TokenURL,
+		TokenURL:     endpoints.LyftTokenURL,
 		Scopes:       scopes}
 
 	return config.Client(ctx)

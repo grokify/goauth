@@ -140,7 +140,7 @@ type RcToken struct {
 	EndpointID            string    `json:"endpoint_id,omitempty"`
 	Expiry                time.Time `json:"expiry,omitempty"`
 	RefreshTokenExpiry    time.Time `json:"refresh_token_expiry,omitempty"`
-	inflated              bool      `json:"inflated"`
+	inflated              bool
 }
 
 func (rcTok *RcToken) Inflate() error {

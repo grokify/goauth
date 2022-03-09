@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"io"
-	"log"
 	"net/http"
 	"os"
 	"time"
@@ -29,14 +28,9 @@ func main() {
 	apiSecret := os.Getenv(zoom.EnvZoomApiSecret)
 
 	tokenString := ""
-	if 1 == 1 {
-		_, tokenString, err = zoom.CreateJwtToken(apiKey, apiSecret, time.Hour)
-		if err != nil {
-			log.Fatal(err)
-		}
-	} else {
-		tokenString = "tmpToken"
-	}
+
+	_, tokenString, err = zoom.CreateJwtToken(apiKey, apiSecret, time.Hour)
+	logutil.FatalOnError(err)
 
 	fmt.Printf("TOK [%v]\n", tokenString)
 
@@ -44,9 +38,8 @@ func main() {
 		token, err := goauth.ParseJwtTokenString(
 			tokenString, apiSecret,
 			&jwt.StandardClaims{Issuer: apiKey})
-		if err != nil {
-			log.Fatal(err)
-		}
+		logutil.FatalOnError(err)
+
 		fmtutil.MustPrintJSON(token.Claims)
 	}
 

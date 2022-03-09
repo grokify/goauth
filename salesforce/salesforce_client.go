@@ -36,13 +36,13 @@ func NewClientPassword(oc credentials.CredentialsOAuth2) (*http.Client, error) {
 			conf.Endpoint = oc.Endpoint
 		}
 	}
-	if 1 == 1 {
-		if model.IsZero(oc.Endpoint) {
-			conf.Endpoint = Endpoint
-		} else {
-			conf.Endpoint = oc.Endpoint
-		}
+
+	if model.IsZero(oc.Endpoint) {
+		conf.Endpoint = Endpoint
+	} else {
+		conf.Endpoint = oc.Endpoint
 	}
+
 	return goauth.NewClientPasswordConf(conf, oc.Username, oc.Password)
 }
 
