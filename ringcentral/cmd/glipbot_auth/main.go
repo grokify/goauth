@@ -91,7 +91,7 @@ func (app *AppHandler) HandleOauth2(w http.ResponseWriter, req *http.Request) {
 		printString(w, err.Error())
 		return
 	}
-	fmtutil.PrintJSON(u)
+	fmtutil.MustPrintJSON(u)
 
 	bytes, err = json.Marshal(u)
 	if err != nil {

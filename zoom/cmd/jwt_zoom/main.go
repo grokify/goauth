@@ -14,16 +14,16 @@ import (
 	"github.com/grokify/gohttp/httpsimple"
 	"github.com/grokify/mogo/config"
 	"github.com/grokify/mogo/fmt/fmtutil"
+	"github.com/grokify/mogo/log/logutil"
 	"github.com/grokify/mogo/net/urlutil"
 )
 
 func main() {
 	files, err := config.LoadDotEnv(
 		".env", os.Getenv("ENV_PATH"))
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmtutil.PrintJSON(files)
+	logutil.FatalOnError(err)
+
+	fmtutil.MustPrintJSON(files)
 
 	apiKey := os.Getenv(zoom.EnvZoomApiKey)
 	apiSecret := os.Getenv(zoom.EnvZoomApiSecret)
@@ -47,37 +47,32 @@ func main() {
 		if err != nil {
 			log.Fatal(err)
 		}
-		fmtutil.PrintJSON(token.Claims)
+		fmtutil.MustPrintJSON(token.Claims)
 	}
 
 	client := zoom.NewClientToken(tokenString)
 
 	resp, err := client.Get("https://api.zoom.us/v2/users/")
-	if err != nil {
-		log.Fatal(err)
-	}
+	logutil.FatalOnError(err)
+
 	bytes, err := io.ReadAll(resp.Body)
-	if err != nil {
-		log.Fatal(err)
-	}
+	logutil.FatalOnError(err)
+
 	fmt.Printf("RESP: %s\n", string(bytes))
 
 	cu := zoom.NewClientUtil(client)
 	scimUser, err := cu.GetSCIMUser()
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmtutil.PrintJSON(cu.UserNative)
-	fmtutil.PrintJSON(scimUser)
+	logutil.FatalOnError(err)
+
+	fmtutil.MustPrintJSON(cu.UserNative)
+	fmtutil.MustPrintJSON(scimUser)
 
 	resp, err = createMeeting(client)
-	if err != nil {
-		log.Fatal(err)
-	}
+	logutil.FatalOnError(err)
+
 	bytes, err = io.ReadAll(resp.Body)
-	if err != nil {
-		log.Fatal(err)
-	}
+	logutil.FatalOnError(err)
+
 	fmt.Println(string(bytes))
 
 	fmt.Println("DONE")

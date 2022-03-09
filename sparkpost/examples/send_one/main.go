@@ -38,7 +38,7 @@ func main() {
 			Msg("Load env files failed")
 	}
 
-	client, err := sparkpost.NewApiClient(os.Getenv("SPARKPOST_API_KEY"))
+	client, err := sparkpost.NewAPIClient(os.Getenv("SPARKPOST_API_KEY"))
 	if err != nil {
 		log.Fatal().Err(err).
 			Msg("SparkPost client init faile")

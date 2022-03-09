@@ -86,7 +86,10 @@ func (sc *SalesforceClient) GetAccountsAll() (sobjects.AccountSet, error) {
 		return sobjects.AccountSet{}, err
 	}
 
-	httputilmore.PrintResponse(resp, true)
+	err = httputilmore.PrintResponse(resp, true)
+	if err != nil {
+		return sobjects.AccountSet{}, err
+	}
 
 	return sobjects.NewAccountSetFromJSONResponse(resp)
 }
@@ -102,7 +105,10 @@ func (sc *SalesforceClient) DeleteAccountsAll() error {
 			continue
 		}
 		if resp.StatusCode > 299 {
-			httputilmore.PrintResponse(resp, true)
+			err := httputilmore.PrintResponse(resp, true)
+			if err != nil {
+				return err
+			}
 			fmt.Printf("%v\n", resp.StatusCode)
 			continue
 		}
@@ -141,7 +147,10 @@ func (sc *SalesforceClient) DeleteContactsAll() error {
 			return err
 		}
 		if resp.StatusCode > 299 {
-			httputilmore.PrintResponse(resp, true)
+			err := httputilmore.PrintResponse(resp, true)
+			if err != nil {
+				return err
+			}
 			fmt.Printf("%v\n", resp.StatusCode)
 			continue
 		}
