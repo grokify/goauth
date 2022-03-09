@@ -57,7 +57,7 @@ const (
 	HubspotAuthzURL             = "https://app.hubspot.com/oauth/authorize"
 	HubspotTokenURL             = "https://api.hubapi.com/oauth/v1/token" // #nosec G101
 	InstagramAuthzURL           = "https://api.instagram.com/oauth/authorize"
-	InstagramTokenURL           = "https://api.instagram.com/oauth/access_token"
+	InstagramTokenURL           = "https://api.instagram.com/oauth/access_token" // #nosec G101
 	LyftAuthzURL                = "https://www.lyft.com/oauth/authorize"
 	LyftTokenURL                = "https://api.lyft.com/oauth/token" // #nosec G101
 	MailchimpAuthzURL           = "https://login.mailchimp.com/oauth2/authorize"
@@ -69,9 +69,9 @@ const (
 	PagerdutyTokenURL           = "https://app.pagerduty.com/oauth/token" // #nosec G101
 	PagerdutyServerURL          = "https://api.pagerduty.com"
 	PaypalAuthzURL              = "https://www.paypal.com/webapps/auth/protocol/openidconnect/v1/authorize"
-	PaypalTokenURL              = "https://api.paypal.com/v1/identity/openidconnect/tokenservice"
+	PaypalTokenURL              = "https://api.paypal.com/v1/identity/openidconnect/tokenservice" // #nosec G101
 	PaypalSandboxAuthzURL       = "https://www.sandbox.paypal.com/webapps/auth/protocol/openidconnect/v1/authorize"
-	PaypalSandboxTokenURL       = "https://api.sandbox.paypal.com/v1/identity/openidconnect/tokenservice"
+	PaypalSandboxTokenURL       = "https://api.sandbox.paypal.com/v1/identity/openidconnect/tokenservice" // #nosec G101
 	PipedriveAuthzURL           = "https://oauth.pipedrive.com/oauth/authorize"
 	PipedriveTokenURL           = "https://oauth.pipedrive.com/oauth/token"           // #nosec G101
 	PracticesuiteTokenURL       = "https://staging.practicesuite.com/uaa/oauth/token" // #nosec G101

@@ -3,9 +3,9 @@ package multiservice
 import (
 	"encoding/json"
 	"fmt"
-	"math/rand"
 	"strings"
 
+	"github.com/grokify/mogo/crypto/randutil"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/facebook"
 )
@@ -80,7 +80,8 @@ func RandomState(statePrefix string, randomSuffix bool) string {
 		parts = append(parts, statePrefix)
 	}
 	if randomSuffix {
-		parts = append(parts, fmt.Sprintf("%v", rand.Intn(1000000000)))
+		cr := randutil.NewCryptoRand(nil, nil)
+		parts = append(parts, fmt.Sprintf("%v", cr.MustIntn(1000000000)))
 	}
 	return strings.Join(parts, "-")
 }
