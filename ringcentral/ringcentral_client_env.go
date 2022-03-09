@@ -10,7 +10,7 @@ import (
 	"github.com/grokify/goauth/credentials"
 )
 
-func NewHttpClientEnvFlexStatic(envPrefix string) (*http.Client, error) {
+func NewHTTPClientEnvFlexStatic(envPrefix string) (*http.Client, error) {
 	envPrefix = strings.TrimSpace(envPrefix)
 	if len(envPrefix) == 0 {
 		envPrefix = "RINGCENTRAL_"
@@ -29,5 +29,5 @@ func NewHttpClientEnvFlexStatic(envPrefix string) (*http.Client, error) {
 		return NewClientPassword(credentials.NewCredentialsOAuth2Env(envPrefix))
 	}
 
-	return nil, fmt.Errorf("Cannot load client from ENV for prefix [%v]", envPassword)
+	return nil, fmt.Errorf("cannot load client from ENV for prefix [%v]", envPassword)
 }

@@ -63,8 +63,8 @@ func (cu *ClientUtil) GetQuestionData(cardID int) ([]byte, error) {
 }
 
 func (cu *ClientUtil) BuildMetabaseCardAPI(cardID int, format string) string {
-	relUrl := fmt.Sprintf("api/card/%v/query/%s", cardID, format)
-	return urlutil.JoinAbsolute(cu.BaseURL, relUrl)
+	relURL := fmt.Sprintf("api/card/%v/query/%s", cardID, format)
+	return urlutil.JoinAbsolute(cu.BaseURL, relURL)
 }
 
 type QuestionsToSlug struct {
@@ -77,7 +77,7 @@ func RetrieveQuestions(cu ClientUtil, q2s QuestionsToSlug, dir string) (map[stri
 	output := map[string][]byte{}
 	for name, cardID := range q2s.QuestionMap {
 		filename := fmt.Sprintf("data_%v_%v.json", dt8, name)
-		data, err := cu.GetStoreQuestionData(cardID, filename, 0644)
+		data, err := cu.GetStoreQuestionData(cardID, filename, 0600)
 		if err != nil {
 			return output, errorsutil.Wrap(err, fmt.Sprintf("error retrieving card #[%v] name[%v]", cardID, name))
 		}
@@ -97,7 +97,7 @@ func (cu *ClientUtil) GetCurrentUser() (User, *http.Response, error) {
 	if err != nil {
 		return user, nil, err
 	} else if resp.StatusCode >= 300 {
-		return user, resp, fmt.Errorf("MB_API_ERROR_STATUS_CODE [%v]", resp.StatusCode)
+		return user, resp, fmt.Errorf("metabase api error status code [%v]", resp.StatusCode)
 	}
 	bytes, err := io.ReadAll(resp.Body)
 	if err != nil {
