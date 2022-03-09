@@ -106,7 +106,6 @@ func NewClientFileStore(
 	useDefaultDir bool,
 	forceNewToken bool,
 	state string) (*http.Client, error) {
-
 	if len(strings.TrimSpace(string(credentials))) == 0 {
 		return nil, errorsutil.Wrap(errors.New("No Credentials Provided"), "GoogleConfigFileStore.LoadCredentialsBytes()")
 	}

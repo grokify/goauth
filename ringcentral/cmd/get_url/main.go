@@ -83,7 +83,7 @@ func main() {
 	fmtutil.MustPrintJSON(sr)
 	sclient, err := creds.NewSimpleClient(httpClient)
 	if err != nil {
-		fmt.Println(string(err.Error()))
+		fmt.Println(err.Error())
 		log.Fatal(err)
 	}
 
