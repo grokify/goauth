@@ -31,16 +31,16 @@ type GoogleConfigFileStore struct {
 // LoadCredentialsBytes set this after setting Scopes.
 func (gc *GoogleConfigFileStore) LoadCredentialsBytes(bytes []byte) error {
 	if len(strings.TrimSpace(string(bytes))) == 0 {
-		return errorsutil.Wrap(errors.New("No Credentials Provided"), "GoogleConfigFileStore.LoadCredentialsBytes()")
+		return errorsutil.Wrap(errors.New("no credentials provided"), "err GoogleConfigFileStore.LoadCredentialsBytes()")
 	}
 	o2Config, err := ConfigFromBytes(bytes, gc.Scopes)
 	if err != nil {
-		return errorsutil.Wrap(err, "GoogleConfigFileStore.LoadCredentialsBytes() - ConfigFromBytes")
+		return errorsutil.Wrap(err, "err GoogleConfigFileStore.LoadCredentialsBytes() - ConfigFromBytes")
 	}
 	gc.CredentialsRaw = bytes
 	credsContainer, err := CredentialsContainerFromBytes(bytes)
 	if err != nil {
-		return errorsutil.Wrap(err, "GoogleConfigFileStore.LoadCredentialsBytes() - CredentialsContainerFromBytes")
+		return errorsutil.Wrap(err, "err GoogleConfigFileStore.LoadCredentialsBytes() - CredentialsContainerFromBytes")
 	}
 	gc.Credentials = credsContainer.Credentials()
 	gc.OAuthConfig = o2Config
@@ -54,7 +54,7 @@ func (gc *GoogleConfigFileStore) SetDefaultFilepath() error {
 	clientID := "PlaceholderClientId"
 	creds := gc.Credentials
 	if creds == nil || len(strings.TrimSpace(creds.ClientID)) == 0 {
-		return errors.New("GoogleConfigFileStore.SetDefaultFilepath() - No Credentials Loaded")
+		return errors.New("err GoogleConfigFileStore.SetDefaultFilepath() - No Credentials Loaded")
 	}
 	creds.ProjectID = strings.TrimSpace(creds.ProjectID)
 	creds.ClientID = strings.TrimSpace(creds.ClientID)
@@ -68,7 +68,7 @@ func (gc *GoogleConfigFileStore) SetDefaultFilepath() error {
 	for _, scope := range gc.Scopes {
 		leaf, err := urlutil.GetPathLeaf(scope)
 		if err != nil {
-			return errorsutil.Wrap(err, "GoogleConfigFileStore.SetDefaultFilepath - GetPathLeaf")
+			return errorsutil.Wrap(err, "err GoogleConfigFileStore.SetDefaultFilepath - GetPathLeaf")
 		}
 		leaf = strings.TrimSpace(leaf)
 		if len(leaf) > 0 {
@@ -107,7 +107,7 @@ func NewClientFileStore(
 	forceNewToken bool,
 	state string) (*http.Client, error) {
 	if len(strings.TrimSpace(string(credentials))) == 0 {
-		return nil, errorsutil.Wrap(errors.New("No Credentials Provided"), "GoogleConfigFileStore.LoadCredentialsBytes()")
+		return nil, errorsutil.Wrap(errors.New("no credentials provided"), "err GoogleConfigFileStore.LoadCredentialsBytes()")
 	}
 
 	conf, err := ConfigFromBytes(credentials, scopes)
@@ -126,7 +126,7 @@ func NewClientFileStore(
 		cu := NewClientUtil(googHttpClient)
 		_, err := cu.GetUserinfo()
 		if err != nil {
-			fmt.Printf("E_GOOGLE_USER_PROFILE_API_ERROR [%v] ... Getting New Token...\n", err.Error())
+			fmt.Printf("error for Google user profile API [%v] ... Getting New Token", err.Error())
 			googHttpClient, err = goauth.NewClientWebTokenStore(context.Background(), conf, tokenStore, true, state)
 			if err != nil {
 				return nil, err
@@ -145,11 +145,11 @@ func NewClientFileStoreWithDefaults(googleCredentials []byte, googleScopes []str
 		ForceNewToken: forceNewToken}
 	err := gcfs.LoadCredentialsBytes(googleCredentials)
 	if err != nil {
-		return nil, errorsutil.Wrap(err, "NewGoogleClient - LoadCredentialsBytes")
+		return nil, errorsutil.Wrap(err, "err NewClientFileStoreWithDefaults - LoadCredentialsBytes")
 	}
 	err = gcfs.SetDefaultFilepath()
 	if err != nil {
-		return nil, errorsutil.Wrap(err, "NewGoogleClient - SetDefaultFilepath")
+		return nil, errorsutil.Wrap(err, "err NewClientFileStoreWithDefaults - SetDefaultFilepath")
 	}
 	return gcfs.Client()
 }

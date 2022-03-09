@@ -34,7 +34,7 @@ func (apiutil *ClientUtil) GetUserinfo() (*AhaUserinfo, error) {
 	if err != nil {
 		return nil, err
 	} else if resp.StatusCode >= 300 {
-		return nil, fmt.Errorf("Aha.io API returned Status Code %v", resp.StatusCode)
+		return nil, fmt.Errorf("bad status code Aha.io API returned Status Code [%v]", resp.StatusCode)
 	}
 
 	bodyBytes, err := io.ReadAll(resp.Body)
