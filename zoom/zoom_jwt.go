@@ -12,9 +12,9 @@ import (
 )
 
 const (
-	EnvZoomApiKey           = "ZOOM_API_KEY"
-	EnvZoomApiSecret        = "ZOOM_API_SECRET"
-	HeaderUserAgentJwtValue = "Zoom-api-Jwt-Request"
+	EnvZoomAPIKey           = "ZOOM_API_KEY"
+	EnvZoomAPISecret        = "ZOOM_API_SECRET"
+	HeaderUserAgentJWTValue = "Zoom-api-Jwt-Request"
 )
 
 func CreateJwtToken(apiKey, apiSecret string, tokenDuration time.Duration) (*jwt.Token, string, error) {
@@ -37,6 +37,6 @@ func NewClientToken(bearerToken string) *http.Client {
 	return goauth.NewClientHeaders(
 		map[string][]string{
 			httputilmore.HeaderAuthorization: {goauth.TokenBearer + " " + bearerToken},
-			httputilmore.HeaderUserAgent:     {HeaderUserAgentJwtValue}},
+			httputilmore.HeaderUserAgent:     {HeaderUserAgentJWTValue}},
 		false)
 }
