@@ -100,7 +100,7 @@ func (sc *SalesforceClient) DeleteAccountsAll() error {
 		return err
 	}
 	for _, account := range set.Records {
-		resp, err := sc.DeleteAccount(account.Id)
+		resp, err := sc.DeleteAccount(account.ID)
 		if err != nil {
 			continue
 		}
@@ -142,7 +142,7 @@ func (sc *SalesforceClient) DeleteContactsAll() error {
 		return err
 	}
 	for _, contact := range set.Records {
-		resp, err := sc.DeleteContact(contact.Id)
+		resp, err := sc.DeleteContact(contact.ID)
 		if err != nil {
 			return err
 		}
