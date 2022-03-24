@@ -62,12 +62,12 @@ func (opts *Options) SimpleRequest() (httpsimple.SimpleRequest, error) {
 func main() {
 	opts := Options{}
 	_, err := flags.Parse(&opts)
-	logutil.FatalOnError(err)
+	logutil.FatalErr(err)
 	fmtutil.MustPrintJSON(opts)
 
 	creds, err := credentials.ReadCredentialsFromFile(
 		opts.CredsPath, opts.Account, true)
-	logutil.FatalOnError(err)
+	logutil.FatalErr(err)
 
 	var httpClient *http.Client
 	if opts.UseCLI() {
@@ -75,10 +75,10 @@ func main() {
 	} else {
 		httpClient, err = creds.NewClient(context.Background())
 	}
-	logutil.FatalOnError(err)
+	logutil.FatalErr(err)
 
 	sr, err := opts.SimpleRequest()
-	logutil.FatalOnError(err)
+	logutil.FatalErr(err)
 
 	fmtutil.MustPrintJSON(sr)
 	sclient, err := creds.NewSimpleClient(httpClient)
@@ -88,11 +88,11 @@ func main() {
 	}
 
 	resp, err := sclient.Do(sr)
-	logutil.FatalOnError(err)
+	logutil.FatalErr(err)
 
 	fmt.Printf("STATUS [%d]", resp.StatusCode)
 	body, err := io.ReadAll(resp.Body)
-	logutil.FatalOnError(err)
+	logutil.FatalErr(err)
 
 	fmt.Println(string(body))
 

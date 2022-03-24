@@ -16,7 +16,7 @@ import (
 
 func main() {
 	err := config.LoadDotEnvSkipEmpty(os.Getenv("ENV_PATH"), "./.env")
-	logutil.FatalOnError(err)
+	logutil.FatalErr(err)
 
 	// client := &http.Client{}
 	var client *http.Client
@@ -33,16 +33,16 @@ func main() {
 				Username:     os.Getenv("RINGCENTRAL_USERNAME"),
 				Password:     os.Getenv("RINGCENTRAL_PASSWORD")})
 	}
-	logutil.FatalOnError(err)
+	logutil.FatalErr(err)
 
 	urlPath := "restapi/v1.0/account/~"
 
 	apiURL := urlutil.JoinAbsolute(os.Getenv("RINGCENTRAL_SERVER_URL"), urlPath)
 
 	resp, err := client.Get(apiURL)
-	logutil.FatalOnError(err)
+	logutil.FatalErr(err)
 
-	logutil.FatalOnError(httputilmore.PrintResponse(resp, true))
+	logutil.FatalErr(httputilmore.PrintResponse(resp, true))
 
 	fmt.Println("DONE")
 }
