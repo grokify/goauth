@@ -20,7 +20,7 @@ import (
 func main() {
 	files, err := config.LoadDotEnv(
 		".env", os.Getenv("ENV_PATH"))
-	logutil.FatalOnError(err)
+	logutil.FatalErr(err)
 
 	fmtutil.MustPrintJSON(files)
 
@@ -30,7 +30,7 @@ func main() {
 	tokenString := ""
 
 	_, tokenString, err = zoom.CreateJwtToken(apiKey, apiSecret, time.Hour)
-	logutil.FatalOnError(err)
+	logutil.FatalErr(err)
 
 	fmt.Printf("TOK [%v]\n", tokenString)
 
@@ -38,7 +38,7 @@ func main() {
 		token, err := goauth.ParseJwtTokenString(
 			tokenString, apiSecret,
 			&jwt.RegisteredClaims{Issuer: apiKey})
-		logutil.FatalOnError(err)
+		logutil.FatalErr(err)
 
 		fmtutil.MustPrintJSON(token.Claims)
 	}
@@ -46,25 +46,25 @@ func main() {
 	client := zoom.NewClientToken(tokenString)
 
 	resp, err := client.Get("https://api.zoom.us/v2/users/")
-	logutil.FatalOnError(err)
+	logutil.FatalErr(err)
 
 	bytes, err := io.ReadAll(resp.Body)
-	logutil.FatalOnError(err)
+	logutil.FatalErr(err)
 
 	fmt.Printf("RESP: %s\n", string(bytes))
 
 	cu := zoom.NewClientUtil(client)
 	scimUser, err := cu.GetSCIMUser()
-	logutil.FatalOnError(err)
+	logutil.FatalErr(err)
 
 	fmtutil.MustPrintJSON(cu.UserNative)
 	fmtutil.MustPrintJSON(scimUser)
 
 	resp, err = createMeeting(client)
-	logutil.FatalOnError(err)
+	logutil.FatalErr(err)
 
 	bytes, err = io.ReadAll(resp.Body)
-	logutil.FatalOnError(err)
+	logutil.FatalErr(err)
 
 	fmt.Println(string(bytes))
 
