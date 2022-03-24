@@ -114,11 +114,11 @@ func NewClientFileStore(
 	if err != nil {
 		return nil, err
 	}
-	tokenStore, err := goauth.NewTokenStoreFileDefault(tokenPath, useDefaultDir, 0700)
+	tokenStoreFile, err := goauth.NewTokenStoreFileDefault(tokenPath, useDefaultDir, 0700)
 	if err != nil {
 		return nil, err
 	}
-	googHTTPClient, err := goauth.NewClientWebTokenStore(context.Background(), conf, tokenStore, forceNewToken, state)
+	googHTTPClient, err := goauth.NewClientWebTokenStore(context.Background(), conf, tokenStoreFile, forceNewToken, state)
 	if err != nil {
 		return nil, err
 	}
@@ -127,7 +127,7 @@ func NewClientFileStore(
 		_, err := cu.GetUserinfo()
 		if err != nil {
 			fmt.Printf("error for Google user profile API [%v] ... Getting New Token", err.Error())
-			googHTTPClient, err = goauth.NewClientWebTokenStore(context.Background(), conf, tokenStore, true, state)
+			googHTTPClient, err = goauth.NewClientWebTokenStore(context.Background(), conf, tokenStoreFile, true, state)
 			if err != nil {
 				return nil, err
 			}
