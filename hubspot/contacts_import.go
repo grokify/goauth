@@ -5,7 +5,7 @@ import (
 	"strings"
 
 	"github.com/grokify/goauth/scim"
-	"github.com/grokify/gocharts/data/table"
+	"github.com/grokify/gocharts/v2/data/table"
 	"github.com/grokify/mogo/text/usstate"
 )
 
