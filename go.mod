@@ -17,6 +17,6 @@ require (
 	github.com/pquerna/ffjson v0.0.0-20190930134022-aa0246cd15f7
 	github.com/rs/zerolog v1.26.1
 	golang.org/x/oauth2 v0.0.0-20220309155454-6242fa91716a
-	google.golang.org/api v0.73.0
+	google.golang.org/api v0.74.0
 	gopkg.in/jeevatkm/go-model.v1 v1.1.0
 )
