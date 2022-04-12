@@ -7,7 +7,7 @@ require (
 	github.com/caarlos0/env/v6 v6.9.1
 	github.com/golang-jwt/jwt/v4 v4.4.1
 	github.com/google/go-querystring v1.1.0
-	github.com/grokify/go-salesforce v0.2.0
+	github.com/grokify/go-salesforce v0.2.1
 	github.com/grokify/gocharts/v2 v2.4.0
 	github.com/grokify/gohttp v0.2.1
 	github.com/grokify/gostor v0.2.1
