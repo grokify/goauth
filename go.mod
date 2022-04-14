@@ -8,10 +8,10 @@ require (
 	github.com/golang-jwt/jwt/v4 v4.4.1
 	github.com/google/go-querystring v1.1.0
 	github.com/grokify/go-salesforce v0.2.2
-	github.com/grokify/gocharts/v2 v2.4.1
+	github.com/grokify/gocharts/v2 v2.5.1
 	github.com/grokify/gohttp v0.2.1
 	github.com/grokify/gostor v0.2.1
-	github.com/grokify/mogo v0.37.18
+	github.com/grokify/mogo v0.38.1
 	github.com/jessevdk/go-flags v1.5.0
 	github.com/joho/godotenv v1.4.0
 	github.com/pquerna/ffjson v0.0.0-20190930134022-aa0246cd15f7
