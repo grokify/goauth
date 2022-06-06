@@ -12,11 +12,11 @@ import (
 )
 
 type CredentialsSet struct {
-	Credentials map[string]Credentials
+	Credentials map[string]Credentials `json:"credentials,omitempty"`
 }
 
 func ReadFileCredentialsSet(credentialsSetFilename string, inflateEndpoints bool) (CredentialsSet, error) {
-	set := CredentialsSet{}
+	var set CredentialsSet
 	_, err := jsonutil.ReadFile(credentialsSetFilename, &set)
 	if err != nil {
 		return set, err

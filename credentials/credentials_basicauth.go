@@ -9,11 +9,11 @@ import (
 )
 
 type CredentialsBasicAuth struct {
-	Username      string
-	Password      string
-	Encoded       string
-	BaseURL       string
-	AllowInsecure bool
+	Username      string `json:"username,omitempty"`
+	Password      string `json:"password,omitempty"`
+	Encoded       string `json:"encoded,omitempty"`
+	BaseURL       string `json:"baseURL,omitempty"`
+	AllowInsecure bool   `json:"allowInsecure,omitempty"`
 }
 
 func (c *CredentialsBasicAuth) NewClient() (*http.Client, error) {
