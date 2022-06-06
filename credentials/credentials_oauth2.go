@@ -15,10 +15,9 @@ import (
 	"golang.org/x/oauth2/clientcredentials"
 )
 
-// CredentialsOAuth2 supports OAuth 2.0 authorization_code, password,
-// and client_credentials grant flows.
+// CredentialsOAuth2 supports OAuth 2.0 authorization_code, password, and client_credentials grant flows.
 type CredentialsOAuth2 struct {
-	ServerURL       string              `json:"serverURL,omitempty"`
+	ServiceURL      string              `json:"serviceURL,omitempty"`
 	ApplicationID   string              `json:"applicationID,omitempty"`
 	ClientID        string              `json:"clientID,omitempty"`
 	ClientSecret    string              `json:"clientSecret,omitempty"`
