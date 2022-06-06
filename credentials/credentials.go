@@ -63,13 +63,21 @@ func (creds *Credentials) Inflate() error {
 	return nil
 }
 
+var (
+	ErrJWTNotSupported       = errors.New("jwt is not supported for function")
+	ErrBasicAuthNotPopulated = errors.New("basic auth is not populated")
+	ErrJWTNotPopulated       = errors.New("jwt is not populated")
+	ErrOAuth2NotPopulated    = errors.New("oauth2 is not populated")
+	ErrTypeNotSupported      = errors.New("credentials type not supported")
+)
+
 func (creds *Credentials) NewClient(ctx context.Context) (*http.Client, error) {
 	switch creds.Type {
 	case TypeJWT:
-		return nil, errors.New("NewClient() does not support jwt")
+		return nil, ErrJWTNotSupported
 	case TypeBasic:
 		if creds.Basic == nil {
-			return nil, errors.New("data not populated for CredentialsBasicAuth")
+			return nil, ErrBasicAuthNotPopulated
 		}
 		return creds.Basic.NewClient()
 	}
@@ -77,7 +85,7 @@ func (creds *Credentials) NewClient(ctx context.Context) (*http.Client, error) {
 		return goauth.NewClientToken(goauth.TokenBearer, creds.Token.AccessToken, false), nil
 	}
 	if creds.OAuth2.GrantType == goauth.GrantTypeClientCredentials ||
-		strings.Contains(creds.OAuth2.GrantType, "jwt") {
+		strings.Contains(creds.OAuth2.GrantType, TypeJWT) {
 		return creds.OAuth2.NewClient(ctx)
 	}
 	tok, err := creds.NewToken()
@@ -88,10 +96,35 @@ func (creds *Credentials) NewClient(ctx context.Context) (*http.Client, error) {
 	return goauth.NewClientToken(goauth.TokenBearer, tok.AccessToken, false), nil
 }
 
-func (creds *Credentials) NewSimpleClient(httpClient *http.Client) (*httpsimple.SimpleClient, error) {
-	return &httpsimple.SimpleClient{
-		BaseURL:    creds.OAuth2.ServerURL,
-		HTTPClient: httpClient}, nil
+func (creds *Credentials) NewSimpleClient(ctx context.Context) (*httpsimple.SimpleClient, error) {
+	httpClient, err := creds.NewClient(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return creds.NewSimpleClientHTTP(httpClient)
+}
+
+func (creds *Credentials) NewSimpleClientHTTP(httpClient *http.Client) (*httpsimple.SimpleClient, error) {
+	switch creds.Type {
+	case TypeJWT:
+		return nil, ErrJWTNotSupported
+	case TypeBasic:
+		if creds.Basic == nil {
+			return nil, ErrBasicAuthNotPopulated
+		}
+		return &httpsimple.SimpleClient{
+			BaseURL:    creds.Basic.BaseURL,
+			HTTPClient: httpClient}, nil
+	case TypeOAuth2:
+		if creds.OAuth2 == nil {
+			return nil, ErrOAuth2NotPopulated
+		}
+		return &httpsimple.SimpleClient{
+			BaseURL:    creds.OAuth2.ServerURL,
+			HTTPClient: httpClient}, nil
+	default:
+		return nil, ErrTypeNotSupported
+	}
 }
 
 func (creds *Credentials) NewClientCli(oauth2State string) (*http.Client, error) {

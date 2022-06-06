@@ -81,7 +81,7 @@ func main() {
 	logutil.FatalErr(err)
 
 	fmtutil.MustPrintJSON(sr)
-	sclient, err := creds.NewSimpleClient(httpClient)
+	sclient, err := creds.NewSimpleClientHTTP(httpClient)
 	if err != nil {
 		fmt.Println(err.Error())
 		log.Fatal(err)
