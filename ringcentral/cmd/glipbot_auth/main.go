@@ -23,7 +23,7 @@ type RingCentralConfig struct {
 	AppID        string `env:"RINGCENTRAL_APP_ID"`
 	ClientID     string `env:"RINGCENTRAL_CLIENT_ID"`
 	ClientSecret string `env:"RINGCENTRAL_CLIENT_SECRET"`
-	ServerURL    string `env:"RINGCENTRAL_SERVER_URL"`
+	ServiceURL   string `env:"RINGCENTRAL_SERVICE_URL"`
 	RedirectURL  string `env:"RINGCENTRAL_REDIRECT_URL"`
 	LandingURL   string `env:"RINGCENTRAL_LANDING_URL"`
 	AppPort      int64  `env:"PORT"`
@@ -106,7 +106,7 @@ func getOauth2Config(appCfg RingCentralConfig) oauth2.Config {
 	app := credentials.CredentialsOAuth2{
 		ClientID:     appCfg.ClientID,
 		ClientSecret: appCfg.ClientSecret,
-		ServerURL:    appCfg.ServerURL,
+		ServiceURL:   appCfg.ServiceURL,
 		RedirectURL:  appCfg.RedirectURL}
 	o2Config := app.Config()
 	return o2Config
