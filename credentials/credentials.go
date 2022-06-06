@@ -15,17 +15,19 @@ import (
 )
 
 const (
+	TypeBasic  = "basic"
 	TypeOAuth2 = "oauth2"
 	TypeJWT    = "jwt"
 )
 
 type Credentials struct {
-	Service   string            `json:"service,omitempty"`
-	Type      string            `json:"type,omitempty"`
-	Subdomain string            `json:"subdomain,omitempty"`
-	OAuth2    CredentialsOAuth2 `json:"oauth2,omitempty"`
-	JWT       CredentialsJWT    `json:"jwt,omitempty"`
-	Token     *oauth2.Token     `json:"token,omitempty"`
+	Service   string                `json:"service,omitempty"`
+	Type      string                `json:"type,omitempty"`
+	Subdomain string                `json:"subdomain,omitempty"`
+	Basic     *CredentialsBasicAuth `json:"basic,omitempty"`
+	OAuth2    *CredentialsOAuth2    `json:"oauth2,omitempty"`
+	JWT       *CredentialsJWT       `json:"jwt,omitempty"`
+	Token     *oauth2.Token         `json:"token,omitempty"`
 }
 
 func NewCredentialsJSON(credsData, accessToken []byte) (Credentials, error) {
@@ -62,8 +64,14 @@ func (creds *Credentials) Inflate() error {
 }
 
 func (creds *Credentials) NewClient(ctx context.Context) (*http.Client, error) {
-	if creds.Type == TypeJWT {
+	switch creds.Type {
+	case TypeJWT:
 		return nil, errors.New("NewClient() does not support jwt")
+	case TypeBasic:
+		if creds.Basic == nil {
+			return nil, errors.New("data not populated for CredentialsBasicAuth")
+		}
+		return creds.Basic.NewClient()
 	}
 	if creds.Token != nil {
 		return goauth.NewClientToken(goauth.TokenBearer, creds.Token.AccessToken, false), nil
