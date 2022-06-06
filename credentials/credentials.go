@@ -127,8 +127,8 @@ func (creds *Credentials) NewSimpleClientHTTP(httpClient *http.Client) (*httpsim
 	}
 }
 
-func (creds *Credentials) NewClientCli(oauth2State string) (*http.Client, error) {
-	tok, err := creds.NewTokenCli(oauth2State)
+func (creds *Credentials) NewClientCLI(oauth2State string) (*http.Client, error) {
+	tok, err := creds.NewTokenCLI(oauth2State)
 	if err != nil {
 		return nil, err
 	}
@@ -145,9 +145,9 @@ func (creds *Credentials) NewToken() (*oauth2.Token, error) {
 		creds.OAuth2.Password)
 }
 
-// NewTokenCli retrieves a token using CLI approach for
+// NewTokenCLI retrieves a token using CLI approach for
 // OAuth 2.0 authorization code or password grant.
-func (creds *Credentials) NewTokenCli(oauth2State string) (*oauth2.Token, error) {
+func (creds *Credentials) NewTokenCLI(oauth2State string) (*oauth2.Token, error) {
 	if strings.EqualFold(strings.TrimSpace(creds.OAuth2.GrantType), goauth.GrantTypeAuthorizationCode) {
 		return NewTokenCli(*creds, oauth2State)
 	}

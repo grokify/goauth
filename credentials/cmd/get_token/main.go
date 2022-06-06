@@ -30,7 +30,7 @@ func main() {
 	var token *oauth2.Token
 
 	if len(opts.CLI) > 0 {
-		token, err = creds.NewTokenCli("mystate")
+		token, err = creds.NewTokenCLI("mystate")
 	} else {
 		token, err = creds.NewToken()
 	}

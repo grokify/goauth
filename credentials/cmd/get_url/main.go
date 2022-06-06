@@ -71,7 +71,7 @@ func main() {
 
 	var httpClient *http.Client
 	if opts.UseCLI() {
-		httpClient, err = creds.NewClientCli("mystate")
+		httpClient, err = creds.NewClientCLI("mystate")
 	} else {
 		httpClient, err = creds.NewClient(context.Background())
 	}
