@@ -102,7 +102,7 @@ func (oc *CredentialsOAuth2) IsGrantType(grantType string) bool {
 }
 
 func (oc *CredentialsOAuth2) InflateURL(apiURLPath string) string {
-	return urlutil.JoinAbsolute(oc.ServerURL, apiURLPath)
+	return urlutil.JoinAbsolute(oc.ServiceURL, apiURLPath)
 }
 
 // NewClient returns a `*http.Client` for applications using `client_credentials`
@@ -169,7 +169,7 @@ func NewCredentialsOAuth2Env(envPrefix string) CredentialsOAuth2 {
 	creds := CredentialsOAuth2{
 		ClientID:     os.Getenv(envPrefix + "CLIENT_ID"),
 		ClientSecret: os.Getenv(envPrefix + "CLIENT_SECRET"),
-		ServerURL:    os.Getenv(envPrefix + "SERVER_URL"),
+		ServiceURL:   os.Getenv(envPrefix + "SERVICE_URL"),
 		Username:     os.Getenv(envPrefix + "USERNAME"),
 		Password:     os.Getenv(envPrefix + "PASSWORD")}
 	if len(strings.TrimSpace(creds.Username)) > 0 {

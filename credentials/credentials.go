@@ -56,8 +56,8 @@ func (creds *Credentials) Inflate() error {
 		if creds.OAuth2.Endpoint == (oauth2.Endpoint{}) {
 			creds.OAuth2.Endpoint = ep
 		}
-		if len(strings.TrimSpace(creds.OAuth2.ServerURL)) == 0 {
-			creds.OAuth2.ServerURL = svcURL
+		if len(strings.TrimSpace(creds.OAuth2.ServiceURL)) == 0 {
+			creds.OAuth2.ServiceURL = svcURL
 		}
 	}
 	return nil
@@ -113,14 +113,14 @@ func (creds *Credentials) NewSimpleClientHTTP(httpClient *http.Client) (*httpsim
 			return nil, ErrBasicAuthNotPopulated
 		}
 		return &httpsimple.SimpleClient{
-			BaseURL:    creds.Basic.BaseURL,
+			BaseURL:    creds.Basic.ServiceURL,
 			HTTPClient: httpClient}, nil
 	case TypeOAuth2:
 		if creds.OAuth2 == nil {
 			return nil, ErrOAuth2NotPopulated
 		}
 		return &httpsimple.SimpleClient{
-			BaseURL:    creds.OAuth2.ServerURL,
+			BaseURL:    creds.OAuth2.ServiceURL,
 			HTTPClient: httpClient}, nil
 	default:
 		return nil, ErrTypeNotSupported
