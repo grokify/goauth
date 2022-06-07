@@ -12,7 +12,7 @@ type CredentialsBasicAuth struct {
 	Username      string `json:"username,omitempty"`
 	Password      string `json:"password,omitempty"`
 	Encoded       string `json:"encoded,omitempty"`
-	ServiceURL    string `json:"serviceURL,omitempty"`
+	ServerURL     string `json:"serverURL,omitempty"`
 	AllowInsecure bool   `json:"allowInsecure,omitempty"`
 }
 
