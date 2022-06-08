@@ -21,13 +21,13 @@ const (
 )
 
 type Credentials struct {
-	Service   string                `json:"service,omitempty"`
-	Type      string                `json:"type,omitempty"`
-	Subdomain string                `json:"subdomain,omitempty"`
+	Service   string               `json:"service,omitempty"`
+	Type      string               `json:"type,omitempty"`
+	Subdomain string               `json:"subdomain,omitempty"`
 	Basic     CredentialsBasicAuth `json:"basic,omitempty"`
 	OAuth2    CredentialsOAuth2    `json:"oauth2,omitempty"`
 	JWT       CredentialsJWT       `json:"jwt,omitempty"`
-	Token     *oauth2.Token         `json:"token,omitempty"`
+	Token     *oauth2.Token        `json:"token,omitempty"`
 }
 
 func NewCredentialsJSON(credsData, accessToken []byte) (Credentials, error) {
