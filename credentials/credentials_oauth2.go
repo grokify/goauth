@@ -17,7 +17,7 @@ import (
 
 // CredentialsOAuth2 supports OAuth 2.0 authorization_code, password, and client_credentials grant flows.
 type CredentialsOAuth2 struct {
-	ServiceURL      string              `json:"serviceURL,omitempty"`
+	ServerURL       string              `json:"serverURL,omitempty"`
 	ApplicationID   string              `json:"applicationID,omitempty"`
 	ClientID        string              `json:"clientID,omitempty"`
 	ClientSecret    string              `json:"clientSecret,omitempty"`
@@ -102,7 +102,7 @@ func (oc *CredentialsOAuth2) IsGrantType(grantType string) bool {
 }
 
 func (oc *CredentialsOAuth2) InflateURL(apiURLPath string) string {
-	return urlutil.JoinAbsolute(oc.ServiceURL, apiURLPath)
+	return urlutil.JoinAbsolute(oc.ServerURL, apiURLPath)
 }
 
 // NewClient returns a `*http.Client` for applications using `client_credentials`
@@ -169,7 +169,7 @@ func NewCredentialsOAuth2Env(envPrefix string) CredentialsOAuth2 {
 	creds := CredentialsOAuth2{
 		ClientID:     os.Getenv(envPrefix + "CLIENT_ID"),
 		ClientSecret: os.Getenv(envPrefix + "CLIENT_SECRET"),
-		ServiceURL:   os.Getenv(envPrefix + "SERVICE_URL"),
+		ServerURL:    os.Getenv(envPrefix + "SERVER_URL"),
 		Username:     os.Getenv(envPrefix + "USERNAME"),
 		Password:     os.Getenv(envPrefix + "PASSWORD")}
 	if len(strings.TrimSpace(creds.Username)) > 0 {
