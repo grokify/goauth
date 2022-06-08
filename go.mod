@@ -15,8 +15,8 @@ require (
 	github.com/jessevdk/go-flags v1.5.0
 	github.com/joho/godotenv v1.4.0
 	github.com/pquerna/ffjson v0.0.0-20190930134022-aa0246cd15f7
-	github.com/rs/zerolog v1.26.1
+	github.com/rs/zerolog v1.27.0
 	golang.org/x/oauth2 v0.0.0-20220524215830-622c5d57e401
-	google.golang.org/api v0.82.0
+	google.golang.org/api v0.83.0
 	gopkg.in/jeevatkm/go-model.v1 v1.1.0
 )
