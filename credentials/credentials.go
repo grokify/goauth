@@ -24,9 +24,9 @@ type Credentials struct {
 	Service   string                `json:"service,omitempty"`
 	Type      string                `json:"type,omitempty"`
 	Subdomain string                `json:"subdomain,omitempty"`
-	Basic     *CredentialsBasicAuth `json:"basic,omitempty"`
-	OAuth2    *CredentialsOAuth2    `json:"oauth2,omitempty"`
-	JWT       *CredentialsJWT       `json:"jwt,omitempty"`
+	Basic     CredentialsBasicAuth `json:"basic,omitempty"`
+	OAuth2    CredentialsOAuth2    `json:"oauth2,omitempty"`
+	JWT       CredentialsJWT       `json:"jwt,omitempty"`
 	Token     *oauth2.Token         `json:"token,omitempty"`
 }
 
@@ -76,9 +76,6 @@ func (creds *Credentials) NewClient(ctx context.Context) (*http.Client, error) {
 	case TypeJWT:
 		return nil, ErrJWTNotSupported
 	case TypeBasic:
-		if creds.Basic == nil {
-			return nil, ErrBasicAuthNotPopulated
-		}
 		return creds.Basic.NewClient()
 	}
 	if creds.Token != nil {
@@ -109,16 +106,10 @@ func (creds *Credentials) NewSimpleClientHTTP(httpClient *http.Client) (*httpsim
 	case TypeJWT:
 		return nil, ErrJWTNotSupported
 	case TypeBasic:
-		if creds.Basic == nil {
-			return nil, ErrBasicAuthNotPopulated
-		}
 		return &httpsimple.SimpleClient{
 			BaseURL:    creds.Basic.ServiceURL,
 			HTTPClient: httpClient}, nil
 	case TypeOAuth2:
-		if creds.OAuth2 == nil {
-			return nil, ErrOAuth2NotPopulated
-		}
 		return &httpsimple.SimpleClient{
 			BaseURL:    creds.OAuth2.ServiceURL,
 			HTTPClient: httpClient}, nil
