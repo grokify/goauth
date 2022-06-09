@@ -21,7 +21,7 @@ func (c *CredentialsBasicAuth) NewClient() (*http.Client, error) {
 		if strings.Index(strings.ToLower(strings.TrimSpace(c.Encoded)), "basic ") == 0 {
 			hdr := http.Header{}
 			hdr.Add(httputilmore.HeaderAuthorization, c.Encoded)
-			return goauth.NewClientHeaders(hdr, c.AllowInsecure), nil
+			return goauth.NewClientHeadersQuery(hdr, map[string][]string{}, c.AllowInsecure), nil
 		}
 		return goauth.NewClientToken(goauth.TokenBasic, c.Encoded, c.AllowInsecure), nil
 	} else if len(c.Username) > 0 || len(c.Password) > 0 {

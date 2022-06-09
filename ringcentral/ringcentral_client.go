@@ -38,7 +38,7 @@ func NewClientPassword(oc credentials.CredentialsOAuth2) (*http.Client, error) {
 
 	header := getClientHeader(oc)
 	if len(header) > 0 {
-		httpClient.Transport = hum.TransportWithHeaders{
+		httpClient.Transport = hum.TransportRequestModifier{
 			Transport: httpClient.Transport,
 			Header:    header}
 	}
@@ -60,7 +60,7 @@ func NewClientPasswordSimple(oc credentials.CredentialsOAuth2) (*http.Client, er
 
 	header := getClientHeader(oc)
 	if len(header) > 0 {
-		httpClient.Transport = hum.TransportWithHeaders{
+		httpClient.Transport = hum.TransportRequestModifier{
 			Transport: httpClient.Transport,
 			Header:    header}
 	}
