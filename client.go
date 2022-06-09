@@ -51,15 +51,16 @@ func NewClientTokenJSON(ctx context.Context, tokenJSON []byte) (*http.Client, er
 	return oAuthConfig.Client(ctx, token), nil
 }
 
-func NewClientHeaders(header http.Header, tlsInsecureSkipVerify bool) *http.Client {
+func NewClientHeadersQuery(header http.Header, query map[string][]string, tlsInsecureSkipVerify bool) *http.Client {
 	client := &http.Client{}
 
 	if tlsInsecureSkipVerify {
 		client = ClientTLSInsecureSkipVerify(client)
 	}
 
-	client.Transport = httputilmore.TransportWithHeaders{
+	client.Transport = httputilmore.TransportRequestModifier{
 		Header:    header,
+		Query:     query,
 		Transport: client.Transport}
 
 	return client
@@ -75,7 +76,7 @@ func NewClientToken(tokenType, tokenValue string, tlsInsecureSkipVerify bool) *h
 		client = ClientTLSInsecureSkipVerify(client)
 	}
 
-	client.Transport = httputilmore.TransportWithHeaders{
+	client.Transport = httputilmore.TransportRequestModifier{
 		Header:    header,
 		Transport: client.Transport}
 

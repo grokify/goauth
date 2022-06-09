@@ -62,7 +62,7 @@ func NewClientBasicAuth(username, password string, tlsInsecureSkipVerify bool) (
 		client = ClientTLSInsecureSkipVerify(client)
 	}
 
-	client.Transport = httputilmore.TransportWithHeaders{
+	client.Transport = httputilmore.TransportRequestModifier{
 		Header:    header,
 		Transport: client.Transport}
 	return client, nil

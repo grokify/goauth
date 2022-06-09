@@ -33,7 +33,7 @@ func NewClient(subdomain, token string) *http.Client {
 	header := http.Header{}
 	header.Add(AhaAccountHeader, subdomain)
 
-	client.Transport = httputilmore.TransportWithHeaders{
+	client.Transport = httputilmore.TransportRequestModifier{
 		Transport: client.Transport,
 		Header:    header}
 	return client

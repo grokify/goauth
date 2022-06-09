@@ -138,7 +138,7 @@ func NewClientSessionID(sessionID string, tlsSkipVerify bool) *http.Client {
 		client = goauth.ClientTLSInsecureSkipVerify(client)
 	}
 
-	client.Transport = httputilmore.TransportWithHeaders{
+	client.Transport = httputilmore.TransportRequestModifier{
 		Transport: client.Transport,
 		Header:    header}
 
