@@ -7,8 +7,7 @@ import (
 	"golang.org/x/oauth2"
 )
 
-// NewEndpoint returns an `oauth2.Endpoint` and API server URL given
-// a service name.
+// NewEndpoint returns an `oauth2.Endpoint` and API server URL given a service name.
 func NewEndpoint(serviceName, subdomain string) (oauth2.Endpoint, string, error) {
 	switch strings.ToLower(strings.TrimSpace(serviceName)) {
 	case ServiceAha:
@@ -60,7 +59,7 @@ func NewEndpoint(serviceName, subdomain string) (oauth2.Endpoint, string, error)
 		return oauth2.Endpoint{
 			AuthURL:   HubspotAuthzURL,
 			TokenURL:  HubspotTokenURL,
-			AuthStyle: oauth2.AuthStyleAutoDetect}, "", nil
+			AuthStyle: oauth2.AuthStyleAutoDetect}, HubspotServerURL, nil
 	case ServiceInstagram:
 		return oauth2.Endpoint{
 			AuthURL:   InstagramAuthzURL,
