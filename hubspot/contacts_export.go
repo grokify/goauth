@@ -28,12 +28,12 @@ const (
 )
 
 type ContactsListV3Opts struct {
-	Limit                 int
-	After                 string
-	Properties            []string
-	PropertiesWithHistory []string
-	Associations          []string
-	Archived              bool
+	Limit                 int      `url:"limit"`
+	After                 string   `url:"after"`
+	Properties            []string `url:"properties"`
+	PropertiesWithHistory []string `url:"propertiesWithHistory"`
+	Associations          []string `url:"associations"`
+	Archived              bool     `url:"archived"`
 }
 
 // Query generates query string values for the Contacts V3 API.
