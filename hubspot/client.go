@@ -14,11 +14,9 @@ const (
 )
 
 func NewClientAPIKey(apiKey string) *http.Client {
-	apiKey = strings.TrimSpace(apiKey)
-
 	return goauth.NewClientHeadersQuery(
 		http.Header{},
-		map[string][]string{APIKeyQueryParameter: {apiKey}},
+		map[string][]string{APIKeyQueryParameter: {strings.TrimSpace(apiKey)}},
 		false)
 }
 
