@@ -56,6 +56,7 @@ const (
 	GoogleTokenURL              = "https://oauth2.googleapis.com/token" // #nosec G101
 	HubspotAuthzURL             = "https://app.hubspot.com/oauth/authorize"
 	HubspotTokenURL             = "https://api.hubapi.com/oauth/v1/token" // #nosec G101
+	HubspotServerURL            = "https://api.hubapi.com"
 	InstagramAuthzURL           = "https://api.instagram.com/oauth/authorize"
 	InstagramTokenURL           = "https://api.instagram.com/oauth/access_token" // #nosec G101
 	LyftAuthzURL                = "https://www.lyft.com/oauth/authorize"
