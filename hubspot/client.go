@@ -18,7 +18,7 @@ func NewClientAPIKey(apiKey string) *http.Client {
 
 	return goauth.NewClientHeadersQuery(
 		http.Header{},
-		map[string][]string{APIKeyQueryParameter: []string{apiKey}},
+		map[string][]string{APIKeyQueryParameter: {apiKey}},
 		false)
 }
 
