@@ -20,7 +20,7 @@ import (
 )
 
 const (
-	MetabaseSessionHeader = "X-Metabase-Session"
+	HeaderMetabaseSession = "X-Metabase-Session"
 	RelPathAPIDatabase    = "api/database"
 	RelPathAPISession     = "api/session"
 	RelPathAPIUserCurrent = "api/user/current"
@@ -95,12 +95,12 @@ type AuthResponse struct {
 
 // NewClient returns a *http.Client that will add the Metabase Session
 // header to each request.
-func NewClientPassword(baseURL, username, password string, tlsSkipVerify bool) (*http.Client, *AuthResponse, error) {
+func NewClientPassword(baseURL, username, password string, allowInsecure bool) (*http.Client, *AuthResponse, error) {
 	resp, err := AuthRequest(
 		urlutil.JoinAbsolute(baseURL, RelPathAPISession),
 		username,
 		password,
-		tlsSkipVerify)
+		allowInsecure)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -111,34 +111,34 @@ func NewClientPassword(baseURL, username, password string, tlsSkipVerify bool) (
 		return nil, res, err
 	}
 
-	return NewClientSessionID(res.ID, tlsSkipVerify), res, nil
+	return NewClientSessionID(res.ID, allowInsecure), res, nil
 }
 
 // NewClientPasswordWithSessionId returns a *http.Client first attempting to use
 // the supplied `sessionId` with a fallback to `username` and `password`.
-func NewClientPasswordWithSessionID(baseURL, username, password, sessionID string, tlsSkipVerify bool) (*http.Client, *AuthResponse, error) {
+func NewClientPasswordWithSessionID(baseURL, username, password, sessionID string, allowInsecure bool) (*http.Client, *AuthResponse, error) {
 	sessionID = strings.TrimSpace(sessionID)
 	if len(sessionID) > 0 {
-		httpClient := NewClientSessionID(sessionID, tlsSkipVerify)
+		httpClient := NewClientSessionID(sessionID, allowInsecure)
 		userURL := urlutil.JoinAbsolute(baseURL, RelPathAPIUserCurrent)
 		resp, err := httpClient.Get(userURL)
 		if err == nil && resp.StatusCode == 200 {
 			return httpClient, nil, nil
 		}
 	}
-	return NewClientPassword(baseURL, username, password, tlsSkipVerify)
+	return NewClientPassword(baseURL, username, password, allowInsecure)
 }
 
 func NewClientSessionID(sessionID string, allowInsecure bool) *http.Client {
 	return goauth.NewClientHeaderQuery(
-		http.Header{MetabaseSessionHeader: []string{sessionID}},
+		http.Header{HeaderMetabaseSession: []string{sessionID}},
 		url.Values{},
 		allowInsecure)
 	/*
 		client := &http.Client{}
 
 		header := http.Header{}
-		header.Add(MetabaseSessionHeader, sessionID)
+		header.Add(HeaderMetabaseSession, sessionID)
 
 		if tlsSkipVerify {
 			client = goauth.ClientTLSInsecureSkipVerify(client)
