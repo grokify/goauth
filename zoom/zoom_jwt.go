@@ -34,7 +34,7 @@ func NewClient(apiKey, apiSecret string, tokenDuration time.Duration) (*http.Cli
 }
 
 func NewClientToken(bearerToken string) *http.Client {
-	return goauth.NewClientHeadersQuery(
+	return goauth.NewClientHeaderQuery(
 		map[string][]string{
 			httputilmore.HeaderAuthorization: {goauth.TokenBearer + " " + bearerToken},
 			httputilmore.HeaderUserAgent:     {HeaderUserAgentJWTValue}},

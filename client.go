@@ -7,6 +7,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"net/url"
 	"strings"
 
 	"github.com/grokify/mogo/net/httputilmore"
@@ -51,7 +52,9 @@ func NewClientTokenJSON(ctx context.Context, tokenJSON []byte) (*http.Client, er
 	return oAuthConfig.Client(ctx, token), nil
 }
 
-func NewClientHeadersQuery(header http.Header, query map[string][]string, tlsInsecureSkipVerify bool) *http.Client {
+// NewClientHeaderQuery returns a new `*http.Client` that will set headers and query
+// string parameters on very request.
+func NewClientHeaderQuery(header http.Header, query url.Values, tlsInsecureSkipVerify bool) *http.Client {
 	client := &http.Client{}
 
 	if tlsInsecureSkipVerify {
