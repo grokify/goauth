@@ -3,6 +3,7 @@ package aha
 import (
 	"fmt"
 	"net/http"
+	"net/url"
 
 	"github.com/grokify/goauth"
 	"github.com/grokify/mogo/net/httputilmore"
@@ -28,6 +29,16 @@ func NewEndpoint(subdomain string) oauth2.Endpoint {
 }
 
 func NewClient(subdomain, token string) *http.Client {
+	return goauth.NewClientHeaderQuery(
+		http.Header{
+			httputilmore.HeaderAuthorization: []string{goauth.TokenBearer + " " + token},
+			AhaAccountHeader:                 []string{subdomain}},
+		url.Values{},
+		false)
+}
+
+/*
+func NewClient(subdomain, token string) *http.Client {
 	client := goauth.NewClientAuthzTokenSimple(goauth.TokenBearer, token)
 
 	header := http.Header{}
@@ -38,3 +49,4 @@ func NewClient(subdomain, token string) *http.Client {
 		Header:    header}
 	return client
 }
+*/
