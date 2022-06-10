@@ -7,6 +7,7 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"net/url"
 	"os"
 	"strings"
 
@@ -128,21 +129,27 @@ func NewClientPasswordWithSessionID(baseURL, username, password, sessionID strin
 	return NewClientPassword(baseURL, username, password, tlsSkipVerify)
 }
 
-func NewClientSessionID(sessionID string, tlsSkipVerify bool) *http.Client {
-	client := &http.Client{}
+func NewClientSessionID(sessionID string, allowInsecure bool) *http.Client {
+	return goauth.NewClientHeaderQuery(
+		http.Header{MetabaseSessionHeader: []string{sessionID}},
+		url.Values{},
+		allowInsecure)
+	/*
+		client := &http.Client{}
 
-	header := http.Header{}
-	header.Add(MetabaseSessionHeader, sessionID)
+		header := http.Header{}
+		header.Add(MetabaseSessionHeader, sessionID)
 
-	if tlsSkipVerify {
-		client = goauth.ClientTLSInsecureSkipVerify(client)
-	}
+		if tlsSkipVerify {
+			client = goauth.ClientTLSInsecureSkipVerify(client)
+		}
 
-	client.Transport = httputilmore.TransportRequestModifier{
-		Transport: client.Transport,
-		Header:    header}
+		client.Transport = httputilmore.TransportRequestModifier{
+			Transport: client.Transport,
+			Header:    header}
 
-	return client
+		return client
+	*/
 }
 
 func (cfg *Config) NewClient() (*http.Client, *AuthResponse, error) {
