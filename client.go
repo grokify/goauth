@@ -54,10 +54,10 @@ func NewClientTokenJSON(ctx context.Context, tokenJSON []byte) (*http.Client, er
 
 // NewClientHeaderQuery returns a new `*http.Client` that will set headers and query
 // string parameters on very request.
-func NewClientHeaderQuery(header http.Header, query url.Values, tlsInsecureSkipVerify bool) *http.Client {
+func NewClientHeaderQuery(header http.Header, query url.Values, allowInsecure bool) *http.Client {
 	client := &http.Client{}
 
-	if tlsInsecureSkipVerify {
+	if allowInsecure {
 		client = ClientTLSInsecureSkipVerify(client)
 	}
 
@@ -69,28 +69,35 @@ func NewClientHeaderQuery(header http.Header, query url.Values, tlsInsecureSkipV
 	return client
 }
 
-func NewClientToken(tokenType, tokenValue string, tlsInsecureSkipVerify bool) *http.Client {
-	client := &http.Client{}
+func NewClientToken(tokenType, tokenValue string, allowInsecure bool) *http.Client {
+	return NewClientHeaderQuery(
+		http.Header{
+			httputilmore.HeaderAuthorization: []string{tokenType + " " + tokenValue}},
+		url.Values{},
+		allowInsecure)
+	/*
+		client := &http.Client{}
 
-	header := http.Header{}
-	header.Add(httputilmore.HeaderAuthorization, tokenType+" "+tokenValue)
+		header := http.Header{}
+		header.Add(httputilmore.HeaderAuthorization, tokenType+" "+tokenValue)
 
-	if tlsInsecureSkipVerify {
-		client = ClientTLSInsecureSkipVerify(client)
-	}
+		if tlsInsecureSkipVerify {
+			client = ClientTLSInsecureSkipVerify(client)
+		}
 
-	client.Transport = httputilmore.TransportRequestModifier{
-		Header:    header,
-		Transport: client.Transport}
+		client.Transport = httputilmore.TransportRequestModifier{
+			Header:    header,
+			Transport: client.Transport}
 
-	return client
+		return client
+	*/
 }
 
-func NewClientTokenBase64Encode(tokenType, tokenValue string, tlsInsecureSkipVerify bool) *http.Client {
+func NewClientTokenBase64Encode(tokenType, tokenValue string, allowInsecure bool) *http.Client {
 	return NewClientToken(
 		tokenType,
 		base64.StdEncoding.EncodeToString([]byte(tokenValue)),
-		tlsInsecureSkipVerify)
+		allowInsecure)
 }
 
 // NewClientAuthzTokenSimple returns a *http.Client given a token type and token string.
