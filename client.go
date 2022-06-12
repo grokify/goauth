@@ -85,13 +85,11 @@ func NewClientTokenBase64Encode(tokenType, tokenValue string, allowInsecure bool
 
 // NewClientAuthzTokenSimple returns a *http.Client given a token type and token string.
 func NewClientAuthzTokenSimple(tokenType, accessToken string) *http.Client {
-	token := &oauth2.Token{
+	oAuthConfig := oauth2.Config{}
+	return oAuthConfig.Client(context.Background(), &oauth2.Token{
 		AccessToken: strings.TrimSpace(accessToken),
 		TokenType:   strings.TrimSpace(tokenType),
-		Expiry:      timeutil.TimeZeroRFC3339()}
-
-	oAuthConfig := oauth2.Config{}
-	return oAuthConfig.Client(context.Background(), token)
+		Expiry:      timeutil.TimeZeroRFC3339()})
 }
 
 func NewClientTokenOAuth2(token *oauth2.Token) *http.Client {
