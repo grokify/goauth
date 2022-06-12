@@ -90,13 +90,12 @@ func NewClientAuthzTokenSimple(tokenType, accessToken string) *http.Client {
 		TokenType:   strings.TrimSpace(tokenType),
 		Expiry:      timeutil.TimeZeroRFC3339()}
 
-	oAuthConfig := &oauth2.Config{}
-
+	oAuthConfig := oauth2.Config{}
 	return oAuthConfig.Client(context.Background(), token)
 }
 
 func NewClientTokenOAuth2(token *oauth2.Token) *http.Client {
-	oAuthConfig := &oauth2.Config{}
+	oAuthConfig := oauth2.Config{}
 	return oAuthConfig.Client(context.Background(), token)
 }
 
