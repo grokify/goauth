@@ -71,8 +71,7 @@ func NewClientHeaderQuery(header http.Header, query url.Values, allowInsecure bo
 
 func NewClientToken(tokenType, tokenValue string, allowInsecure bool) *http.Client {
 	return NewClientHeaderQuery(
-		http.Header{
-			httputilmore.HeaderAuthorization: []string{tokenType + " " + tokenValue}},
+		http.Header{httputilmore.HeaderAuthorization: []string{tokenType + " " + tokenValue}},
 		url.Values{},
 		allowInsecure)
 	/*
