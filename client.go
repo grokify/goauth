@@ -74,22 +74,6 @@ func NewClientToken(tokenType, tokenValue string, allowInsecure bool) *http.Clie
 		http.Header{httputilmore.HeaderAuthorization: []string{tokenType + " " + tokenValue}},
 		url.Values{},
 		allowInsecure)
-	/*
-		client := &http.Client{}
-
-		header := http.Header{}
-		header.Add(httputilmore.HeaderAuthorization, tokenType+" "+tokenValue)
-
-		if tlsInsecureSkipVerify {
-			client = ClientTLSInsecureSkipVerify(client)
-		}
-
-		client.Transport = httputilmore.TransportRequestModifier{
-			Header:    header,
-			Transport: client.Transport}
-
-		return client
-	*/
 }
 
 func NewClientTokenBase64Encode(tokenType, tokenValue string, allowInsecure bool) *http.Client {
