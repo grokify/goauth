@@ -19,7 +19,7 @@ type CredentialsBasicAuth struct {
 }
 
 func (c *CredentialsBasicAuth) NewClient() (*http.Client, error) {
-	if len(c.Encoded) > 0 {
+	if len(strings.TrimSpace(c.Encoded)) > 0 {
 		if strings.Index(strings.ToLower(strings.TrimSpace(c.Encoded)), "basic ") == 0 {
 			return goauth.NewClientHeaderQuery(
 				http.Header{httputilmore.HeaderAuthorization: []string{c.Encoded}},
