@@ -2,6 +2,7 @@ package credentials
 
 import (
 	"net/http"
+	"net/url"
 	"strings"
 
 	"github.com/grokify/goauth"
@@ -19,9 +20,10 @@ type CredentialsBasicAuth struct {
 func (c *CredentialsBasicAuth) NewClient() (*http.Client, error) {
 	if len(c.Encoded) > 0 {
 		if strings.Index(strings.ToLower(strings.TrimSpace(c.Encoded)), "basic ") == 0 {
-			hdr := http.Header{}
-			hdr.Add(httputilmore.HeaderAuthorization, c.Encoded)
-			return goauth.NewClientHeaderQuery(hdr, map[string][]string{}, c.AllowInsecure), nil
+			return goauth.NewClientHeaderQuery(
+				http.Header{httputilmore.HeaderAuthorization: []string{c.Encoded}},
+				url.Values{},
+				c.AllowInsecure), nil
 		}
 		return goauth.NewClientToken(goauth.TokenBasic, c.Encoded, c.AllowInsecure), nil
 	} else if len(c.Username) > 0 || len(c.Password) > 0 {
