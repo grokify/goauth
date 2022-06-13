@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/grokify/goauth"
+	"github.com/grokify/gohttp/httpsimple"
 	"github.com/grokify/mogo/net/httputilmore"
 )
 
@@ -30,4 +31,14 @@ func (c *CredentialsBasicAuth) NewClient() (*http.Client, error) {
 		return goauth.NewClientBasicAuth(c.Username, c.Password, c.AllowInsecure)
 	}
 	return &http.Client{}, nil
+}
+
+func (c *CredentialsBasicAuth) NewSimpleClient() (httpsimple.SimpleClient, error) {
+	hclient, err := c.NewClient()
+	if err != nil {
+		return httpsimple.SimpleClient{}, err
+	}
+	return httpsimple.SimpleClient{
+		HTTPClient: hclient,
+		BaseURL:    c.ServerURL}, nil
 }
