@@ -19,5 +19,4 @@ require (
 	golang.org/x/oauth2 v0.0.0-20220608161450-d0670ef3b1eb
 	google.golang.org/api v0.83.0
 	gopkg.in/jeevatkm/go-model.v1 v1.1.0
-	gopkg.in/yaml.v2 v2.4.0 // indirect
 )
