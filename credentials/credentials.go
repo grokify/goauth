@@ -140,7 +140,7 @@ func (creds *Credentials) NewToken() (*oauth2.Token, error) {
 // OAuth 2.0 authorization code or password grant.
 func (creds *Credentials) NewTokenCLI(oauth2State string) (*oauth2.Token, error) {
 	if strings.EqualFold(strings.TrimSpace(creds.OAuth2.GrantType), goauth.GrantTypeAuthorizationCode) {
-		return NewTokenCli(*creds, oauth2State)
+		return NewTokenCLI(*creds, oauth2State)
 	}
 	return creds.NewToken()
 }
