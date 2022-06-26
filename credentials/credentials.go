@@ -15,19 +15,21 @@ import (
 )
 
 const (
-	TypeBasic  = "basic"
-	TypeOAuth2 = "oauth2"
-	TypeJWT    = "jwt"
+	TypeBasic       = "basic"
+	TypeHeaderQuery = "headerquery"
+	TypeOAuth2      = "oauth2"
+	TypeJWT         = "jwt"
 )
 
 type Credentials struct {
-	Service   string               `json:"service,omitempty"`
-	Type      string               `json:"type,omitempty"`
-	Subdomain string               `json:"subdomain,omitempty"`
-	Basic     CredentialsBasicAuth `json:"basic,omitempty"`
-	OAuth2    CredentialsOAuth2    `json:"oauth2,omitempty"`
-	JWT       CredentialsJWT       `json:"jwt,omitempty"`
-	Token     *oauth2.Token        `json:"token,omitempty"`
+	Service     string                 `json:"service,omitempty"`
+	Type        string                 `json:"type,omitempty"`
+	Subdomain   string                 `json:"subdomain,omitempty"`
+	Basic       CredentialsBasicAuth   `json:"basic,omitempty"`
+	OAuth2      CredentialsOAuth2      `json:"oauth2,omitempty"`
+	JWT         CredentialsJWT         `json:"jwt,omitempty"`
+	Token       *oauth2.Token          `json:"token,omitempty"`
+	HeaderQuery CredentialsHeaderQuery `json:"headerquery,omitempty"`
 }
 
 func NewCredentialsJSON(credsData, accessToken []byte) (Credentials, error) {
@@ -73,10 +75,12 @@ var (
 
 func (creds *Credentials) NewClient(ctx context.Context) (*http.Client, error) {
 	switch creds.Type {
-	case TypeJWT:
-		return nil, ErrJWTNotSupported
 	case TypeBasic:
 		return creds.Basic.NewClient()
+	case TypeHeaderQuery:
+		return creds.HeaderQuery.NewClient(), nil
+	case TypeJWT:
+		return nil, ErrJWTNotSupported
 	}
 	if creds.Token != nil {
 		return goauth.NewClientToken(goauth.TokenBearer, creds.Token.AccessToken, false), nil
@@ -108,6 +112,10 @@ func (creds *Credentials) NewSimpleClientHTTP(httpClient *http.Client) (*httpsim
 	case TypeBasic:
 		return &httpsimple.SimpleClient{
 			BaseURL:    creds.Basic.ServerURL,
+			HTTPClient: httpClient}, nil
+	case TypeHeaderQuery:
+		return &httpsimple.SimpleClient{
+			BaseURL:    creds.HeaderQuery.ServerURL,
 			HTTPClient: httpClient}, nil
 	case TypeOAuth2:
 		return &httpsimple.SimpleClient{
