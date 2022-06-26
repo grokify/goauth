@@ -5,6 +5,7 @@ import (
 	"net/url"
 
 	"github.com/grokify/goauth"
+	"github.com/grokify/gohttp/httpsimple"
 )
 
 type CredentialsHeaderQuery struct {
@@ -16,4 +17,10 @@ type CredentialsHeaderQuery struct {
 
 func (c *CredentialsHeaderQuery) NewClient() *http.Client {
 	return goauth.NewClientHeaderQuery(c.Header, c.Query, c.AllowInsecure)
+}
+
+func (c *CredentialsHeaderQuery) NewSimpleClient() httpsimple.SimpleClient {
+	return httpsimple.SimpleClient{
+		HTTPClient: c.NewClient(),
+		BaseURL:    c.ServerURL}
 }
