@@ -79,7 +79,7 @@ See the following repo for a Beego-based demo app:
 
  [used-by-svg]: https://sourcegraph.com/github.com/grokify/goauth/-/badge.svg
  [used-by-url]: https://sourcegraph.com/github.com/grokify/goauth?badge
- [build-status-svg]: https://github.com/grokify/goauth/workflows/go%20build/badge.svg
+ [build-status-svg]: https://github.com/grokify/goauth/workflows/test/badge.svg
  [build-status-url]: https://github.com/grokify/goauth/actions
  [goreport-svg]: https://goreportcard.com/badge/github.com/grokify/goauth
  [goreport-url]: https://goreportcard.com/report/github.com/grokify/goauth
@@ -88,4 +88,4 @@ See the following repo for a Beego-based demo app:
  [loc-svg]: https://tokei.rs/b1/github/grokify/goauth
  [repo-url]: https://github.com/grokify/goauth
  [license-svg]: https://img.shields.io/badge/license-MIT-blue.svg
- [license-url]: https://github.com/grokify/goauth/blob/master/LICENSE.md
+ [license-url]: https://github.com/grokify/goauth/blob/master/LICENSE
