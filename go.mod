@@ -16,8 +16,8 @@ require (
 	github.com/joho/godotenv v1.4.0
 	github.com/pquerna/ffjson v0.0.0-20190930134022-aa0246cd15f7
 	github.com/rs/zerolog v1.27.0
-	golang.org/x/oauth2 v0.0.0-20220808172628-8227340efae7
-	google.golang.org/api v0.93.0
+	golang.org/x/oauth2 v0.0.0-20220822191816-0ebed06d0094
+	google.golang.org/api v0.94.0
 	gopkg.in/jeevatkm/go-model.v1 v1.1.0
 )
 
