@@ -30,6 +30,7 @@ type Credentials struct {
 	JWT         CredentialsJWT         `json:"jwt,omitempty"`
 	Token       *oauth2.Token          `json:"token,omitempty"`
 	HeaderQuery CredentialsHeaderQuery `json:"headerquery,omitempty"`
+	Additional  http.Header            `json:"additional,omitempty"`
 }
 
 func NewCredentialsJSON(credsData, accessToken []byte) (Credentials, error) {
