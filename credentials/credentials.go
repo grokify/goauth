@@ -63,6 +63,15 @@ func (creds *Credentials) Inflate() error {
 			creds.OAuth2.ServerURL = svcURL
 		}
 	}
+	// repopulate creds.Additional so `http.Header.Get()`` will retrieve data.
+	// unknown why data may exist in JSON dump but not be readable by `Get()`.
+	h2 := creds.Additional.Clone()
+	creds.Additional = http.Header{}
+	for k, vs := range h2 {
+		for _, v := range vs {
+			creds.Additional.Add(k, v)
+		}
+	}
 	return nil
 }
 
