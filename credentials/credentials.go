@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"net/http"
+	"net/url"
 	"strings"
 
 	"github.com/grokify/goauth"
@@ -30,7 +31,7 @@ type Credentials struct {
 	JWT         CredentialsJWT         `json:"jwt,omitempty"`
 	Token       *oauth2.Token          `json:"token,omitempty"`
 	HeaderQuery CredentialsHeaderQuery `json:"headerquery,omitempty"`
-	Additional  http.Header            `json:"additional,omitempty"`
+	Additional  url.Values             `json:"additional,omitempty"`
 }
 
 func NewCredentialsJSON(credsData, accessToken []byte) (Credentials, error) {
@@ -61,15 +62,6 @@ func (creds *Credentials) Inflate() error {
 		}
 		if len(strings.TrimSpace(creds.OAuth2.ServerURL)) == 0 {
 			creds.OAuth2.ServerURL = svcURL
-		}
-	}
-	// repopulate creds.Additional so `http.Header.Get()`` will retrieve data.
-	// unknown why data may exist in JSON dump but not be readable by `Get()`.
-	h2 := creds.Additional.Clone()
-	creds.Additional = http.Header{}
-	for k, vs := range h2 {
-		for _, v := range vs {
-			creds.Additional.Add(k, v)
 		}
 	}
 	return nil
