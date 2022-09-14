@@ -4,7 +4,7 @@ go 1.18
 
 require (
 	github.com/SparkPost/gosparkpost v0.2.0
-	github.com/caarlos0/env/v6 v6.10.0
+	github.com/caarlos0/env/v6 v6.10.1
 	github.com/golang-jwt/jwt/v4 v4.4.2
 	github.com/google/go-querystring v1.1.0
 	github.com/grokify/go-salesforce v0.2.6
