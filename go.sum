@@ -219,8 +219,8 @@ github.com/grokify/go-salesforce v0.2.6 h1:W9a9HL2eQmMtR9lx1gXGcpCDeuaMXiGkhggLz
 github.com/grokify/go-salesforce v0.2.6/go.mod h1:lkf8/A6GkJjU6SRxZ44Z60+FThP4gSMGn9wdya9I934=
 github.com/grokify/gocharts/v2 v2.8.1 h1:maM9hHwwlTluAfyLTDpC1etej7TBvXqdLk6lW3OUR4c=
 github.com/grokify/gocharts/v2 v2.8.1/go.mod h1:EleuFgRTINryhcNhAw3xYlc5YXJ12NSV3IcBVIJUl1Q=
-github.com/grokify/gohttp v0.2.1 h1:9WRHON2OUcQOjbbs12rMSfmepZVzlUxB0etNX/gowCo=
-github.com/grokify/gohttp v0.2.1/go.mod h1:lvWGlBA0PeelznQ5fFlr9GRbNOCsY86q5dmY9FqSlxE=
+github.com/grokify/gohttp v0.2.2 h1:bb+LOffbJdwzazuuwMnS320cId02iFFicLwWIGeMD3o=
+github.com/grokify/gohttp v0.2.2/go.mod h1:665NrVNsW1YlgiFbl8Iyl62gEcGZ6CgE2nCsQO6OLYg=
 github.com/grokify/gostor v0.2.1 h1:PNXw6ET+CW3oNuL1dugNQ37GttThkERlijoB8tboPZw=
 github.com/grokify/gostor v0.2.1/go.mod h1:4a6v+pcFFt4uxHThTcCcarL48EkMPe5Fc/0NvCQAifY=
 github.com/grokify/mogo v0.40.4 h1:IDGRHgRj5eaCsl6na0++xLikRsAgTIpf0cTt49du7fY=
@@ -316,8 +316,8 @@ github.com/urfave/cli/v2 v2.1.1/go.mod h1:SE9GqnLQmjVa0iPEY0f1w3ygNIYcIJ0OKPMoW2
 github.com/valyala/bytebufferpool v1.0.0 h1:GqA5TC/0021Y/b9FG4Oi9Mr3q7XYx6KllzawFIhcdPw=
 github.com/valyala/bytebufferpool v1.0.0/go.mod h1:6bBcMArwyJ5K/AmCkWv1jt77kVWyCJ6HpOuEn7z0Csc=
 github.com/valyala/fasthttp v1.30.0/go.mod h1:2rsYD01CKFrjjsvFxx75KlEUNpWNBY9JWD3K/7o2Cus=
-github.com/valyala/fasthttp v1.34.0 h1:d3AAQJ2DRcxJYHm7OXNXtXt2as1vMDfxeIcFvhmGGm4=
-github.com/valyala/fasthttp v1.34.0/go.mod h1:epZA5N+7pY6ZaEKRmstzOuYJx9HI8DI1oaCGZpdH4h0=
+github.com/valyala/fasthttp v1.40.0 h1:CRq/00MfruPGFLTQKY8b+8SfdK60TxNztjRMnH0t1Yc=
+github.com/valyala/fasthttp v1.40.0/go.mod h1:t/G+3rLek+CyY9bnIE+YlMRddxVAAGjhxndDB4i4C0I=
 github.com/valyala/fastjson v1.6.3 h1:tAKFnnwmeMGPbwJ7IwxcTPCNr3uIzoIj3/Fh90ra4xc=
 github.com/valyala/fastjson v1.6.3/go.mod h1:CLCAqky6SMuOcxStkYQvblddUtoRxhYMGLrsQns1aXY=
 github.com/valyala/quicktemplate v1.7.0 h1:LUPTJmlVcb46OOUY3IeD9DojFpAVbsG+5WFTcjMJzCM=
