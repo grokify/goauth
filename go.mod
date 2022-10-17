@@ -11,7 +11,7 @@ require (
 	github.com/grokify/gocharts/v2 v2.8.1
 	github.com/grokify/gohttp v0.2.1
 	github.com/grokify/gostor v0.2.1
-	github.com/grokify/mogo v0.40.4
+	github.com/grokify/mogo v0.40.5
 	github.com/jessevdk/go-flags v1.5.0
 	github.com/joho/godotenv v1.4.0
 	github.com/pquerna/ffjson v0.0.0-20190930134022-aa0246cd15f7
@@ -57,10 +57,10 @@ require (
 	github.com/xuri/excelize/v2 v2.6.1 // indirect
 	github.com/xuri/nfp v0.0.0-20220409054826-5e722a1d9e22 // indirect
 	go.opencensus.io v0.23.0 // indirect
-	golang.org/x/crypto v0.0.0-20220817201139-bc19a97f63c8 // indirect
-	golang.org/x/net v0.0.0-20220909164309-bea034e7d591 // indirect
+	golang.org/x/crypto v0.0.0-20221012134737-56aed061732a // indirect
+	golang.org/x/net v0.0.0-20221014081412-f15817d10f9b // indirect
 	golang.org/x/sys v0.0.0-20220728004956-3c1f35247d10 // indirect
-	golang.org/x/text v0.3.7 // indirect
+	golang.org/x/text v0.3.8 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
 	google.golang.org/genproto v0.0.0-20220624142145-8cd45d7dbd1f // indirect
 	google.golang.org/grpc v1.47.0 // indirect
