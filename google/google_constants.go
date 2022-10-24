@@ -1,6 +1,6 @@
 package google
 
-import "google.golang.org/api/slides/v1"
+import slides "google.golang.org/api/slides/v1"
 
 const (
 	ClientSecretEnv         = "GOOGLE_APP_CLIENT_SECRET" // #nosec G101
