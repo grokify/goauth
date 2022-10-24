@@ -5,7 +5,7 @@ import (
 
 	"github.com/grokify/goauth/credentials"
 	"github.com/grokify/mogo/fmt/fmtutil"
-	"github.com/jessevdk/go-flags"
+	flags "github.com/jessevdk/go-flags"
 	"github.com/rs/zerolog/log"
 	"golang.org/x/oauth2"
 )
