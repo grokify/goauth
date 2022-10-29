@@ -88,10 +88,10 @@ github.com/googleapis/gax-go/v2 v2.6.0 h1:SXk3ABtQYDT/OH8jAyvEOQ58mgawq5C4o/4/89
 github.com/googleapis/gax-go/v2 v2.6.0/go.mod h1:1mjbznJAPHFpesgE5ucqfYEscaz5kMdcIDwU/6+DDoY=
 github.com/gorilla/mux v1.8.0 h1:i40aqfkR1h2SlN9hojwV5ZA91wcXFOvkdNIeFDP5koI=
 github.com/gorilla/mux v1.8.0/go.mod h1:DVbg23sWSpFRCP0SfiEN6jmj59UnW/n46BH5rLB71So=
-github.com/grokify/go-salesforce v0.2.7 h1:NpopwvpIiInZrvCyLUlNoMq5i5OybodhbpRFA4P28IQ=
-github.com/grokify/go-salesforce v0.2.7/go.mod h1:GTvShpJTwJs9P/E9dp4PkXFWDtinxdd2TLloRj3YQ9c=
-github.com/grokify/gocharts/v2 v2.8.2 h1:D2SB9upv/P9GkXRRZjz/hYQBVU2f07sk0TeYRfHKTwA=
-github.com/grokify/gocharts/v2 v2.8.2/go.mod h1:l/7POMWMLJ/PLwaJnDHZrMdVWRDFtGGjgKOrOvS23rQ=
+github.com/grokify/go-salesforce v0.2.8 h1:UMVEmRzk9Ti3rIU72zx/KS7/aoPVg5mLNndL1pULUXM=
+github.com/grokify/go-salesforce v0.2.8/go.mod h1:eTcGL/aquEDrS/fFa9W861e46KgNI9+ooSqLOlsKVmI=
+github.com/grokify/gocharts/v2 v2.8.3 h1:b5auH/iKR7O/w70JOqqpsVMc6JFSu36sePt5CPick6E=
+github.com/grokify/gocharts/v2 v2.8.3/go.mod h1:/loHFjVPd/v+WeKq7VK4SI634SBGmw4OSnsAo/N6ef8=
 github.com/grokify/gohttp v0.2.2 h1:bb+LOffbJdwzazuuwMnS320cId02iFFicLwWIGeMD3o=
 github.com/grokify/gohttp v0.2.2/go.mod h1:665NrVNsW1YlgiFbl8Iyl62gEcGZ6CgE2nCsQO6OLYg=
 github.com/grokify/gostor v0.2.1 h1:PNXw6ET+CW3oNuL1dugNQ37GttThkERlijoB8tboPZw=
@@ -124,8 +124,9 @@ github.com/mattn/go-colorable v0.1.12/go.mod h1:u5H1YNBxpqRaxsYJYSkiCWKzEfiAb1Gb
 github.com/mattn/go-isatty v0.0.14 h1:yVuAays6BHfxijgZPzw+3Zlu5yQgKGP2/hcQbHb7S9Y=
 github.com/mattn/go-isatty v0.0.14/go.mod h1:7GGIvUiUoEMVVmxf/4nioHXj79iQHKdU27kJ6hsGG94=
 github.com/mattn/go-runewidth v0.0.4/go.mod h1:LwmH8dsx7+W8Uxz3IHJYH5QSwggIsqBzpuz5H//U1FU=
-github.com/modern-go/concurrent v0.0.0-20180228061459-e0a39a4cb421 h1:ZqeYNhU3OHLH3mGKHDcjJRFFRrJa6eAM5H+CtDdOsPc=
 github.com/modern-go/concurrent v0.0.0-20180228061459-e0a39a4cb421/go.mod h1:6dJC0mAP4ikYIbvyc7fijjWJddQyLn8Ig3JB5CqoB9Q=
+github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd h1:TRLaZ9cD/w8PVh93nsPXa1VrQ6jlwL5oN8l14QlcNfg=
+github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd/go.mod h1:6dJC0mAP4ikYIbvyc7fijjWJddQyLn8Ig3JB5CqoB9Q=
 github.com/modern-go/reflect2 v1.0.2 h1:xBagoLtFs94CBntxluKeaWgTMpvLxC4ur3nMaC9Gz0M=
 github.com/modern-go/reflect2 v1.0.2/go.mod h1:yWuevngMOJpCy52FWWMvUC8ws7m/LJsjYzDa0/r8luk=
 github.com/mohae/deepcopy v0.0.0-20170929034955-c48cc78d4826 h1:RWengNIwukTxcDr9M+97sNutRR1RKhG96O6jWumTTnw=

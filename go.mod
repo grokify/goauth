@@ -7,8 +7,8 @@ require (
 	github.com/caarlos0/env/v6 v6.10.1
 	github.com/golang-jwt/jwt/v4 v4.4.2
 	github.com/google/go-querystring v1.1.0
-	github.com/grokify/go-salesforce v0.2.7
-	github.com/grokify/gocharts/v2 v2.8.2
+	github.com/grokify/go-salesforce v0.2.8
+	github.com/grokify/gocharts/v2 v2.8.3
 	github.com/grokify/gohttp v0.2.2
 	github.com/grokify/gostor v0.2.1
 	github.com/grokify/mogo v0.40.13
@@ -43,7 +43,7 @@ require (
 	github.com/martinlindhe/base36 v1.1.1 // indirect
 	github.com/mattn/go-colorable v0.1.12 // indirect
 	github.com/mattn/go-isatty v0.0.14 // indirect
-	github.com/modern-go/concurrent v0.0.0-20180228061459-e0a39a4cb421 // indirect
+	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/mohae/deepcopy v0.0.0-20170929034955-c48cc78d4826 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
