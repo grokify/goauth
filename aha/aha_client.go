@@ -19,7 +19,7 @@ const (
 
 var (
 	AhaAccountEnv = "AHA_ACCOUNT"
-	AhaAPIKeyEnv  = "AHA_API_KEY"
+	AhaAPIKeyEnv  = "AHA_API_KEY" // #nosec G101
 )
 
 func NewEndpoint(subdomain string) oauth2.Endpoint {
