@@ -12,7 +12,7 @@ import (
 )
 
 const (
-	EnvZoomAPIKey           = "ZOOM_API_KEY"
+	EnvZoomAPIKey           = "ZOOM_API_KEY" // #nosec G101
 	EnvZoomAPISecret        = "ZOOM_API_SECRET"
 	HeaderUserAgentJWTValue = "Zoom-api-Jwt-Request"
 )

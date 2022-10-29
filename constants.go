@@ -3,7 +3,7 @@ package goauth
 const (
 	GrantTypeAuthorizationCode = "authorization_code"
 	GrantTypeClientCredentials = "client_credentials"
-	GrantTypeJWTBearer         = "urn:ietf:params:oauth:grant-type:jwt-bearer"
+	GrantTypeJWTBearer         = "urn:ietf:params:oauth:grant-type:jwt-bearer" // #nosec G101
 	GrantTypePassword          = "password"
 	GrantTypeRefreshToken      = "refresh_token"
 	ParamAssertion             = "assertion"

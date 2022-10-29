@@ -80,12 +80,13 @@ const (
 
 /*
 // ApplicationCredentials represents information for an app.
-type ApplicationCredentials struct {
-	ServerURL    string
-	ClientID     string
-	ClientSecret string
-	Endpoint     oauth2.Endpoint
-}
+
+	type ApplicationCredentials struct {
+		ServerURL    string
+		ClientID     string
+		ClientSecret string
+		Endpoint     oauth2.Endpoint
+	}
 */
 type AppCredentials struct {
 	Service      string   `json:"service,omitempty"`

@@ -4,7 +4,7 @@ import slides "google.golang.org/api/slides/v1"
 
 const (
 	ClientSecretEnv         = "GOOGLE_APP_CLIENT_SECRET" // #nosec G101
-	EnvGoogleAppCredentials = "GOOGLE_APP_CREDENTIALS"
+	EnvGoogleAppCredentials = "GOOGLE_APP_CREDENTIALS"   // #nosec G101
 	EnvGoogleAppScopes      = "GOOGLE_APP_SCOPES"
 	ScopeDrive              = slides.DriveScope                 // See, edit, create, and delete all of your Google Drive files
 	ScopeDriveFile          = slides.DriveFileScope             // View and manage Google Drive files and folders that you have opened or created with this app
