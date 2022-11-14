@@ -75,7 +75,7 @@ The URL is located here:
 
 See the following repo for a Beego-based demo app:
 
-* https://github.com/grokify/beego-oauth2-demo
+* https://github.com/grokify/beegoutil
 
  [used-by-svg]: https://sourcegraph.com/github.com/grokify/goauth/-/badge.svg
  [used-by-url]: https://sourcegraph.com/github.com/grokify/goauth?badge
