@@ -16,8 +16,7 @@ func WriteContactsXLSX(filename string, users []scim.User) error {
 			columnsInterface()}}
 
 	for _, user := range users {
-		row := userToScim(user)
-		sheetdata.Rows = append(sheetdata.Rows, row)
+		sheetdata.Rows = append(sheetdata.Rows, userToScim(user))
 	}
 	return table.WriteXLSXInterface(filename, sheetdata)
 }
