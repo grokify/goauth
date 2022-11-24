@@ -66,11 +66,11 @@ func main() {
 	fmtutil.MustPrintJSON(opts)
 
 	creds, err := credentials.ReadCredentialsFromFile(
-		opts.CredsPath, opts.Account, true)
+		opts.Options.CredsPath, opts.Account, true)
 	logutil.FatalErr(err)
 
 	var httpClient *http.Client
-	if opts.UseCLI() {
+	if opts.Options.UseCLI() {
 		httpClient, err = creds.NewClientCLI("mystate")
 	} else {
 		httpClient, err = creds.NewClient(context.Background())
