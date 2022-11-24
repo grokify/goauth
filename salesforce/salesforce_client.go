@@ -9,7 +9,7 @@ import (
 	"github.com/grokify/goauth/credentials"
 	"github.com/grokify/goauth/endpoints"
 	"golang.org/x/oauth2"
-	"gopkg.in/jeevatkm/go-model.v1"
+	model "gopkg.in/jeevatkm/go-model.v1"
 )
 
 const (
