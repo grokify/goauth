@@ -103,7 +103,7 @@ func ContactsV3ExportWriteFiles(client *http.Client, fileprefix string, opts *Co
 		if err != nil {
 			return err
 		}
-		bodyPretty, err := jsonutil.PrettyPrintReader(resp.Body, "", "  ")
+		bodyPretty, err := jsonutil.IndentReader(resp.Body, "", "  ")
 		if err != nil {
 			return err
 		}
@@ -157,7 +157,7 @@ func ContactsV1ExportWriteFiles(client *http.Client, fileprefix string, opts *Co
 		if err != nil {
 			return err
 		}
-		bodyPretty, err := jsonutil.PrettyPrintReader(resp.Body, "", "  ")
+		bodyPretty, err := jsonutil.IndentReader(resp.Body, "", "  ")
 		if err != nil {
 			return err
 		}
