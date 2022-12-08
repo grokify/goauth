@@ -4,7 +4,7 @@ import (
 	"strings"
 
 	"github.com/grokify/goauth/credentials"
-	"github.com/grokify/mogo/crypto/hash/argon2"
+	"github.com/grokify/mogo/crypto/argon2util"
 )
 
 func UsernameExtensionPasswordToString(username, password string) string {
@@ -14,13 +14,13 @@ func UsernameExtensionPasswordToString(username, password string) string {
 }
 
 func UsernameExtensionPasswordToHash(username, extension, password string, salt []byte) string {
-	return argon2.HashSimpleBase36(
+	return argon2util.HashSimpleBase36(
 		[]byte(UsernameExtensionPasswordToString(username, password)),
 		salt)
 }
 
 func PasswordCredentialsToHash(pwdCreds credentials.CredentialsOAuth2, salt []byte) string {
-	return argon2.HashSimpleBase36(
+	return argon2util.HashSimpleBase36(
 		[]byte(UsernameExtensionPasswordToString(
 			pwdCreds.Username, pwdCreds.Password)),
 		salt)
