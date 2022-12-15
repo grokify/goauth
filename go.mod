@@ -7,17 +7,17 @@ require (
 	github.com/caarlos0/env/v6 v6.10.1
 	github.com/golang-jwt/jwt/v4 v4.4.3
 	github.com/google/go-querystring v1.1.0
-	github.com/grokify/go-salesforce v0.2.10
-	github.com/grokify/gocharts/v2 v2.8.5
+	github.com/grokify/go-salesforce v0.2.11
+	github.com/grokify/gocharts/v2 v2.8.6
 	github.com/grokify/gohttp v0.2.2
 	github.com/grokify/gostor v0.2.2
-	github.com/grokify/mogo v0.42.2
+	github.com/grokify/mogo v0.43.0
 	github.com/jessevdk/go-flags v1.5.0
 	github.com/joho/godotenv v1.4.0
 	github.com/pquerna/ffjson v0.0.0-20190930134022-aa0246cd15f7
 	github.com/rs/zerolog v1.28.0
 	golang.org/x/oauth2 v0.3.0
-	google.golang.org/api v0.104.0
+	google.golang.org/api v0.105.0
 	gopkg.in/jeevatkm/go-model.v1 v1.1.0
 )
 
@@ -40,7 +40,7 @@ require (
 	github.com/gorilla/mux v1.8.0 // indirect
 	github.com/huandu/xstrings v1.4.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
-	github.com/klauspost/compress v1.15.12 // indirect
+	github.com/klauspost/compress v1.15.13 // indirect
 	github.com/martinlindhe/base36 v1.1.1 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.16 // indirect
@@ -59,7 +59,7 @@ require (
 	github.com/xuri/nfp v0.0.0-20220409054826-5e722a1d9e22 // indirect
 	go.opencensus.io v0.24.0 // indirect
 	golang.org/x/crypto v0.4.0 // indirect
-	golang.org/x/exp v0.0.0-20221208044002-44028be4359e // indirect
+	golang.org/x/exp v0.0.0-20221215174704-0915cd710c24 // indirect
 	golang.org/x/net v0.4.0 // indirect
 	golang.org/x/sys v0.3.0 // indirect
 	golang.org/x/text v0.5.0 // indirect
