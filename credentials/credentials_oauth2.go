@@ -84,26 +84,16 @@ func (opts *AuthCodeOptions) AddMap(m map[string][]string) {
 }
 
 func (oc *CredentialsOAuth2) AuthCodeURL(state string, opts map[string][]string) string {
-	cfg := oc.Config()
 	authCodeOptions := AuthCodeOptions{}
 	authCodeOptions.AddMap(oc.AuthCodeOpts)
 	authCodeOptions.AddMap(opts)
+	cfg := oc.Config()
 	return cfg.AuthCodeURL(state, authCodeOptions...)
 }
 
 func (oc *CredentialsOAuth2) Exchange(ctx context.Context, code string, opts map[string][]string) (*oauth2.Token, error) {
-	cfg := oc.Config()
-	authCodeOptions := AuthCodeOptions{}
-	authCodeOptions.AddMap(oc.AuthCodeExchangeOpts)
-	authCodeOptions.AddMap(opts)
 	/*
 		authCodeOptions := []oauth2.AuthCodeOption{}
-		for k, vs := range oc.AuthCodeExchangeOpts {
-			for _, v := range vs {
-				authCodeOptions = append(authCodeOptions, oauth2.SetAuthURLParam(k, v))
-			}
-		}
-
 		if len(oc.OAuthEndpointID) > 0 {
 			authCodeOptions = append(authCodeOptions,
 				oauth2.SetAuthURLParam("endpoint_id", oc.OAuthEndpointID))
@@ -116,12 +106,11 @@ func (oc *CredentialsOAuth2) Exchange(ctx context.Context, code string, opts map
 			authCodeOptions = append(authCodeOptions,
 				oauth2.SetAuthURLParam("refreshTokenTtl", strconv.Itoa(int(oc.RefreshTokenTTL))))
 		}
-		for k, vs := range opts {
-			for _, v := range vs {
-				authCodeOptions = append(authCodeOptions, oauth2.SetAuthURLParam(k, v))
-			}
-		}
 	*/
+	authCodeOptions := AuthCodeOptions{}
+	authCodeOptions.AddMap(oc.AuthCodeExchangeOpts)
+	authCodeOptions.AddMap(opts)
+	cfg := oc.Config()
 	return cfg.Exchange(ctx, code, authCodeOptions...)
 }
 
