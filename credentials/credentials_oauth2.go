@@ -2,6 +2,7 @@ package credentials
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"net/url"
@@ -17,25 +18,37 @@ import (
 
 // CredentialsOAuth2 supports OAuth 2.0 authorization_code, password, and client_credentials grant flows.
 type CredentialsOAuth2 struct {
-	ServerURL       string              `json:"serverURL,omitempty"`
-	ApplicationID   string              `json:"applicationID,omitempty"`
-	ClientID        string              `json:"clientID,omitempty"`
-	ClientSecret    string              `json:"clientSecret,omitempty"`
-	Endpoint        oauth2.Endpoint     `json:"endpoint,omitempty"`
-	RedirectURL     string              `json:"redirectURL,omitempty"`
-	AppName         string              `json:"applicationName,omitempty"`
-	AppVersion      string              `json:"applicationVersion,omitempty"`
-	OAuthEndpointID string              `json:"oauthEndpointID,omitempty"`
-	AccessTokenTTL  int64               `json:"accessTokenTTL,omitempty"`
-	RefreshTokenTTL int64               `json:"refreshTokenTTL,omitempty"`
-	GrantType       string              `json:"grantType,omitempty"`
-	PKCE            bool                `json:"pkce"`
-	Username        string              `json:"username,omitempty"`
-	Password        string              `json:"password,omitempty"`
-	JWT             string              `json:"jwt,omitempty"`
-	Token           *oauth2.Token       `json:"token,omitempty"`
-	OtherParams     map[string][]string `json:"otherParams,omitempty"`
-	Scopes          []string            `json:"scopes,omitempty"`
+	ServerURL            string              `json:"serverURL,omitempty"`
+	ApplicationID        string              `json:"applicationID,omitempty"`
+	ClientID             string              `json:"clientID,omitempty"`
+	ClientSecret         string              `json:"clientSecret,omitempty"`
+	Endpoint             oauth2.Endpoint     `json:"endpoint,omitempty"`
+	RedirectURL          string              `json:"redirectURL,omitempty"`
+	AppName              string              `json:"applicationName,omitempty"`
+	AppVersion           string              `json:"applicationVersion,omitempty"`
+	OAuthEndpointID      string              `json:"oauthEndpointID,omitempty"`
+	AccessTokenTTL       int64               `json:"accessTokenTTL,omitempty"`
+	RefreshTokenTTL      int64               `json:"refreshTokenTTL,omitempty"`
+	GrantType            string              `json:"grantType,omitempty"`
+	PKCE                 bool                `json:"pkce"`
+	Username             string              `json:"username,omitempty"`
+	Password             string              `json:"password,omitempty"`
+	JWT                  string              `json:"jwt,omitempty"`
+	Token                *oauth2.Token       `json:"token,omitempty"`
+	Scopes               []string            `json:"scopes,omitempty"`
+	AuthCodeOpts         map[string][]string `json:"authCodeOpts,omitempty"`
+	AuthCodeExchangeOpts map[string][]string `json:"authCodeExchangeOpts,omitempty"`
+	PasswordOpts         map[string][]string `json:"passwordOpts,omitempty"`
+}
+
+func ParseCredentialsOAuth2(b []byte) (CredentialsOAuth2, error) {
+	creds := CredentialsOAuth2{}
+	return creds, json.Unmarshal(b, &creds)
+}
+
+// MarshalJSON returns JSON. It is useful for exporting creating configs to be parsed.
+func (oc *CredentialsOAuth2) MarshalJSON() ([]byte, error) {
+	return json.Marshal(*oc)
 }
 
 func (oc *CredentialsOAuth2) Config() oauth2.Config {
@@ -57,15 +70,33 @@ func (oc *CredentialsOAuth2) ConfigClientCredentials() clientcredentials.Config 
 }
 
 // func (oc *CredentialsOAuth2) AuthCodeURL(state string, opts url.Values) string {
-func (oc *CredentialsOAuth2) AuthCodeURL(state string, opts ...oauth2.AuthCodeOption) string {
-	cfg := oc.Config()
-	return cfg.AuthCodeURL(state, opts...)
-}
-
-func (oc *CredentialsOAuth2) Exchange(code string) (*oauth2.Token, error) {
+func (oc *CredentialsOAuth2) AuthCodeURL(state string, opts map[string][]string) string {
 	cfg := oc.Config()
 	authCodeOptions := []oauth2.AuthCodeOption{}
+	for k, vs := range oc.AuthCodeOpts {
+		for _, v := range vs {
+			authCodeOptions = append(authCodeOptions,
+				oauth2.SetAuthURLParam(k, v))
+		}
+	}
+	for k, vs := range opts {
+		for _, v := range vs {
+			authCodeOptions = append(authCodeOptions,
+				oauth2.SetAuthURLParam(k, v))
+		}
+	}
+	return cfg.AuthCodeURL(state, authCodeOptions...)
+}
 
+func (oc *CredentialsOAuth2) Exchange(code string, opts map[string][]string) (*oauth2.Token, error) {
+	cfg := oc.Config()
+	authCodeOptions := []oauth2.AuthCodeOption{}
+	for k, vs := range oc.AuthCodeExchangeOpts {
+		for _, v := range vs {
+			authCodeOptions = append(authCodeOptions,
+				oauth2.SetAuthURLParam(k, v))
+		}
+	}
 	if len(oc.OAuthEndpointID) > 0 {
 		authCodeOptions = append(authCodeOptions,
 			oauth2.SetAuthURLParam("endpoint_id", oc.OAuthEndpointID))
@@ -77,6 +108,13 @@ func (oc *CredentialsOAuth2) Exchange(code string) (*oauth2.Token, error) {
 	if oc.RefreshTokenTTL > 0 {
 		authCodeOptions = append(authCodeOptions,
 			oauth2.SetAuthURLParam("refreshTokenTtl", strconv.Itoa(int(oc.RefreshTokenTTL))))
+	}
+
+	for k, vs := range opts {
+		for _, v := range vs {
+			authCodeOptions = append(authCodeOptions,
+				oauth2.SetAuthURLParam(k, v))
+		}
 	}
 
 	return cfg.Exchange(context.Background(), code, authCodeOptions...)
@@ -155,8 +193,8 @@ func (oc *CredentialsOAuth2) PasswordRequestBody() url.Values {
 	if oc.RefreshTokenTTL != 0 {
 		body.Set("refresh_token_ttl", strconv.Itoa(int(oc.RefreshTokenTTL)))
 	}
-	if len(oc.OtherParams) > 0 {
-		for k, vals := range oc.OtherParams {
+	if len(oc.PasswordOpts) > 0 {
+		for k, vals := range oc.PasswordOpts {
 			for _, v := range vals {
 				body.Set(k, v)
 			}
