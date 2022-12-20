@@ -69,55 +69,60 @@ func (oc *CredentialsOAuth2) ConfigClientCredentials() clientcredentials.Config 
 		AuthStyle:    oauth2.AuthStyleAutoDetect}
 }
 
-// func (oc *CredentialsOAuth2) AuthCodeURL(state string, opts url.Values) string {
+type AuthCodeOptions []oauth2.AuthCodeOption
+
+func (opts *AuthCodeOptions) Add(k, v string) {
+	*opts = append(*opts, oauth2.SetAuthURLParam(k, v))
+}
+
+func (opts *AuthCodeOptions) AddMap(m map[string][]string) {
+	for k, vs := range m {
+		for _, v := range vs {
+			opts.Add(k, v)
+		}
+	}
+}
+
 func (oc *CredentialsOAuth2) AuthCodeURL(state string, opts map[string][]string) string {
 	cfg := oc.Config()
-	authCodeOptions := []oauth2.AuthCodeOption{}
-	for k, vs := range oc.AuthCodeOpts {
-		for _, v := range vs {
-			authCodeOptions = append(authCodeOptions,
-				oauth2.SetAuthURLParam(k, v))
-		}
-	}
-	for k, vs := range opts {
-		for _, v := range vs {
-			authCodeOptions = append(authCodeOptions,
-				oauth2.SetAuthURLParam(k, v))
-		}
-	}
+	authCodeOptions := AuthCodeOptions{}
+	authCodeOptions.AddMap(oc.AuthCodeOpts)
+	authCodeOptions.AddMap(opts)
 	return cfg.AuthCodeURL(state, authCodeOptions...)
 }
 
-func (oc *CredentialsOAuth2) Exchange(code string, opts map[string][]string) (*oauth2.Token, error) {
+func (oc *CredentialsOAuth2) Exchange(ctx context.Context, code string, opts map[string][]string) (*oauth2.Token, error) {
 	cfg := oc.Config()
-	authCodeOptions := []oauth2.AuthCodeOption{}
-	for k, vs := range oc.AuthCodeExchangeOpts {
-		for _, v := range vs {
-			authCodeOptions = append(authCodeOptions,
-				oauth2.SetAuthURLParam(k, v))
+	authCodeOptions := AuthCodeOptions{}
+	authCodeOptions.AddMap(oc.AuthCodeExchangeOpts)
+	authCodeOptions.AddMap(opts)
+	/*
+		authCodeOptions := []oauth2.AuthCodeOption{}
+		for k, vs := range oc.AuthCodeExchangeOpts {
+			for _, v := range vs {
+				authCodeOptions = append(authCodeOptions, oauth2.SetAuthURLParam(k, v))
+			}
 		}
-	}
-	if len(oc.OAuthEndpointID) > 0 {
-		authCodeOptions = append(authCodeOptions,
-			oauth2.SetAuthURLParam("endpoint_id", oc.OAuthEndpointID))
-	}
-	if oc.AccessTokenTTL > 0 {
-		authCodeOptions = append(authCodeOptions,
-			oauth2.SetAuthURLParam("accessTokenTtl", strconv.Itoa(int(oc.AccessTokenTTL))))
-	}
-	if oc.RefreshTokenTTL > 0 {
-		authCodeOptions = append(authCodeOptions,
-			oauth2.SetAuthURLParam("refreshTokenTtl", strconv.Itoa(int(oc.RefreshTokenTTL))))
-	}
 
-	for k, vs := range opts {
-		for _, v := range vs {
+		if len(oc.OAuthEndpointID) > 0 {
 			authCodeOptions = append(authCodeOptions,
-				oauth2.SetAuthURLParam(k, v))
+				oauth2.SetAuthURLParam("endpoint_id", oc.OAuthEndpointID))
 		}
-	}
-
-	return cfg.Exchange(context.Background(), code, authCodeOptions...)
+		if oc.AccessTokenTTL > 0 {
+			authCodeOptions = append(authCodeOptions,
+				oauth2.SetAuthURLParam("accessTokenTtl", strconv.Itoa(int(oc.AccessTokenTTL))))
+		}
+		if oc.RefreshTokenTTL > 0 {
+			authCodeOptions = append(authCodeOptions,
+				oauth2.SetAuthURLParam("refreshTokenTtl", strconv.Itoa(int(oc.RefreshTokenTTL))))
+		}
+		for k, vs := range opts {
+			for _, v := range vs {
+				authCodeOptions = append(authCodeOptions, oauth2.SetAuthURLParam(k, v))
+			}
+		}
+	*/
+	return cfg.Exchange(ctx, code, authCodeOptions...)
 }
 
 func (oc *CredentialsOAuth2) AppNameAndVersion() string {
