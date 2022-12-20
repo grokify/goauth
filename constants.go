@@ -12,4 +12,6 @@ const (
 	ParamUsername              = "usernamae"
 	TokenBasic                 = "Basic"
 	TokenBearer                = "Bearer"
+
+	TestRedirectURL = "https://grokify.github.io/goauth/oauth2callback/"
 )
