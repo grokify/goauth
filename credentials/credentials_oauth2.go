@@ -11,6 +11,7 @@ import (
 	"strings"
 
 	"github.com/grokify/goauth"
+	"github.com/grokify/mogo/encoding/jsonutil"
 	"github.com/grokify/mogo/net/urlutil"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/clientcredentials"
@@ -47,8 +48,8 @@ func ParseCredentialsOAuth2(b []byte) (CredentialsOAuth2, error) {
 }
 
 // MarshalJSON returns JSON. It is useful for exporting creating configs to be parsed.
-func (oc *CredentialsOAuth2) MarshalJSON() ([]byte, error) {
-	return json.Marshal(*oc)
+func (oc *CredentialsOAuth2) MarshalJSON(prefix, indent string) ([]byte, error) {
+	return jsonutil.MarshalSimple(*oc, prefix, indent)
 }
 
 func (oc *CredentialsOAuth2) Config() oauth2.Config {
