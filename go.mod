@@ -7,11 +7,11 @@ require (
 	github.com/caarlos0/env/v6 v6.10.1
 	github.com/golang-jwt/jwt/v4 v4.4.3
 	github.com/google/go-querystring v1.1.0
-	github.com/grokify/go-salesforce v0.2.11
-	github.com/grokify/gocharts/v2 v2.8.6
+	github.com/grokify/go-salesforce v0.2.12
+	github.com/grokify/gocharts/v2 v2.8.7
 	github.com/grokify/gohttp v0.2.2
 	github.com/grokify/gostor v0.2.2
-	github.com/grokify/mogo v0.43.0
+	github.com/grokify/mogo v0.44.0
 	github.com/jessevdk/go-flags v1.5.0
 	github.com/joho/godotenv v1.4.0
 	github.com/pquerna/ffjson v0.0.0-20190930134022-aa0246cd15f7
@@ -23,10 +23,10 @@ require (
 
 require (
 	cloud.google.com/go/compute v1.14.0 // indirect
-	cloud.google.com/go/compute/metadata v0.2.2 // indirect
+	cloud.google.com/go/compute/metadata v0.2.3 // indirect
 	github.com/andybalholm/brotli v1.0.4 // indirect
 	github.com/apex/gateway v1.1.2 // indirect
-	github.com/aws/aws-lambda-go v1.36.0 // indirect
+	github.com/aws/aws-lambda-go v1.36.1 // indirect
 	github.com/buaazp/fasthttprouter v0.1.1 // indirect
 	github.com/buger/jsonparser v1.1.1 // indirect
 	github.com/cespare/xxhash/v2 v2.2.0 // indirect
@@ -59,7 +59,7 @@ require (
 	github.com/xuri/nfp v0.0.0-20220409054826-5e722a1d9e22 // indirect
 	go.opencensus.io v0.24.0 // indirect
 	golang.org/x/crypto v0.4.0 // indirect
-	golang.org/x/exp v0.0.0-20221215174704-0915cd710c24 // indirect
+	golang.org/x/exp v0.0.0-20221217163422-3c43f8badb15 // indirect
 	golang.org/x/net v0.4.0 // indirect
 	golang.org/x/sys v0.3.0 // indirect
 	golang.org/x/text v0.5.0 // indirect

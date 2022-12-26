@@ -40,6 +40,7 @@ type CredentialsOAuth2 struct {
 	AuthCodeOpts         map[string][]string `json:"authCodeOpts,omitempty"`
 	AuthCodeExchangeOpts map[string][]string `json:"authCodeExchangeOpts,omitempty"`
 	PasswordOpts         map[string][]string `json:"passwordOpts,omitempty"`
+	Metadata             map[string]string   `json:"metadata,omitempty"`
 }
 
 func ParseCredentialsOAuth2(b []byte) (CredentialsOAuth2, error) {
@@ -138,6 +139,7 @@ func (oc *CredentialsOAuth2) InflateURL(apiURLPath string) string {
 	return urlutil.JoinAbsolute(oc.ServerURL, apiURLPath)
 }
 
+/*
 // NewClient returns a `*http.Client` for applications using `client_credentials`
 // grant. The client can be modified using context, e.g. ignoring bad certs or otherwise.
 func (oc *CredentialsOAuth2) NewClient(ctx context.Context) (*http.Client, error) {
@@ -157,6 +159,17 @@ func (oc *CredentialsOAuth2) NewClient(ctx context.Context) (*http.Client, error
 		return config.Client(ctx), nil
 	}
 	return nil, fmt.Errorf("grant type is not supported in CredentialsOAuth2.NewClient() [%s]", oc.GrantType)
+}
+*/
+
+func (oc *CredentialsOAuth2) NewClient(ctx context.Context) (*http.Client, *oauth2.Token, error) {
+	tok, err := oc.NewToken(ctx)
+	if err != nil {
+		return nil, tok, err
+	}
+	oc.Token = tok
+	config := oc.Config()
+	return config.Client(ctx, tok), tok, nil
 }
 
 // NewToken retrieves an `*oauth2.Token` when the requisite information is available.
