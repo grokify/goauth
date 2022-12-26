@@ -89,7 +89,8 @@ func (creds *Credentials) NewClient(ctx context.Context) (*http.Client, error) {
 	}
 	if creds.OAuth2.GrantType == goauth.GrantTypeClientCredentials ||
 		strings.Contains(creds.OAuth2.GrantType, TypeJWT) {
-		return creds.OAuth2.NewClient(ctx)
+		clt, _, err := creds.OAuth2.NewClient(ctx)
+		return clt, err
 	}
 	tok, err := creds.NewToken()
 	if err != nil {
