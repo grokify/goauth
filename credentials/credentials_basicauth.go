@@ -7,7 +7,7 @@ import (
 
 	"github.com/grokify/goauth"
 	"github.com/grokify/gohttp/httpsimple"
-	"github.com/grokify/mogo/net/httputilmore"
+	"github.com/grokify/mogo/net/http/httputilmore"
 )
 
 type CredentialsBasicAuth struct {

@@ -6,7 +6,7 @@ import (
 	"net/url"
 
 	"github.com/grokify/goauth"
-	"github.com/grokify/mogo/net/httputilmore"
+	"github.com/grokify/mogo/net/http/httputilmore"
 	"golang.org/x/oauth2"
 )
 

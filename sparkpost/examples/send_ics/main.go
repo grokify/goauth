@@ -10,15 +10,13 @@ import (
 	"strings"
 	"time"
 
-	"github.com/caarlos0/env/v6"
-	"github.com/rs/zerolog/log"
-
-	"github.com/grokify/mogo/config"
-	hum "github.com/grokify/mogo/net/httputilmore"
-	tu "github.com/grokify/mogo/time/timeutil"
-
 	sp "github.com/SparkPost/gosparkpost"
+	"github.com/caarlos0/env/v6"
 	"github.com/grokify/goauth/sparkpost"
+	"github.com/grokify/mogo/config"
+	"github.com/grokify/mogo/net/http/httputilmore"
+	"github.com/grokify/mogo/time/timeutil"
+	"github.com/rs/zerolog/log"
 )
 
 const DefaultExampleEmail = "john@example.com"
@@ -71,7 +69,7 @@ END:VCALENDAR`
 
 	uid1 := day + 1000
 	uid2 := uid1 + 1
-	dtNow := time.Now().Format(tu.ISO8601CompactNoTZ)
+	dtNow := time.Now().Format(timeutil.ISO8601CompactNoTZ)
 	data := fmt.Sprintf(
 		format, "REQUEST",
 		attendee, uid1, day, day, dtNow, seq,
@@ -80,7 +78,7 @@ END:VCALENDAR`
 	fmt.Println(data)
 	panic("z")
 	attach := sp.Attachment{
-		MIMEType: hum.ContentTypeTextCalendarUtf8Request,
+		MIMEType: httputilmore.ContentTypeTextCalendarUtf8Request,
 		B64Data:  base64.StdEncoding.EncodeToString([]byte(data))}
 
 	tx := &sp.Transmission{
@@ -146,7 +144,7 @@ END:VCALENDAR`
 
 	uid1 := day + 1000
 	uid2 := uid1 + 1
-	dtNow := time.Now().Format(tu.ISO8601CompactNoTZ)
+	dtNow := time.Now().Format(timeutil.ISO8601CompactNoTZ)
 	icsData := fmt.Sprintf(
 		format, "REQUEST",
 		attendee, uid1, day, day, dtNow, seq,

@@ -11,7 +11,7 @@ import (
 	"time"
 
 	"github.com/grokify/mogo/errors/errorsutil"
-	"github.com/grokify/mogo/net/httputilmore"
+	"github.com/grokify/mogo/net/http/httputilmore"
 	"github.com/grokify/mogo/time/timeutil"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/clientcredentials"

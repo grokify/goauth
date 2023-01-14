@@ -12,7 +12,7 @@ import (
 	"net/http"
 
 	"github.com/google/go-querystring/query"
-	"github.com/grokify/mogo/net/httputilmore"
+	"github.com/grokify/mogo/net/http/httputilmore"
 )
 
 func CreatePKCECodeVerifier() (string, error) {

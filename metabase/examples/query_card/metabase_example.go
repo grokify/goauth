@@ -7,7 +7,7 @@ import (
 	"os"
 
 	"github.com/grokify/goauth/metabase"
-	"github.com/grokify/mogo/net/httputilmore"
+	"github.com/grokify/mogo/net/http/httputilmore"
 	"github.com/grokify/mogo/net/urlutil"
 	"github.com/joho/godotenv"
 )

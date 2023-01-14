@@ -8,7 +8,7 @@ import (
 	"github.com/grokify/goauth/zendesk"
 	"github.com/grokify/mogo/config"
 	"github.com/grokify/mogo/fmt/fmtutil"
-	"github.com/grokify/mogo/net/httputilmore"
+	"github.com/grokify/mogo/net/http/httputilmore"
 )
 
 func MeURL(subdomain string) string {
