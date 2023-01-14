@@ -8,9 +8,11 @@ import (
 	"net/http"
 	"net/url"
 	"strings"
+	"time"
 
 	"github.com/grokify/mogo/errors/errorsutil"
 	"github.com/grokify/mogo/net/httputilmore"
+	"github.com/grokify/mogo/time/timeutil"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/clientcredentials"
 )
@@ -23,20 +25,34 @@ func ParseTokenReader(r io.Reader) (*oauth2.Token, error) {
 	return ParseToken(data)
 }
 
-// ParseToken parses a OAuth 2 token and returns an
-// `*oauth2.Token` with custom properties.
+// ParseToken parses a OAuth 2 token and returns an `*oauth2.Token` with custom properties.
 func ParseToken(rawToken []byte) (*oauth2.Token, error) {
 	tok := &oauth2.Token{}
 	err := json.Unmarshal(rawToken, tok)
 	if err != nil {
 		return tok, err
 	}
-	msi := map[string]interface{}{}
+	msi := map[string]any{}
 	err = json.Unmarshal(rawToken, &msi)
 	if err != nil {
 		return tok, err
 	}
-	return tok.WithExtra(msi), nil
+	tok = tok.WithExtra(msi)
+	// convert `expires_in` to `Expiry` with 1 minute leeway.
+	if timeutil.IsZero(tok.Expiry) {
+		expiresIn := tok.Extra(OAuth2TokenPropExpiresIn)
+		if expiresIn != nil {
+			if expiresInFloat, ok := expiresIn.(float64); ok {
+				if expiresInFloat > 60 { // subtract 1 minute for defensive handling
+					expiresInFloat -= 60
+				}
+				if expiresInFloat > 0 {
+					tok.Expiry = time.Now().UTC().Add(time.Duration(expiresInFloat) * time.Second)
+				}
+			}
+		}
+	}
+	return tok, nil
 }
 
 // NewTokenCLIFromWeb enables a CLI app with no UI to generate
@@ -66,9 +82,9 @@ func NewTokenCLIFromWeb(cfg *oauth2.Config, state string) (*oauth2.Token, error)
 // URL encoded values.
 func TokenClientCredentials(cfg clientcredentials.Config) (*oauth2.Token, error) {
 	body := url.Values{}
-	body.Add("grant_type", GrantTypeClientCredentials)
+	body.Add(ParamGrantType, GrantTypeClientCredentials)
 	for _, scope := range cfg.Scopes {
-		body.Add("scope", scope)
+		body.Add(ParamScope, scope)
 	}
 	req, err := http.NewRequest(
 		http.MethodPost,
@@ -82,7 +98,7 @@ func TokenClientCredentials(cfg clientcredentials.Config) (*oauth2.Token, error)
 		return nil, err
 	}
 	req.Header.Add(httputilmore.HeaderContentType, httputilmore.ContentTypeAppFormURLEncoded)
-	req.Header.Add(httputilmore.HeaderAuthorization, "Basic "+b64)
+	req.Header.Add(httputilmore.HeaderAuthorization, TokenBasic+" "+b64)
 
 	client := http.Client{}
 	resp, err := client.Do(req)
@@ -96,3 +112,40 @@ func TokenClientCredentials(cfg clientcredentials.Config) (*oauth2.Token, error)
 	tok := &oauth2.Token{}
 	return tok, json.Unmarshal(data, tok)
 }
+
+/*
+// OAuth2Token is a bridge struct to `oauth2.Token` since the RFC-6749 uses `expires_in` and
+// golang uses `expiry`.
+type OAuth2Token struct {
+	AccessToken  string `json:"access_token"`
+	TokenType    string `json:"token_type"`
+	ExpiresIn    int    `json:"expires_in"`
+	RefreshToken string `json:"refresh_token"`
+}
+
+func (ot OAuth2Token) Token() *oauth2.Token {
+	expiresIn := ot.ExpiresIn
+	if expiresIn > 60 { // subtract 1 minute for defensive handling
+		expiresIn -= 60
+	}
+	return &oauth2.Token{
+		AccessToken:  ot.AccessToken,
+		RefreshToken: ot.RefreshToken,
+		TokenType:    ot.TokenType,
+		Expiry:       time.Now().UTC().Add(time.Duration(expiresIn) * time.Second),
+	}
+}
+
+func ParseOAuth2Token(rawToken []byte) (*OAuth2Token, error) {
+	oTok := &OAuth2Token{}
+	err := json.Unmarshal(rawToken, oTok)
+	return oTok, err
+}
+*/
+
+/*
+   "access_token":"2YotnFZFEjr1zCsicMWpAA",
+   "token_type":"example",
+   "expires_in":3600,
+   "refresh_token":"tGzv3JOkF0XG5Qx2TlKWIA",
+*/
