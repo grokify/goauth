@@ -9,8 +9,8 @@ import (
 	"strconv"
 
 	"github.com/grokify/goauth/endpoints"
-	"github.com/grokify/gohttp/httpsimple"
 	"github.com/grokify/mogo/encoding/jsonutil"
+	"github.com/grokify/mogo/net/http/httpsimple"
 )
 
 const (
