@@ -18,7 +18,7 @@ import (
 	"github.com/grokify/mogo/crypto/randutil"
 	"github.com/grokify/mogo/encoding/jsonutil"
 	"github.com/grokify/mogo/fmt/fmtutil"
-	"github.com/grokify/mogo/net/httputilmore"
+	"github.com/grokify/mogo/net/http/httputilmore"
 	"github.com/grokify/mogo/net/urlutil"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/clientcredentials"

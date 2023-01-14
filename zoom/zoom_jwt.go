@@ -8,7 +8,7 @@ import (
 	"github.com/grokify/goauth"
 	"github.com/grokify/goauth/credentials"
 	"github.com/grokify/goauth/endpoints"
-	"github.com/grokify/mogo/net/httputilmore"
+	"github.com/grokify/mogo/net/http/httputilmore"
 )
 
 const (

@@ -13,7 +13,7 @@ import (
 
 	"github.com/grokify/goauth"
 	"github.com/grokify/goauth/credentials"
-	hum "github.com/grokify/mogo/net/httputilmore"
+	hum "github.com/grokify/mogo/net/http/httputilmore"
 	"golang.org/x/oauth2"
 )
 

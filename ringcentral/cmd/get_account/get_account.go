@@ -10,7 +10,7 @@ import (
 	"github.com/grokify/goauth/ringcentral"
 	"github.com/grokify/mogo/config"
 	"github.com/grokify/mogo/log/logutil"
-	"github.com/grokify/mogo/net/httputilmore"
+	"github.com/grokify/mogo/net/http/httputilmore"
 	"github.com/grokify/mogo/net/urlutil"
 )
 

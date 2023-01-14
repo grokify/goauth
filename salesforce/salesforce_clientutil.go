@@ -13,7 +13,7 @@ import (
 
 	"github.com/grokify/go-salesforce/sobjects"
 	"github.com/grokify/goauth/credentials"
-	"github.com/grokify/mogo/net/httputilmore"
+	"github.com/grokify/mogo/net/http/httputilmore"
 	"github.com/grokify/mogo/net/urlutil"
 )
 

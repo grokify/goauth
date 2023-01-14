@@ -10,7 +10,7 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/grokify/mogo/net/httputilmore"
+	"github.com/grokify/mogo/net/http/httputilmore"
 	"github.com/grokify/mogo/time/timeutil"
 	"golang.org/x/oauth2"
 )

@@ -7,7 +7,7 @@ import (
 
 	jwt "github.com/golang-jwt/jwt/v4"
 	"github.com/grokify/mogo/errors/errorsutil"
-	"github.com/grokify/mogo/net/httputilmore"
+	"github.com/grokify/mogo/net/http/httputilmore"
 	"golang.org/x/oauth2"
 )
 
