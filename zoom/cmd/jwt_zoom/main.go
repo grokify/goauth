@@ -10,10 +10,10 @@ import (
 	jwt "github.com/golang-jwt/jwt/v4"
 	"github.com/grokify/goauth"
 	"github.com/grokify/goauth/zoom"
-	"github.com/grokify/gohttp/httpsimple"
 	"github.com/grokify/mogo/config"
 	"github.com/grokify/mogo/fmt/fmtutil"
 	"github.com/grokify/mogo/log/logutil"
+	"github.com/grokify/mogo/net/http/httpsimple"
 	"github.com/grokify/mogo/net/urlutil"
 )
 
@@ -76,10 +76,10 @@ func createMeeting(client *http.Client) (*http.Response, error) {
 		BaseURL:    zoom.ZoomAPIBaseURL,
 		HTTPClient: client}
 	req := httpsimple.SimpleRequest{
-		Method: http.MethodPost,
-		URL:    urlutil.JoinAbsolute(zoom.ZoomAPIMeURL, "meetings"),
-		Body:   []byte(reqBody),
-		IsJSON: true}
+		Method:   http.MethodPost,
+		URL:      urlutil.JoinAbsolute(zoom.ZoomAPIMeURL, "meetings"),
+		Body:     []byte(reqBody),
+		BodyType: httpsimple.BodyTypeJSON}
 	return sc.Do(req)
 }
 

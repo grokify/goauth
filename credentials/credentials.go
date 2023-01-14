@@ -10,8 +10,8 @@ import (
 
 	"github.com/grokify/goauth"
 	"github.com/grokify/goauth/endpoints"
-	"github.com/grokify/gohttp/httpsimple"
 	"github.com/grokify/mogo/errors/errorsutil"
+	"github.com/grokify/mogo/net/http/httpsimple"
 	"golang.org/x/oauth2"
 )
 

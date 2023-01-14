@@ -14,10 +14,10 @@ import (
 	"strings"
 
 	"github.com/grokify/goauth"
-	"github.com/grokify/gohttp/httpsimple"
 	"github.com/grokify/mogo/crypto/randutil"
 	"github.com/grokify/mogo/encoding/jsonutil"
 	"github.com/grokify/mogo/fmt/fmtutil"
+	"github.com/grokify/mogo/net/http/httpsimple"
 	"github.com/grokify/mogo/net/http/httputilmore"
 	"github.com/grokify/mogo/net/urlutil"
 	"golang.org/x/oauth2"

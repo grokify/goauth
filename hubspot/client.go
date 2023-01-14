@@ -6,7 +6,7 @@ import (
 
 	"github.com/grokify/goauth"
 	"github.com/grokify/goauth/endpoints"
-	"github.com/grokify/gohttp/httpsimple"
+	"github.com/grokify/mogo/net/http/httpsimple"
 )
 
 const (

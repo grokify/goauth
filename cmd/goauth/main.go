@@ -9,9 +9,9 @@ import (
 	"strings"
 
 	"github.com/grokify/goauth/credentials"
-	"github.com/grokify/gohttp/httpsimple"
 	"github.com/grokify/mogo/fmt/fmtutil"
 	"github.com/grokify/mogo/log/logutil"
+	"github.com/grokify/mogo/net/http/httpsimple"
 	"github.com/grokify/mogo/net/http/httputilmore"
 	flags "github.com/jessevdk/go-flags"
 )
@@ -53,7 +53,7 @@ func (opts *Options) SimpleRequest() (httpsimple.SimpleRequest, error) {
 	if len(opts.Body) > 0 {
 		sr.Body = opts.Body
 		if strings.Index(strings.TrimSpace(opts.Body), "{") == 0 {
-			sr.IsJSON = true
+			sr.BodyType = httpsimple.BodyTypeJSON
 		}
 	}
 	return sr, nil
