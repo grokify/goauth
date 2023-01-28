@@ -39,7 +39,7 @@ func ParseToken(rawToken []byte) (*oauth2.Token, error) {
 	}
 	tok = tok.WithExtra(msi)
 	// convert `expires_in` to `Expiry` with 1 minute leeway.
-	if timeutil.IsZero(tok.Expiry) {
+	if timeutil.NewTimeMore(tok.Expiry, 0).IsZeroAny() {
 		expiresIn := tok.Extra(OAuth2TokenPropExpiresIn)
 		if expiresIn != nil {
 			if expiresInFloat, ok := expiresIn.(float64); ok {

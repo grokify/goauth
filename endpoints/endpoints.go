@@ -180,5 +180,6 @@ func NewEndpoint(serviceName, subdomain string) (oauth2.Endpoint, string, error)
 			TokenURL:  ZoomTokenURL,
 			AuthStyle: oauth2.AuthStyleAutoDetect}, ZoomServerURL, nil
 	}
+	panic("Z")
 	return oauth2.Endpoint{}, "", fmt.Errorf("service not found [%s]", serviceName)
 }
