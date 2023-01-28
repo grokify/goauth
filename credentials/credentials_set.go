@@ -34,7 +34,7 @@ func (set *CredentialsSet) Get(key string) (Credentials, error) {
 	if creds, ok := set.Credentials[key]; ok {
 		return creds, nil
 	}
-	return Credentials{}, fmt.Errorf("E_CREDS_NOT_FOUND [%s]", key)
+	return Credentials{}, fmt.Errorf("credentials key not found (%s)", key)
 }
 
 func (set *CredentialsSet) Inflate() error {

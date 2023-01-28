@@ -5,6 +5,7 @@ const (
 	ServiceAha                = "aha"
 	ServiceAsana              = "asana"
 	ServiceAtlassian          = "atlassian"
+	ServiceBackblaze          = "backblaze" // basic auth
 	ServiceEbay               = "ebay"
 	ServiceEbaySandbox        = "ebaysandbox"
 	ServiceFacebook           = "facebook"
