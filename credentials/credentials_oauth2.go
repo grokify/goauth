@@ -16,7 +16,6 @@ import (
 	"github.com/grokify/goauth"
 	"github.com/grokify/mogo/crypto/randutil"
 	"github.com/grokify/mogo/encoding/jsonutil"
-	"github.com/grokify/mogo/fmt/fmtutil"
 	"github.com/grokify/mogo/net/http/httpsimple"
 	"github.com/grokify/mogo/net/http/httputilmore"
 	"github.com/grokify/mogo/net/urlutil"
@@ -256,6 +255,7 @@ func (oc *CredentialsOAuth2) RefreshTokenSimple(refreshToken string) (*oauth2.To
 	if len(oc.Scopes) > 0 {
 		body.Add(goauth.ParamScope, strings.Join(oc.Scopes, " "))
 	}
+
 	sr := httpsimple.SimpleRequest{
 		Method: http.MethodPost,
 		URL:    oc.Endpoint.TokenURL,
@@ -265,8 +265,7 @@ func (oc *CredentialsOAuth2) RefreshTokenSimple(refreshToken string) (*oauth2.To
 		},
 		Body: []byte(body.Encode()),
 	}
-	fmtutil.PrintJSON(sr)
-	fmt.Println(body.Encode())
+
 	resp, err := httpsimple.Do(sr)
 	if err != nil {
 		return nil, []byte{}, err
