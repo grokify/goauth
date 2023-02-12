@@ -12,7 +12,7 @@ require (
 	github.com/grokify/gostor v0.2.2
 	github.com/grokify/mogo v0.46.0
 	github.com/jessevdk/go-flags v1.5.0
-	github.com/joho/godotenv v1.4.0
+	github.com/joho/godotenv v1.5.1
 	github.com/pquerna/ffjson v0.0.0-20190930134022-aa0246cd15f7
 	github.com/rs/zerolog v1.29.0
 	golang.org/x/oauth2 v0.5.0
