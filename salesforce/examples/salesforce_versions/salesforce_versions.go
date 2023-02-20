@@ -18,7 +18,7 @@ import (
 
 func main() {
 	//err := config.LoadDotEnvSkipEmpty(os.Getenv("ENV_PATH"), "./.env")
-	err := config.LoadDotEnvSkipEmpty("./.env")
+	_, err := config.LoadDotEnv([]string{"./.env"}, -1)
 	if err != nil {
 		panic(err)
 	}

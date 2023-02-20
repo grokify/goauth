@@ -119,7 +119,7 @@ func printString(w http.ResponseWriter, s string) {
 func main() {
 	zerolog.SetGlobalLevel(zerolog.InfoLevel)
 
-	err := config.LoadDotEnvSkipEmpty(os.Getenv("ENV_PATH"), "./.env")
+	_, err := config.LoadDotEnv([]string{os.Getenv("ENV_PATH"), "./.env"}, -1)
 	if err != nil {
 		zlog.Fatal().Err(err).
 			Str("config", "dotenvLoadingError")

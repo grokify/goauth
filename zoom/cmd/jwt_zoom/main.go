@@ -18,8 +18,7 @@ import (
 )
 
 func main() {
-	files, err := config.LoadDotEnv(
-		".env", os.Getenv("ENV_PATH"))
+	files, err := config.LoadDotEnv([]string{".env", os.Getenv("ENV_PATH")}, -1)
 	logutil.FatalErr(err)
 
 	fmtutil.MustPrintJSON(files)

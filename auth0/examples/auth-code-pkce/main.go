@@ -141,7 +141,7 @@ func (cfg *appConfig) Oauth2CallbackHandler(w http.ResponseWriter, r *http.Reque
 func main() {
 	zlog.Logger = zlog.Output(zerolog.ConsoleWriter{Out: os.Stderr})
 
-	if err := config.LoadDotEnvSkipEmpty(os.Getenv("ENV_PATH"), "./.env"); err != nil {
+	if _, err := config.LoadDotEnv([]string{os.Getenv("ENV_PATH"), "./.env"}, -1); err != nil {
 		panic(err)
 	}
 

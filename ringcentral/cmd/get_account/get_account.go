@@ -15,7 +15,7 @@ import (
 )
 
 func main() {
-	err := config.LoadDotEnvSkipEmpty(os.Getenv("ENV_PATH"), "./.env")
+	_, err := config.LoadDotEnv([]string{os.Getenv("ENV_PATH"), "./.env"}, -1)
 	logutil.FatalErr(err)
 
 	// client := &http.Client{}
