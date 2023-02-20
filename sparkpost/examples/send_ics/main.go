@@ -154,7 +154,7 @@ END:VCALENDAR`
 
 func main() {
 	envFiles := []string{os.Getenv("ENV_PATH"), "./.env"}
-	if err := config.LoadDotEnvSkipEmpty(envFiles...); err != nil {
+	if _, err := config.LoadDotEnv(envFiles, -1); err != nil {
 		log.Fatal().Err(err).
 			Str("files", strings.Join(envFiles, ",")).
 			Msg("Load env files failed")

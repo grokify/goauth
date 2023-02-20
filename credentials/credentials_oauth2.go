@@ -15,6 +15,7 @@ import (
 
 	"github.com/grokify/goauth"
 	"github.com/grokify/mogo/crypto/randutil"
+	"github.com/grokify/mogo/encoding/basex"
 	"github.com/grokify/mogo/encoding/jsonutil"
 	"github.com/grokify/mogo/net/http/httpsimple"
 	"github.com/grokify/mogo/net/http/httputilmore"
@@ -201,7 +202,7 @@ func (oc *CredentialsOAuth2) NewToken(ctx context.Context) (*oauth2.Token, error
 		cfg := oc.Config()
 		return cfg.PasswordCredentialsToken(ctx, oc.Username, oc.Password)
 	} else if oc.IsGrantType(goauth.GrantTypeAuthorizationCode) {
-		state := randutil.MustRandString(randutil.AlphabetBase62, 12)
+		state := randutil.RandString(basex.AlphabetBase62, 12)
 		authURL := oc.AuthCodeURL(state, map[string][]string{})
 		fmt.Printf("Authorization URL: %s\n", authURL)
 

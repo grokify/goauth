@@ -32,7 +32,7 @@ func sendTestEmail(client sp.Client) {
 }
 
 func main() {
-	err := config.LoadDotEnvSkipEmpty(os.Getenv("ENV_PATH"), "./.env")
+	_, err := config.LoadDotEnv([]string{os.Getenv("ENV_PATH"), "./.env"}, -1)
 	if err != nil {
 		log.Fatal().Err(err).
 			Msg("Load env files failed")

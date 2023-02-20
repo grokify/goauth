@@ -80,8 +80,8 @@ func RandomState(statePrefix string, randomSuffix bool) string {
 		parts = append(parts, statePrefix)
 	}
 	if randomSuffix {
-		cr := randutil.NewCryptoRand(nil, nil)
-		parts = append(parts, fmt.Sprintf("%v", cr.MustIntn(1000000000)))
+		// cr := randutil.NewCryptoRand(nil, nil)
+		parts = append(parts, fmt.Sprintf("%v", randutil.Intn(1000000000)))
 	}
 	return strings.Join(parts, "-")
 }

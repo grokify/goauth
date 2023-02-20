@@ -186,7 +186,8 @@ func (opts *ConfigEnvOpts) Defaultify() {
 
 func (opts *ConfigEnvOpts) LoadEnv() error {
 	if opts.EnvPathsLoad && len(opts.EnvPaths) > 0 {
-		return config.LoadDotEnvSkipEmpty(opts.EnvPaths...)
+		_, err := config.LoadDotEnv(opts.EnvPaths, -1)
+		return err
 	}
 	return nil
 }
