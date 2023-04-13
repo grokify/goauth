@@ -5,7 +5,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/grokify/goauth"
+	"github.com/grokify/goauth/authutil"
 	"github.com/grokify/goauth/credentials"
 	"github.com/grokify/goauth/endpoints"
 	"golang.org/x/oauth2"
@@ -44,7 +44,7 @@ func NewClientPassword(oc credentials.CredentialsOAuth2) (*http.Client, error) {
 		conf.Endpoint = oc.Endpoint
 	}
 
-	return goauth.NewClientPasswordConf(conf, oc.Username, oc.Password)
+	return authutil.NewClientPasswordConf(conf, oc.Username, oc.Password)
 }
 
 func NewClientPasswordSalesforceEnv() (*http.Client, error) {

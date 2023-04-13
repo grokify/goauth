@@ -1,4 +1,4 @@
-package goauth
+package authutil
 
 const (
 	GrantTypeAuthorizationCode = "authorization_code"

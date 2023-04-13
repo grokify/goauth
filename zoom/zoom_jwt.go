@@ -5,7 +5,7 @@ import (
 	"time"
 
 	jwt "github.com/golang-jwt/jwt/v4"
-	"github.com/grokify/goauth"
+	"github.com/grokify/goauth/authutil"
 	"github.com/grokify/goauth/credentials"
 	"github.com/grokify/goauth/endpoints"
 	"github.com/grokify/mogo/net/http/httputilmore"
@@ -34,9 +34,9 @@ func NewClient(apiKey, apiSecret string, tokenDuration time.Duration) (*http.Cli
 }
 
 func NewClientToken(bearerToken string) *http.Client {
-	return goauth.NewClientHeaderQuery(
+	return authutil.NewClientHeaderQuery(
 		map[string][]string{
-			httputilmore.HeaderAuthorization: {goauth.TokenBearer + " " + bearerToken},
+			httputilmore.HeaderAuthorization: {authutil.TokenBearer + " " + bearerToken},
 			httputilmore.HeaderUserAgent:     {HeaderUserAgentJWTValue}},
 		map[string][]string{},
 		false)

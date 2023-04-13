@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"net/url"
 
-	"github.com/grokify/goauth"
+	"github.com/grokify/goauth/authutil"
 	"github.com/grokify/mogo/net/http/httputilmore"
 	"golang.org/x/oauth2"
 )
@@ -29,9 +29,9 @@ func NewEndpoint(subdomain string) oauth2.Endpoint {
 }
 
 func NewClient(subdomain, token string) *http.Client {
-	return goauth.NewClientHeaderQuery(
+	return authutil.NewClientHeaderQuery(
 		http.Header{
-			httputilmore.HeaderAuthorization: []string{goauth.TokenBearer + " " + token},
+			httputilmore.HeaderAuthorization: []string{authutil.TokenBearer + " " + token},
 			AhaAccountHeader:                 []string{subdomain}},
 		url.Values{},
 		false)
@@ -39,7 +39,7 @@ func NewClient(subdomain, token string) *http.Client {
 
 /*
 func NewClient(subdomain, token string) *http.Client {
-	client := goauth.NewClientAuthzTokenSimple(goauth.TokenBearer, token)
+	client := authutil.NewClientAuthzTokenSimple(authutil.TokenBearer, token)
 
 	header := http.Header{}
 	header.Add(AhaAccountHeader, subdomain)

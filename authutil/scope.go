@@ -1,4 +1,4 @@
-package goauth
+package authutil
 
 type Scope struct {
 	Name        string `json:"name"`

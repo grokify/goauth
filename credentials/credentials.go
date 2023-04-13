@@ -8,7 +8,7 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/grokify/goauth"
+	"github.com/grokify/goauth/authutil"
 	"github.com/grokify/goauth/endpoints"
 	"github.com/grokify/mogo/errors/errorsutil"
 	"github.com/grokify/mogo/net/http/httpsimple"
@@ -87,9 +87,9 @@ func (creds *Credentials) NewClient(ctx context.Context) (*http.Client, error) {
 		return nil, ErrJWTNotSupported
 	}
 	if creds.Token != nil {
-		return goauth.NewClientToken(goauth.TokenBearer, creds.Token.AccessToken, false), nil
+		return authutil.NewClientToken(authutil.TokenBearer, creds.Token.AccessToken, false), nil
 	}
-	if creds.OAuth2.GrantType == goauth.GrantTypeClientCredentials ||
+	if creds.OAuth2.GrantType == authutil.GrantTypeClientCredentials ||
 		strings.Contains(creds.OAuth2.GrantType, TypeJWT) {
 		clt, _, err := creds.OAuth2.NewClient(ctx)
 		return clt, err
@@ -99,7 +99,7 @@ func (creds *Credentials) NewClient(ctx context.Context) (*http.Client, error) {
 		return nil, errorsutil.Wrap(err, "Credentials.NewToken()")
 	}
 	creds.Token = tok
-	return goauth.NewClientToken(goauth.TokenBearer, tok.AccessToken, false), nil
+	return authutil.NewClientToken(authutil.TokenBearer, tok.AccessToken, false), nil
 }
 
 func (creds *Credentials) NewSimpleClient(ctx context.Context) (*httpsimple.SimpleClient, error) {
@@ -137,8 +137,8 @@ func (creds *Credentials) NewClientCLI(oauth2State string) (*http.Client, error)
 		return nil, err
 	}
 	creds.Token = tok
-	return goauth.NewClientToken(
-		goauth.TokenBearer, tok.AccessToken, false), nil
+	return authutil.NewClientToken(
+		authutil.TokenBearer, tok.AccessToken, false), nil
 }
 
 func (creds *Credentials) NewToken() (*oauth2.Token, error) {
@@ -152,7 +152,7 @@ func (creds *Credentials) NewToken() (*oauth2.Token, error) {
 // NewTokenCLI retrieves a token using CLI approach for
 // OAuth 2.0 authorization code or password grant.
 func (creds *Credentials) NewTokenCLI(oauth2State string) (*oauth2.Token, error) {
-	if strings.EqualFold(strings.TrimSpace(creds.OAuth2.GrantType), goauth.GrantTypeAuthorizationCode) {
+	if strings.EqualFold(strings.TrimSpace(creds.OAuth2.GrantType), authutil.GrantTypeAuthorizationCode) {
 		return NewTokenCLI(*creds, oauth2State)
 	}
 	return creds.NewToken()
