@@ -5,7 +5,7 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/grokify/goauth"
+	"github.com/grokify/goauth/authutil"
 	"github.com/grokify/mogo/net/http/httpsimple"
 	"github.com/grokify/mogo/net/http/httputilmore"
 )
@@ -22,14 +22,14 @@ type CredentialsBasicAuth struct {
 func (c *CredentialsBasicAuth) NewClient() (*http.Client, error) {
 	if len(strings.TrimSpace(c.Encoded)) > 0 {
 		if strings.Index(strings.ToLower(strings.TrimSpace(c.Encoded)), "basic ") == 0 {
-			return goauth.NewClientHeaderQuery(
+			return authutil.NewClientHeaderQuery(
 				http.Header{httputilmore.HeaderAuthorization: []string{c.Encoded}},
 				url.Values{},
 				c.AllowInsecure), nil
 		}
-		return goauth.NewClientToken(goauth.TokenBasic, c.Encoded, c.AllowInsecure), nil
+		return authutil.NewClientToken(authutil.TokenBasic, c.Encoded, c.AllowInsecure), nil
 	} else if len(c.Username) > 0 || len(c.Password) > 0 {
-		return goauth.NewClientBasicAuth(c.Username, c.Password, c.AllowInsecure)
+		return authutil.NewClientBasicAuth(c.Username, c.Password, c.AllowInsecure)
 	}
 	return &http.Client{}, nil
 }

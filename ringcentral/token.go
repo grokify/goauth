@@ -5,20 +5,20 @@ import (
 	"strings"
 	"time"
 
-	"github.com/grokify/goauth"
+	"github.com/grokify/goauth/authutil"
 	"github.com/grokify/goauth/credentials"
 	"golang.org/x/oauth2"
 )
 
 func NewTokenCli(creds credentials.Credentials, state string) (token *oauth2.Token, err error) {
-	if creds.OAuth2.IsGrantType(goauth.GrantTypeAuthorizationCode) {
+	if creds.OAuth2.IsGrantType(authutil.GrantTypeAuthorizationCode) {
 		state = strings.TrimSpace(state)
 		if len(state) == 0 {
 			state = "goauth-" + time.Now().UTC().Format(time.RFC3339)
 		}
 		fmt.Printf("OAuth State [%s]\n", state)
 		cfg := creds.OAuth2.Config()
-		token, err = goauth.NewTokenCLIFromWeb(&cfg, state)
+		token, err = authutil.NewTokenCLIFromWeb(&cfg, state)
 		if err != nil {
 			return token, err
 		}

@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 
-	"github.com/grokify/goauth"
 	"github.com/grokify/goauth/aha"
+	"github.com/grokify/goauth/authutil"
 	"github.com/grokify/goauth/facebook"
 )
 
@@ -35,7 +35,7 @@ func PrintInterfaceFunction(i Interface) {
 	fmt.Println(i.Function())
 }
 
-func ChooseClient(s string) goauth.OAuth2Util {
+func ChooseClient(s string) authutil.OAuth2Util {
 	if s == "aha" {
 		return &aha.ClientUtil{}
 	}

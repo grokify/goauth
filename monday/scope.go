@@ -1,9 +1,9 @@
 package monday
 
-import "github.com/grokify/goauth"
+import "github.com/grokify/goauth/authutil"
 
-func GetScopes() []goauth.Scope {
-	return []goauth.Scope{
+func GetScopes() []authutil.Scope {
+	return []authutil.Scope{
 		{Name: "me:read", Description: "Read your basic personal details"},
 		{Name: "boards:read", Description: "Read boards data"},
 		{Name: "boards:write", Description: "Modify boards data"},

@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/grokify/goauth"
+	"github.com/grokify/goauth/authutil"
 	"github.com/grokify/goauth/credentials"
 	"github.com/grokify/goauth/ringcentral"
 	"github.com/grokify/mogo/config"
@@ -21,8 +21,8 @@ func main() {
 	// client := &http.Client{}
 	var client *http.Client
 	if len(os.Getenv("RINGCENTRAL_ACCESS_TOKEN")) > 0 {
-		client = goauth.NewClientAuthzTokenSimple(
-			goauth.TokenBearer,
+		client = authutil.NewClientAuthzTokenSimple(
+			authutil.TokenBearer,
 			os.Getenv("RINGCENTRAL_ACCESS_TOKEN"))
 	} else {
 		client, err = ringcentral.NewClientPassword(

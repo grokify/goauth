@@ -8,7 +8,7 @@ import (
 	"time"
 
 	jwt "github.com/golang-jwt/jwt/v4"
-	"github.com/grokify/goauth"
+	"github.com/grokify/goauth/authutil"
 	"github.com/grokify/goauth/zoom"
 	"github.com/grokify/mogo/config"
 	"github.com/grokify/mogo/fmt/fmtutil"
@@ -34,7 +34,7 @@ func main() {
 	fmt.Printf("TOK [%v]\n", tokenString)
 
 	if 1 == 0 {
-		token, err := goauth.ParseJwtTokenString(
+		token, err := authutil.ParseJwtTokenString(
 			tokenString, apiSecret,
 			&jwt.RegisteredClaims{Issuer: apiKey})
 		logutil.FatalErr(err)

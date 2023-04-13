@@ -11,7 +11,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/grokify/goauth"
+	"github.com/grokify/goauth/authutil"
 	"github.com/grokify/mogo/config"
 	"github.com/grokify/mogo/encoding/jsonutil"
 	"github.com/grokify/mogo/net/http/httputilmore"
@@ -130,7 +130,7 @@ func NewClientPasswordWithSessionID(baseURL, username, password, sessionID strin
 }
 
 func NewClientSessionID(sessionID string, allowInsecure bool) *http.Client {
-	return goauth.NewClientHeaderQuery(
+	return authutil.NewClientHeaderQuery(
 		http.Header{HeaderMetabaseSession: []string{sessionID}},
 		url.Values{},
 		allowInsecure)
@@ -141,7 +141,7 @@ func NewClientSessionID(sessionID string, allowInsecure bool) *http.Client {
 		header.Add(HeaderMetabaseSession, sessionID)
 
 		if tlsSkipVerify {
-			client = goauth.ClientTLSInsecureSkipVerify(client)
+			client = authutil.ClientTLSInsecureSkipVerify(client)
 		}
 
 		client.Transport = httputilmore.TransportRequestModifier{

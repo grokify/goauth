@@ -13,7 +13,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/grokify/goauth"
+	"github.com/grokify/goauth/authutil"
 	"github.com/grokify/mogo/crypto/randutil"
 	"github.com/grokify/mogo/encoding/basex"
 	"github.com/grokify/mogo/encoding/jsonutil"
@@ -101,7 +101,7 @@ func (oc *CredentialsOAuth2) AuthCodeURL(state string, opts map[string][]string)
 }
 
 func (oc *CredentialsOAuth2) BasicAuthHeader() (string, error) {
-	return goauth.BasicAuthHeader(oc.ClientID, oc.ClientSecret)
+	return authutil.BasicAuthHeader(oc.ClientID, oc.ClientSecret)
 }
 
 func (oc *CredentialsOAuth2) Exchange(ctx context.Context, code string, opts map[string][]string) (*oauth2.Token, error) {
@@ -158,14 +158,14 @@ func (oc *CredentialsOAuth2) NewClient(ctx context.Context) (*http.Client, error
 		config := oc.Config()
 		return config.Client(ctx, oc.Token), nil
 	} else if strings.Contains(strings.ToLower(oc.GrantType), "jwt") ||
-		oc.IsGrantType(goauth.GrantTypePassword) {
+		oc.IsGrantType(authutil.GrantTypePassword) {
 		tok, err := oc.NewToken(ctx)
 		if err != nil {
 			return nil, err
 		}
 		config := oc.Config()
 		return config.Client(ctx, tok), nil
-	} else if oc.IsGrantType(goauth.GrantTypeClientCredentials) {
+	} else if oc.IsGrantType(authutil.GrantTypeClientCredentials) {
 		config := oc.ConfigClientCredentials()
 		return config.Client(ctx), nil
 	}
@@ -185,7 +185,7 @@ func (oc *CredentialsOAuth2) NewClient(ctx context.Context) (*http.Client, *oaut
 
 // NewToken retrieves an `*oauth2.Token` when the requisite information is available.
 // Note this uses `clientcredentials.Config.Token()` which doesn't always work. In
-// This situation, use `goauth.TokenClientCredentials()` as an alternative. Note: authorization
+// This situation, use `authutil.TokenClientCredentials()` as an alternative. Note: authorization
 // code is only supported for CLI testing purposes. In a production application, it should be
 // done in a multi-step process to redirect the user to the authorization URL, retrieve the
 // auth code and then `Exchange` it for a token. The `state` value is currently a randomly generated
@@ -194,14 +194,14 @@ func (oc *CredentialsOAuth2) NewToken(ctx context.Context) (*oauth2.Token, error
 	if oc.Token != nil && len(strings.TrimSpace(oc.Token.AccessToken)) > 0 {
 		return oc.Token, nil
 	} else if strings.Contains(strings.ToLower(oc.GrantType), "jwt") {
-		return goauth.NewTokenOAuth2JWT(oc.Endpoint.TokenURL, oc.ClientID, oc.ClientSecret, oc.JWT)
-	} else if oc.IsGrantType(goauth.GrantTypeClientCredentials) {
+		return authutil.NewTokenOAuth2JWT(oc.Endpoint.TokenURL, oc.ClientID, oc.ClientSecret, oc.JWT)
+	} else if oc.IsGrantType(authutil.GrantTypeClientCredentials) {
 		config := oc.ConfigClientCredentials()
 		return config.Token(ctx)
-	} else if oc.IsGrantType(goauth.GrantTypePassword) {
+	} else if oc.IsGrantType(authutil.GrantTypePassword) {
 		cfg := oc.Config()
 		return cfg.PasswordCredentialsToken(ctx, oc.Username, oc.Password)
-	} else if oc.IsGrantType(goauth.GrantTypeAuthorizationCode) {
+	} else if oc.IsGrantType(authutil.GrantTypeAuthorizationCode) {
 		state := randutil.RandString(basex.AlphabetBase62, 12)
 		authURL := oc.AuthCodeURL(state, map[string][]string{})
 		fmt.Printf("Authorization URL: %s\n", authURL)
@@ -220,7 +220,7 @@ func (oc *CredentialsOAuth2) NewToken(ctx context.Context) (*oauth2.Token, error
 
 /*
 func NewTokenOAuth2(credsOA2 credentials.CredentialsOAuth2) (*oauth2.Token, error) {
-	if credsOA2.GrantType == goauth.GrantTypeAuthorizationCode {
+	if credsOA2.GrantType == authutil.GrantTypeAuthorizationCode {
 		authURL := credsOA2.AuthCodeURL("abc", map[string][]string{})
 		fmt.Println(authURL)
 
@@ -231,7 +231,7 @@ func NewTokenOAuth2(credsOA2 credentials.CredentialsOAuth2) (*oauth2.Token, erro
 			return nil, err
 		}
 		return credsOA2.Exchange(context.Background(), authCode, map[string][]string{})
-	} else if credsOA2.GrantType == goauth.GrantTypeClientCredentials {
+	} else if credsOA2.GrantType == authutil.GrantTypeClientCredentials {
 		return credsOA2.NewToken(context.Background()) // direct `creds.NewToken()` doesn't work
 	}
 	return nil, fmt.Errorf("grant type not supported (%s)", credsOA2.GrantType)
@@ -251,10 +251,10 @@ func (oc *CredentialsOAuth2) RefreshTokenSimple(refreshToken string) (*oauth2.To
 		return nil, []byte{}, err
 	}
 	body := url.Values{}
-	body.Add(goauth.ParamRefreshToken, refreshToken)
-	body.Add(goauth.ParamGrantType, goauth.GrantTypeRefreshToken)
+	body.Add(authutil.ParamRefreshToken, refreshToken)
+	body.Add(authutil.ParamGrantType, authutil.GrantTypeRefreshToken)
 	if len(oc.Scopes) > 0 {
-		body.Add(goauth.ParamScope, strings.Join(oc.Scopes, " "))
+		body.Add(authutil.ParamScope, strings.Join(oc.Scopes, " "))
 	}
 
 	sr := httpsimple.SimpleRequest{
@@ -278,7 +278,7 @@ func (oc *CredentialsOAuth2) RefreshTokenSimple(refreshToken string) (*oauth2.To
 	if resp.StatusCode >= 300 {
 		return nil, tokBody, fmt.Errorf("status code (%d)", resp.StatusCode)
 	}
-	tok, err := goauth.ParseToken(tokBody)
+	tok, err := authutil.ParseToken(tokBody)
 	return tok, tokBody, err
 	/*
 		oaTok, err := goauth.ParseOAuth2Token(tokBody)
@@ -292,9 +292,9 @@ func (oc *CredentialsOAuth2) RefreshTokenSimple(refreshToken string) (*oauth2.To
 
 func (oc *CredentialsOAuth2) PasswordRequestBody() url.Values {
 	body := url.Values{
-		goauth.ParamGrantType: {goauth.GrantTypePassword},
-		goauth.ParamUsername:  {oc.Username},
-		goauth.ParamPassword:  {oc.Password}}
+		authutil.ParamGrantType: {authutil.GrantTypePassword},
+		authutil.ParamUsername:  {oc.Username},
+		authutil.ParamPassword:  {oc.Password}}
 	if oc.AccessTokenTTL != 0 {
 		body.Set("access_token_ttl", strconv.Itoa(int(oc.AccessTokenTTL)))
 	}
@@ -319,7 +319,7 @@ func NewCredentialsOAuth2Env(envPrefix string) CredentialsOAuth2 {
 		Username:     os.Getenv(envPrefix + "USERNAME"),
 		Password:     os.Getenv(envPrefix + "PASSWORD")}
 	if len(strings.TrimSpace(creds.Username)) > 0 {
-		creds.GrantType = goauth.GrantTypePassword
+		creds.GrantType = authutil.GrantTypePassword
 	}
 	return creds
 }

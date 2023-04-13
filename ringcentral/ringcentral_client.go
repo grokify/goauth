@@ -11,7 +11,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/grokify/goauth"
+	"github.com/grokify/goauth/authutil"
 	"github.com/grokify/goauth/credentials"
 	hum "github.com/grokify/mogo/net/http/httputilmore"
 	"golang.org/x/oauth2"
@@ -47,7 +47,7 @@ func NewClientPassword(oc credentials.CredentialsOAuth2) (*http.Client, error) {
 
 // NewClientPasswordSimple uses OAuth2 package password grant handling.
 func NewClientPasswordSimple(oc credentials.CredentialsOAuth2) (*http.Client, error) {
-	httpClient, err := goauth.NewClientPasswordConf(
+	httpClient, err := authutil.NewClientPasswordConf(
 		oauth2.Config{
 			ClientID:     oc.ClientID,
 			ClientSecret: oc.ClientSecret,
@@ -68,7 +68,7 @@ func NewClientPasswordSimple(oc credentials.CredentialsOAuth2) (*http.Client, er
 }
 
 func getClientHeader(oc credentials.CredentialsOAuth2) http.Header {
-	userAgentParts := []string{goauth.PathVersion()}
+	userAgentParts := []string{authutil.PathVersion()}
 	if len(oc.AppNameAndVersion()) > 0 {
 		userAgentParts = append([]string{oc.AppNameAndVersion()}, userAgentParts...)
 	}
@@ -99,7 +99,7 @@ func RetrieveRcToken(cfg oauth2.Config, params url.Values) (*RcToken, error) {
 		return nil, err
 	}
 
-	basicAuthHeader, err := goauth.BasicAuthHeader(cfg.ClientID, cfg.ClientSecret)
+	basicAuthHeader, err := authutil.BasicAuthHeader(cfg.ClientID, cfg.ClientSecret)
 	if err != nil {
 		return nil, err
 	}

@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/grokify/goauth"
+	"github.com/grokify/goauth/authutil"
 	"github.com/grokify/mogo/crypto/tlsutil"
 )
 
@@ -44,10 +44,10 @@ func NewClient(cfg Config) (*http.Client, error) {
 
 	// tlsConfig.Inflate()
 
-	if token, err := goauth.BasicAuthToken(cfg.Username, cfg.Password); err != nil {
+	if token, err := authutil.BasicAuthToken(cfg.Username, cfg.Password); err != nil {
 		return nil, err
 	} else {
-		return goauth.NewClientTLSToken(
+		return authutil.NewClientTLSToken(
 			context.Background(), tlsConfig.Config, token), nil
 	}
 }
