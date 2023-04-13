@@ -7,7 +7,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/grokify/goauth/credentials"
+	"github.com/grokify/goauth"
 	"github.com/grokify/goauth/salesforce"
 	"github.com/grokify/mogo/config"
 	"github.com/grokify/mogo/fmt/fmtutil"
@@ -26,7 +26,7 @@ func main() {
 	fmt.Printf(os.Getenv("SALESFORCE_CLIENT_SECRET"))
 
 	client, err := salesforce.NewClientPassword(
-		credentials.CredentialsOAuth2{
+		goauth.CredentialsOAuth2{
 			ClientID:     os.Getenv("SALESFORCE_CLIENT_ID"),
 			ClientSecret: os.Getenv("SALESFORCE_CLIENT_SECRET"),
 			Username:     os.Getenv("SALESFORCE_USERNAME"),

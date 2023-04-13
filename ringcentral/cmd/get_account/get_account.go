@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/grokify/goauth"
 	"github.com/grokify/goauth/authutil"
-	"github.com/grokify/goauth/credentials"
 	"github.com/grokify/goauth/ringcentral"
 	"github.com/grokify/mogo/config"
 	"github.com/grokify/mogo/log/logutil"
@@ -26,7 +26,7 @@ func main() {
 			os.Getenv("RINGCENTRAL_ACCESS_TOKEN"))
 	} else {
 		client, err = ringcentral.NewClientPassword(
-			credentials.CredentialsOAuth2{
+			goauth.CredentialsOAuth2{
 				ClientID:     os.Getenv("RINGCENTRAL_CLIENT_ID"),
 				ClientSecret: os.Getenv("RINGCENTRAL_CLIENT_SECRET"),
 				ServerURL:    os.Getenv("RINGCENTRAL_SERVER_URL"),

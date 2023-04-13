@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/grokify/goauth/credentials"
+	"github.com/grokify/goauth"
 	"github.com/grokify/mogo/fmt/fmtutil"
 	"github.com/grokify/mogo/log/logutil"
 	"github.com/grokify/mogo/net/http/httpsimple"
@@ -17,7 +17,7 @@ import (
 )
 
 type Options struct {
-	credentials.Options
+	goauth.Options
 	URL    string   `short:"U" long:"url" description:"URL" required:"true"`
 	Method string   `short:"X" long:"request" description:"Method"`
 	Header []string `short:"H" long:"header" description:"HTTP Headers"`
@@ -65,7 +65,7 @@ func main() {
 	logutil.FatalErr(err)
 	fmtutil.MustPrintJSON(opts)
 
-	creds, err := credentials.ReadCredentialsFromFile(
+	creds, err := goauth.ReadCredentialsFromFile(
 		opts.Options.CredsPath, opts.Options.Account, true)
 	logutil.FatalErr(err)
 
