@@ -9,8 +9,8 @@ GoAuth provides helper libraries for authentication in Go, with a focus on API s
 
 Major features include:
 
+1. The base `goauth` package is designed to provide a single file format for handling configuration of all methods of authentication, including BasicAuth, OAuth 2.0, and JWT credentials. The primary use case is to have a single JSON definition of multiple applications for multiple services which can be used to generate token and API requests. It works with `goauth/endpoints` to add endpoints for known services.
 1. Create `*http.Client` for multiple API services. Use `NewClient()` functions to create `*http.Client` structs for services not supported in `oauth2` like `aha`, `metabase`, `ringcentral`, `salesforce`, `visa`, etc. Generating `*http.Client` structs is especially useful for using with Swagger Codegen auto-generated SDKs to support different auth models.
-1. Generically store and retrieve multiple app credentials in a single JSON object via the [`credentials`](https://pkg.go.dev/github.com/grokify/goauth/credentials) package. Supports BasicAuth, OAuth 2, and JWT.
 1. Create OAuth 2.0 authorization code token from the command line (for test purposes). No website is needed.
 1. Retrieve canonical user information via helper libraries to retrieve canonical user information from services. The [SCIM](http://www.simplecloud.info/) user schema is used for a canonical user model. This may be replaced/augmented by OIDC `userinfo` in the future.
 1. Transparently handle OAuth 2 for multiple services, e.g. a website that supports Google and Facebook auth. This is demoed in [grokify/beego-oauth2-demo](https://github.com/grokify/beego-oauth2-demo)
