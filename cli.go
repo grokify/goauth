@@ -1,4 +1,4 @@
-package credentials
+package goauth
 
 // Options is a struct to be used with `github.com/jessevdk/go-flags`.
 // It can be embedded in another struct.

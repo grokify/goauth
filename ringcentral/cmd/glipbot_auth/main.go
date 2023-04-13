@@ -10,7 +10,7 @@ import (
 	"os"
 
 	env "github.com/caarlos0/env/v6"
-	"github.com/grokify/goauth/credentials"
+	"github.com/grokify/goauth"
 	"github.com/grokify/goauth/ringcentral"
 	"github.com/grokify/mogo/config"
 	"github.com/grokify/mogo/fmt/fmtutil"
@@ -103,7 +103,7 @@ func (app *AppHandler) HandleOauth2(w http.ResponseWriter, req *http.Request) {
 }
 
 func getOauth2Config(appCfg RingCentralConfig) oauth2.Config {
-	app := credentials.CredentialsOAuth2{
+	app := goauth.CredentialsOAuth2{
 		ClientID:     appCfg.ClientID,
 		ClientSecret: appCfg.ClientSecret,
 		ServerURL:    appCfg.ServerURL,

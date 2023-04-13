@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/grokify/goauth/credentials"
+	"github.com/grokify/goauth"
 	"github.com/grokify/mogo/fmt/fmtutil"
 	flags "github.com/jessevdk/go-flags"
 	"github.com/rs/zerolog/log"
@@ -11,14 +11,14 @@ import (
 )
 
 func main() {
-	opts := credentials.Options{}
+	opts := goauth.Options{}
 	_, err := flags.Parse(&opts)
 	if err != nil {
 		log.Fatal().Err(err)
 	}
 	fmtutil.MustPrintJSON(opts)
 
-	creds, err := credentials.ReadCredentialsFromFile(
+	creds, err := goauth.ReadCredentialsFromFile(
 		opts.CredsPath, opts.Account, true)
 	if err != nil {
 		log.Fatal().Err(err).

@@ -5,8 +5,8 @@ import (
 	"time"
 
 	jwt "github.com/golang-jwt/jwt/v4"
+	"github.com/grokify/goauth"
 	"github.com/grokify/goauth/authutil"
-	"github.com/grokify/goauth/credentials"
 	"github.com/grokify/goauth/endpoints"
 	"github.com/grokify/mogo/net/http/httputilmore"
 )
@@ -18,7 +18,7 @@ const (
 )
 
 func CreateJwtToken(apiKey, apiSecret string, tokenDuration time.Duration) (*jwt.Token, string, error) {
-	jwtCreds := credentials.CredentialsJWT{
+	jwtCreds := goauth.CredentialsJWT{
 		Issuer:        apiKey,
 		PrivateKey:    apiSecret,
 		SigningMethod: endpoints.ZoomJWTSigningMethod}
