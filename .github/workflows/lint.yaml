@@ -15,3 +15,5 @@ jobs:
       with:
         skip-go-installation: true
         version: latest
+        args: --timeout 3m --verbose
+
