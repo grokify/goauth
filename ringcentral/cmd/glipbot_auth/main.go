@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"time"
 
 	env "github.com/caarlos0/env/v6"
 	"github.com/grokify/goauth"
@@ -136,11 +137,17 @@ func main() {
 		Str("BotRedirectUrl", appCfg.RedirectURL).
 		Int64("BotPort Local", appCfg.AppPort)
 
-	http.HandleFunc("/", appHandler.HandleBotButton)
-	http.HandleFunc("/oauth2callback", appHandler.HandleOauth2)
-	log.Fatal(
-		http.ListenAndServe(
-			fmt.Sprintf(":%v", appCfg.AppPort), nil,
-		),
-	)
+	mux := http.NewServeMux()
+	mux.HandleFunc("/", appHandler.HandleBotButton)
+	mux.HandleFunc("/oauth2callback", appHandler.HandleOauth2)
+
+	srv := &http.Server{
+		Addr:              fmt.Sprintf(":%v", appCfg.AppPort),
+		ReadTimeout:       2 * time.Second,
+		ReadHeaderTimeout: 2 * time.Second,
+		WriteTimeout:      2 * time.Second,
+		IdleTimeout:       30 * time.Second,
+		Handler:           mux}
+
+	log.Fatal(srv.ListenAndServe())
 }
