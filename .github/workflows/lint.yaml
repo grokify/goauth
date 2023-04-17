@@ -1,6 +1,5 @@
-on: [push, pull_request]
 name: lint
-
+on: [push, pull_request]
 jobs:
   lint:
     strategy:
@@ -16,4 +15,3 @@ jobs:
         skip-go-installation: true
         version: latest
         args: --timeout 3m --verbose
-
