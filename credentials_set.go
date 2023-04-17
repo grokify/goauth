@@ -75,7 +75,7 @@ func ReadCredentialsFromFile(credentialsSetFilename, accountKey string, inclAcco
 	return creds, nil
 }
 
-func (set CredentialsSet) GetClient(ctx context.Context, key string) (*http.Client, error) {
+func (set *CredentialsSet) GetClient(ctx context.Context, key string) (*http.Client, error) {
 	creds, ok := set.Credentials[key]
 	if !ok {
 		return nil, fmt.Errorf("E_CREDS_KEY_NOT_FOUND [%v]", key)
@@ -83,9 +83,9 @@ func (set CredentialsSet) GetClient(ctx context.Context, key string) (*http.Clie
 	return creds.NewClient(ctx)
 }
 
-func (set CredentialsSet) Accounts() []string { return set.Keys() }
+func (set *CredentialsSet) Accounts() []string { return set.Keys() }
 
-func (set CredentialsSet) Keys() []string {
+func (set *CredentialsSet) Keys() []string {
 	keys := []string{}
 	for key := range set.Credentials {
 		keys = append(keys, key)
@@ -94,6 +94,6 @@ func (set CredentialsSet) Keys() []string {
 	return keys
 }
 
-func (set CredentialsSet) WriteFile(filename, prefix, indent string, perm fs.FileMode) error {
+func (set *CredentialsSet) WriteFile(filename, prefix, indent string, perm fs.FileMode) error {
 	return jsonutil.WriteFile(filename, set, prefix, indent, perm)
 }
