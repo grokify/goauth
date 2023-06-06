@@ -54,10 +54,17 @@ func (cfg *Config) Validate() error {
 	if len(cfg.BaseURL) == 0 {
 		missing = append(missing, "BaseURL")
 	}
-	if len(cfg.SessionID) == 0 ||
-		(len(cfg.Username) == 0 || len(cfg.Password) == 0) {
+
+	if len(cfg.SessionID) == 0 && len(cfg.Username) == 0 && len(cfg.Password) == 0 {
 		missing = append(missing, "SessionID or Username/Password")
+	} else if len(cfg.SessionID) == 0 &&
+		(len(cfg.Username) == 0 && len(cfg.Password) != 0) {
+		missing = append(missing, "Username")
+	} else if len(cfg.SessionID) == 0 &&
+		(len(cfg.Username) != 0 && len(cfg.Password) == 0) {
+		missing = append(missing, "Password")
 	}
+
 	if len(missing) > 0 {
 		return fmt.Errorf("Config Missing: [%s]", strings.Join(missing, ","))
 	}
