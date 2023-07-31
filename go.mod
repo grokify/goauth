@@ -10,7 +10,7 @@ require (
 	github.com/grokify/go-salesforce v0.2.17
 	github.com/grokify/gocharts/v2 v2.9.1
 	github.com/grokify/gostor v0.2.4
-	github.com/grokify/mogo v0.50.0
+	github.com/grokify/mogo v0.52.0
 	github.com/jessevdk/go-flags v1.5.0
 	github.com/joho/godotenv v1.5.1
 	github.com/pquerna/ffjson v0.0.0-20190930134022-aa0246cd15f7
@@ -53,7 +53,7 @@ require (
 	github.com/xuri/nfp v0.0.0-20230503010013-3f38cdbb0b83 // indirect
 	go.opencensus.io v0.24.0 // indirect
 	golang.org/x/crypto v0.11.0 // indirect
-	golang.org/x/exp v0.0.0-20230522175609-2e198f4a06a1 // indirect
+	golang.org/x/exp v0.0.0-20230728194245-b0cb94b80691 // indirect
 	golang.org/x/net v0.12.0 // indirect
 	golang.org/x/sys v0.10.0 // indirect
 	golang.org/x/text v0.11.0 // indirect
