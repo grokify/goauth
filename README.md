@@ -13,7 +13,7 @@ Major features include:
 1. Create `*http.Client` for multiple API services. Use `NewClient()` functions to create `*http.Client` structs for services not supported in `oauth2` like `aha`, `metabase`, `ringcentral`, `salesforce`, `visa`, etc. Generating `*http.Client` structs is especially useful for using with Swagger Codegen auto-generated SDKs to support different auth models.
 1. Create OAuth 2.0 authorization code token from the command line (for test purposes). No website is needed.
 1. Retrieve canonical user information via helper libraries to retrieve canonical user information from services. The [SCIM](http://www.simplecloud.info/) user schema is used for a canonical user model. This may be replaced/augmented by OIDC `userinfo` in the future.
-1. Transparently handle OAuth 2 for multiple services, e.g. a website that supports Google and Facebook auth. This is demoed in [grokify/beego-oauth2-demo](https://github.com/grokify/beego-oauth2-demo)
+1. Transparently handle OAuth 2 for multiple services, e.g. a website that supports Google and Facebook auth. This is demoed in [`github.com/grokify/beegoutil`](https://github.com/grokify/beegoutil)
 
 ## Installation
 
