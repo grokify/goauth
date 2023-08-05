@@ -10,7 +10,6 @@ import (
 	"net/http"
 	"net/url"
 	"os"
-	"strconv"
 	"strings"
 
 	"github.com/grokify/goauth/authutil"
@@ -32,22 +31,22 @@ type CredentialsOAuth2 struct {
 	ClientSecret         string              `json:"clientSecret,omitempty"`
 	Endpoint             oauth2.Endpoint     `json:"endpoint,omitempty"`
 	RedirectURL          string              `json:"redirectURL,omitempty"`
-	AppName              string              `json:"applicationName,omitempty"`
-	AppVersion           string              `json:"applicationVersion,omitempty"`
 	OAuthEndpointID      string              `json:"oauthEndpointID,omitempty"`
-	AccessTokenTTL       int64               `json:"accessTokenTTL,omitempty"`
-	RefreshTokenTTL      int64               `json:"refreshTokenTTL,omitempty"`
+	Scopes               []string            `json:"scope,omitempty"`
 	GrantType            string              `json:"grantType,omitempty"`
 	PKCE                 bool                `json:"pkce"`
 	Username             string              `json:"username,omitempty"`
 	Password             string              `json:"password,omitempty"`
 	JWT                  string              `json:"jwt,omitempty"`
 	Token                *oauth2.Token       `json:"token,omitempty"`
-	Scopes               []string            `json:"scopes,omitempty"`
 	AuthCodeOpts         map[string][]string `json:"authCodeOpts,omitempty"`
 	AuthCodeExchangeOpts map[string][]string `json:"authCodeExchangeOpts,omitempty"`
 	PasswordOpts         map[string][]string `json:"passwordOpts,omitempty"`
 	Metadata             map[string]string   `json:"metadata,omitempty"`
+	// AppName              string              `json:"applicationName,omitempty"`
+	// AppVersion           string              `json:"applicationVersion,omitempty"`
+	// AccessTokenTTL  int64 `json:"accessTokenTTL,omitempty"`
+	// RefreshTokenTTL int64 `json:"refreshTokenTTL,omitempty"`
 }
 
 func ParseCredentialsOAuth2(b []byte) (CredentialsOAuth2, error) {
@@ -125,19 +124,6 @@ func (oc *CredentialsOAuth2) Exchange(ctx context.Context, code string, opts map
 	authCodeOptions.AddMap(opts)
 	cfg := oc.Config()
 	return cfg.Exchange(ctx, code, authCodeOptions...)
-}
-
-func (oc *CredentialsOAuth2) AppNameAndVersion() string {
-	parts := []string{}
-	oc.AppName = strings.TrimSpace(oc.AppName)
-	oc.AppVersion = strings.TrimSpace(oc.AppVersion)
-	if len(oc.AppName) > 0 {
-		parts = append(parts, oc.AppName)
-	}
-	if len(oc.AppVersion) > 0 {
-		parts = append(parts, fmt.Sprintf("v%v", oc.AppVersion))
-	}
-	return strings.Join(parts, "-")
 }
 
 func (oc *CredentialsOAuth2) IsGrantType(grantType string) bool {
@@ -295,12 +281,14 @@ func (oc *CredentialsOAuth2) PasswordRequestBody() url.Values {
 		authutil.ParamGrantType: {authutil.GrantTypePassword},
 		authutil.ParamUsername:  {oc.Username},
 		authutil.ParamPassword:  {oc.Password}}
-	if oc.AccessTokenTTL != 0 {
-		body.Set("access_token_ttl", strconv.Itoa(int(oc.AccessTokenTTL)))
-	}
-	if oc.RefreshTokenTTL != 0 {
-		body.Set("refresh_token_ttl", strconv.Itoa(int(oc.RefreshTokenTTL)))
-	}
+	/*
+		if oc.AccessTokenTTL != 0 {
+			body.Set("access_token_ttl", strconv.Itoa(int(oc.AccessTokenTTL)))
+		}
+		if oc.RefreshTokenTTL != 0 {
+			body.Set("refresh_token_ttl", strconv.Itoa(int(oc.RefreshTokenTTL)))
+		}
+	*/
 	if len(oc.PasswordOpts) > 0 {
 		for k, vals := range oc.PasswordOpts {
 			for _, v := range vals {

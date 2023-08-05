@@ -14,6 +14,8 @@ import (
 	"github.com/grokify/goauth"
 	"github.com/grokify/goauth/authutil"
 	hum "github.com/grokify/mogo/net/http/httputilmore"
+	"github.com/grokify/mogo/type/maputil"
+	"github.com/grokify/mogo/type/stringsutil"
 	"golang.org/x/oauth2"
 )
 
@@ -69,8 +71,10 @@ func NewClientPasswordSimple(oc goauth.CredentialsOAuth2) (*http.Client, error) 
 
 func getClientHeader(oc goauth.CredentialsOAuth2) http.Header {
 	userAgentParts := []string{authutil.PathVersion()}
-	if len(oc.AppNameAndVersion()) > 0 {
-		userAgentParts = append([]string{oc.AppNameAndVersion()}, userAgentParts...)
+	// if len(oc.AppNameAndVersion()) > 0 {
+	appNameVersion := appNameVersion(oc.Metadata)
+	if len(appNameVersion) > 0 {
+		userAgentParts = append([]string{appNameVersion}, userAgentParts...)
 	}
 	userAgent := strings.TrimSpace(strings.Join(userAgentParts, "; "))
 
@@ -81,6 +85,30 @@ func getClientHeader(oc goauth.CredentialsOAuth2) http.Header {
 	}
 	return header
 }
+
+func appNameVersion(opts map[string]string) string {
+	return strings.Join(
+		stringsutil.SliceCondenseSpace([]string{
+			maputil.ValueStringOrDefault(opts, ConfKeyAppName, ""),
+			maputil.ValueStringOrDefault(opts, ConfKeyAppName, ""),
+		}, false, false),
+		" - ")
+}
+
+/*
+func (oc *CredentialsOAuth2) AppNameAndVersion() string {
+	parts := []string{}
+	oc.AppName = strings.TrimSpace(oc.AppName)
+	oc.AppVersion = strings.TrimSpace(oc.AppVersion)
+	if len(oc.AppName) > 0 {
+		parts = append(parts, oc.AppName)
+	}
+	if len(oc.AppVersion) > 0 {
+		parts = append(parts, fmt.Sprintf("v%v", oc.AppVersion))
+	}
+	return strings.Join(parts, "-")
+}
+*/
 
 func RetrieveToken(cfg oauth2.Config, params url.Values) (*oauth2.Token, error) {
 	rcToken, err := RetrieveRcToken(cfg, params)
