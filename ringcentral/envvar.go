@@ -10,4 +10,7 @@ const (
 	EnvUsername     = "RINGCENTRAL_USERNAME"
 	EnvExtension    = "RINGCENTRAL_EXTENSION"
 	EnvPassword     = "RINGCENTRAL_PASSWORD"
+
+	ConfKeyAppName    = "app_name"
+	ConfKeyAppVersion = "app_version"
 )
