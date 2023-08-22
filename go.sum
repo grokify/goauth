@@ -96,8 +96,8 @@ github.com/googleapis/gax-go/v2 v2.12.0 h1:A+gCJKdRfqXkr+BIRGtZLibNXf0m1f9E4HG56
 github.com/googleapis/gax-go/v2 v2.12.0/go.mod h1:y+aIqrI5eb1YGMVJfuV3185Ts/D7qKpsEkdD5+I6QGU=
 github.com/grokify/go-salesforce v0.2.17 h1:bq2v8j1AE6pI+yabljLefG2hK+N7JVPmRrpv32WVNZw=
 github.com/grokify/go-salesforce v0.2.17/go.mod h1:uxyJeULEcm6ST4iUJ72BpErsC49r9plXHP6s3/1S73o=
-github.com/grokify/gocharts/v2 v2.9.1 h1:aXt0gaO90j2FXj1exsIjkauYjoCYCRJwOP+gjUY+ayg=
-github.com/grokify/gocharts/v2 v2.9.1/go.mod h1:hiUkkHmYuQciQR9CbUVdGfToylTYY1fW6OTvmFS5FGU=
+github.com/grokify/gocharts/v2 v2.10.0 h1:0nbFRBs/DYs+DO9aw0YHasSPbGetZrYZEGOOKSzc6R4=
+github.com/grokify/gocharts/v2 v2.10.0/go.mod h1:9w6RhDybwiw1WI1lTHqIoGDnO7SVAfbIpLf+V80sUPo=
 github.com/grokify/gostor v0.2.4 h1:hMKP+XfwELYOUswBu4OhKag9oAcxMd0rJsO7XGFmxks=
 github.com/grokify/gostor v0.2.4/go.mod h1:1DGY2fumqEAezd6BuCbICQnl3FcUDITpUjBzsu4szXE=
 github.com/grokify/mogo v0.53.0 h1:sDoOEDvgUa5M1yCmEtCG9MTWkPLhqe+b/x9vLIiFeHw=
@@ -184,8 +184,8 @@ github.com/xuri/efp v0.0.0-20230802181842-ad255f2331ca/go.mod h1:ybY/Jr0T0GTCnYj
 github.com/xuri/excelize/v2 v2.7.1 h1:gm8q0UCAyaTt3MEF5wWMjVdmthm2EHAWesGSKS9tdVI=
 github.com/xuri/excelize/v2 v2.7.1/go.mod h1:qc0+2j4TvAUrBw36ATtcTeC1VCM0fFdAXZOmcF4nTpY=
 github.com/xuri/nfp v0.0.0-20220409054826-5e722a1d9e22/go.mod h1:WwHg+CVyzlv/TX9xqBFXEZAuxOPxn2k1GNHwG41IIUQ=
-github.com/xuri/nfp v0.0.0-20230802015359-2d5eeba905e9 h1:jmhvNv5by7bXDzzjzBXaIWmEI4lMYfv5iJtI5Pw5/aM=
-github.com/xuri/nfp v0.0.0-20230802015359-2d5eeba905e9/go.mod h1:WwHg+CVyzlv/TX9xqBFXEZAuxOPxn2k1GNHwG41IIUQ=
+github.com/xuri/nfp v0.0.0-20230819163627-dc951e3ffe1a h1:Mw2VNrNNNjDtw68VsEj2+st+oCSn4Uz7vZw6TbhcV1o=
+github.com/xuri/nfp v0.0.0-20230819163627-dc951e3ffe1a/go.mod h1:WwHg+CVyzlv/TX9xqBFXEZAuxOPxn2k1GNHwG41IIUQ=
 github.com/yuin/goldmark v1.4.13/go.mod h1:6yULJ656Px+3vBD8DxQVa3kxgyrAnzto9xy5taEt/CY=
 go.opencensus.io v0.24.0 h1:y73uSU6J157QMP2kn2r30vwW1A2W2WFwSCGnAVxeaD0=
 go.opencensus.io v0.24.0/go.mod h1:vNK8G9p7aAivkbmorf4v+7Hgx+Zs0yY+0fOtgBfjQKo=
