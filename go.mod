@@ -8,7 +8,7 @@ require (
 	github.com/golang-jwt/jwt/v4 v4.5.0
 	github.com/google/go-querystring v1.1.0
 	github.com/grokify/go-salesforce v0.2.17
-	github.com/grokify/gocharts/v2 v2.9.1
+	github.com/grokify/gocharts/v2 v2.10.0
 	github.com/grokify/gostor v0.2.4
 	github.com/grokify/mogo v0.53.0
 	github.com/jessevdk/go-flags v1.5.0
@@ -50,7 +50,7 @@ require (
 	github.com/valyala/quicktemplate v1.7.0 // indirect
 	github.com/xuri/efp v0.0.0-20230802181842-ad255f2331ca // indirect
 	github.com/xuri/excelize/v2 v2.7.1 // indirect
-	github.com/xuri/nfp v0.0.0-20230802015359-2d5eeba905e9 // indirect
+	github.com/xuri/nfp v0.0.0-20230819163627-dc951e3ffe1a // indirect
 	go.opencensus.io v0.24.0 // indirect
 	golang.org/x/crypto v0.12.0 // indirect
 	golang.org/x/exp v0.0.0-20230817173708-d852ddb80c63 // indirect
