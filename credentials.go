@@ -20,18 +20,20 @@ const (
 	TypeHeaderQuery = "headerquery"
 	TypeOAuth2      = "oauth2"
 	TypeJWT         = "jwt"
+	TypeGCPSA       = "gcpsa" // Google Cloud Platform Service Account
 )
 
 type Credentials struct {
-	Service     string                 `json:"service,omitempty"`
-	Type        string                 `json:"type,omitempty"`
-	Subdomain   string                 `json:"subdomain,omitempty"`
-	Basic       CredentialsBasicAuth   `json:"basic,omitempty"`
-	OAuth2      CredentialsOAuth2      `json:"oauth2,omitempty"`
-	JWT         CredentialsJWT         `json:"jwt,omitempty"`
-	Token       *oauth2.Token          `json:"token,omitempty"`
-	HeaderQuery CredentialsHeaderQuery `json:"headerquery,omitempty"`
-	Additional  url.Values             `json:"additional,omitempty"`
+	Service     string                  `json:"service,omitempty"`
+	Type        string                  `json:"type,omitempty"`
+	Subdomain   string                  `json:"subdomain,omitempty"`
+	Basic       *CredentialsBasicAuth   `json:"basic,omitempty"`
+	HeaderQuery *CredentialsHeaderQuery `json:"headerquery,omitempty"`
+	GCPSA       *CredentialsGCP         `json:"gcpsa,omitempty"`
+	JWT         *CredentialsJWT         `json:"jwt,omitempty"`
+	OAuth2      *CredentialsOAuth2      `json:"oauth2,omitempty"`
+	Token       *oauth2.Token           `json:"token,omitempty"`
+	Additional  url.Values              `json:"additional,omitempty"`
 }
 
 func NewCredentialsJSON(credsData, accessToken []byte) (Credentials, error) {
@@ -70,18 +72,31 @@ func (creds *Credentials) Inflate() error {
 }
 
 var (
-	ErrJWTNotSupported       = errors.New("jwt is not supported for function")
-	ErrBasicAuthNotPopulated = errors.New("basic auth is not populated")
-	ErrJWTNotPopulated       = errors.New("jwt is not populated")
-	ErrOAuth2NotPopulated    = errors.New("oauth2 is not populated")
-	ErrTypeNotSupported      = errors.New("credentials type not supported")
+	ErrBasicAuthNotPopulated   = errors.New("basic auth is not populated")
+	ErrHeaderQueryNotPopulated = errors.New("header query is not populated")
+	ErrJWTNotPopulated         = errors.New("jwt is not populated")
+	ErrJWTNotSupported         = errors.New("jwt is not supported for function")
+	ErrOAuth2NotPopulated      = errors.New("oauth2 is not populated")
+	ErrTypeNotSupported        = errors.New("credentials type not supported")
+	ErrGCPSANotPopulated       = errors.New("gcp service account credentials are not populated")
 )
 
 func (creds *Credentials) NewClient(ctx context.Context) (*http.Client, error) {
 	switch creds.Type {
 	case TypeBasic:
+		if creds.Basic == nil {
+			return nil, ErrBasicAuthNotPopulated
+		}
 		return creds.Basic.NewClient()
+	case TypeGCPSA:
+		if creds.GCPSA == nil {
+			return nil, ErrGCPSANotPopulated
+		}
+		return creds.GCPSA.NewClient(ctx)
 	case TypeHeaderQuery:
+		if creds.HeaderQuery == nil {
+			return nil, ErrHeaderQueryNotPopulated
+		}
 		return creds.HeaderQuery.NewClient(), nil
 	case TypeJWT:
 		return nil, ErrJWTNotSupported
