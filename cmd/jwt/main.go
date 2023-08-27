@@ -10,7 +10,7 @@ import (
 
 // Answer for https://stackoverflow.com/a/61284284/1908967
 
-func createJWT(secretKey string, data map[string]interface{}) (string, error) {
+func createJWT(secretKey string, data map[string]any) (string, error) {
 	claims := &jwt.MapClaims{
 		"iss":  "issuer",
 		"exp":  time.Now().Add(time.Hour).Unix(),
@@ -24,7 +24,7 @@ func createJWT(secretKey string, data map[string]interface{}) (string, error) {
 }
 
 func parseJWTSubClaimName(tokenString, secretKey, field string) (string, error) {
-	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (any, error) {
 		return []byte(secretKey), nil
 	})
 	if err != nil {
@@ -33,7 +33,7 @@ func parseJWTSubClaimName(tokenString, secretKey, field string) (string, error) 
 
 	claims := token.Claims.(jwt.MapClaims)
 
-	data := claims["data"].(map[string]interface{})
+	data := claims["data"].(map[string]any)
 	return data[field].(string), nil
 }
 
@@ -42,7 +42,7 @@ func main() {
 
 	tokenString, err := createJWT(
 		secretKey,
-		map[string]interface{}{
+		map[string]any{
 			"id": "123", "name": "JohnDoe"})
 	if err != nil {
 		log.Fatal(err)
