@@ -6,6 +6,7 @@ const (
 	GrantTypeJWTBearer         = "urn:ietf:params:oauth:grant-type:jwt-bearer" // #nosec G101
 	GrantTypePassword          = "password"
 	GrantTypeRefreshToken      = "refresh_token"
+	GrantTypeCustomStatic      = "custom_static"
 	ParamAssertion             = "assertion"
 	ParamGrantType             = "grant_type"
 	ParamScope                 = "scope"
