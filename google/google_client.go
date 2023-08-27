@@ -21,7 +21,7 @@ func ClientFromFile(ctx context.Context, filepath string, scopes []string, tok *
 	return conf.Client(ctx, tok), nil
 }
 
-type ClientOauthCliTokenStoreConfig struct {
+type ClientOAuthCLITokenStoreConfig struct {
 	Context       context.Context
 	AppConfig     []byte
 	Scopes        []string
@@ -30,13 +30,13 @@ type ClientOauthCliTokenStoreConfig struct {
 	State         string
 }
 
-func NewClientOauthCliTokenStore(cfg ClientOauthCliTokenStoreConfig) (*http.Client, error) {
+func NewClientOAuthCLITokenStore(cfg ClientOAuthCLITokenStoreConfig) (*http.Client, error) {
 	conf, err := ConfigFromBytes(cfg.AppConfig, cfg.Scopes)
 	if err != nil {
 		return nil, err
 	}
 
-	tokenStore, err := authutil.NewTokenStoreFileDefault(cfg.TokenFile, true, 0700)
+	tokenStore, err := authutil.NewTokenStoreFileDefault(cfg.TokenFile, true, 0600)
 	if err != nil {
 		return nil, err
 	}
