@@ -1,6 +1,7 @@
 package google
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"os"
@@ -8,9 +9,8 @@ import (
 
 	"github.com/grokify/mogo/errors/errorsutil"
 	"github.com/grokify/mogo/type/stringsutil"
-	json "github.com/pquerna/ffjson/ffjson"
 	"golang.org/x/oauth2"
-	o2g "golang.org/x/oauth2/google"
+	"golang.org/x/oauth2/google"
 )
 
 func ConfigFromFile(file string, scopes []string) (*oauth2.Config, error) {
@@ -19,7 +19,7 @@ func ConfigFromFile(file string, scopes []string) (*oauth2.Config, error) {
 		return &oauth2.Config{},
 			errorsutil.Wrap(err, fmt.Sprintf("unable to read client secret file [%v]", err))
 	}
-	return o2g.ConfigFromJSON(b, scopes...)
+	return google.ConfigFromJSON(b, scopes...)
 }
 
 func ConfigFromEnv(envVar string, scopes []string) (*oauth2.Config, error) {
@@ -31,7 +31,7 @@ func ConfigFromEnv(envVar string, scopes []string) (*oauth2.Config, error) {
 		scopesString := os.Getenv(EnvGoogleAppScopes)
 		scopes = stringsutil.SplitCondenseSpace(scopesString, ",")
 	}
-	return o2g.ConfigFromJSON([]byte(os.Getenv(envVar)), scopes...)
+	return google.ConfigFromJSON([]byte(os.Getenv(envVar)), scopes...)
 }
 
 // ConfigFromBytes returns an *oauth2.Config given a byte array
@@ -52,5 +52,5 @@ func ConfigFromBytes(configJSON []byte, scopes []string) (*oauth2.Config, error)
 		}
 	}
 
-	return o2g.ConfigFromJSON(configJSON, scopes...)
+	return google.ConfigFromJSON(configJSON, scopes...)
 }

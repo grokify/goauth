@@ -1,13 +1,13 @@
 package google
 
 import (
+	"encoding/json"
 	"io"
 	"net/http"
 	"net/url"
 	"strings"
 
 	"github.com/grokify/goauth/scim"
-	json "github.com/pquerna/ffjson/ffjson"
 )
 
 const (

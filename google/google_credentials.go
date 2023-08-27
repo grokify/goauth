@@ -2,14 +2,13 @@ package google
 
 import (
 	"context"
+	"encoding/json"
 	"net/http"
 	"os"
 
 	"github.com/grokify/mogo/encoding/jsonutil"
-	json "github.com/pquerna/ffjson/ffjson"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
-	o2g "golang.org/x/oauth2/google"
 )
 
 type CredentialsContainer struct {
@@ -19,7 +18,7 @@ type CredentialsContainer struct {
 }
 
 func (cc *CredentialsContainer) OAuth2Config(scopes ...string) (*oauth2.Config, error) {
-	return o2g.ConfigFromJSON(jsonutil.MustMarshalSimple(cc, "", ""), scopes...)
+	return google.ConfigFromJSON(jsonutil.MustMarshalSimple(cc, "", ""), scopes...)
 }
 
 func (cc *CredentialsContainer) Credentials() *Credentials {
