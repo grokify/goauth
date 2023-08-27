@@ -16,22 +16,22 @@ type CredentialsSet struct {
 	Credentials map[string]Credentials `json:"credentials,omitempty"`
 }
 
-func ReadFileCredentialsSet(credentialsSetFilename string, inflateEndpoints bool) (CredentialsSet, error) {
-	var set CredentialsSet
+func ReadFileCredentialsSet(credentialsSetFilename string, inflateEndpoints bool) (*CredentialsSet, error) {
+	var set *CredentialsSet
 	_, err := jsonutil.ReadFile(credentialsSetFilename, &set)
 	if err != nil {
-		return set, err
+		return nil, err
 	}
 	if inflateEndpoints {
 		err := set.Inflate()
 		if err != nil {
-			return set, err
+			return nil, err
 		}
 	}
 	return set, nil
 }
 
-func (set CredentialsSet) Get(key string) (Credentials, error) {
+func (set *CredentialsSet) Get(key string) (Credentials, error) {
 	if creds, ok := set.Credentials[key]; ok {
 		return creds, nil
 	}
@@ -75,7 +75,7 @@ func ReadCredentialsFromFile(credentialsSetFilename, accountKey string, inclAcco
 	return creds, nil
 }
 
-func (set *CredentialsSet) GetClient(ctx context.Context, key string) (*http.Client, error) {
+func (set *CredentialsSet) NewClient(ctx context.Context, key string) (*http.Client, error) {
 	creds, ok := set.Credentials[key]
 	if !ok {
 		return nil, fmt.Errorf("E_CREDS_KEY_NOT_FOUND [%v]", key)
