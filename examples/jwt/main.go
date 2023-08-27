@@ -5,7 +5,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/golang-jwt/jwt/v4"
+	"github.com/golang-jwt/jwt/v5"
 )
 
 // Answer for https://stackoverflow.com/a/61284284/1908967
