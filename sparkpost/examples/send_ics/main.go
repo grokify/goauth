@@ -10,8 +10,8 @@ import (
 	"strings"
 	"time"
 
-	sp "github.com/SparkPost/gosparkpost"
-	"github.com/caarlos0/env/v6"
+	"github.com/SparkPost/gosparkpost"
+	"github.com/caarlos0/env/v9"
 	"github.com/grokify/goauth/sparkpost"
 	"github.com/grokify/mogo/config"
 	"github.com/grokify/mogo/net/http/httputilmore"
@@ -27,7 +27,7 @@ type appConfig struct {
 	SparkPostEmailRecipientDemo string `env:"SPARKPOST_EMAIL_RECIPIENT_DEMO"`
 }
 
-func sendTestEmail(cfg appConfig, client sp.Client) {
+func sendTestEmail(cfg appConfig, client gosparkpost.Client) {
 	day := 811 // Change this to set the day. This currently uses single digit month + 2 digit day
 	seq := 0   // Sequence index. Start with 0 and increment. This demo doesn't support changing the day when changing sequence.
 
@@ -77,17 +77,17 @@ END:VCALENDAR`
 
 	fmt.Println(data)
 	panic("z")
-	attach := sp.Attachment{
+	attach := gosparkpost.Attachment{
 		MIMEType: httputilmore.ContentTypeTextCalendarUtf8Request,
 		B64Data:  base64.StdEncoding.EncodeToString([]byte(data))}
 
-	tx := &sp.Transmission{
+	tx := &gosparkpost.Transmission{
 		Recipients: []string{cfg.SparkPostEmailRecipientDemo},
-		Content: sp.Content{
+		Content: gosparkpost.Content{
 			HTML:        `<p>Your Shifts!</p>`,
 			From:        cfg.SparkPostEmailSender,
 			Subject:     fmt.Sprintf(`MS%v Shift Schedule!`, day),
-			Attachments: []sp.Attachment{attach},
+			Attachments: []gosparkpost.Attachment{attach},
 		},
 	}
 	id, _, err := client.Send(tx)
@@ -163,7 +163,7 @@ func main() {
 	cfg := appConfig{}
 	if err := env.Parse(&cfg); err != nil {
 		log.Fatal().Err(err).
-			Str("lib", "github.com/caarlos0/env/v6").
+			Str("lib", "github.com/caarlos0/env/v9").
 			Msgf("Cannot parse env to %s", "appConfig{}")
 	}
 
