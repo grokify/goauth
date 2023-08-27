@@ -5,7 +5,7 @@ import (
 	"net/url"
 	"strings"
 
-	jwt "github.com/golang-jwt/jwt/v4"
+	jwt "github.com/golang-jwt/jwt/v5"
 	"github.com/grokify/mogo/errors/errorsutil"
 	"github.com/grokify/mogo/net/http/httputilmore"
 	"golang.org/x/oauth2"
