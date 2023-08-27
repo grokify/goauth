@@ -28,9 +28,9 @@ const (
 	// Example environment variables
 	EnvMetabaseBaseURL       = "METABASE_BASE_URL"
 	EnvMetabaseUsername      = "METABASE_USERNAME"
-	EnvMetabasePassword      = "METABASE_PASSWORD"
+	EnvMetabasePassword      = "METABASE_PASSWORD" // #nosec G101
 	EnvMetabaseSessionID     = "METABASE_SESSION_ID"
-	EnvMetabaseTLSSkipVerify = "METABASE_TLS_SKIP_VERIFY"
+	EnvMetabaseTLSSkipVerify = "METABASE_TLS_SKIP_VERIFY" // #nosec G101
 )
 
 var (
