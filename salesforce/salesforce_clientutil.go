@@ -59,13 +59,13 @@ func (sc *SalesforceClient) GetServicesData() (*http.Response, error) {
 	return sc.ClientMore.Client.Get(apiURL.String())
 }
 
-func (sc *SalesforceClient) CreateContact(contact interface{}) (*http.Response, error) {
+func (sc *SalesforceClient) CreateContact(contact any) (*http.Response, error) {
 	//apiURL := sc.URLBuilder.Build("/services/data/v40.0/sobjects/Contact/")
 	apiURL := sc.URLBuilder.BuildSobjectURL("Contact")
 	return sc.ClientMore.PostToJSON(apiURL.String(), contact)
 }
 
-func (sc *SalesforceClient) CreateSobject(sobjectName string, sobject interface{}) (*http.Response, error) {
+func (sc *SalesforceClient) CreateSobject(sobjectName string, sobject any) (*http.Response, error) {
 	apiURL := sc.URLBuilder.BuildSobjectURL(sobjectName)
 	return sc.ClientMore.PostToJSON(apiURL.String(), sobject)
 }

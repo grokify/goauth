@@ -12,7 +12,7 @@ import (
 func WriteContactsXLSX(filename string, users []scim.User) error {
 	sheetdata := table.SheetData{
 		SheetName: "Contacts",
-		Rows: [][]interface{}{
+		Rows: [][]any{
 			columnsInterface()}}
 
 	for _, user := range users {
@@ -21,8 +21,8 @@ func WriteContactsXLSX(filename string, users []scim.User) error {
 	return table.WriteXLSXInterface(filename, sheetdata)
 }
 
-func userToScim(user scim.User) []interface{} {
-	row := []interface{}{
+func userToScim(user scim.User) []any {
+	row := []any{
 		user.Name.GivenName,
 		user.Name.FamilyName,
 		user.EmailAddress(),
@@ -46,8 +46,8 @@ func Columns() []string {
 	return strings.Split(ColumnsString, ",")
 }
 
-func columnsInterface() []interface{} {
-	cols := []interface{}{}
+func columnsInterface() []any {
+	cols := []any{}
 	strs := Columns()
 	for _, str := range strs {
 		cols = append(cols, str)
