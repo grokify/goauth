@@ -10,7 +10,7 @@ require (
 	github.com/grokify/go-salesforce v0.2.18
 	github.com/grokify/gocharts/v2 v2.11.0
 	github.com/grokify/gostor v0.2.5
-	github.com/grokify/mogo v0.54.0
+	github.com/grokify/mogo v0.54.1
 	github.com/jessevdk/go-flags v1.5.0
 	github.com/joho/godotenv v1.5.1
 	github.com/rs/zerolog v1.30.0
