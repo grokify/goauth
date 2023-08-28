@@ -7,8 +7,8 @@ require (
 	github.com/caarlos0/env/v9 v9.0.0
 	github.com/golang-jwt/jwt/v5 v5.0.0
 	github.com/google/go-querystring v1.1.0
-	github.com/grokify/go-salesforce v0.2.18
-	github.com/grokify/gocharts/v2 v2.11.1
+	github.com/grokify/go-salesforce v0.2.19
+	github.com/grokify/gocharts/v2 v2.11.2
 	github.com/grokify/gostor v0.2.5
 	github.com/grokify/mogo v0.54.1
 	github.com/jessevdk/go-flags v1.5.0
