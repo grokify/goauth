@@ -79,8 +79,8 @@ See the following repo for a Beego-based demo app:
 
  [used-by-svg]: https://sourcegraph.com/github.com/grokify/goauth/-/badge.svg
  [used-by-url]: https://sourcegraph.com/github.com/grokify/goauth?badge
- [build-status-svg]: https://github.com/grokify/goauth/workflows/build/badge.svg
- [build-status-url]: https://github.com/grokify/goauth/actions
+ [build-status-svg]: https://github.com/grokify/goauth/workflows/test/badge.svg
+ [build-status-url]: https://github.com/grokify/goauth/actions/workflows/test.yaml
  [goreport-svg]: https://goreportcard.com/badge/github.com/grokify/goauth
  [goreport-url]: https://goreportcard.com/report/github.com/grokify/goauth
  [docs-godoc-svg]: https://pkg.go.dev/badge/github.com/grokify/goauth
