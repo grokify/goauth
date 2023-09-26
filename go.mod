@@ -13,7 +13,7 @@ require (
 	github.com/grokify/mogo v0.56.0
 	github.com/jessevdk/go-flags v1.5.0
 	github.com/joho/godotenv v1.5.1
-	github.com/rs/zerolog v1.30.0
+	github.com/rs/zerolog v1.31.0
 	golang.org/x/oauth2 v0.12.0
 	google.golang.org/api v0.142.0
 	gopkg.in/jeevatkm/go-model.v1 v1.1.0
