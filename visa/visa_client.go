@@ -27,19 +27,25 @@ type Config struct {
 	Password      string
 }
 
-func NewClient(cfg Config) (*http.Client, error) {
+func (cfg Config) NewClient() (*http.Client, error) {
 	tlsConfig := tlsutil.NewTLSConfig()
 
-	if err := tlsConfig.LoadX509KeyPair(cfg.AppCertFile, cfg.AppKeyFile); err != nil {
-		return nil, err
+	if len(cfg.AppCertFile) > 0 || len(cfg.AppKeyFile) > 0 {
+		if err := tlsConfig.LoadX509KeyPair(cfg.AppCertFile, cfg.AppKeyFile); err != nil {
+			return nil, err
+		}
 	}
 
-	if err := tlsConfig.LoadCACert(cfg.VDPCACertFile); err != nil {
-		return nil, err
+	if len(cfg.VDPCACertFile) > 0 {
+		if err := tlsConfig.LoadCACert(cfg.VDPCACertFile); err != nil {
+			return nil, err
+		}
 	}
 
-	if err := tlsConfig.LoadCACert(cfg.CACertFile); err != nil {
-		return nil, err
+	if len(cfg.CACertFile) > 0 {
+		if err := tlsConfig.LoadCACert(cfg.CACertFile); err != nil {
+			return nil, err
+		}
 	}
 
 	// tlsConfig.Inflate()
@@ -64,5 +70,5 @@ func ConfigFromEnv() Config {
 }
 
 func NewClientEnv() (*http.Client, error) {
-	return NewClient(ConfigFromEnv())
+	return ConfigFromEnv().NewClient()
 }
