@@ -1,16 +1,18 @@
 module github.com/grokify/goauth
 
-go 1.18
+go 1.21
+
+// toolchain go1.21.1 // incompatible with older Go versions.
 
 require (
 	github.com/SparkPost/gosparkpost v0.2.0
 	github.com/caarlos0/env/v9 v9.0.0
 	github.com/golang-jwt/jwt/v5 v5.0.0
 	github.com/google/go-querystring v1.1.0
-	github.com/grokify/go-salesforce v0.2.20
-	github.com/grokify/gocharts/v2 v2.12.0
+	github.com/grokify/go-salesforce v0.2.21
+	github.com/grokify/gocharts/v2 v2.13.0
 	github.com/grokify/gostor v0.2.6
-	github.com/grokify/mogo v0.56.0
+	github.com/grokify/mogo v0.57.0
 	github.com/jessevdk/go-flags v1.5.0
 	github.com/joho/godotenv v1.5.1
 	github.com/rs/zerolog v1.31.0
