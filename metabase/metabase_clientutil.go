@@ -63,7 +63,7 @@ func (cu *ClientUtil) GetQuestionData(cardID int) ([]byte, error) {
 }
 
 func (cu *ClientUtil) BuildMetabaseCardAPI(cardID int, format string) string {
-	relURL := fmt.Sprintf("api/card/%v/query/%s", cardID, format)
+	relURL := fmt.Sprintf("api/card/%d/query/%s", cardID, format)
 	return urlutil.JoinAbsolute(cu.BaseURL, relURL)
 }
 
@@ -79,7 +79,7 @@ func RetrieveQuestions(cu ClientUtil, q2s QuestionsToSlug, dir string) (map[stri
 		filename := fmt.Sprintf("data_%v_%v.json", dt8, name)
 		data, err := cu.GetStoreQuestionData(cardID, filename, 0600)
 		if err != nil {
-			return output, errorsutil.Wrap(err, fmt.Sprintf("error retrieving card #[%v] name[%v]", cardID, name))
+			return output, errorsutil.Wrap(err, fmt.Sprintf("error retrieving card #(%d) name(%s)", cardID, name))
 		}
 		output[name] = data
 
@@ -97,7 +97,7 @@ func (cu *ClientUtil) GetCurrentUser() (User, *http.Response, error) {
 	if err != nil {
 		return user, nil, err
 	} else if resp.StatusCode >= 300 {
-		return user, resp, fmt.Errorf("metabase api error status code [%v]", resp.StatusCode)
+		return user, resp, fmt.Errorf("metabase api error status code (%d)", resp.StatusCode)
 	}
 	bytes, err := io.ReadAll(resp.Body)
 	if err != nil {
