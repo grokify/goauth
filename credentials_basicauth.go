@@ -34,12 +34,12 @@ func (c *CredentialsBasicAuth) NewClient() (*http.Client, error) {
 	return &http.Client{}, nil
 }
 
-func (c *CredentialsBasicAuth) NewSimpleClient() (httpsimple.SimpleClient, error) {
+func (c *CredentialsBasicAuth) NewSimpleClient() (httpsimple.Client, error) {
 	hclient, err := c.NewClient()
 	if err != nil {
-		return httpsimple.SimpleClient{}, err
+		return httpsimple.Client{}, err
 	}
-	return httpsimple.SimpleClient{
+	return httpsimple.Client{
 		HTTPClient: hclient,
 		BaseURL:    c.ServerURL}, nil
 }

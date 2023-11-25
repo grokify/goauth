@@ -6,16 +6,16 @@ import (
 	"strings"
 
 	"github.com/grokify/goauth/multiservice/tokens"
-	"github.com/grokify/gostor"
-	rds "github.com/grokify/gostor/redis"
+	"github.com/grokify/xgo/database/document"
+	"github.com/grokify/xgo/database/document/redis"
 	"golang.org/x/oauth2"
 )
 
 type TokenSet struct {
-	gsClient gostor.Client
+	gsClient document.Client
 }
 
-func NewTokenSet(client *rds.Client) *TokenSet {
+func NewTokenSet(client *redis.Client) *TokenSet {
 	return &TokenSet{gsClient: client}
 }
 

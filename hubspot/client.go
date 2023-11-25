@@ -20,8 +20,8 @@ func NewClientAPIKey(apiKey string) *http.Client {
 		false)
 }
 
-func NewSimpleClientAPIKey(apiKey string) httpsimple.SimpleClient {
-	return httpsimple.SimpleClient{
+func NewSimpleClientAPIKey(apiKey string) httpsimple.Client {
+	return httpsimple.Client{
 		BaseURL:    endpoints.HubspotServerURL,
 		HTTPClient: NewClientAPIKey(apiKey)}
 }

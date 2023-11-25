@@ -243,7 +243,7 @@ func (oc *CredentialsOAuth2) RefreshTokenSimple(refreshToken string) (*oauth2.To
 		body.Add(authutil.ParamScope, strings.Join(oc.Scopes, " "))
 	}
 
-	sr := httpsimple.SimpleRequest{
+	sr := httpsimple.Request{
 		Method: http.MethodPost,
 		URL:    oc.Endpoint.TokenURL,
 		Headers: map[string][]string{

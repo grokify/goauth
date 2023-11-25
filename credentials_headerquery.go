@@ -19,8 +19,8 @@ func (c *CredentialsHeaderQuery) NewClient() *http.Client {
 	return authutil.NewClientHeaderQuery(c.Header, c.Query, c.AllowInsecure)
 }
 
-func (c *CredentialsHeaderQuery) NewSimpleClient() httpsimple.SimpleClient {
-	return httpsimple.SimpleClient{
+func (c *CredentialsHeaderQuery) NewSimpleClient() httpsimple.Client {
+	return httpsimple.Client{
 		HTTPClient: c.NewClient(),
 		BaseURL:    c.ServerURL}
 }

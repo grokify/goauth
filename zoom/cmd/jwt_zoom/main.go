@@ -71,10 +71,10 @@ func main() {
 }
 
 func createMeeting(client *http.Client) (*http.Response, error) {
-	sc := httpsimple.SimpleClient{
+	sc := httpsimple.Client{
 		BaseURL:    zoom.ZoomAPIBaseURL,
 		HTTPClient: client}
-	req := httpsimple.SimpleRequest{
+	req := httpsimple.Request{
 		Method:   http.MethodPost,
 		URL:      urlutil.JoinAbsolute(zoom.ZoomAPIMeURL, "meetings"),
 		Body:     []byte(reqBody),

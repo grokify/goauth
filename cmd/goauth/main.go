@@ -24,8 +24,8 @@ type Options struct {
 	Body   string   `short:"d" long:"data" description:"HTTP Body"`
 }
 
-func (opts *Options) SimpleRequest() (httpsimple.SimpleRequest, error) {
-	sr := httpsimple.SimpleRequest{
+func (opts *Options) SimpleRequest() (httpsimple.Request, error) {
+	sr := httpsimple.Request{
 		URL:     opts.URL,
 		Headers: map[string][]string{},
 	}
