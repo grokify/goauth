@@ -84,11 +84,11 @@ func ContactsV3ExportWriteFiles(client *http.Client, fileprefix string, opts *Co
 	if opts != nil && opts.Limit > LimitMax || opts.Limit < 1 {
 		return errors.New("invalid limit - must be between 1 and 100 inclusive")
 	}
-	sclient := httpsimple.SimpleClient{
+	sclient := httpsimple.Client{
 		BaseURL:    endpoints.HubspotServerURL,
 		HTTPClient: client}
 
-	sreq := httpsimple.SimpleRequest{
+	sreq := httpsimple.Request{
 		Method: http.MethodGet,
 		URL:    ContactsListAPIPathV3}
 	if opts != nil {
@@ -138,11 +138,11 @@ func ContactsV1ExportWriteFiles(client *http.Client, fileprefix string, opts *Co
 	if opts != nil && opts.Count > LimitMax || opts.Count < 1 {
 		return errors.New("invalid count - must be between 1 and 100 inclusive")
 	}
-	sclient := httpsimple.SimpleClient{
+	sclient := httpsimple.Client{
 		BaseURL:    endpoints.HubspotServerURL,
 		HTTPClient: client}
 
-	sreq := httpsimple.SimpleRequest{
+	sreq := httpsimple.Request{
 		Method: http.MethodGet,
 		URL:    ContactsListAPIPathV3}
 	if opts != nil {

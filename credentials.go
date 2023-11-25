@@ -117,7 +117,7 @@ func (creds *Credentials) NewClient(ctx context.Context) (*http.Client, error) {
 	return authutil.NewClientToken(authutil.TokenBearer, tok.AccessToken, false), nil
 }
 
-func (creds *Credentials) NewSimpleClient(ctx context.Context) (*httpsimple.SimpleClient, error) {
+func (creds *Credentials) NewSimpleClient(ctx context.Context) (*httpsimple.Client, error) {
 	httpClient, err := creds.NewClient(ctx)
 	if err != nil {
 		return nil, err
@@ -125,20 +125,20 @@ func (creds *Credentials) NewSimpleClient(ctx context.Context) (*httpsimple.Simp
 	return creds.NewSimpleClientHTTP(httpClient)
 }
 
-func (creds *Credentials) NewSimpleClientHTTP(httpClient *http.Client) (*httpsimple.SimpleClient, error) {
+func (creds *Credentials) NewSimpleClientHTTP(httpClient *http.Client) (*httpsimple.Client, error) {
 	switch creds.Type {
 	case TypeJWT:
 		return nil, ErrJWTNotSupported
 	case TypeBasic:
-		return &httpsimple.SimpleClient{
+		return &httpsimple.Client{
 			BaseURL:    creds.Basic.ServerURL,
 			HTTPClient: httpClient}, nil
 	case TypeHeaderQuery:
-		return &httpsimple.SimpleClient{
+		return &httpsimple.Client{
 			BaseURL:    creds.HeaderQuery.ServerURL,
 			HTTPClient: httpClient}, nil
 	case TypeOAuth2:
-		return &httpsimple.SimpleClient{
+		return &httpsimple.Client{
 			BaseURL:    creds.OAuth2.ServerURL,
 			HTTPClient: httpClient}, nil
 	default:
