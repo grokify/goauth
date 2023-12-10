@@ -75,7 +75,7 @@ func (sc *SalesforceClient) ExecSOQL(soql string) (*http.Response, error) {
 	apiURL := sc.URLBuilder.Build("/services/data/v40.0/query/")
 	soql = regexp.MustCompile(`\s+`).ReplaceAllString(strings.TrimSpace(soql), "+")
 	qryMap := map[string][]string{"q": {soql}}
-	apiURLString := urlutil.URLAddQuery(&apiURL, qryMap).String()
+	apiURLString := urlutil.URLAddQuery(&apiURL, qryMap, false).String()
 	apiURLString = regexp.MustCompile(`\%2B`).ReplaceAllString(strings.TrimSpace(apiURLString), "+")
 	return sc.ClientMore.Client.Get(apiURLString)
 }
