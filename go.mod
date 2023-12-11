@@ -9,10 +9,10 @@ require (
 	github.com/caarlos0/env/v9 v9.0.0
 	github.com/golang-jwt/jwt/v5 v5.2.0
 	github.com/google/go-querystring v1.1.0
-	github.com/grokify/go-salesforce v0.2.24
-	github.com/grokify/gocharts/v2 v2.16.0
-	github.com/grokify/mogo v0.62.2
-	github.com/grokify/xgo v0.7.0
+	github.com/grokify/go-salesforce v0.2.25
+	github.com/grokify/gocharts/v2 v2.16.1
+	github.com/grokify/mogo v0.62.3
+	github.com/grokify/xgo v0.7.1
 	github.com/jessevdk/go-flags v1.5.0
 	github.com/joho/godotenv v1.5.1
 	github.com/rs/zerolog v1.31.0
