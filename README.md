@@ -2,6 +2,7 @@
 
 [![Build Status][build-status-svg]][build-status-url]
 [![Go Report Card][goreport-svg]][goreport-url]
+[![CodeClimate][codeclimate-status-svg]][codeclimate-status-url]
 [![Docs][docs-godoc-svg]][docs-godoc-url]
 [![License][license-svg]][license-url]
 
@@ -83,6 +84,8 @@ See the following repo for a Beego-based demo app:
  [build-status-url]: https://github.com/grokify/goauth/actions/workflows/test.yaml
  [goreport-svg]: https://goreportcard.com/badge/github.com/grokify/goauth
  [goreport-url]: https://goreportcard.com/report/github.com/grokify/goauth
+ [codeclimate-status-svg]: https://codeclimate.com/github/grokify/goauth/badges/gpa.svg
+ [codeclimate-status-url]: https://codeclimate.com/github/grokify/goauth
  [docs-godoc-svg]: https://pkg.go.dev/badge/github.com/grokify/goauth
  [docs-godoc-url]: https://pkg.go.dev/github.com/grokify/goauth
  [loc-svg]: https://tokei.rs/b1/github/grokify/goauth
