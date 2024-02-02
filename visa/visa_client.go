@@ -28,7 +28,10 @@ type Config struct {
 }
 
 func (cfg Config) NewClient() (*http.Client, error) {
-	tlsConfig := tlsutil.NewTLSConfig()
+	tlsConfig, err := tlsutil.NewTLSConfig("", "", []string{}, []string{}, false)
+	if err != nil {
+		return nil, err
+	}
 
 	if len(cfg.AppCertFile) > 0 || len(cfg.AppKeyFile) > 0 {
 		if err := tlsConfig.LoadX509KeyPair(cfg.AppCertFile, cfg.AppKeyFile); err != nil {
@@ -37,13 +40,13 @@ func (cfg Config) NewClient() (*http.Client, error) {
 	}
 
 	if len(cfg.VDPCACertFile) > 0 {
-		if err := tlsConfig.LoadCACert(cfg.VDPCACertFile); err != nil {
+		if err := tlsConfig.LoadRootCACert(cfg.VDPCACertFile); err != nil {
 			return nil, err
 		}
 	}
 
 	if len(cfg.CACertFile) > 0 {
-		if err := tlsConfig.LoadCACert(cfg.CACertFile); err != nil {
+		if err := tlsConfig.LoadRootCACert(cfg.CACertFile); err != nil {
 			return nil, err
 		}
 	}
