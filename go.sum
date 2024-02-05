@@ -1,5 +1,4 @@
 cloud.google.com/go v0.26.0/go.mod h1:aQUYkXzVsufM+DwF1aE+0xfcU+56JwCaLick0ClmMTw=
-cloud.google.com/go v0.112.0 h1:tpFCD7hpHFlQ8yPwT3x+QeXqc2T6+n6T+hmABHfDUSM=
 cloud.google.com/go/compute v1.23.4 h1:EBT9Nw4q3zyE7G45Wvv3MzolIrCJEuHys5muLY0wvAw=
 cloud.google.com/go/compute v1.23.4/go.mod h1:/EJMj55asU6kAFnuZET8zqgwgJ9FvXWXOkkfQZa4ioI=
 cloud.google.com/go/compute/metadata v0.2.3 h1:mg4jlk7mCAj6xXp9UJ4fjI9VUI5rubuGBW5aJ7UnBMY=
@@ -89,10 +88,10 @@ github.com/googleapis/gax-go/v2 v2.12.0 h1:A+gCJKdRfqXkr+BIRGtZLibNXf0m1f9E4HG56
 github.com/googleapis/gax-go/v2 v2.12.0/go.mod h1:y+aIqrI5eb1YGMVJfuV3185Ts/D7qKpsEkdD5+I6QGU=
 github.com/grokify/go-salesforce v0.2.29 h1:WJCIdYB9625T7in8ZKsfsKCLsxJRGccd45vh4xAssUg=
 github.com/grokify/go-salesforce v0.2.29/go.mod h1:xAzmyAHh2zRV5xB8H1Mk8DhOc73Ax1JFlhol3hMcAsY=
-github.com/grokify/gocharts/v2 v2.18.0 h1:sV9a1/ki+ya/JK6gzG2zXbEvoTXkqpAganJruNflYZA=
-github.com/grokify/gocharts/v2 v2.18.0/go.mod h1:chh/Nj+zO/sl6TbWoG3FPpEqgTJWojh5MrgqhvQ2KtE=
-github.com/grokify/mogo v0.63.0 h1:5VTj394sHXf3GtqATAwa2HWpHBclNS92nXiemoeEfIg=
-github.com/grokify/mogo v0.63.0/go.mod h1:MtSqmuv3LvrnHiptoJaRzw4NuJVFPETg4h/idd3fQzw=
+github.com/grokify/gocharts/v2 v2.18.1 h1:SrSz+vMJ6UXHC5APXGiLJG7/i61Kyugu72WK5goHvbI=
+github.com/grokify/gocharts/v2 v2.18.1/go.mod h1:wX9fbgfldN6qMU/LZiZOc8hesGQg2ScUFi2GdUopJnw=
+github.com/grokify/mogo v0.63.1 h1:w6yvBMf089YKYoEtjenblfp1t+VMa9cLUyNh8FU+Ru0=
+github.com/grokify/mogo v0.63.1/go.mod h1:MtSqmuv3LvrnHiptoJaRzw4NuJVFPETg4h/idd3fQzw=
 github.com/grokify/xgo v0.7.5 h1:OszZITxALp87+W0O4313/wlfS0vZsJDsnfN8h/Rba5o=
 github.com/grokify/xgo v0.7.5/go.mod h1:goie2cCAspFwqNZtJwrT5TEa1ZsNCGx5uzo6OEIu3KE=
 github.com/huandu/xstrings v1.4.0 h1:D17IlohoQq4UcpqD7fDk80P7l+lwAmlFaBHgOipl2FU=
