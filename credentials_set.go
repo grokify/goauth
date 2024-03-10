@@ -18,7 +18,7 @@ type CredentialsSet struct {
 
 func ReadFileCredentialsSet(credentialsSetFilename string, inflateEndpoints bool) (*CredentialsSet, error) {
 	var set *CredentialsSet
-	_, err := jsonutil.ReadFile(credentialsSetFilename, &set)
+	_, err := jsonutil.UnmarshalFile(credentialsSetFilename, &set)
 	if err != nil {
 		return nil, err
 	}
