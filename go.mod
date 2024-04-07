@@ -9,11 +9,12 @@ require (
 	github.com/caarlos0/env/v9 v9.0.0
 	github.com/golang-jwt/jwt/v5 v5.2.1
 	github.com/google/go-querystring v1.1.0
-	github.com/grokify/go-salesforce v0.2.30
-	github.com/grokify/gocharts/v2 v2.18.2
-	github.com/grokify/mogo v0.63.3
-	github.com/grokify/xgo v0.7.6
+	github.com/grokify/go-salesforce v0.2.31
+	github.com/grokify/gocharts/v2 v2.18.3
+	github.com/grokify/mogo v0.63.6
+	github.com/grokify/xgo v0.7.7
 	github.com/jessevdk/go-flags v1.5.0
+	github.com/jkeys089/jserial v1.0.1
 	github.com/joho/godotenv v1.5.1
 	github.com/rs/zerolog v1.32.0
 	golang.org/x/oauth2 v0.19.0
@@ -25,7 +26,7 @@ require (
 	cloud.google.com/go/compute v1.25.1 // indirect
 	cloud.google.com/go/compute/metadata v0.2.3 // indirect
 	github.com/caarlos0/env/v6 v6.10.1 // indirect
-	github.com/cespare/xxhash/v2 v2.2.0 // indirect
+	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
 	github.com/felixge/httpsnoop v1.0.4 // indirect
 	github.com/go-logr/logr v1.4.1 // indirect
@@ -54,17 +55,17 @@ require (
 	github.com/xuri/excelize/v2 v2.8.1 // indirect
 	github.com/xuri/nfp v0.0.0-20240318013403-ab9948c2c4a7 // indirect
 	go.opencensus.io v0.24.0 // indirect
-	go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp v0.49.0 // indirect
-	go.opentelemetry.io/otel v1.24.0 // indirect
-	go.opentelemetry.io/otel/metric v1.24.0 // indirect
-	go.opentelemetry.io/otel/trace v1.24.0 // indirect
-	golang.org/x/crypto v0.21.0 // indirect
-	golang.org/x/exp v0.0.0-20240318143956-a85f2c67cd81 // indirect
-	golang.org/x/net v0.22.0 // indirect
-	golang.org/x/sys v0.18.0 // indirect
+	go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp v0.50.0 // indirect
+	go.opentelemetry.io/otel v1.25.0 // indirect
+	go.opentelemetry.io/otel/metric v1.25.0 // indirect
+	go.opentelemetry.io/otel/trace v1.25.0 // indirect
+	golang.org/x/crypto v0.22.0 // indirect
+	golang.org/x/exp v0.0.0-20240404231335-c0f41cb1a7a0 // indirect
+	golang.org/x/net v0.24.0 // indirect
+	golang.org/x/sys v0.19.0 // indirect
 	golang.org/x/text v0.14.0 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20240318140521-94a12d6c2237 // indirect
-	google.golang.org/grpc v1.62.1 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20240401170217-c3f982113cda // indirect
+	google.golang.org/grpc v1.63.0 // indirect
 	google.golang.org/protobuf v1.33.0 // indirect
 )
 
