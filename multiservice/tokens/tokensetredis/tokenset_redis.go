@@ -6,8 +6,8 @@ import (
 	"strings"
 
 	"github.com/grokify/goauth/multiservice/tokens"
-	"github.com/grokify/xgo/database/document"
-	"github.com/grokify/xgo/database/document/redis"
+	"github.com/grokify/sogo/database/document"
+	"github.com/grokify/sogo/database/document/redis"
 	"golang.org/x/oauth2"
 )
 

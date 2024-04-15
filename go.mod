@@ -9,11 +9,12 @@ require (
 	github.com/caarlos0/env/v9 v9.0.0
 	github.com/golang-jwt/jwt/v5 v5.2.1
 	github.com/google/go-querystring v1.1.0
-	github.com/grokify/go-salesforce v0.2.32
+	github.com/grokify/go-salesforce v0.2.33
 	github.com/grokify/gocharts/v2 v2.18.5
 	github.com/grokify/mogo v0.63.8
-	github.com/grokify/xgo v0.7.8
+	github.com/grokify/sogo v0.8.0
 	github.com/jessevdk/go-flags v1.5.0
+	github.com/jkeys089/jserial v1.0.1
 	github.com/joho/godotenv v1.5.1
 	github.com/rs/zerolog v1.32.0
 	golang.org/x/oauth2 v0.19.0
@@ -63,8 +64,8 @@ require (
 	golang.org/x/net v0.24.0 // indirect
 	golang.org/x/sys v0.19.0 // indirect
 	golang.org/x/text v0.14.0 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20240401170217-c3f982113cda // indirect
-	google.golang.org/grpc v1.63.0 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20240412170617-26222e5d3d56 // indirect
+	google.golang.org/grpc v1.63.2 // indirect
 	google.golang.org/protobuf v1.33.0 // indirect
 )
 
