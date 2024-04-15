@@ -11,10 +11,9 @@ require (
 	github.com/google/go-querystring v1.1.0
 	github.com/grokify/go-salesforce v0.2.32
 	github.com/grokify/gocharts/v2 v2.18.4
-	github.com/grokify/mogo v0.63.7
+	github.com/grokify/mogo v0.63.8
 	github.com/grokify/xgo v0.7.8
 	github.com/jessevdk/go-flags v1.5.0
-	github.com/jkeys089/jserial v1.0.1
 	github.com/joho/godotenv v1.5.1
 	github.com/rs/zerolog v1.32.0
 	golang.org/x/oauth2 v0.19.0
@@ -60,7 +59,7 @@ require (
 	go.opentelemetry.io/otel/metric v1.25.0 // indirect
 	go.opentelemetry.io/otel/trace v1.25.0 // indirect
 	golang.org/x/crypto v0.22.0 // indirect
-	golang.org/x/exp v0.0.0-20240404231335-c0f41cb1a7a0 // indirect
+	golang.org/x/exp v0.0.0-20240409090435-93d18d7e34b8 // indirect
 	golang.org/x/net v0.24.0 // indirect
 	golang.org/x/sys v0.19.0 // indirect
 	golang.org/x/text v0.14.0 // indirect
