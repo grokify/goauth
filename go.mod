@@ -14,11 +14,10 @@ require (
 	github.com/grokify/mogo v0.63.8
 	github.com/grokify/sogo v0.8.0
 	github.com/jessevdk/go-flags v1.5.0
-	github.com/jkeys089/jserial v1.0.1
 	github.com/joho/godotenv v1.5.1
 	github.com/rs/zerolog v1.32.0
 	golang.org/x/oauth2 v0.19.0
-	google.golang.org/api v0.172.0
+	google.golang.org/api v0.173.0
 	gopkg.in/jeevatkm/go-model.v1 v1.1.0
 )
 
