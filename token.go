@@ -1,6 +1,7 @@
 package goauth
 
 import (
+	"context"
 	"fmt"
 	"strings"
 	"time"
@@ -9,7 +10,7 @@ import (
 	"golang.org/x/oauth2"
 )
 
-func NewTokenCLI(creds Credentials, state string) (token *oauth2.Token, err error) {
+func NewTokenCLI(ctx context.Context, creds Credentials, state string) (token *oauth2.Token, err error) {
 	if creds.OAuth2.IsGrantType(authutil.GrantTypeAuthorizationCode) {
 		state = strings.TrimSpace(state)
 		if len(state) == 0 {
@@ -22,7 +23,7 @@ func NewTokenCLI(creds Credentials, state string) (token *oauth2.Token, err erro
 			return token, err
 		}
 	} else {
-		token, err = creds.NewToken()
+		token, err = creds.NewToken(ctx)
 		if err != nil {
 			return token, err
 		}

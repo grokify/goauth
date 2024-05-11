@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/grokify/goauth"
@@ -30,9 +31,9 @@ func main() {
 	var token *oauth2.Token
 
 	if len(opts.CLI) > 0 {
-		token, err = creds.NewTokenCLI("mystate")
+		token, err = creds.NewTokenCLI(context.Background(), "mystate")
 	} else {
-		token, err = creds.NewToken()
+		token, err = creds.NewToken(context.Background())
 	}
 	if err != nil {
 		log.Fatal().
