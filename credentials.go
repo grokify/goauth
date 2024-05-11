@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"net/http"
 	"net/url"
 	"strings"
@@ -109,7 +110,7 @@ func (creds *Credentials) NewClient(ctx context.Context) (*http.Client, error) {
 		clt, _, err := creds.OAuth2.NewClient(ctx)
 		return clt, err
 	}
-	tok, err := creds.NewToken()
+	tok, err := creds.NewToken(ctx)
 	if err != nil {
 		return nil, errorsutil.Wrap(err, "Credentials.NewToken()")
 	}
@@ -118,11 +119,11 @@ func (creds *Credentials) NewClient(ctx context.Context) (*http.Client, error) {
 }
 
 func (creds *Credentials) NewSimpleClient(ctx context.Context) (*httpsimple.Client, error) {
-	httpClient, err := creds.NewClient(ctx)
-	if err != nil {
+	if httpClient, err := creds.NewClient(ctx); err != nil {
 		return nil, err
+	} else {
+		return creds.NewSimpleClientHTTP(httpClient)
 	}
-	return creds.NewSimpleClientHTTP(httpClient)
 }
 
 func (creds *Credentials) NewSimpleClientHTTP(httpClient *http.Client) (*httpsimple.Client, error) {
@@ -146,29 +147,32 @@ func (creds *Credentials) NewSimpleClientHTTP(httpClient *http.Client) (*httpsim
 	}
 }
 
-func (creds *Credentials) NewClientCLI(oauth2State string) (*http.Client, error) {
-	tok, err := creds.NewTokenCLI(oauth2State)
-	if err != nil {
+func (creds *Credentials) NewClientCLI(ctx context.Context, oauth2State string) (*http.Client, error) {
+	if tok, err := creds.NewTokenCLI(ctx, oauth2State); err != nil {
 		return nil, err
+	} else {
+		creds.Token = tok
+		return authutil.NewClientToken(authutil.TokenBearer, tok.AccessToken, false), nil
 	}
-	creds.Token = tok
-	return authutil.NewClientToken(
-		authutil.TokenBearer, tok.AccessToken, false), nil
 }
 
-func (creds *Credentials) NewToken() (*oauth2.Token, error) {
-	cfg := creds.OAuth2.Config()
-	return cfg.PasswordCredentialsToken(
-		context.Background(),
-		creds.OAuth2.Username,
-		creds.OAuth2.Password)
+func (creds *Credentials) NewToken(ctx context.Context) (*oauth2.Token, error) {
+	if creds.Type == TypeOAuth2 {
+		if creds.OAuth2 != nil {
+			return creds.OAuth2.NewToken(ctx)
+		} else {
+			return nil, errors.New("credentials.oauth2 is nil for type `oauth2`")
+		}
+	} else {
+		return nil, fmt.Errorf("creds type not supported [%s]", creds.Type)
+	}
 }
 
 // NewTokenCLI retrieves a token using CLI approach for
 // OAuth 2.0 authorization code or password grant.
-func (creds *Credentials) NewTokenCLI(oauth2State string) (*oauth2.Token, error) {
+func (creds *Credentials) NewTokenCLI(ctx context.Context, oauth2State string) (*oauth2.Token, error) {
 	if strings.EqualFold(strings.TrimSpace(creds.OAuth2.GrantType), authutil.GrantTypeAuthorizationCode) {
-		return NewTokenCLI(*creds, oauth2State)
+		return NewTokenCLI(ctx, *creds, oauth2State)
 	}
-	return creds.NewToken()
+	return creds.NewToken(ctx)
 }
