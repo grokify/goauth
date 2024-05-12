@@ -2,20 +2,23 @@ package aha
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
 	"strings"
 
 	"github.com/grokify/goauth/scim"
+	"github.com/grokify/mogo/net/http/httpsimple"
+	"github.com/grokify/mogo/net/urlutil"
 	"github.com/grokify/mogo/strconv/humannameparser"
 )
 
-// ClientUtil is a client library to retrieve user info
-// from the Facebook API.
+// ClientUtil is a client library to retrieve user info from the Facebook API.
 type ClientUtil struct {
-	Client *http.Client
-	User   *AhaUserinfo `json:"user,omitempty"`
+	Client       *http.Client
+	SimpleClient *httpsimple.Client
+	User         *AhaUserinfo `json:"user,omitempty"`
 }
 
 func NewClientUtil(client *http.Client) ClientUtil {
@@ -26,11 +29,19 @@ func (apiutil *ClientUtil) SetClient(client *http.Client) {
 	apiutil.Client = client
 }
 
+func (apiutil *ClientUtil) SetSimpleClient(sclient *httpsimple.Client) {
+	apiutil.SimpleClient = sclient
+	apiutil.Client = sclient.HTTPClient
+}
+
 // GetUserinfo retrieves the userinfo from the
 // https://graph.facebook.com/v2.9/{user-id}
 // endpoint.
 func (apiutil *ClientUtil) GetUserinfo() (*AhaUserinfo, error) {
-	resp, err := apiutil.Client.Get(APIMeURL)
+	if apiutil.SimpleClient == nil || apiutil.SimpleClient.HTTPClient == nil {
+		return nil, errors.New("simple http client not set")
+	}
+	resp, err := apiutil.Client.Get(urlutil.JoinAbsolute(apiutil.SimpleClient.BaseURL, APIMeURLPath))
 	if err != nil {
 		return nil, err
 	} else if resp.StatusCode >= 300 {
