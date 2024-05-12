@@ -110,12 +110,12 @@ func (creds *Credentials) NewClient(ctx context.Context) (*http.Client, error) {
 		clt, _, err := creds.OAuth2.NewClient(ctx)
 		return clt, err
 	}
-	tok, err := creds.NewToken(ctx)
-	if err != nil {
+	if tok, err := creds.NewToken(ctx); err != nil {
 		return nil, errorsutil.Wrap(err, "Credentials.NewToken()")
+	} else {
+		creds.Token = tok
+		return authutil.NewClientToken(authutil.TokenBearer, tok.AccessToken, false), nil
 	}
-	creds.Token = tok
-	return authutil.NewClientToken(authutil.TokenBearer, tok.AccessToken, false), nil
 }
 
 func (creds *Credentials) NewSimpleClient(ctx context.Context) (*httpsimple.Client, error) {
@@ -173,6 +173,7 @@ func (creds *Credentials) NewToken(ctx context.Context) (*oauth2.Token, error) {
 func (creds *Credentials) NewTokenCLI(ctx context.Context, oauth2State string) (*oauth2.Token, error) {
 	if strings.EqualFold(strings.TrimSpace(creds.OAuth2.GrantType), authutil.GrantTypeAuthorizationCode) {
 		return NewTokenCLI(ctx, *creds, oauth2State)
+	} else {
+		return creds.NewToken(ctx)
 	}
-	return creds.NewToken(ctx)
 }

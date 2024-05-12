@@ -199,9 +199,19 @@ func (oc *CredentialsOAuth2) NewToken(ctx context.Context) (*oauth2.Token, error
 			return nil, err
 		}
 		return oc.Exchange(ctx, authCode, map[string][]string{})
+	} else {
+		return nil, fmt.Errorf("grant type [%s] is not supported in CredentialsOAuth2.NewToken()", oc.GrantType)
 	}
+}
 
-	return nil, fmt.Errorf("grant type is not supported in CredentialsOAuth2.NewToken() [%s]", oc.GrantType)
+func (oc *CredentialsOAuth2) NewSimpleClient(ctx context.Context) (*httpsimple.Client, error) {
+	if c, _, err := oc.NewClient(ctx); err != nil {
+		return nil, err
+	} else {
+		return &httpsimple.Client{
+			BaseURL:    oc.ServerURL,
+			HTTPClient: c}, nil
+	}
 }
 
 /*
@@ -227,8 +237,9 @@ func NewTokenOAuth2(credsOA2 credentials.CredentialsOAuth2) (*oauth2.Token, erro
 func (oc *CredentialsOAuth2) RefreshToken(tok *oauth2.Token) (*oauth2.Token, []byte, error) {
 	if tok == nil {
 		return nil, []byte{}, errors.New("token not supplied")
+	} else {
+		return oc.RefreshTokenSimple(tok.RefreshToken)
 	}
-	return oc.RefreshTokenSimple(tok.RefreshToken)
 }
 
 func (oc *CredentialsOAuth2) RefreshTokenSimple(refreshToken string) (*oauth2.Token, []byte, error) {
