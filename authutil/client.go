@@ -111,12 +111,12 @@ func NewClientBearerTokenSimpleOrJSON(ctx context.Context, tokenOrJSON []byte) (
 func NewClientTLSToken(ctx context.Context, tlsConfig *tls.Config, token *oauth2.Token) *http.Client {
 	tlsClient := &http.Client{
 		Transport: &http.Transport{
-			TLSClientConfig: tlsConfig}}
+			TLSClientConfig: tlsConfig,
+		},
+	}
 
 	ctx = context.WithValue(ctx, oauth2.HTTPClient, tlsClient)
-
 	cfg := &oauth2.Config{}
-
 	return cfg.Client(ctx, token)
 }
 
