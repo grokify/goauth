@@ -20,7 +20,9 @@ func NewTokenAccountCredentials(ctx context.Context, tokenEndpoint, clientID, cl
 	if err != nil {
 		return nil, err
 	}
-	bodyOpts.Add(ParamGrantType, GrantTypeAccountCredentials)
+	if bodyOpts.Get(ParamGrantType) == "" {
+		bodyOpts.Add(ParamGrantType, GrantTypeAccountCredentials)
+	}
 	req := httpsimple.Request{
 		Method:   http.MethodPost,
 		URL:      tokenEndpoint,
