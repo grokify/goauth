@@ -13,8 +13,9 @@ import (
 const (
 	ZoomAPIOAuth2AuthzURL = endpoints.ZoomAuthzURL
 	ZoomAPIOAuth2TokenURL = endpoints.ZoomTokenURL // #nosec G101
-	ZoomAPIBaseURL        = "https://api.zoom.us/v2/"
-	ZoomAPIMeURL          = "https://api.zoom.us/v2/users/me"
+	ZoomAPIURLBase        = "https://api.zoom.us/v2/"
+	ZoomAPIURLUsers       = "https://api.zoom.us/v2/users/"
+	ZoomAPIURLUsersMe     = "https://api.zoom.us/v2/users/me"
 	ZoomAPIUserIDMe       = "me"
 )
 
@@ -34,7 +35,7 @@ func (apiutil *ClientUtil) SetClient(client *http.Client) {
 }
 
 func (apiutil *ClientUtil) LoadUser() error {
-	resp, err := apiutil.Client.Get(ZoomAPIMeURL)
+	resp, err := apiutil.Client.Get(ZoomAPIURLUsersMe)
 	if err != nil {
 		return err
 	}
