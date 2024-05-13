@@ -41,7 +41,7 @@ type CredentialsOAuth2 struct {
 	Token                *oauth2.Token       `json:"token,omitempty"`
 	AuthCodeOpts         map[string][]string `json:"authCodeOpts,omitempty"`
 	AuthCodeExchangeOpts map[string][]string `json:"authCodeExchangeOpts,omitempty"`
-	PasswordOpts         map[string][]string `json:"passwordOpts,omitempty"`
+	TokenBodyOpts        url.Values          `json:"tokenBodyOpts,omitempty"`
 	Metadata             map[string]string   `json:"metadata,omitempty"`
 	// AppName              string              `json:"applicationName,omitempty"`
 	// AppVersion           string              `json:"applicationVersion,omitempty"`
@@ -70,11 +70,12 @@ func (oc *CredentialsOAuth2) Config() oauth2.Config {
 
 func (oc *CredentialsOAuth2) ConfigClientCredentials() clientcredentials.Config {
 	return clientcredentials.Config{
-		ClientID:     oc.ClientID,
-		ClientSecret: oc.ClientSecret,
-		TokenURL:     oc.Endpoint.TokenURL,
-		Scopes:       oc.Scopes,
-		AuthStyle:    oauth2.AuthStyleAutoDetect}
+		ClientID:       oc.ClientID,
+		ClientSecret:   oc.ClientSecret,
+		TokenURL:       oc.Endpoint.TokenURL,
+		Scopes:         oc.Scopes,
+		EndpointParams: oc.TokenBodyOpts,
+		AuthStyle:      oauth2.AuthStyleAutoDetect}
 }
 
 type AuthCodeOptions []oauth2.AuthCodeOption
@@ -181,6 +182,8 @@ func (oc *CredentialsOAuth2) NewToken(ctx context.Context) (*oauth2.Token, error
 		return oc.Token, nil
 	} else if strings.Contains(strings.ToLower(oc.GrantType), "jwt") {
 		return authutil.NewTokenOAuth2JWT(oc.Endpoint.TokenURL, oc.ClientID, oc.ClientSecret, oc.JWT)
+	} else if oc.IsGrantType(authutil.GrantTypeAccountCredentials) {
+		return authutil.NewTokenAccountCredentials(ctx, oc.Endpoint.TokenURL, oc.ClientID, oc.ClientSecret, oc.TokenBodyOpts)
 	} else if oc.IsGrantType(authutil.GrantTypeClientCredentials) {
 		config := oc.ConfigClientCredentials()
 		return config.Token(ctx)
@@ -300,8 +303,8 @@ func (oc *CredentialsOAuth2) PasswordRequestBody() url.Values {
 			body.Set("refresh_token_ttl", strconv.Itoa(int(oc.RefreshTokenTTL)))
 		}
 	*/
-	if len(oc.PasswordOpts) > 0 {
-		for k, vals := range oc.PasswordOpts {
+	if len(oc.TokenBodyOpts) > 0 {
+		for k, vals := range oc.TokenBodyOpts {
 			for _, v := range vals {
 				body.Set(k, v)
 			}
