@@ -43,10 +43,6 @@ type CredentialsOAuth2 struct {
 	AuthCodeExchangeOpts map[string][]string `json:"authCodeExchangeOpts,omitempty"`
 	TokenBodyOpts        url.Values          `json:"tokenBodyOpts,omitempty"`
 	Metadata             map[string]string   `json:"metadata,omitempty"`
-	// AppName              string              `json:"applicationName,omitempty"`
-	// AppVersion           string              `json:"applicationVersion,omitempty"`
-	// AccessTokenTTL  int64 `json:"accessTokenTTL,omitempty"`
-	// RefreshTokenTTL int64 `json:"refreshTokenTTL,omitempty"`
 }
 
 func ParseCredentialsOAuth2(b []byte) (CredentialsOAuth2, error) {
@@ -137,37 +133,14 @@ func (oc *CredentialsOAuth2) InflateURL(apiURLPath string) string {
 	return urlutil.JoinAbsolute(oc.ServerURL, apiURLPath)
 }
 
-/*
-// NewClient returns a `*http.Client` for applications using `client_credentials`
-// grant. The client can be modified using context, e.g. ignoring bad certs or otherwise.
-func (oc *CredentialsOAuth2) NewClient(ctx context.Context) (*http.Client, error) {
-	if oc.Token != nil && len(strings.TrimSpace(oc.Token.AccessToken)) > 0 {
-		config := oc.Config()
-		return config.Client(ctx, oc.Token), nil
-	} else if strings.Contains(strings.ToLower(oc.GrantType), "jwt") ||
-		oc.IsGrantType(authutil.GrantTypePassword) {
-		tok, err := oc.NewToken(ctx)
-		if err != nil {
-			return nil, err
-		}
-		config := oc.Config()
-		return config.Client(ctx, tok), nil
-	} else if oc.IsGrantType(authutil.GrantTypeClientCredentials) {
-		config := oc.ConfigClientCredentials()
-		return config.Client(ctx), nil
-	}
-	return nil, fmt.Errorf("grant type is not supported in CredentialsOAuth2.NewClient() [%s]", oc.GrantType)
-}
-*/
-
 func (oc *CredentialsOAuth2) NewClient(ctx context.Context) (*http.Client, *oauth2.Token, error) {
-	tok, err := oc.NewToken(ctx)
-	if err != nil {
+	if tok, err := oc.NewToken(ctx); err != nil {
 		return nil, tok, err
+	} else {
+		oc.Token = tok
+		config := oc.Config()
+		return config.Client(ctx, tok), tok, nil
 	}
-	oc.Token = tok
-	config := oc.Config()
-	return config.Client(ctx, tok), tok, nil
 }
 
 // NewToken retrieves an `*oauth2.Token` when the requisite information is available.
@@ -295,14 +268,6 @@ func (oc *CredentialsOAuth2) PasswordRequestBody() url.Values {
 		authutil.ParamGrantType: {authutil.GrantTypePassword},
 		authutil.ParamUsername:  {oc.Username},
 		authutil.ParamPassword:  {oc.Password}}
-	/*
-		if oc.AccessTokenTTL != 0 {
-			body.Set("access_token_ttl", strconv.Itoa(int(oc.AccessTokenTTL)))
-		}
-		if oc.RefreshTokenTTL != 0 {
-			body.Set("refresh_token_ttl", strconv.Itoa(int(oc.RefreshTokenTTL)))
-		}
-	*/
 	if len(oc.TokenBodyOpts) > 0 {
 		for k, vals := range oc.TokenBodyOpts {
 			for _, v := range vals {
