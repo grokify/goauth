@@ -17,7 +17,7 @@ const (
 	HeaderUserAgentJWTValue = "Zoom-api-Jwt-Request"
 )
 
-func CreateJwtToken(apiKey, apiSecret string, tokenDuration time.Duration) (*jwt.Token, string, error) {
+func CreateJWTToken(apiKey, apiSecret string, tokenDuration time.Duration) (*jwt.Token, string, error) {
 	jwtCreds := goauth.CredentialsJWT{
 		Issuer:        apiKey,
 		PrivateKey:    apiSecret,
@@ -26,7 +26,7 @@ func CreateJwtToken(apiKey, apiSecret string, tokenDuration time.Duration) (*jwt
 }
 
 func NewClient(apiKey, apiSecret string, tokenDuration time.Duration) (*http.Client, error) {
-	_, jwtString, err := CreateJwtToken(apiKey, apiSecret, tokenDuration)
+	_, jwtString, err := CreateJWTToken(apiKey, apiSecret, tokenDuration)
 	if err != nil {
 		return nil, err
 	}
