@@ -24,7 +24,7 @@ func NewTokenAccountCredentials(ctx context.Context, tokenEndpoint, clientID, cl
 	req := httpsimple.Request{
 		Method:   http.MethodPost,
 		URL:      tokenEndpoint,
-		Headers:  map[string][]string{httputilmore.HeaderAuthorization: []string{basicAuthHeaderValue}},
+		Headers:  map[string][]string{httputilmore.HeaderAuthorization: {basicAuthHeaderValue}},
 		Body:     bodyOpts,
 		BodyType: httpsimple.BodyTypeForm}
 	if resp, err := httpsimple.Do(req); err != nil {

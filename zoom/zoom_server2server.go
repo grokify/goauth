@@ -10,7 +10,7 @@ import (
 
 const (
 	EnvZoomClientID      = "ZOOM_CLIENT_ID"
-	EnvZoomCLientSecret  = "ZOOM_CLIENT_SECRET"
+	EnvZoomCLientSecret  = "ZOOM_CLIENT_SECRET" // #nosec G101
 	EnvZoomApplicationID = "ZOOM_APPLICATION_ID"
 
 	tokenBodyParamAccountID = "account_id"
