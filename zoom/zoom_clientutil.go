@@ -46,12 +46,12 @@ func (apiutil *ClientUtil) LoadUser() error {
 		return err
 	}
 	apiutil.UserNative = nativeUser
-	apiutil.UserScim, err = ZoomUserToScimUser(nativeUser)
-	if err != nil {
+	if apiutil.UserScim, err = ZoomUserToScimUser(nativeUser); err != nil {
 		return err
+	} else {
+		apiutil.UserLoaded = true
+		return nil
 	}
-	apiutil.UserLoaded = true
-	return nil
 }
 
 func (apiutil *ClientUtil) GetSCIMUser() (scim.User, error) {

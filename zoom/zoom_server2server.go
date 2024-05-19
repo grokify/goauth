@@ -16,9 +16,9 @@ const (
 	tokenBodyParamAccountID = "account_id"
 )
 
-// ServerToServerOAuth2Credentials implements Zoom's Server-to-Server OAuth 2.0 flow
+// CredentialsServerToServerOAuth2 implements Zoom's Server-to-Server OAuth 2.0 flow
 // described here: https://developers.zoom.us/docs/internal-apps/s2s-oauth/ .
-func ServerToServerOAuth2Credentials(clientID, clientSecret, accountID string) (goauth.Credentials, error) {
+func CredentialsServerToServerOAuth2(clientID, clientSecret, accountID string) goauth.Credentials {
 	creds := goauth.Credentials{
 		Type:    goauth.TypeOAuth2,
 		Service: endpoints.ServiceZoom,
@@ -32,6 +32,9 @@ func ServerToServerOAuth2Credentials(clientID, clientSecret, accountID string) (
 	if accountID != "" {
 		creds.OAuth2.TokenBodyOpts.Add(tokenBodyParamAccountID, accountID)
 	}
-	err := creds.Inflate()
-	return creds, err
+	if err := creds.Inflate(); err != nil {
+		panic(err)
+	} else {
+		return creds
+	}
 }
