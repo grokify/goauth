@@ -20,12 +20,11 @@ func main() {
 	logutil.FatalErr(err)
 	fmtutil.MustPrintJSON(files)
 
-	creds, err := zoom.ServerToServerOAuth2Credentials(
+	creds := zoom.ServerToServerOAuth2Credentials(
 		os.Getenv(zoom.EnvZoomClientID),
 		os.Getenv(zoom.EnvZoomCLientSecret),
 		os.Getenv(zoom.EnvZoomApplicationID))
 
-	logutil.FatalErr(err)
 	tok, err := creds.NewToken(context.Background())
 	logutil.FatalErr(err)
 

@@ -26,11 +26,11 @@ func CreateJWTToken(apiKey, apiSecret string, tokenDuration time.Duration) (*jwt
 }
 
 func NewClient(apiKey, apiSecret string, tokenDuration time.Duration) (*http.Client, error) {
-	_, jwtString, err := CreateJWTToken(apiKey, apiSecret, tokenDuration)
-	if err != nil {
+	if _, jwtString, err := CreateJWTToken(apiKey, apiSecret, tokenDuration); err != nil {
 		return nil, err
+	} else {
+		return NewClientToken(jwtString), nil
 	}
-	return NewClientToken(jwtString), nil
 }
 
 func NewClientToken(bearerToken string) *http.Client {
