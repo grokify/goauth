@@ -13,7 +13,7 @@ func NewEndpoint(serviceName, subdomain string) (oauth2.Endpoint, string, error)
 	case ServiceAha:
 		subdomain = strings.TrimSpace(subdomain)
 		if len(subdomain) == 0 {
-			return oauth2.Endpoint{}, "", fmt.Errorf("service [%s] requires subddomain", ServiceAha)
+			return oauth2.Endpoint{}, "", fmt.Errorf("service [%s] requires subdomain", ServiceAha)
 		}
 		return oauth2.Endpoint{
 				AuthURL:   fmt.Sprintf(AhaAuthzURLFormat, subdomain),
@@ -123,7 +123,7 @@ func NewEndpoint(serviceName, subdomain string) (oauth2.Endpoint, string, error)
 	case ServiceShopify:
 		subdomain = strings.TrimSpace(subdomain)
 		if len(subdomain) == 0 {
-			return oauth2.Endpoint{}, "", fmt.Errorf("service [%s] requires subddomain", ServiceShopify)
+			return oauth2.Endpoint{}, "", fmt.Errorf("service [%s] requires subdomain", ServiceShopify)
 		}
 		return oauth2.Endpoint{
 			AuthURL:   fmt.Sprintf(ShopifyAuthzURLFormat, subdomain),
