@@ -59,7 +59,7 @@ func NewClientBasicAuth(username, password string, tlsInsecureSkipVerify bool) (
 	header.Add(httputilmore.HeaderAuthorization, authHeaderVal)
 
 	if tlsInsecureSkipVerify {
-		client = ClientTLSInsecureSkipVerify(client)
+		client = ClientSetTLSInsecureSkipVerify(client, true) // #nosec G402
 	}
 
 	client.Transport = httputilmore.TransportRequestModifier{
