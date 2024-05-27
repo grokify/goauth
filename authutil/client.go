@@ -58,7 +58,7 @@ func NewClientHeaderQuery(header http.Header, query url.Values, allowInsecure bo
 	client := &http.Client{}
 
 	if allowInsecure {
-		client = ClientTLSInsecureSkipVerify(client)
+		client = ClientSetTLSInsecureSkipVerify(client, true) // #nosec G402
 	}
 
 	client.Transport = httputilmore.TransportRequestModifier{
@@ -120,9 +120,29 @@ func NewClientTLSToken(ctx context.Context, tlsConfig *tls.Config, token *oauth2
 	return cfg.Client(ctx, token)
 }
 
-func ClientTLSInsecureSkipVerify(client *http.Client) *http.Client {
-	client.Transport = &http.Transport{
-		TLSClientConfig: &tls.Config{
-			InsecureSkipVerify: true}} // #nosec G402
+func ClientSetTLSInsecureSkipVerify(client *http.Client, insecureSkipVerify bool) *http.Client {
+	if client == nil {
+		return client
+	}
+	xport := client.Transport
+	if xport == nil {
+		xport = &http.Transport{}
+	}
+	xportHTTP, ok := xport.(*http.Transport)
+	if !ok {
+		return client
+	}
+	if xportHTTP.TLSClientConfig == nil {
+		xportHTTP.TLSClientConfig = &tls.Config{}
+	}
+	xportHTTP.TLSClientConfig.InsecureSkipVerify = insecureSkipVerify
+	client.Transport = xportHTTP
 	return client
+	/*
+	   	client.Transport = &http.Transport{
+	   		TLSClientConfig: &tls.Config{
+	   			InsecureSkipVerify: true}} // #nosec G402
+
+	   return client
+	*/
 }
