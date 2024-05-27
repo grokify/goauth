@@ -133,7 +133,9 @@ func ClientSetTLSInsecureSkipVerify(client *http.Client, insecureSkipVerify bool
 		return client
 	}
 	if xportHTTP.TLSClientConfig == nil {
-		xportHTTP.TLSClientConfig = &tls.Config{}
+		xportHTTP.TLSClientConfig = &tls.Config{
+			MinVersion: tls.VersionTLS12,
+		}
 	}
 	xportHTTP.TLSClientConfig.InsecureSkipVerify = insecureSkipVerify
 	client.Transport = xportHTTP
