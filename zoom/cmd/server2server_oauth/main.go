@@ -20,7 +20,7 @@ func main() {
 	logutil.FatalErr(err)
 	fmtutil.MustPrintJSON(files)
 
-	creds := zoom.ServerToServerOAuth2Credentials(
+	creds := zoom.CredentialsServerToServerOAuth2(
 		os.Getenv(zoom.EnvZoomClientID),
 		os.Getenv(zoom.EnvZoomCLientSecret),
 		os.Getenv(zoom.EnvZoomApplicationID))
@@ -32,7 +32,7 @@ func main() {
 
 	client := zoom.NewClientToken(tok.AccessToken)
 
-	resp, err := client.Get("https://api.zoom.us/v2/users/")
+	resp, err := client.Get(zoom.ZoomAPIURLUsers)
 	logutil.FatalErr(err)
 
 	bytes, err := io.ReadAll(resp.Body)
