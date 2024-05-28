@@ -19,6 +19,7 @@ import (
 	"github.com/grokify/mogo/net/http/httpsimple"
 	"github.com/grokify/mogo/net/http/httputilmore"
 	"github.com/grokify/mogo/net/urlutil"
+	"github.com/grokify/mogo/type/stringsutil"
 	"golang.org/x/net/context/ctxhttp"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/clientcredentials"
@@ -208,7 +209,7 @@ func (oc *CredentialsOAuth2) newTokenPasswordCredentialsRequest(ctx context.Cont
 	body.Add(authutil.ParamUsername, oc.Username)
 	body.Add(authutil.ParamPassword, oc.Password)
 	if len(oc.Scopes) > 0 {
-		body.Add(authutil.ParamScope, strings.Join(oc.Scopes, ","))
+		body.Add(authutil.ParamScope, strings.Join(stringsutil.SliceCondenseSpace(oc.Scopes, true, false), ","))
 	}
 	req.Body = body
 	return &req, nil
