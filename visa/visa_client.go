@@ -28,7 +28,7 @@ type Config struct {
 }
 
 func (cfg Config) NewClient() (*http.Client, error) {
-	tlsConfig, err := tlsutil.NewTLSConfig("", "", []string{}, []string{}, false)
+	tlsConfig, err := tlsutil.NewTLSConfigCerts("", "", []string{}, []string{}, false)
 	if err != nil {
 		return nil, err
 	}
