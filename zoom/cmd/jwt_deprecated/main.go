@@ -34,7 +34,7 @@ func main() {
 	fmt.Printf("TOK [%v]\n", tokenString)
 
 	if 1 == 0 {
-		token, err := authutil.ParseJwtTokenString(
+		token, err := authutil.ParseJWTString(
 			tokenString, apiSecret,
 			&jwt.RegisteredClaims{Issuer: apiKey})
 		logutil.FatalErr(err)

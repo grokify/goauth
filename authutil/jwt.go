@@ -11,7 +11,7 @@ import (
 	"golang.org/x/oauth2"
 )
 
-func ParseJwtTokenString(tokenString string, secretKey string, claims jwt.Claims) (*jwt.Token, error) {
+func ParseJWTString(tokenString string, secretKey string, claims jwt.Claims) (*jwt.Token, error) {
 	// https://stackoverflow.com/questions/41077953/go-language-and-verify-jwt
 	if claims == nil {
 		token, err := jwt.Parse(tokenString, func(token *jwt.Token) (any, error) {
