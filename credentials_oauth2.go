@@ -19,6 +19,7 @@ import (
 	"github.com/grokify/mogo/net/http/httpsimple"
 	"github.com/grokify/mogo/net/http/httputilmore"
 	"github.com/grokify/mogo/net/urlutil"
+	"golang.org/x/net/context/ctxhttp"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/clientcredentials"
 )
@@ -161,8 +162,9 @@ func (oc *CredentialsOAuth2) NewToken(ctx context.Context) (*oauth2.Token, error
 		config := oc.ConfigClientCredentials()
 		return config.Token(ctx)
 	} else if oc.IsGrantType(authutil.GrantTypePassword) {
-		cfg := oc.Config()
-		return cfg.PasswordCredentialsToken(ctx, oc.Username, oc.Password)
+		// cfg := oc.Config()
+		// return cfg.PasswordCredentialsToken(ctx, oc.Username, oc.Password)
+		return oc.NewTokenPasswordCredentials(ctx) // supports custom request params
 	} else if oc.IsGrantType(authutil.GrantTypeAuthorizationCode) {
 		state := randutil.RandString(basex.AlphabetBase62, 12)
 		authURL := oc.AuthCodeURL(state, map[string][]string{})
@@ -177,6 +179,53 @@ func (oc *CredentialsOAuth2) NewToken(ctx context.Context) (*oauth2.Token, error
 		return oc.Exchange(ctx, authCode, map[string][]string{})
 	} else {
 		return nil, fmt.Errorf("grant type [%s] is not supported in CredentialsOAuth2.NewToken()", oc.GrantType)
+	}
+}
+
+func (oc *CredentialsOAuth2) newTokenPasswordCredentialsRequest(ctx context.Context) (*httpsimple.Request, error) {
+	cfg := oc.Config()
+	basicHeaderVal, err := authutil.BasicAuthHeader(cfg.ClientID, cfg.ClientSecret)
+	if err != nil {
+		return nil, err
+	}
+	req := httpsimple.Request{
+		Method: http.MethodPost,
+		URL:    cfg.Endpoint.TokenURL,
+		Headers: http.Header{
+			httputilmore.HeaderAuthorization: []string{basicHeaderVal},
+		},
+		BodyType: httpsimple.BodyTypeForm,
+	}
+	body := url.Values{}
+	if len(oc.TokenBodyOpts) > 0 {
+		for k, vals := range oc.TokenBodyOpts {
+			for _, v := range vals {
+				body.Add(k, v)
+			}
+		}
+	}
+	body.Add(authutil.ParamGrantType, authutil.GrantTypePassword)
+	body.Add(authutil.ParamUsername, oc.Username)
+	body.Add(authutil.ParamPassword, oc.Password)
+	if len(oc.Scopes) > 0 {
+		body.Add(authutil.ParamScope, strings.Join(oc.Scopes, ","))
+	}
+	req.Body = body
+	return &req, nil
+}
+
+// NewTokenPasswordCredentials provides fine-grained token request.
+func (oc *CredentialsOAuth2) NewTokenPasswordCredentials(ctx context.Context) (*oauth2.Token, error) {
+	if sreq, err := oc.newTokenPasswordCredentialsRequest(ctx); err != nil {
+		return nil, err
+	} else if hreq, err := sreq.HTTPRequest(ctx); err != nil {
+		return nil, err
+	} else if resp, err := ctxhttp.Do(ctx, &http.Client{}, hreq); err != nil {
+		return nil, err
+	} else if resp.StatusCode >= 300 {
+		return nil, fmt.Errorf("receted status code (%d)", resp.StatusCode)
+	} else {
+		return authutil.ParseTokenReader(resp.Body)
 	}
 }
 
