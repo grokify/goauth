@@ -11,6 +11,17 @@ import (
 	"golang.org/x/oauth2"
 )
 
+const (
+	// claims from https://datatracker.ietf.org/doc/html/rfc7519 .
+	JWTClaimAudience   = "aud"
+	JWTClaimExpiration = "exp"
+	JWTClaimIssuedAt   = "iat"
+	JWTClaimIssuer     = "iss"
+	JWTClaimJWTID      = "jti"
+	JWTClaimNotBefore  = "nbf"
+	JWTClaimSubject    = "sub"
+)
+
 func ParseJWTString(tokenString string, secretKey string, claims jwt.Claims) (*jwt.Token, error) {
 	// https://stackoverflow.com/questions/41077953/go-language-and-verify-jwt
 	if claims == nil {
