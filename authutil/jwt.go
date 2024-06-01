@@ -1,13 +1,15 @@
 package authutil
 
 import (
+	"context"
 	"net/http"
 	"net/url"
-	"strings"
 
 	jwt "github.com/golang-jwt/jwt/v5"
 	"github.com/grokify/mogo/errors/errorsutil"
+	"github.com/grokify/mogo/net/http/httpsimple"
 	"github.com/grokify/mogo/net/http/httputilmore"
+	"golang.org/x/net/context/ctxhttp"
 	"golang.org/x/oauth2"
 )
 
@@ -35,40 +37,65 @@ func ParseJWTString(tokenString string, secretKey string, claims jwt.Claims) (*j
 	}
 	// *jwt.StandardClaims
 	// https://stackoverflow.com/questions/45405626/decoding-jwt-token-in-golang
-	token, err := jwt.ParseWithClaims(tokenString, claims, func(token *jwt.Token) (any, error) {
+	if token, err := jwt.ParseWithClaims(tokenString, claims, func(token *jwt.Token) (any, error) {
 		return []byte(secretKey), nil
-	})
-	if err != nil {
+	}); err != nil {
 		return nil, errorsutil.Wrap(err, "ParseTokenString.jwt.ParseWithClaims")
+	} else {
+		return token, nil
 	}
-	return token, nil
 }
 
-func NewTokenOAuth2JWT(tokenURL, clientID, clientSecret, jwtBase64Enc string) (*oauth2.Token, error) {
-	body := url.Values{
-		ParamGrantType: {GrantTypeJWTBearer},
-		ParamAssertion: {jwtBase64Enc}}
-
-	req, err := http.NewRequest(
-		http.MethodPost, tokenURL,
-		strings.NewReader(body.Encode()))
-	if err != nil {
-		return nil, err
+func NewTokenOAuth2JWT(ctx context.Context, tokenURL, clientID, clientSecret, jwtBase64Enc string) (*oauth2.Token, error) {
+	sreq := httpsimple.Request{
+		Method: http.MethodPost,
+		URL:    tokenURL,
+		Body: url.Values{
+			ParamGrantType: {GrantTypeJWTBearer},
+			ParamAssertion: {jwtBase64Enc}},
+		BodyType: httpsimple.BodyTypeForm,
 	}
-	req.Header.Add(httputilmore.HeaderContentType, httputilmore.ContentTypeAppFormURLEncoded)
-
 	if len(clientID) > 0 || len(clientSecret) > 0 {
-		b64Enc, err := RFC7617UserPass(clientID, clientSecret)
+		if authHeaderVal, err := BasicAuthHeader(clientID, clientSecret); err != nil {
+			return nil, err
+		} else {
+			sreq.Headers.Add(httputilmore.HeaderAuthorization, authHeaderVal)
+		}
+	}
+	if hreq, err := sreq.HTTPRequest(ctx); err != nil {
+		return nil, err
+	} else if resp, err := ctxhttp.Do(ctx, &http.Client{}, hreq); err != nil {
+		return nil, err
+	} else {
+		return ParseTokenReader(resp.Body)
+	}
+
+	/*
+		body := url.Values{
+			ParamGrantType: {GrantTypeJWTBearer},
+			ParamAssertion: {jwtBase64Enc}}
+
+		req, err := http.NewRequest(
+			http.MethodPost, tokenURL,
+			strings.NewReader(body.Encode()))
 		if err != nil {
 			return nil, err
 		}
-		req.Header.Add(httputilmore.HeaderAuthorization, TokenBasic+" "+b64Enc)
-	}
+		req.Header.Add(httputilmore.HeaderContentType, httputilmore.ContentTypeAppFormURLEncoded)
 
-	client := http.Client{}
-	resp, err := client.Do(req)
-	if err != nil {
-		return nil, err
-	}
-	return ParseTokenReader(resp.Body)
+		if len(clientID) > 0 || len(clientSecret) > 0 {
+			b64Enc, err := RFC7617UserPass(clientID, clientSecret)
+			if err != nil {
+				return nil, err
+			}
+			req.Header.Add(httputilmore.HeaderAuthorization, TokenBasic+" "+b64Enc)
+		}
+
+		client := http.Client{}
+		resp, err := client.Do(req)
+		if err != nil {
+			return nil, err
+		}
+		return ParseTokenReader(resp.Body)
+	*/
 }
