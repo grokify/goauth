@@ -27,13 +27,13 @@ const (
 func ParseJWTString(tokenString string, secretKey string, claims jwt.Claims) (*jwt.Token, error) {
 	// https://stackoverflow.com/questions/41077953/go-language-and-verify-jwt
 	if claims == nil {
-		token, err := jwt.Parse(tokenString, func(token *jwt.Token) (any, error) {
+		if token, err := jwt.Parse(tokenString, func(token *jwt.Token) (any, error) {
 			return []byte(secretKey), nil
-		})
-		if err != nil {
+		}); err != nil {
 			return nil, errorsutil.Wrap(err, "ParseTokenString.jwt.Parse")
+		} else {
+			return token, nil
 		}
-		return token, nil
 	}
 	// *jwt.StandardClaims
 	// https://stackoverflow.com/questions/45405626/decoding-jwt-token-in-golang
