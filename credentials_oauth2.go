@@ -260,15 +260,15 @@ func NewTokenOAuth2(credsOA2 credentials.CredentialsOAuth2) (*oauth2.Token, erro
 }
 */
 
-func (oc *CredentialsOAuth2) RefreshToken(tok *oauth2.Token) (*oauth2.Token, []byte, error) {
+func (oc *CredentialsOAuth2) RefreshToken(ctx context.Context, tok *oauth2.Token) (*oauth2.Token, []byte, error) {
 	if tok == nil {
 		return nil, []byte{}, errors.New("token not supplied")
 	} else {
-		return oc.RefreshTokenSimple(tok.RefreshToken)
+		return oc.RefreshTokenSimple(ctx, tok.RefreshToken)
 	}
 }
 
-func (oc *CredentialsOAuth2) RefreshTokenSimple(refreshToken string) (*oauth2.Token, []byte, error) {
+func (oc *CredentialsOAuth2) RefreshTokenSimple(ctx context.Context, refreshToken string) (*oauth2.Token, []byte, error) {
 	basicAuthHeader, err := oc.BasicAuthHeader()
 	if err != nil {
 		return nil, []byte{}, err
@@ -290,7 +290,7 @@ func (oc *CredentialsOAuth2) RefreshTokenSimple(refreshToken string) (*oauth2.To
 		Body: []byte(body.Encode()),
 	}
 
-	resp, err := httpsimple.Do(sr)
+	resp, err := httpsimple.Do(ctx, sr)
 	if err != nil {
 		return nil, []byte{}, err
 	}
