@@ -18,7 +18,7 @@ require (
 	github.com/rs/zerolog v1.33.0
 	golang.org/x/net v0.26.0
 	golang.org/x/oauth2 v0.21.0
-	google.golang.org/api v0.182.0
+	google.golang.org/api v0.184.0
 	gopkg.in/jeevatkm/go-model.v1 v1.1.0
 )
 
@@ -65,8 +65,8 @@ require (
 	golang.org/x/image v0.17.0 // indirect
 	golang.org/x/sys v0.21.0 // indirect
 	golang.org/x/text v0.16.0 // indirect
-	google.golang.org/genproto/googleapis/api v0.0.0-20240513163218-0867130af1f8 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20240528184218-531527333157 // indirect
+	google.golang.org/genproto/googleapis/api v0.0.0-20240528184218-531527333157 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20240604185151-ef581f913117 // indirect
 	google.golang.org/grpc v1.64.0 // indirect
 	google.golang.org/protobuf v1.34.1 // indirect
 )
