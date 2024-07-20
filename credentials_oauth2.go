@@ -13,6 +13,7 @@ import (
 	"strings"
 
 	"github.com/grokify/goauth/authutil"
+	"github.com/grokify/goauth/authutil/jwtutil"
 	"github.com/grokify/mogo/crypto/randutil"
 	"github.com/grokify/mogo/encoding/basex"
 	"github.com/grokify/mogo/encoding/jsonutil"
@@ -156,7 +157,7 @@ func (oc *CredentialsOAuth2) NewToken(ctx context.Context) (*oauth2.Token, error
 	if oc.Token != nil && len(strings.TrimSpace(oc.Token.AccessToken)) > 0 {
 		return oc.Token, nil
 	} else if strings.Contains(strings.ToLower(oc.GrantType), "jwt") {
-		return authutil.NewTokenOAuth2JWT(ctx, oc.Endpoint.TokenURL, oc.ClientID, oc.ClientSecret, oc.JWT)
+		return jwtutil.NewTokenOAuth2JWT(ctx, oc.Endpoint.TokenURL, oc.ClientID, oc.ClientSecret, oc.JWT)
 	} else if oc.IsGrantType(authutil.GrantTypeAccountCredentials) {
 		return authutil.NewTokenAccountCredentials(ctx, oc.Endpoint.TokenURL, oc.ClientID, oc.ClientSecret, oc.TokenBodyOpts)
 	} else if oc.IsGrantType(authutil.GrantTypeClientCredentials) {
