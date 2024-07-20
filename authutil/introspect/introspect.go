@@ -31,25 +31,22 @@ func NewMockServer(r IntrospectResponse, activeTokens []string) MockServer {
 }
 
 func (ms MockServer) PostIntrospect(w http.ResponseWriter, r *http.Request) {
-	err := r.ParseForm()
-	if err != nil {
+	if err := r.ParseForm(); err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
-	}
-
-	token := r.PostFormValue("token")
-	if _, ok := ms.ActiveTokens[token]; ok {
+	} else if _, ok := ms.ActiveTokens[r.PostFormValue("token")]; ok {
 		ms.Response.Active = true
 	} else {
 		ms.Response.Active = false
 	}
 
-	body, err := json.Marshal(ms.Response)
-	if err != nil {
-		panic(err)
+	if body, err := json.Marshal(ms.Response); err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	} else {
+		w.WriteHeader(http.StatusOK)
+		w.Write(body)
 	}
-	w.WriteHeader(http.StatusOK)
-	w.Write(body)
 }
 
 func (ms MockServer) NewServeMux() *http.ServeMux {
