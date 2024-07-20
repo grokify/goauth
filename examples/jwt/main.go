@@ -20,7 +20,7 @@ func createJWTHS256SignedString(secretKey string, data map[string]any) (string, 
 			"name": "JohnDoe",
 		},
 	}
-	return jwtutil.CreateJWTHS256SignedString([]byte(secretKey), claims)
+	return jwtutil.CreateHS256SignedString([]byte(secretKey), claims)
 }
 
 func parseJWTSubClaimName(tokenString, secretKey, field string) (string, error) {
