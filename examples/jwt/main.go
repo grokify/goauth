@@ -6,12 +6,13 @@ import (
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
+	"github.com/grokify/goauth/authutil/jwtutil"
 )
 
 // Answer for https://stackoverflow.com/a/61284284/1908967
 
-func createJWT(secretKey string, data map[string]any) (string, error) {
-	claims := &jwt.MapClaims{
+func createJWTHS256SignedString(secretKey string, data map[string]any) (string, error) {
+	claims := map[string]any{
 		"iss": "issuer",
 		"exp": time.Now().Add(time.Hour).Unix(),
 		"data": map[string]any{
@@ -19,11 +20,7 @@ func createJWT(secretKey string, data map[string]any) (string, error) {
 			"name": "JohnDoe",
 		},
 	}
-
-	token := jwt.NewWithClaims(
-		jwt.SigningMethodHS256,
-		claims)
-	return token.SignedString([]byte(secretKey))
+	return jwtutil.CreateJWTHS256SignedString([]byte(secretKey), claims)
 }
 
 func parseJWTSubClaimName(tokenString, secretKey, field string) (string, error) {
@@ -43,7 +40,7 @@ func parseJWTSubClaimName(tokenString, secretKey, field string) (string, error) 
 func main() {
 	secretKey := "foobar"
 
-	tokenString, err := createJWT(
+	tokenString, err := createJWTHS256SignedString(
 		secretKey,
 		map[string]any{
 			"id": "123", "name": "JohnDoe"})

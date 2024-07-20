@@ -1,4 +1,4 @@
-package authutil
+package jwtutil
 
 import (
 	"context"
@@ -6,6 +6,7 @@ import (
 	"net/url"
 
 	jwt "github.com/golang-jwt/jwt/v5"
+	"github.com/grokify/goauth/authutil"
 	"github.com/grokify/mogo/errors/errorsutil"
 	"github.com/grokify/mogo/net/http/httpsimple"
 	"github.com/grokify/mogo/net/http/httputilmore"
@@ -51,12 +52,12 @@ func NewTokenOAuth2JWT(ctx context.Context, tokenURL, clientID, clientSecret, jw
 		Method: http.MethodPost,
 		URL:    tokenURL,
 		Body: url.Values{
-			ParamGrantType: {GrantTypeJWTBearer},
-			ParamAssertion: {jwtBase64Enc}},
+			authutil.ParamGrantType: {authutil.GrantTypeJWTBearer},
+			authutil.ParamAssertion: {jwtBase64Enc}},
 		BodyType: httpsimple.BodyTypeForm,
 	}
 	if len(clientID) > 0 || len(clientSecret) > 0 {
-		if authHeaderVal, err := BasicAuthHeader(clientID, clientSecret); err != nil {
+		if authHeaderVal, err := authutil.BasicAuthHeader(clientID, clientSecret); err != nil {
 			return nil, err
 		} else {
 			sreq.Headers.Add(httputilmore.HeaderAuthorization, authHeaderVal)
@@ -67,7 +68,7 @@ func NewTokenOAuth2JWT(ctx context.Context, tokenURL, clientID, clientSecret, jw
 	} else if resp, err := ctxhttp.Do(ctx, &http.Client{}, hreq); err != nil {
 		return nil, err
 	} else {
-		return ParseTokenReader(resp.Body)
+		return authutil.ParseTokenReader(resp.Body)
 	}
 
 	/*
