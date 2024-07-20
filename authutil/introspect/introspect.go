@@ -42,7 +42,6 @@ func (ms MockServer) PostIntrospect(w http.ResponseWriter, r *http.Request) {
 
 	if body, err := json.Marshal(ms.Response); err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
-		return
 	} else {
 		w.WriteHeader(http.StatusOK)
 		w.Write(body)
