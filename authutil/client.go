@@ -16,40 +16,37 @@ import (
 )
 
 func NewClientPassword(conf oauth2.Config, ctx context.Context, username, password string) (*http.Client, error) {
-	token, err := BasicAuthToken(username, password)
-	if err != nil {
+	if token, err := BasicAuthToken(username, password); err != nil {
 		return nil, err
+	} else {
+		return conf.Client(ctx, token), nil
 	}
-	return conf.Client(ctx, token), nil
 }
 
 func NewClientPasswordConf(conf oauth2.Config, username, password string) (*http.Client, error) {
-	token, err := conf.PasswordCredentialsToken(context.Background(), username, password)
-	if err != nil {
+	if token, err := conf.PasswordCredentialsToken(context.Background(), username, password); err != nil {
 		return &http.Client{}, err
+	} else {
+		return conf.Client(context.Background(), token), nil
 	}
-
-	return conf.Client(context.Background(), token), nil
 }
 
 func NewClientAuthCode(conf oauth2.Config, authCode string) (*http.Client, error) {
-	token, err := conf.Exchange(context.Background(), authCode)
-	if err != nil {
+	if token, err := conf.Exchange(context.Background(), authCode); err != nil {
 		return &http.Client{}, err
+	} else {
+		return conf.Client(context.Background(), token), nil
 	}
-	return conf.Client(context.Background(), token), nil
 }
 
 func NewClientTokenJSON(ctx context.Context, tokenJSON []byte) (*http.Client, error) {
 	token := &oauth2.Token{}
-	err := json.Unmarshal(tokenJSON, token)
-	if err != nil {
+	if err := json.Unmarshal(tokenJSON, token); err != nil {
 		return nil, err
+	} else {
+		oAuthConfig := &oauth2.Config{}
+		return oAuthConfig.Client(ctx, token), nil
 	}
-
-	oAuthConfig := &oauth2.Config{}
-
-	return oAuthConfig.Client(ctx, token), nil
 }
 
 // NewClientHeaderQuery returns a new `*http.Client` that will set headers and query
