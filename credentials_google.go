@@ -22,10 +22,10 @@ func (cg *CredentialsGCP) NewClient(ctx context.Context) (*http.Client, error) {
 }
 
 func CredentialsGCPReadFile(name string) (*CredentialsGCP, error) {
-	b, err := os.ReadFile(name)
-	if err != nil {
+	if b, err := os.ReadFile(name); err != nil {
 		return nil, err
+	} else {
+		var c *CredentialsGCP
+		return c, json.Unmarshal(b, c)
 	}
-	var c *CredentialsGCP
-	return c, json.Unmarshal(b, c)
 }

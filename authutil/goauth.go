@@ -88,6 +88,7 @@ const (
 		Endpoint     oauth2.Endpoint
 	}
 */
+
 type AppCredentials struct {
 	Service      string   `json:"service,omitempty"`
 	ClientID     string   `json:"client_id"`
