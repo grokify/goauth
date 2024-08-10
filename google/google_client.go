@@ -13,12 +13,11 @@ import (
 )
 
 func ClientFromFile(ctx context.Context, filepath string, scopes []string, tok *oauth2.Token) (*http.Client, error) {
-	conf, err := ConfigFromFile(filepath, scopes)
-	if err != nil {
+	if conf, err := ConfigFromFile(filepath, scopes); err != nil {
 		return &http.Client{}, errorsutil.Wrap(err, fmt.Sprintf("Unable to read app config file: %v", filepath))
+	} else {
+		return conf.Client(ctx, tok), nil
 	}
-
-	return conf.Client(ctx, tok), nil
 }
 
 type ClientOAuthCLITokenStoreConfig struct {
@@ -31,31 +30,27 @@ type ClientOAuthCLITokenStoreConfig struct {
 }
 
 func NewClientOAuthCLITokenStore(cfg ClientOAuthCLITokenStoreConfig) (*http.Client, error) {
-	conf, err := ConfigFromBytes(cfg.AppConfig, cfg.Scopes)
-	if err != nil {
+	if conf, err := ConfigFromBytes(cfg.AppConfig, cfg.Scopes); err != nil {
 		return nil, err
-	}
-
-	tokenStore, err := authutil.NewTokenStoreFileDefault(cfg.TokenFile, true, 0600)
-	if err != nil {
+	} else if tokenStore, err := authutil.NewTokenStoreFileDefault(cfg.TokenFile, true, 0600); err != nil {
 		return nil, err
+	} else {
+		return authutil.NewClientWebTokenStore(cfg.Context, conf, tokenStore, cfg.ForceNewToken, cfg.State)
 	}
-
-	return authutil.NewClientWebTokenStore(cfg.Context, conf, tokenStore, cfg.ForceNewToken, cfg.State)
 }
 
 func NewClientSvcAccountFromFile(ctx context.Context, svcAccountConfigFile string, scopes ...string) (*http.Client, error) {
-	svcAccountConfig, err := os.ReadFile(svcAccountConfigFile)
-	if err != nil {
+	if svcAccountConfig, err := os.ReadFile(svcAccountConfigFile); err != nil {
 		return nil, err
+	} else {
+		return NewClientFromJWTJSON(ctx, svcAccountConfig, scopes...)
 	}
-	return NewClientFromJWTJSON(ctx, svcAccountConfig, scopes...)
 }
 
 func NewClientFromJWTJSON(ctx context.Context, svcAccountConfig []byte, scopes ...string) (*http.Client, error) {
-	jwtConf, err := google.JWTConfigFromJSON(svcAccountConfig, scopes...)
-	if err != nil {
+	if jwtConf, err := google.JWTConfigFromJSON(svcAccountConfig, scopes...); err != nil {
 		return nil, err
+	} else {
+		return jwtConf.Client(ctx), nil
 	}
-	return jwtConf.Client(ctx), nil
 }

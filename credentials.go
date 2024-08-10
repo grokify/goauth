@@ -90,13 +90,15 @@ func (creds *Credentials) NewClient(ctx context.Context) (*http.Client, error) {
 	case TypeBasic:
 		if creds.Basic == nil {
 			return nil, ErrBasicAuthNotPopulated
+		} else {
+			return creds.Basic.NewClient()
 		}
-		return creds.Basic.NewClient()
 	case TypeGCPSA:
 		if creds.GCPSA == nil {
 			return nil, ErrGCPSANotPopulated
+		} else {
+			return creds.GCPSA.NewClient(ctx)
 		}
-		return creds.GCPSA.NewClient(ctx)
 	case TypeHeaderQuery:
 		if creds.HeaderQuery == nil {
 			return nil, ErrHeaderQueryNotPopulated
