@@ -1,6 +1,7 @@
 package google
 
 import (
+	"context"
 	"encoding/json"
 	"io"
 	"net/http"
@@ -8,6 +9,7 @@ import (
 	"strings"
 
 	"github.com/grokify/goauth/scim"
+	"golang.org/x/net/context/ctxhttp"
 )
 
 const (
@@ -78,8 +80,9 @@ func ParseGoogleUserinfoEmail(query string) (GoogleUserinfoEmail, error) {
 // https://www.googleapis.com/oauth2/v1/userinfo?alt=json
 // endpoint. Requires scope `ScopeUserProfile`
 // `https://www.googleapis.com/auth/userinfo.profile`
-func (apiutil *ClientUtil) GetUserinfo() (GoogleUserinfo, error) {
-	resp, err := apiutil.Client.Get(GoogleAPIUserinfoURL)
+func (apiutil *ClientUtil) GetUserinfo(ctx context.Context) (GoogleUserinfo, error) {
+	resp, err := ctxhttp.Get(ctx, apiutil.Client, GoogleAPIUserinfoURL)
+	// resp, err := apiutil.Client.Get(GoogleAPIUserinfoURL)
 	if err != nil {
 		return GoogleUserinfo{}, err
 	}
@@ -180,7 +183,7 @@ func (apiutil *ClientUtil) GetSCIMUser() (scim.User, error) {
 	return scimUser, nil
 }
 
-func (apiutil *ClientUtil) GetSCIMUserOld() (scim.User, error) {
+func (apiutil *ClientUtil) GetSCIMUserOld(ctx context.Context) (scim.User, error) {
 	user := scim.User{}
 
 	// Get Email
@@ -195,7 +198,7 @@ func (apiutil *ClientUtil) GetSCIMUserOld() (scim.User, error) {
 	}
 
 	// Get Real Name
-	googleUserinfo, err := apiutil.GetUserinfo()
+	googleUserinfo, err := apiutil.GetUserinfo(ctx)
 	if err != nil {
 		return user, err
 	}

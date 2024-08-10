@@ -13,7 +13,6 @@ import (
 	"github.com/grokify/mogo/errors/errorsutil"
 	"github.com/grokify/mogo/net/urlutil"
 	"github.com/grokify/mogo/type/stringsutil"
-
 	"golang.org/x/oauth2"
 )
 
@@ -86,8 +85,9 @@ func (gc *GoogleConfigFileStore) SetDefaultFilepath() error {
 }
 
 // Client returns a `*http.Client`.
-func (gc *GoogleConfigFileStore) Client() (*http.Client, error) {
+func (gc *GoogleConfigFileStore) Client(ctx context.Context) (*http.Client, error) {
 	return NewClientFileStore(
+		ctx,
 		gc.CredentialsRaw,
 		gc.Scopes,
 		gc.TokenPath,
@@ -100,6 +100,7 @@ func (gc *GoogleConfigFileStore) Client() (*http.Client, error) {
 // in a token store file. It will use the token file credentials unless
 // `forceNewToken` is set to true.
 func NewClientFileStore(
+	ctx context.Context,
 	credentials []byte,
 	scopes []string,
 	tokenPath string,
@@ -118,16 +119,16 @@ func NewClientFileStore(
 	if err != nil {
 		return nil, err
 	}
-	googHTTPClient, err := authutil.NewClientWebTokenStore(context.Background(), conf, tokenStoreFile, forceNewToken, state)
+	googHTTPClient, err := authutil.NewClientWebTokenStore(ctx, conf, tokenStoreFile, forceNewToken, state)
 	if err != nil {
 		return nil, err
 	}
 	if !forceNewToken {
 		cu := NewClientUtil(googHTTPClient)
-		_, err := cu.GetUserinfo()
+		_, err := cu.GetUserinfo(ctx)
 		if err != nil {
 			fmt.Printf("error for Google user profile API [%v] ... Getting New Token", err.Error())
-			googHTTPClient, err = authutil.NewClientWebTokenStore(context.Background(), conf, tokenStoreFile, true, state)
+			googHTTPClient, err = authutil.NewClientWebTokenStore(ctx, conf, tokenStoreFile, true, state)
 			if err != nil {
 				return nil, err
 			}
@@ -139,25 +140,24 @@ func NewClientFileStore(
 
 // NewClientFileStoreWithDefaults returns a `*http.Client` using file system cache
 // for access tokens.
-func NewClientFileStoreWithDefaults(googleCredentials []byte, googleScopes []string, forceNewToken bool) (*http.Client, error) {
+func NewClientFileStoreWithDefaults(ctx context.Context, googleCredentials []byte, googleScopes []string, forceNewToken bool) (*http.Client, error) {
 	gcfs := GoogleConfigFileStore{
 		Scopes:        googleScopes,
 		ForceNewToken: forceNewToken}
-	err := gcfs.LoadCredentialsBytes(googleCredentials)
-	if err != nil {
+	if err := gcfs.LoadCredentialsBytes(googleCredentials); err != nil {
 		return nil, errorsutil.Wrap(err, "err NewClientFileStoreWithDefaults - LoadCredentialsBytes")
 	}
-	err = gcfs.SetDefaultFilepath()
-	if err != nil {
+	if err := gcfs.SetDefaultFilepath(); err != nil {
 		return nil, errorsutil.Wrap(err, "err NewClientFileStoreWithDefaults - SetDefaultFilepath")
+	} else {
+		return gcfs.Client(ctx)
 	}
-	return gcfs.Client()
 }
 
 // NewClientFileStoreWithDefaultsCliEnv instantiates an `*http.Client` for the
 // Google API for use from the command line interface (CLI). It will prompt
 // the user to open the browser to auth when necessary.
-func NewClientFileStoreWithDefaultsCliEnv(googleCredentialsEnvVar, googleScopesEnvVar string) (*http.Client, error) {
+func NewClientFileStoreWithDefaultsCliEnv(ctx context.Context, googleCredentialsEnvVar, googleScopesEnvVar string) (*http.Client, error) {
 	googleCredentialsEnvVar = strings.TrimSpace(googleCredentialsEnvVar)
 	googleScopesEnvVar = strings.TrimSpace(googleScopesEnvVar)
 	if len(googleCredentialsEnvVar) == 0 {
@@ -167,6 +167,7 @@ func NewClientFileStoreWithDefaultsCliEnv(googleCredentialsEnvVar, googleScopesE
 		googleScopesEnvVar = EnvGoogleAppScopes
 	}
 	return NewClientFileStoreWithDefaults(
+		ctx,
 		[]byte(os.Getenv(googleCredentialsEnvVar)),
 		stringsutil.SplitCondenseSpace(os.Getenv(googleScopesEnvVar), ","),
 		false)
