@@ -85,6 +85,14 @@ var (
 	ErrGCPSANotPopulated       = errors.New("gcp service account credentials are not populated")
 )
 
+func NewClient(ctx context.Context, goauthfile, goauthkey string) (*http.Client, error) {
+	if creds, err := ReadCredentialsFromFile(goauthfile, goauthkey, false); err != nil {
+		return nil, err
+	} else {
+		return creds.NewClient(ctx)
+	}
+}
+
 func (creds *Credentials) NewClient(ctx context.Context) (*http.Client, error) {
 	switch creds.Type {
 	case TypeBasic:
