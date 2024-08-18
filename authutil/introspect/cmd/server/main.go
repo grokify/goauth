@@ -1,6 +1,8 @@
 package main
 
 import (
+	"log"
+
 	"github.com/grokify/goauth/authutil/introspect"
 )
 
@@ -9,5 +11,8 @@ func main() {
 		Username: "foo"},
 		[]string{"bar", "baz"},
 	)
-	svr.ListenAndServe(":8000")
+	err := svr.ListenAndServe(":8000")
+	if err != nil {
+		log.Fatal(err)
+	}
 }

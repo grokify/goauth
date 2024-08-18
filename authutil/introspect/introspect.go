@@ -2,6 +2,7 @@ package introspect
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 )
 
@@ -70,7 +71,10 @@ func (ms MockServer) PostIntrospect(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 	} else {
 		w.WriteHeader(http.StatusOK)
-		w.Write(body)
+		_, err := w.Write(body)
+		if err != nil {
+			fmt.Println(err.Error())
+		}
 	}
 }
 
@@ -80,6 +84,6 @@ func (ms MockServer) NewServeMux() *http.ServeMux {
 	return mux
 }
 
-func (ms MockServer) ListenAndServe(addr string) {
-	http.ListenAndServe(addr, ms.NewServeMux())
+func (ms MockServer) ListenAndServe(addr string) error {
+	return http.ListenAndServe(addr, ms.NewServeMux())
 }
