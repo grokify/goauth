@@ -184,7 +184,7 @@ func (oc *CredentialsOAuth2) NewToken(ctx context.Context) (*oauth2.Token, error
 	}
 }
 
-func (oc *CredentialsOAuth2) newTokenPasswordCredentialsRequest(ctx context.Context) (*httpsimple.Request, error) {
+func (oc *CredentialsOAuth2) newTokenPasswordCredentialsRequest() (*httpsimple.Request, error) {
 	cfg := oc.Config()
 	basicHeaderVal, err := authutil.BasicAuthHeader(cfg.ClientID, cfg.ClientSecret)
 	if err != nil {
@@ -218,7 +218,7 @@ func (oc *CredentialsOAuth2) newTokenPasswordCredentialsRequest(ctx context.Cont
 
 // NewTokenPasswordCredentials provides fine-grained token request.
 func (oc *CredentialsOAuth2) NewTokenPasswordCredentials(ctx context.Context) (*oauth2.Token, error) {
-	if sreq, err := oc.newTokenPasswordCredentialsRequest(ctx); err != nil {
+	if sreq, err := oc.newTokenPasswordCredentialsRequest(); err != nil {
 		return nil, err
 	} else if hreq, err := sreq.HTTPRequest(ctx); err != nil {
 		return nil, err
