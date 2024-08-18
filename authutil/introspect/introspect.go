@@ -4,6 +4,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"time"
+
+	"github.com/grokify/mogo/net/http/httputilmore"
 )
 
 // IntrospectResponse is defined in RFC-7662: https://datatracker.ietf.org/doc/html/rfc7662
@@ -85,5 +88,5 @@ func (ms MockServer) NewServeMux() *http.ServeMux {
 }
 
 func (ms MockServer) ListenAndServe(addr string) error {
-	return http.ListenAndServe(addr, ms.NewServeMux())
+	return httputilmore.NewServerTimeouts(addr, ms.NewServeMux(), time.Second).ListenAndServe()
 }
