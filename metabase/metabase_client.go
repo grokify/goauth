@@ -268,6 +268,8 @@ func AuthRequest(authURL, username, password string, tlsSkipVerify bool) (*http.
 	client := &http.Client{}
 
 	if tlsSkipVerify { // #nosec G402
+		// nosec - https://github.com/securego/gosec/issues/780
+		// nosec - https://github.com/securego/gosec/issues/278
 		client.Transport = &http.Transport{
 			TLSClientConfig: &tls.Config{InsecureSkipVerify: tlsSkipVerify}}
 	}
