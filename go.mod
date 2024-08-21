@@ -18,12 +18,12 @@ require (
 	github.com/rs/zerolog v1.33.0
 	golang.org/x/net v0.28.0
 	golang.org/x/oauth2 v0.22.0
-	google.golang.org/api v0.192.0
+	google.golang.org/api v0.193.0
 	gopkg.in/jeevatkm/go-model.v1 v1.1.0
 )
 
 require (
-	cloud.google.com/go/auth v0.8.1 // indirect
+	cloud.google.com/go/auth v0.9.0 // indirect
 	cloud.google.com/go/auth/oauth2adapt v0.2.4 // indirect
 	cloud.google.com/go/compute/metadata v0.5.0 // indirect
 	github.com/caarlos0/env/v6 v6.10.1 // indirect
