@@ -9,6 +9,10 @@ type Options struct {
 	CLI       []bool `long:"cli" description:"CLI"`
 }
 
+func (opts *Options) Credentials() (Credentials, error) {
+	return ReadFileCredentialsFromCredentialsSet(opts.CredsPath, opts.Account)
+}
+
 func (opts *Options) UseCLI() bool {
 	return len(opts.CLI) > 0
 }
