@@ -38,6 +38,15 @@ func (set *CredentialsSet) Get(key string) (Credentials, error) {
 	return Credentials{}, fmt.Errorf("credentials key not found (%s)", key)
 }
 
+func ReadFileCredentialsFromCredentialsSet(credentialsSetFilename, account string) (Credentials, error) {
+	set, err := ReadFileCredentialsSet(credentialsSetFilename, true)
+	if err != nil {
+		return Credentials{}, err
+	} else {
+		return set.Get(account)
+	}
+}
+
 func (set *CredentialsSet) Inflate() error {
 	for k, v := range set.Credentials {
 		err := v.Inflate()
