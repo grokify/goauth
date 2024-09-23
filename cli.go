@@ -27,6 +27,10 @@ func (opts *Options) Credentials() (Credentials, error) {
 	return ReadFileCredentialsFromCredentialsSet(opts.CredsPath, opts.Account)
 }
 
+func (opts *Options) CredentialsSet(inflateEndpoints bool) (*CredentialsSet, error) {
+	return ReadFileCredentialsSet(opts.CredsPath, inflateEndpoints)
+}
+
 func (opts *Options) NewClient(ctx context.Context) (*http.Client, error) {
 	if creds, err := opts.Credentials(); err != nil {
 		return nil, errorsutil.Wrap(err, "error in `goauth.Options.NewClient() call to self as `goauth.Options.Credentials()`")
