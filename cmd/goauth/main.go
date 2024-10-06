@@ -65,7 +65,7 @@ func main() {
 	logutil.FatalErr(err)
 	fmtutil.MustPrintJSON(opts)
 
-	creds, err := goauth.ReadCredentialsFromFile(
+	creds, err := goauth.ReadCredentialsFromSetFile(
 		opts.Options.CredsPath, opts.Options.Account, true)
 	logutil.FatalErr(err)
 
