@@ -38,15 +38,6 @@ func (set *CredentialsSet) Get(key string) (Credentials, error) {
 	return Credentials{}, fmt.Errorf("credentials key not found (%s)", key)
 }
 
-func ReadFileCredentialsFromCredentialsSet(credentialsSetFilename, account string) (Credentials, error) {
-	set, err := ReadFileCredentialsSet(credentialsSetFilename, true)
-	if err != nil {
-		return Credentials{}, err
-	} else {
-		return set.Get(account)
-	}
-}
-
 func (set *CredentialsSet) Inflate() error {
 	for k, v := range set.Credentials {
 		err := v.Inflate()
@@ -68,7 +59,7 @@ func (set *CredentialsSet) NewSimpleClient(accountKey string) (*httpsimple.Simpl
 }
 */
 
-func ReadCredentialsFromFile(credentialsSetFilename, accountKey string, inclAccountsOnError bool) (Credentials, error) {
+func ReadCredentialsFromSetFile(credentialsSetFilename, accountKey string, inclAccountsOnError bool) (Credentials, error) {
 	set, err := ReadFileCredentialsSet(credentialsSetFilename, true)
 	if err != nil {
 		return Credentials{}, err
@@ -83,6 +74,17 @@ func ReadCredentialsFromFile(credentialsSetFilename, accountKey string, inclAcco
 	}
 	return creds, nil
 }
+
+/*
+func ReadFileCredentialsFromCredentialsSet(credentialsSetFilename, account string) (Credentials, error) {
+	set, err := ReadFileCredentialsSet(credentialsSetFilename, true)
+	if err != nil {
+		return Credentials{}, err
+	} else {
+		return set.Get(account)
+	}
+}
+*/
 
 func (set *CredentialsSet) NewClient(ctx context.Context, key string) (*http.Client, error) {
 	creds, ok := set.Credentials[key]

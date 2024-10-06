@@ -86,7 +86,7 @@ var (
 )
 
 func NewClient(ctx context.Context, goauthfile, goauthkey string) (*http.Client, error) {
-	if creds, err := ReadCredentialsFromFile(goauthfile, goauthkey, false); err != nil {
+	if creds, err := ReadCredentialsFromSetFile(goauthfile, goauthkey, false); err != nil {
 		return nil, err
 	} else {
 		return creds.NewClient(ctx)

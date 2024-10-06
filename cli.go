@@ -24,7 +24,7 @@ func ParseOptions() (*Options, error) {
 }
 
 func (opts *Options) Credentials() (Credentials, error) {
-	return ReadFileCredentialsFromCredentialsSet(opts.CredsPath, opts.Account)
+	return ReadCredentialsFromSetFile(opts.CredsPath, opts.Account, false)
 }
 
 func (opts *Options) CredentialsSet(inflateEndpoints bool) (*CredentialsSet, error) {
