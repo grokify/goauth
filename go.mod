@@ -7,10 +7,10 @@ require (
 	github.com/caarlos0/env/v9 v9.0.0
 	github.com/golang-jwt/jwt/v5 v5.2.1
 	github.com/google/go-querystring v1.1.0
-	github.com/grokify/go-salesforce v0.2.44
-	github.com/grokify/gocharts/v2 v2.20.2
-	github.com/grokify/mogo v0.64.12
-	github.com/grokify/sogo v0.8.11
+	github.com/grokify/go-salesforce v0.2.45
+	github.com/grokify/gocharts/v2 v2.20.3
+	github.com/grokify/mogo v0.65.0
+	github.com/grokify/sogo v0.8.12
 	github.com/jessevdk/go-flags v1.6.1
 	github.com/joho/godotenv v1.5.1
 	github.com/rs/zerolog v1.33.0
@@ -54,11 +54,11 @@ require (
 	github.com/xuri/nfp v0.0.0-20240318013403-ab9948c2c4a7 // indirect
 	go.opencensus.io v0.24.0 // indirect
 	go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp v0.55.0 // indirect
-	go.opentelemetry.io/otel v1.30.0 // indirect
-	go.opentelemetry.io/otel/metric v1.30.0 // indirect
-	go.opentelemetry.io/otel/trace v1.30.0 // indirect
+	go.opentelemetry.io/otel v1.31.0 // indirect
+	go.opentelemetry.io/otel/metric v1.31.0 // indirect
+	go.opentelemetry.io/otel/trace v1.31.0 // indirect
 	golang.org/x/crypto v0.28.0 // indirect
-	golang.org/x/exp v0.0.0-20241004190924-225e2abe05e6 // indirect
+	golang.org/x/exp v0.0.0-20241009180824-f66d83c29e7c // indirect
 	golang.org/x/image v0.21.0 // indirect
 	golang.org/x/sys v0.26.0 // indirect
 	golang.org/x/text v0.19.0 // indirect
