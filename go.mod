@@ -9,7 +9,7 @@ require (
 	github.com/google/go-querystring v1.1.0
 	github.com/grokify/go-salesforce v0.2.45
 	github.com/grokify/gocharts/v2 v2.20.3
-	github.com/grokify/mogo v0.65.1
+	github.com/grokify/mogo v0.65.2
 	github.com/grokify/sogo v0.8.12
 	github.com/jessevdk/go-flags v1.6.1
 	github.com/joho/godotenv v1.5.1
