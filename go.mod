@@ -1,20 +1,22 @@
 module github.com/grokify/goauth
 
-go 1.22.6
+go 1.22.7
+
+toolchain go1.23.2
 
 require (
 	github.com/SparkPost/gosparkpost v0.2.0
 	github.com/caarlos0/env/v9 v9.0.0
 	github.com/golang-jwt/jwt/v5 v5.2.1
 	github.com/google/go-querystring v1.1.0
-	github.com/grokify/go-salesforce v0.2.45
-	github.com/grokify/gocharts/v2 v2.20.4
-	github.com/grokify/mogo v0.65.2
-	github.com/grokify/sogo v0.8.12
+	github.com/grokify/go-salesforce v0.2.46
+	github.com/grokify/gocharts/v2 v2.20.5
+	github.com/grokify/mogo v0.65.3
+	github.com/grokify/sogo v0.8.13
 	github.com/jessevdk/go-flags v1.6.1
 	github.com/joho/godotenv v1.5.1
 	github.com/rs/zerolog v1.33.0
-	golang.org/x/net v0.30.0
+	golang.org/x/net v0.31.0
 	golang.org/x/oauth2 v0.24.0
 	google.golang.org/api v0.205.0
 	gopkg.in/jeevatkm/go-model.v1 v1.1.0
@@ -53,18 +55,18 @@ require (
 	github.com/xuri/excelize/v2 v2.9.0 // indirect
 	github.com/xuri/nfp v0.0.0-20240318013403-ab9948c2c4a7 // indirect
 	go.opencensus.io v0.24.0 // indirect
-	go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp v0.56.0 // indirect
-	go.opentelemetry.io/otel v1.31.0 // indirect
-	go.opentelemetry.io/otel/metric v1.31.0 // indirect
-	go.opentelemetry.io/otel/trace v1.31.0 // indirect
-	golang.org/x/crypto v0.28.0 // indirect
-	golang.org/x/exp v0.0.0-20241009180824-f66d83c29e7c // indirect
-	golang.org/x/image v0.21.0 // indirect
-	golang.org/x/sys v0.26.0 // indirect
-	golang.org/x/text v0.19.0 // indirect
+	go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp v0.57.0 // indirect
+	go.opentelemetry.io/otel v1.32.0 // indirect
+	go.opentelemetry.io/otel/metric v1.32.0 // indirect
+	go.opentelemetry.io/otel/trace v1.32.0 // indirect
+	golang.org/x/crypto v0.29.0 // indirect
+	golang.org/x/exp v0.0.0-20241108190413-2d47ceb2692f // indirect
+	golang.org/x/image v0.22.0 // indirect
+	golang.org/x/sys v0.27.0 // indirect
+	golang.org/x/text v0.20.0 // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20241015192408-796eee8c2d53 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20241021214115-324edc3d5d38 // indirect
-	google.golang.org/grpc v1.67.1 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20241104194629-dd2ea8efbc28 // indirect
+	google.golang.org/grpc v1.68.0 // indirect
 	google.golang.org/protobuf v1.35.1 // indirect
 )
 
