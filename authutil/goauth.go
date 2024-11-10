@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"math"
 	"net/http"
 
 	"github.com/grokify/goauth/scim"
@@ -40,29 +41,7 @@ var authorizationTypes = [...]string{
 
 // String returns the English name of the authorizationTypes ("Basic", "Bearer", ...).
 func (a AuthorizationType) String() string {
-	if Basic <= a && a <= OAuth {
-		return authorizationTypes[a]
-	}
-	buf := make([]byte, 20)
-	n := fmtInt(buf, uint64(a))
-	return "%!AuthorizationType(" + string(buf[n:]) + ")"
-}
-
-// fmtInt formats v into the tail of buf.
-// It returns the index where the output begins.
-func fmtInt(buf []byte, v uint64) int {
-	w := len(buf)
-	if v == 0 {
-		w--
-		buf[w] = '0'
-	} else {
-		for v > 0 {
-			w--
-			buf[w] = byte(v%10) + '0'
-			v /= 10
-		}
-	}
-	return w
+	return authorizationTypes[int(math.Mod(float64(a), float64(len(authorizationTypes))))]
 }
 
 func PathVersion() string {
