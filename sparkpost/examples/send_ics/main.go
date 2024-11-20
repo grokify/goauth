@@ -11,7 +11,7 @@ import (
 	"time"
 
 	"github.com/SparkPost/gosparkpost"
-	"github.com/caarlos0/env/v9"
+	"github.com/caarlos0/env/v11"
 	"github.com/grokify/goauth/sparkpost"
 	"github.com/grokify/mogo/config"
 	"github.com/grokify/mogo/net/http/httputilmore"
@@ -163,7 +163,7 @@ func main() {
 	cfg := appConfig{}
 	if err := env.Parse(&cfg); err != nil {
 		log.Fatal().Err(err).
-			Str("lib", "github.com/caarlos0/env/v9").
+			Str("lib", "github.com/caarlos0/env/v11").
 			Msgf("Cannot parse env to %s", "appConfig{}")
 	}
 

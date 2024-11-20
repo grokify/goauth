@@ -8,7 +8,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/caarlos0/env/v9"
+	"github.com/caarlos0/env/v11"
 	"github.com/grokify/mogo/config"
 	"github.com/grokify/mogo/net/http/httputilmore"
 

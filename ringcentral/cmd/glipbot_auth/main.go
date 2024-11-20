@@ -10,7 +10,7 @@ import (
 	"os"
 	"time"
 
-	env "github.com/caarlos0/env/v9"
+	"github.com/caarlos0/env/v11"
 	"github.com/grokify/goauth"
 	"github.com/grokify/goauth/ringcentral"
 	"github.com/grokify/mogo/config"
