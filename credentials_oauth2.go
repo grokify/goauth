@@ -291,19 +291,16 @@ func (oc *CredentialsOAuth2) RefreshTokenSimple(ctx context.Context, refreshToke
 		Body: []byte(body.Encode()),
 	}
 
-	resp, err := httpsimple.Do(ctx, sr)
-	if err != nil {
+	if resp, err := httpsimple.Do(ctx, sr); err != nil {
 		return nil, []byte{}, err
-	}
-	tokBody, err := io.ReadAll(resp.Body)
-	if err != nil {
+	} else if tokBody, err := io.ReadAll(resp.Body); err != nil {
 		return nil, tokBody, err
-	}
-	if resp.StatusCode >= 300 {
+	} else if resp.StatusCode >= 300 {
 		return nil, tokBody, fmt.Errorf("status code (%d)", resp.StatusCode)
+	} else {
+		tok, err := authutil.ParseToken(tokBody)
+		return tok, tokBody, err
 	}
-	tok, err := authutil.ParseToken(tokBody)
-	return tok, tokBody, err
 	/*
 		oaTok, err := goauth.ParseOAuth2Token(tokBody)
 		if err != nil {
