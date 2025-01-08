@@ -170,7 +170,8 @@ func (oc *CredentialsOAuth2) NewToken(ctx context.Context) (*oauth2.Token, error
 	} else if oc.IsGrantType(authutil.GrantTypeAuthorizationCode) {
 		state := randutil.RandString(basex.AlphabetBase62, 12)
 		authURL := oc.AuthCodeURL(state, map[string][]string{})
-		fmt.Printf("Authorization URL: %s\n", authURL)
+		fmt.Printf("Authorization URL: %s\n\n", authURL)
+		fmt.Printf("Authorization URL State: %s\n\n", state)
 
 		reader := bufio.NewReader(os.Stdin)
 		fmt.Print("Enter Authorization Code:")
