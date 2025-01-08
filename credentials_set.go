@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/fs"
 	"net/http"
+	"os"
 	"sort"
 	"strings"
 
@@ -16,14 +17,18 @@ type CredentialsSet struct {
 	Credentials map[string]Credentials `json:"credentials,omitempty"`
 }
 
-func ReadFileCredentialsSet(credentialsSetFilename string, inflateEndpoints bool) (*CredentialsSet, error) {
+func ReadFileCredentialsSet(filename string, inflateEndpoints bool) (*CredentialsSet, error) {
 	var set *CredentialsSet
-	if err := jsonutil.UnmarshalFile(credentialsSetFilename, &set); err != nil {
+	b, err := os.ReadFile(filename)
+	if err != nil {
 		return nil, err
+	}
+	if err := jsonutil.UnmarshalWithLoc(b, &set); err != nil {
+		return nil, errorsutil.NewErrorWithLocation(err.Error())
 	} else if inflateEndpoints {
 		err := set.Inflate()
 		if err != nil {
-			return nil, err
+			return nil, errorsutil.NewErrorWithLocation(err.Error())
 		}
 	}
 	return set, nil
