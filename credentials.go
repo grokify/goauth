@@ -17,24 +17,28 @@ import (
 )
 
 const (
-	TypeBasic       = "basic"
-	TypeHeaderQuery = "headerquery"
-	TypeOAuth2      = "oauth2"
-	TypeJWT         = "jwt"
-	TypeGCPSA       = "gcpsa" // Google Cloud Platform Service Account
+	TypeBasic        = "basic"
+	TypeHeaderQuery  = "headerquery"
+	TypeOAuth2       = "oauth2"
+	TypeJWT          = "jwt"
+	TypeGCPSA        = "gcpsa" // Google Cloud Platform Service Account
+	TypeGoogleOAuth2 = "googleoauth2"
 )
 
+var ErrsInclLocation = false
+
 type Credentials struct {
-	Service     string                  `json:"service,omitempty"`
-	Type        string                  `json:"type,omitempty"`
-	Subdomain   string                  `json:"subdomain,omitempty"`
-	Basic       *CredentialsBasicAuth   `json:"basic,omitempty"`
-	HeaderQuery *CredentialsHeaderQuery `json:"headerquery,omitempty"`
-	GCPSA       *CredentialsGCP         `json:"gcpsa,omitempty"`
-	JWT         *CredentialsJWT         `json:"jwt,omitempty"`
-	OAuth2      *CredentialsOAuth2      `json:"oauth2,omitempty"`
-	Token       *oauth2.Token           `json:"token,omitempty"`
-	Additional  url.Values              `json:"additional,omitempty"`
+	Service      string                   `json:"service,omitempty"`
+	Type         string                   `json:"type,omitempty"`
+	Subdomain    string                   `json:"subdomain,omitempty"`
+	Basic        *CredentialsBasicAuth    `json:"basic,omitempty"`
+	HeaderQuery  *CredentialsHeaderQuery  `json:"headerquery,omitempty"`
+	GCPSA        *CredentialsGCP          `json:"gcpsa,omitempty"`
+	GoogleOAuth2 *CredentialsGoogleOAuth2 `json:"googleoauth2,omitmepty"`
+	JWT          *CredentialsJWT          `json:"jwt,omitempty"`
+	OAuth2       *CredentialsOAuth2       `json:"oauth2,omitempty"`
+	Token        *oauth2.Token            `json:"token,omitempty"`
+	Additional   url.Values               `json:"additional,omitempty"`
 }
 
 func NewCredentialsJSON(credsData, accessToken []byte) (Credentials, error) {
@@ -118,8 +122,9 @@ func (creds *Credentials) NewClient(ctx context.Context) (*http.Client, error) {
 	if creds.Token != nil {
 		return authutil.NewClientToken(authutil.TokenBearer, creds.Token.AccessToken, false), nil
 	}
-	if creds.OAuth2.GrantType == authutil.GrantTypeClientCredentials ||
-		strings.Contains(creds.OAuth2.GrantType, TypeJWT) {
+
+	if creds.OAuth2 != nil && (creds.OAuth2.GrantType == authutil.GrantTypeClientCredentials ||
+		strings.Contains(creds.OAuth2.GrantType, TypeJWT)) {
 		clt, _, err := creds.OAuth2.NewClient(ctx)
 		return clt, err
 	}
@@ -169,12 +174,37 @@ func (creds *Credentials) NewClientCLI(ctx context.Context, oauth2State string) 
 	}
 }
 
+func (creds *Credentials) NewOrExistingValidToken(ctx context.Context) (*oauth2.Token, error) {
+	if tok, err := creds.ExistingValidToken(); err == nil && tok != nil {
+		return tok, nil
+	} else {
+		return creds.NewToken(ctx)
+	}
+}
+
+func (creds *Credentials) ExistingValidToken() (*oauth2.Token, error) {
+	if creds.Type == TypeOAuth2 && creds.OAuth2 != nil && creds.OAuth2.Token != nil && creds.OAuth2.Token.Valid() {
+		return creds.OAuth2.Token, nil
+	} else if creds.Type == TypeGoogleOAuth2 && creds.GoogleOAuth2 != nil && creds.GoogleOAuth2.Token.Valid() {
+		return creds.GoogleOAuth2.Token, nil
+	} else {
+		return nil, nil
+	}
+}
+
 func (creds *Credentials) NewToken(ctx context.Context) (*oauth2.Token, error) {
 	if creds.Type == TypeOAuth2 {
-		if creds.OAuth2 != nil {
-			return creds.OAuth2.NewToken(ctx)
+		if creds.OAuth2 == nil {
+			return nil, fmt.Errorf("credentials.%s is nil for type `%s`", TypeOAuth2, TypeOAuth2)
 		} else {
-			return nil, errors.New("credentials.oauth2 is nil for type `oauth2`")
+			return creds.OAuth2.NewToken(ctx)
+		}
+	} else if creds.Type == TypeGoogleOAuth2 {
+		if creds.GoogleOAuth2 == nil {
+			return nil, fmt.Errorf("credentials.%s is nil for type `%s`", TypeGoogleOAuth2, TypeGoogleOAuth2)
+		} else {
+			credsOAuth2 := creds.GoogleOAuth2.CredentialsOAuth2()
+			return credsOAuth2.NewToken(ctx)
 		}
 	} else {
 		return nil, fmt.Errorf("creds type not supported [%s]", creds.Type)
