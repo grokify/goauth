@@ -34,7 +34,7 @@ type Credentials struct {
 	Basic        *CredentialsBasicAuth    `json:"basic,omitempty"`
 	HeaderQuery  *CredentialsHeaderQuery  `json:"headerquery,omitempty"`
 	GCPSA        *CredentialsGCP          `json:"gcpsa,omitempty"`
-	GoogleOAuth2 *CredentialsGoogleOAuth2 `json:"googleoauth2,omitmepty"`
+	GoogleOAuth2 *CredentialsGoogleOAuth2 `json:"googleoauth2,omitempty"`
 	JWT          *CredentialsJWT          `json:"jwt,omitempty"`
 	OAuth2       *CredentialsOAuth2       `json:"oauth2,omitempty"`
 	Token        *oauth2.Token            `json:"token,omitempty"`
