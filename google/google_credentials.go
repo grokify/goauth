@@ -42,6 +42,19 @@ type Credentials struct {
 	RedirectURIs            []string `json:"redirect_uris,omitempty"`
 }
 
+func (c Credentials) OAuth2Endpoint() oauth2.Endpoint {
+	return oauth2.Endpoint{
+		AuthURL:  c.AuthURI,
+		TokenURL: c.TokenURI}
+}
+
+func (c Credentials) FirstRedirectURI() string {
+	for _, u := range c.RedirectURIs {
+		return u
+	}
+	return ""
+}
+
 func (c Credentials) NewClient(ctx context.Context, scopes []string) (*http.Client, error) {
 	b, err := json.Marshal(c)
 	if err != nil {
