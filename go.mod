@@ -9,8 +9,8 @@ require (
 	github.com/google/go-querystring v1.1.0
 	github.com/grokify/go-salesforce v0.2.53
 	github.com/grokify/gocharts/v2 v2.21.12
-	github.com/grokify/mogo v0.67.5
-	github.com/grokify/sogo v0.9.1
+	github.com/grokify/mogo v0.67.6
+	github.com/grokify/sogo v0.10.0
 	github.com/jessevdk/go-flags v1.6.1
 	github.com/joho/godotenv v1.5.1
 	github.com/rs/zerolog v1.33.0
@@ -62,7 +62,7 @@ require (
 	golang.org/x/text v0.21.0 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20250106144421-5f5ef82da422 // indirect
 	google.golang.org/grpc v1.69.4 // indirect
-	google.golang.org/protobuf v1.36.2 // indirect
+	google.golang.org/protobuf v1.36.3 // indirect
 )
 
 // replace github.com/grokify/gocharts/v2 => ../gocharts
