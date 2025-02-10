@@ -2,6 +2,8 @@ package jwtutil
 
 import (
 	"context"
+	"encoding/json"
+	"fmt"
 	"net/http"
 	"net/url"
 
@@ -49,8 +51,9 @@ func ParseJWTString(tokenString string, secretKey string, claims jwt.Claims) (*j
 
 func NewTokenOAuth2JWT(ctx context.Context, tokenURL, clientID, clientSecret, jwtBase64Enc string) (*oauth2.Token, error) {
 	sreq := httpsimple.Request{
-		Method: http.MethodPost,
-		URL:    tokenURL,
+		Method:  http.MethodPost,
+		URL:     tokenURL,
+		Headers: http.Header{},
 		Body: url.Values{
 			authutil.ParamGrantType: {authutil.GrantTypeJWTBearer},
 			authutil.ParamAssertion: {jwtBase64Enc}},
@@ -58,15 +61,27 @@ func NewTokenOAuth2JWT(ctx context.Context, tokenURL, clientID, clientSecret, jw
 	}
 	if len(clientID) > 0 || len(clientSecret) > 0 {
 		if authHeaderVal, err := authutil.BasicAuthHeader(clientID, clientSecret); err != nil {
-			return nil, err
+			return nil, errorsutil.NewErrorWithLocation(err.Error())
 		} else {
 			sreq.Headers.Add(httputilmore.HeaderAuthorization, authHeaderVal)
 		}
 	}
 	if hreq, err := sreq.HTTPRequest(ctx); err != nil {
-		return nil, err
+		return nil, errorsutil.NewErrorWithLocation(err.Error())
 	} else if resp, err := ctxhttp.Do(ctx, &http.Client{}, hreq); err != nil {
-		return nil, err
+		return nil, errorsutil.NewErrorWithLocation(err.Error())
+	} else if resp.StatusCode >= 300 {
+		msa := map[string]any{
+			"func":              "jwtutil.NewTokenOAuth2JWT()",
+			"httpResStatusCode": resp.StatusCode,
+			"httpReqURL":        sreq.URL,
+			"httpReqMethod":     sreq.Method,
+		}
+		b, err := json.Marshal(msa)
+		if err != nil {
+			panic(err)
+		}
+		return nil, fmt.Errorf("tokenURL (httpResStatus: %d) %s", resp.StatusCode, string(b))
 	} else {
 		return authutil.ParseTokenReader(resp.Body)
 	}
