@@ -20,7 +20,7 @@ import (
 func ParseTokenReader(r io.Reader) (*oauth2.Token, error) {
 	data, err := io.ReadAll(r)
 	if err != nil {
-		return nil, err
+		return nil, errorsutil.NewErrorWithLocation(err.Error())
 	}
 	return ParseToken(data)
 }
@@ -30,12 +30,12 @@ func ParseToken(rawToken []byte) (*oauth2.Token, error) {
 	tok := &oauth2.Token{}
 	err := json.Unmarshal(rawToken, tok)
 	if err != nil {
-		return tok, err
+		return tok, errorsutil.Wrapf(err, "token: (%s)", string(rawToken))
 	}
 	msi := map[string]any{}
 	err = json.Unmarshal(rawToken, &msi)
 	if err != nil {
-		return tok, err
+		return tok, errorsutil.NewErrorWithLocation(err.Error())
 	}
 	tok = tok.WithExtra(msi)
 	// convert `expires_in` to `Expiry` with 1 minute leeway.
