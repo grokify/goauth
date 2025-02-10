@@ -2,13 +2,13 @@ package jwtutil
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"net/http"
 	"net/url"
 
 	jwt "github.com/golang-jwt/jwt/v5"
 	"github.com/grokify/goauth/authutil"
+	"github.com/grokify/mogo/encoding/jsonutil"
 	"github.com/grokify/mogo/errors/errorsutil"
 	"github.com/grokify/mogo/net/http/httpsimple"
 	"github.com/grokify/mogo/net/http/httputilmore"
@@ -71,17 +71,12 @@ func NewTokenOAuth2JWT(ctx context.Context, tokenURL, clientID, clientSecret, jw
 	} else if resp, err := ctxhttp.Do(ctx, &http.Client{}, hreq); err != nil {
 		return nil, errorsutil.NewErrorWithLocation(err.Error())
 	} else if resp.StatusCode >= 300 {
-		msa := map[string]any{
-			"func":              "jwtutil.NewTokenOAuth2JWT()",
-			"httpResStatusCode": resp.StatusCode,
-			"httpReqURL":        sreq.URL,
-			"httpReqMethod":     sreq.Method,
-		}
-		b, err := json.Marshal(msa)
-		if err != nil {
-			panic(err)
-		}
-		return nil, fmt.Errorf("tokenURL (httpResStatus: %d) %s", resp.StatusCode, string(b))
+		return nil, fmt.Errorf("tokenURL (httpResStatus: %d) %s", resp.StatusCode, string(jsonutil.MustMarshal(
+			map[string]any{
+				"func":              "jwtutil.NewTokenOAuth2JWT()",
+				"httpResStatusCode": resp.StatusCode,
+				"httpReqURL":        sreq.URL,
+				"httpReqMethod":     sreq.Method}, false)))
 	} else {
 		return authutil.ParseTokenReader(resp.Body)
 	}
