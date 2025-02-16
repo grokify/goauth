@@ -49,7 +49,7 @@ func (opts *Options) UseCLI() bool {
 }
 
 // CLIRequest will get a token using `goauth` and then execute the provided request
-// paramters with the credential, e.g. OAuth 2.0 access token.
+// parameters with the credential, e.g. OAuth 2.0 access token.
 type CLIRequest struct {
 	Options
 	Request httpsimple.CLI
