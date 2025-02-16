@@ -161,8 +161,8 @@ func (oc *CredentialsOAuth2) NewToken(ctx context.Context) (*oauth2.Token, error
 	} else if oc.IsGrantType(authutil.GrantTypeAccountCredentials) {
 		return authutil.NewTokenAccountCredentials(ctx, oc.Endpoint.TokenURL, oc.ClientID, oc.ClientSecret, oc.TokenBodyOpts)
 	} else if oc.IsGrantType(authutil.GrantTypeClientCredentials) {
-		config := oc.ConfigClientCredentials()
-		return authutil.ClientCredentialsToken(ctx, config)
+		return authutil.ClientCredentialsToken(ctx, oc.ConfigClientCredentials())
+		// config := oc.ConfigClientCredentials()
 		// return config.Token(ctx)
 	} else if oc.IsGrantType(authutil.GrantTypePassword) {
 		// cfg := oc.Config()
