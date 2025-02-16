@@ -2,9 +2,14 @@ package goauth
 
 import (
 	"context"
+	"io"
 	"net/http"
+	"strings"
 
+	"github.com/grokify/goauth/authutil"
 	"github.com/grokify/mogo/errors/errorsutil"
+	"github.com/grokify/mogo/net/http/httpsimple"
+	"github.com/grokify/mogo/net/http/httputilmore"
 	"github.com/jessevdk/go-flags"
 )
 
@@ -41,4 +46,37 @@ func (opts *Options) NewClient(ctx context.Context) (*http.Client, error) {
 
 func (opts *Options) UseCLI() bool {
 	return len(opts.CLI) > 0
+}
+
+// CLIRequest will get a token using `goauth` and then execute the provided request
+// paramters with the credential, e.g. OAuth 2.0 access token.
+type CLIRequest struct {
+	Options
+	Request httpsimple.CLI
+}
+
+func (cli CLIRequest) Do(ctx context.Context, w io.Writer) error {
+	if creds, err := cli.Options.Credentials(); err != nil {
+		return err
+	} else if tok, err := creds.NewToken(ctx); err != nil {
+		return err
+	} else if sr, err := cli.Request.Request(); err != nil {
+		return err
+	} else {
+		if at := strings.TrimSpace(tok.AccessToken); at != "" {
+			sr.Headers.Add(httputilmore.HeaderAuthorization, authutil.TokenBearer+" "+at)
+		}
+		if resp, err := sr.Do(ctx); err != nil {
+			return err
+		} else if b, err := httputilmore.ResponseBodyMore(resp, "", "  "); err != nil {
+			return err
+		} else {
+			if w != nil {
+				if _, err := w.Write(b); err != nil {
+					return err
+				}
+			}
+			return nil
+		}
+	}
 }
