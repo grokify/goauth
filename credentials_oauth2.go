@@ -162,7 +162,8 @@ func (oc *CredentialsOAuth2) NewToken(ctx context.Context) (*oauth2.Token, error
 		return authutil.NewTokenAccountCredentials(ctx, oc.Endpoint.TokenURL, oc.ClientID, oc.ClientSecret, oc.TokenBodyOpts)
 	} else if oc.IsGrantType(authutil.GrantTypeClientCredentials) {
 		config := oc.ConfigClientCredentials()
-		return config.Token(ctx)
+		return authutil.ClientCredentialsToken(ctx, config)
+		// return config.Token(ctx)
 	} else if oc.IsGrantType(authutil.GrantTypePassword) {
 		// cfg := oc.Config()
 		// return cfg.PasswordCredentialsToken(ctx, oc.Username, oc.Password)
@@ -292,7 +293,7 @@ func (oc *CredentialsOAuth2) RefreshTokenSimple(ctx context.Context, refreshToke
 		Body: []byte(body.Encode()),
 	}
 
-	if resp, err := httpsimple.Do(ctx, sr); err != nil {
+	if resp, err := sr.Do(ctx); err != nil {
 		return nil, []byte{}, err
 	} else if tokBody, err := io.ReadAll(resp.Body); err != nil {
 		return nil, tokBody, err
