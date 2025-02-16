@@ -52,16 +52,6 @@ func (set *CredentialsSet) Inflate() error {
 	return nil
 }
 
-/*
-func (set *CredentialsSet) NewSimpleClient(accountKey string) (*httpsimple.SimpleClient, error) {
-	creds, ok := set.Credentials[accountKey]
-	if !ok {
-		return nil, fmt.Errorf("client_not_found [%s]", accountKey)
-	}
-	return creds.NewSimpleClient()
-}
-*/
-
 func ReadCredentialsFromSetFile(credentialsSetFilename, accountKey string, inclAccountsOnError bool) (Credentials, error) {
 	set, err := ReadFileCredentialsSet(credentialsSetFilename, true)
 	if err != nil {
@@ -77,17 +67,6 @@ func ReadCredentialsFromSetFile(credentialsSetFilename, accountKey string, inclA
 	}
 	return creds, nil
 }
-
-/*
-func ReadFileCredentialsFromCredentialsSet(credentialsSetFilename, account string) (Credentials, error) {
-	set, err := ReadFileCredentialsSet(credentialsSetFilename, true)
-	if err != nil {
-		return Credentials{}, err
-	} else {
-		return set.Get(account)
-	}
-}
-*/
 
 func (set *CredentialsSet) NewClient(ctx context.Context, key string) (*http.Client, error) {
 	creds, ok := set.Credentials[key]
