@@ -13,10 +13,10 @@ const (
 	ParamAssertion    = "assertion"
 	ParamClientID     = "client_id"
 	ParamGrantType    = "grant_type"
-	ParamScope        = "scope"
 	ParamPassword     = "password"
-	ParamUsername     = "usernamae"
 	ParamRefreshToken = "refresh_token"
+	ParamScope        = "scope"
+	ParamUsername     = "usernamae"
 
 	TokenBasic  = "Basic"
 	TokenBearer = "Bearer"
