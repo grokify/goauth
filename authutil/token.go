@@ -3,6 +3,7 @@ package authutil
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
@@ -113,39 +114,14 @@ func TokenClientCredentials(cfg clientcredentials.Config) (*oauth2.Token, error)
 	return tok, json.Unmarshal(data, tok)
 }
 
-/*
-// OAuth2Token is a bridge struct to `oauth2.Token` since the RFC-6749 uses `expires_in` and
-// golang uses `expiry`.
-type OAuth2Token struct {
-	AccessToken  string `json:"access_token"`
-	TokenType    string `json:"token_type"`
-	ExpiresIn    int    `json:"expires_in"`
-	RefreshToken string `json:"refresh_token"`
-}
-
-func (ot OAuth2Token) Token() *oauth2.Token {
-	expiresIn := ot.ExpiresIn
-	if expiresIn > 60 { // subtract 1 minute for defensive handling
-		expiresIn -= 60
+func TokenSource(ctx context.Context, tokenURL string, tok *oauth2.Token) (oauth2.TokenSource, error) {
+	if tok == nil {
+		return nil, errors.New("token must not be nil")
 	}
-	return &oauth2.Token{
-		AccessToken:  ot.AccessToken,
-		RefreshToken: ot.RefreshToken,
-		TokenType:    ot.TokenType,
-		Expiry:       time.Now().UTC().Add(time.Duration(expiresIn) * time.Second),
+	conf := &oauth2.Config{
+		Endpoint: oauth2.Endpoint{
+			TokenURL: tokenURL,
+		},
 	}
+	return oauth2.ReuseTokenSource(tok, conf.TokenSource(ctx, tok)), nil
 }
-
-func ParseOAuth2Token(rawToken []byte) (*OAuth2Token, error) {
-	oTok := &OAuth2Token{}
-	err := json.Unmarshal(rawToken, oTok)
-	return oTok, err
-}
-*/
-
-/*
-   "access_token":"2YotnFZFEjr1zCsicMWpAA",
-   "token_type":"example",
-   "expires_in":3600,
-   "refresh_token":"tGzv3JOkF0XG5Qx2TlKWIA",
-*/
