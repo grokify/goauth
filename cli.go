@@ -5,6 +5,7 @@ import (
 	"io"
 	"net/http"
 	"strings"
+	"time"
 
 	"github.com/grokify/goauth/authutil"
 	"github.com/grokify/mogo/errors/errorsutil"
@@ -36,9 +37,14 @@ func (opts *Options) CredentialsSet(inflateEndpoints bool) (*CredentialsSet, err
 	return ReadFileCredentialsSet(opts.CredsPath, inflateEndpoints)
 }
 
-func (opts *Options) NewClient(ctx context.Context) (*http.Client, error) {
+func (opts *Options) NewClient(ctx context.Context, state string) (*http.Client, error) {
 	if creds, err := opts.Credentials(); err != nil {
 		return nil, errorsutil.Wrap(err, "error in `goauth.Options.NewClient() call to self as `goauth.Options.Credentials()`")
+	} else if opts.UseCLI() {
+		if state == "" {
+			state = time.Now().Format(time.RFC3339)
+		}
+		return creds.NewClientCLI(ctx, state)
 	} else {
 		return creds.NewClient(ctx)
 	}
