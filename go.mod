@@ -7,10 +7,10 @@ require (
 	github.com/caarlos0/env/v11 v11.3.1
 	github.com/golang-jwt/jwt/v5 v5.2.1
 	github.com/google/go-querystring v1.1.0
-	github.com/grokify/go-salesforce v0.2.55
-	github.com/grokify/gocharts/v2 v2.22.1
-	github.com/grokify/mogo v0.68.0
-	github.com/grokify/sogo v0.10.2
+	github.com/grokify/go-salesforce v0.2.56
+	github.com/grokify/gocharts/v2 v2.22.2
+	github.com/grokify/mogo v0.68.1
+	github.com/grokify/sogo v0.10.3
 	github.com/jessevdk/go-flags v1.6.1
 	github.com/joho/godotenv v1.5.1
 	github.com/rs/zerolog v1.33.0
@@ -21,7 +21,7 @@ require (
 )
 
 require (
-	cloud.google.com/go/auth v0.14.1 // indirect
+	cloud.google.com/go/auth v0.15.0 // indirect
 	cloud.google.com/go/auth/oauth2adapt v0.2.7 // indirect
 	cloud.google.com/go/compute/metadata v0.6.0 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
@@ -55,12 +55,12 @@ require (
 	go.opentelemetry.io/otel v1.34.0 // indirect
 	go.opentelemetry.io/otel/metric v1.34.0 // indirect
 	go.opentelemetry.io/otel/trace v1.34.0 // indirect
-	golang.org/x/crypto v0.33.0 // indirect
-	golang.org/x/exp v0.0.0-20250215185904-eff6e970281f // indirect
+	golang.org/x/crypto v0.34.0 // indirect
+	golang.org/x/exp v0.0.0-20250218142911-aa4b98e5adaa // indirect
 	golang.org/x/image v0.24.0 // indirect
 	golang.org/x/sys v0.30.0 // indirect
 	golang.org/x/text v0.22.0 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20250212204824-5a70512c5d8b // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20250219182151-9fdb1cabc7b2 // indirect
 	google.golang.org/grpc v1.70.0 // indirect
 	google.golang.org/protobuf v1.36.5 // indirect
 )
