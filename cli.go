@@ -2,6 +2,7 @@ package goauth
 
 import (
 	"context"
+	"fmt"
 	"io"
 	"net/http"
 	"strings"
@@ -63,23 +64,31 @@ type CLIRequest struct {
 
 func (cli CLIRequest) Do(ctx context.Context, w io.Writer) error {
 	if creds, err := cli.Options.Credentials(); err != nil {
-		return err
+		return errorsutil.NewErrorWithLocation(err.Error())
 	} else if tok, err := creds.NewToken(ctx); err != nil {
-		return err
+		return errorsutil.NewErrorWithLocation(err.Error())
 	} else if sr, err := cli.Request.Request(); err != nil {
-		return err
+		return errorsutil.NewErrorWithLocation(err.Error())
 	} else {
 		if at := strings.TrimSpace(tok.AccessToken); at != "" {
 			sr.Headers.Add(httputilmore.HeaderAuthorization, authutil.TokenBearer+" "+at)
 		}
-		if resp, err := sr.Do(ctx); err != nil {
-			return err
-		} else if b, err := httputilmore.ResponseBodyMore(resp, "", "  "); err != nil {
-			return err
+		resp, err := sr.Do(ctx)
+		if err != nil {
+			return errorsutil.NewErrorWithLocation(err.Error())
+		}
+		if w != nil {
+			if _, err := w.Write([]byte(fmt.Sprintf("Response Status Code: %d\n", resp.StatusCode))); err != nil {
+				return errorsutil.NewErrorWithLocation(err.Error())
+			}
+		}
+		b, err := httputilmore.ResponseBodyMore(resp, "", "  ")
+		if err != nil {
+			return errorsutil.NewErrorWithLocation(err.Error())
 		} else {
 			if w != nil {
-				if _, err := w.Write(b); err != nil {
-					return err
+				if _, err := w.Write([]byte(fmt.Sprintf("===== BEGIN BODY =====\n%s\n===== END BODY =====", string(b)))); err != nil {
+					return errorsutil.NewErrorWithLocation(err.Error())
 				}
 			}
 			return nil
