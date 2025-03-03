@@ -82,6 +82,10 @@ func (cli CLIRequest) Do(ctx context.Context, w io.Writer) error {
 				return errorsutil.NewErrorWithLocation(err.Error())
 			}
 		}
+		if _, err := w.Write([]byte(fmt.Sprintf("===== BEGIN META =====\nStatus Code: %d\n===== END META =====\n", resp.StatusCode))); err != nil {
+			return errorsutil.NewErrorWithLocation(err.Error())
+		}
+
 		b, err := httputilmore.ResponseBodyMore(resp, "", "  ")
 		if err != nil {
 			return errorsutil.NewErrorWithLocation(err.Error())
