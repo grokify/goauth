@@ -80,9 +80,9 @@ See the following repo for a Beego-based demo app:
 
  [used-by-svg]: https://sourcegraph.com/github.com/grokify/goauth/-/badge.svg
  [used-by-url]: https://sourcegraph.com/github.com/grokify/goauth?badge
- [build-status-svg]: https://github.com/grokify/goauth/workflows/test/badge.svg
+ [build-status-svg]: https://github.com/saviynt/goauth/actions/workflows/test.yaml/badge.svg?branch=master
  [build-status-url]: https://github.com/grokify/goauth/actions/workflows/test.yaml
- [lint-status-svg]: https://github.com/grokify/goauth/workflows/lint/badge.svg
+ [lint-status-svg]:https://github.com/saviynt/goauth/actions/workflows/lint.yaml/badge.svg?branch=master
  [lint-status-url]: https://github.com/grokify/goauth/actions/workflows/lint.yaml
  [goreport-svg]: https://goreportcard.com/badge/github.com/grokify/goauth
  [goreport-url]: https://goreportcard.com/report/github.com/grokify/goauth
