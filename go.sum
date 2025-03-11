@@ -52,8 +52,8 @@ github.com/googleapis/gax-go/v2 v2.14.1 h1:hb0FFeiPaQskmvakKu5EbCbpntQn48jyHuvrk
 github.com/googleapis/gax-go/v2 v2.14.1/go.mod h1:Hb/NubMaVM88SrNkvl8X/o8XWwDJEPqouaLeN2IUxoA=
 github.com/grokify/go-salesforce v0.2.56 h1:RY0HQQlEncItTvi8qTNQiRVwcKpRUci5IVq5ujI4qI8=
 github.com/grokify/go-salesforce v0.2.56/go.mod h1:LGJduSRBLSG8YBGnNWVSpxkosyX/a2r0wVB01ruz4fU=
-github.com/grokify/gocharts/v2 v2.22.2 h1:mv25p7oGjmhJciTBbQR9J1UGlUFRh31CCN+gwEk4zxA=
-github.com/grokify/gocharts/v2 v2.22.2/go.mod h1:mqLqtT9ekoW2U7tnLe6ReR5shYBEXY8Vwv6uY5iNnx0=
+github.com/grokify/gocharts/v2 v2.22.3 h1:56TTijH0BBrMYaHszC+CxeZwKA0NF7Ot4EVT9dx+EZI=
+github.com/grokify/gocharts/v2 v2.22.3/go.mod h1:q1BjtngsSaHpICjqxzDsaHKDtYZLjr6aMH7FWATeIG8=
 github.com/grokify/mogo v0.68.1 h1:IKS7wWZ6qWIvkk0SkWYwu93W3LFQMDbXUNoQuxPhDoA=
 github.com/grokify/mogo v0.68.1/go.mod h1:Zgd5Swzt7tUCwz7Emcu1IrW0RVzjGWSW0vHLvn1AG7M=
 github.com/grokify/sogo v0.10.3 h1:n4uRiasNUlQzVHUbOZ5zPMBIUiJnkz6J2P/DoF6AVXA=
