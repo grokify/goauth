@@ -21,7 +21,7 @@ import (
 func ParseTokenReader(r io.Reader) (*oauth2.Token, error) {
 	data, err := io.ReadAll(r)
 	if err != nil {
-		return nil, errorsutil.NewErrorWithLocation(err.Error())
+		return nil, errorsutil.WrapWithLocation(err)
 	}
 	return ParseToken(data)
 }
@@ -36,7 +36,7 @@ func ParseToken(rawToken []byte) (*oauth2.Token, error) {
 	msi := map[string]any{}
 	err = json.Unmarshal(rawToken, &msi)
 	if err != nil {
-		return tok, errorsutil.NewErrorWithLocation(err.Error())
+		return tok, errorsutil.WrapWithLocation(err)
 	}
 	tok = tok.WithExtra(msi)
 	// convert `expires_in` to `Expiry` with 1 minute leeway.
@@ -60,7 +60,7 @@ func ParseToken(rawToken []byte) (*oauth2.Token, error) {
 // a OAuth2 AuthURL which is copy and pasted into a web browser to
 // return an an OAuth 2 authorization code and state, where the
 // authorization code is entered on the command line.
-func NewTokenCLIFromWeb(cfg *oauth2.Config, state string) (*oauth2.Token, error) {
+func NewTokenCLIFromWeb(ctx context.Context, cfg *oauth2.Config, state string) (*oauth2.Token, error) {
 	//authURL := cfg.AuthCodeURL(state, oauth2.AccessTypeOffline)
 	authURL := cfg.AuthCodeURL(state)
 	fmt.Printf("Go to this link in your browser then type in the auth code from the webpage and click `return` to continue: \n%v\n", authURL)
@@ -70,7 +70,7 @@ func NewTokenCLIFromWeb(cfg *oauth2.Config, state string) (*oauth2.Token, error)
 		return nil, errorsutil.Wrap(err, "Unable to read auth code")
 	}
 
-	tok, err := cfg.Exchange(context.Background(), code)
+	tok, err := cfg.Exchange(ctx, code)
 	if err != nil {
 		return tok, errorsutil.Wrap(err, "Unable to retrieve token from web")
 	}

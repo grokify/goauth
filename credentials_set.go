@@ -24,11 +24,11 @@ func ReadFileCredentialsSet(filename string, inflateEndpoints bool) (*Credential
 		return nil, err
 	}
 	if err := jsonutil.UnmarshalWithLoc(b, &set); err != nil {
-		return nil, errorsutil.NewErrorWithLocation(err.Error())
+		return nil, errorsutil.WrapWithLocation(err)
 	} else if inflateEndpoints {
 		err := set.Inflate()
 		if err != nil {
-			return nil, errorsutil.NewErrorWithLocation(err.Error())
+			return nil, errorsutil.WrapWithLocation(err)
 		}
 	}
 	return set, nil

@@ -7,13 +7,13 @@ require (
 	github.com/caarlos0/env/v11 v11.3.1
 	github.com/golang-jwt/jwt/v5 v5.2.2
 	github.com/google/go-querystring v1.1.0
-	github.com/grokify/go-salesforce v0.2.56
-	github.com/grokify/gocharts/v2 v2.22.3
-	github.com/grokify/mogo v0.68.1
-	github.com/grokify/sogo v0.10.3
+	github.com/grokify/go-salesforce v0.2.57
+	github.com/grokify/gocharts/v2 v2.22.4
+	github.com/grokify/mogo v0.68.2
+	github.com/grokify/sogo v0.10.4
 	github.com/jessevdk/go-flags v1.6.1
 	github.com/joho/godotenv v1.5.1
-	github.com/rs/zerolog v1.33.0
+	github.com/rs/zerolog v1.34.0
 	golang.org/x/net v0.37.0
 	golang.org/x/oauth2 v0.28.0
 	google.golang.org/api v0.227.0
@@ -22,7 +22,7 @@ require (
 
 require (
 	cloud.google.com/go/auth v0.15.0 // indirect
-	cloud.google.com/go/auth/oauth2adapt v0.2.7 // indirect
+	cloud.google.com/go/auth/oauth2adapt v0.2.8 // indirect
 	cloud.google.com/go/compute/metadata v0.6.0 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect

@@ -61,15 +61,15 @@ func NewTokenOAuth2JWT(ctx context.Context, tokenURL, clientID, clientSecret, jw
 	}
 	if len(clientID) > 0 || len(clientSecret) > 0 {
 		if authHeaderVal, err := authutil.BasicAuthHeader(clientID, clientSecret); err != nil {
-			return nil, errorsutil.NewErrorWithLocation(err.Error())
+			return nil, errorsutil.WrapWithLocation(err)
 		} else {
 			sreq.Headers.Add(httputilmore.HeaderAuthorization, authHeaderVal)
 		}
 	}
 	if hreq, err := sreq.HTTPRequest(ctx); err != nil {
-		return nil, errorsutil.NewErrorWithLocation(err.Error())
+		return nil, errorsutil.WrapWithLocation(err)
 	} else if resp, err := ctxhttp.Do(ctx, &http.Client{}, hreq); err != nil {
-		return nil, errorsutil.NewErrorWithLocation(err.Error())
+		return nil, errorsutil.WrapWithLocation(err)
 	} else if resp.StatusCode >= 300 {
 		return nil, fmt.Errorf("tokenURL (httpResStatus: %d) %s", resp.StatusCode, string(jsonutil.MustMarshal(
 			map[string]any{
