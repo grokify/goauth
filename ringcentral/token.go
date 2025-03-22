@@ -19,7 +19,7 @@ func NewTokenCLI(ctx context.Context, creds goauth.Credentials, state string) (t
 		}
 		fmt.Printf("OAuth State [%s]\n", state)
 		cfg := creds.OAuth2.Config()
-		token, err = authutil.NewTokenCLIFromWeb(&cfg, state)
+		token, err = authutil.NewTokenCLIFromWeb(ctx, &cfg, state)
 		if err != nil {
 			return token, err
 		}
