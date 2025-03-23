@@ -169,6 +169,6 @@ func NewClientFileStoreWithDefaultsCliEnv(ctx context.Context, googleCredentials
 	return NewClientFileStoreWithDefaults(
 		ctx,
 		[]byte(os.Getenv(googleCredentialsEnvVar)),
-		stringsutil.SplitCondenseSpace(os.Getenv(googleScopesEnvVar), ","),
+		stringsutil.SplitTrimSpace(os.Getenv(googleScopesEnvVar), ",", true),
 		false)
 }

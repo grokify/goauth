@@ -9,7 +9,7 @@ import (
 	"strconv"
 
 	"github.com/grokify/goauth/endpoints"
-	"github.com/grokify/mogo/encoding/jsonutil"
+	"github.com/grokify/mogo/encoding/jsonutil/jsonraw"
 	"github.com/grokify/mogo/net/http/httpsimple"
 )
 
@@ -103,7 +103,7 @@ func ContactsV3ExportWriteFiles(client *http.Client, fileprefix string, opts *Co
 		if err != nil {
 			return err
 		}
-		bodyPretty, err := jsonutil.IndentReader(resp.Body, "", "  ")
+		bodyPretty, err := jsonraw.Indent(resp.Body, "", "  ")
 		if err != nil {
 			return err
 		}
@@ -157,7 +157,7 @@ func ContactsV1ExportWriteFiles(client *http.Client, fileprefix string, opts *Co
 		if err != nil {
 			return err
 		}
-		bodyPretty, err := jsonutil.IndentReader(resp.Body, "", "  ")
+		bodyPretty, err := jsonraw.Indent(resp.Body, "", "  ")
 		if err != nil {
 			return err
 		}

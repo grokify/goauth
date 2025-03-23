@@ -29,7 +29,7 @@ func ConfigFromEnv(envVar string, scopes []string) (*oauth2.Config, error) {
 	}
 	if len(scopes) == 0 {
 		scopesString := os.Getenv(EnvGoogleAppScopes)
-		scopes = stringsutil.SplitCondenseSpace(scopesString, ",")
+		scopes = stringsutil.SplitTrimSpace(scopesString, ",", true)
 	}
 	return google.ConfigFromJSON([]byte(os.Getenv(envVar)), scopes...)
 }

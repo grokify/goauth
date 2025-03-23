@@ -7,10 +7,10 @@ require (
 	github.com/caarlos0/env/v11 v11.3.1
 	github.com/golang-jwt/jwt/v5 v5.2.2
 	github.com/google/go-querystring v1.1.0
-	github.com/grokify/go-salesforce v0.2.57
-	github.com/grokify/gocharts/v2 v2.22.4
-	github.com/grokify/mogo v0.68.2
-	github.com/grokify/sogo v0.10.4
+	github.com/grokify/go-salesforce v0.2.58
+	github.com/grokify/gocharts/v2 v2.22.6
+	github.com/grokify/mogo v0.68.3
+	github.com/grokify/sogo v0.10.5
 	github.com/jessevdk/go-flags v1.6.1
 	github.com/joho/godotenv v1.5.1
 	github.com/rs/zerolog v1.34.0
