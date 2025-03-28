@@ -2,6 +2,8 @@ module github.com/grokify/goauth
 
 go 1.23.2
 
+toolchain go1.24.1
+
 require (
 	github.com/SparkPost/gosparkpost v0.2.0
 	github.com/caarlos0/env/v11 v11.3.1
@@ -14,7 +16,7 @@ require (
 	github.com/jessevdk/go-flags v1.6.1
 	github.com/joho/godotenv v1.5.1
 	github.com/rs/zerolog v1.34.0
-	golang.org/x/net v0.37.0
+	golang.org/x/net v0.38.0
 	golang.org/x/oauth2 v0.28.0
 	google.golang.org/api v0.228.0
 	gopkg.in/jeevatkm/go-model.v1 v1.1.0
