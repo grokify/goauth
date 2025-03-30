@@ -28,58 +28,16 @@ type appConfig struct {
 }
 
 func sendTestEmail(cfg appConfig, client gosparkpost.Client) {
-	day := 811 // Change this to set the day. This currently uses single digit month + 2 digit day
-	seq := 0   // Sequence index. Start with 0 and increment. This demo doesn't support changing the day when changing sequence.
+	day := 811       // Change this to set the day. This currently uses single digit month + 2 digit day
+	seq := uint32(0) // Sequence index. Start with 0 and increment. This demo doesn't support changing the day when changing sequence.
 
-	if len(strings.TrimSpace(cfg.SparkPostEmailRecipientDemo)) == 0 {
-		cfg.SparkPostEmailRecipientDemo = DefaultExampleEmail
-	}
+	icsData := buildExampleICS(cfg.SparkPostEmailRecipientDemo, day, seq)
 
-	format := `BEGIN:VCALENDAR
-VERSION:2.0
-PRODID:-//MY COMPANY//Calendar//EN
-CALSCALE:GREGORIAN
-METHOD:%v
-BEGIN:VEVENT
-%vUID:shift-%v-emp-128@mycompany.com
-DTSTART:20180%vT010000
-DTEND:20180%vT020000
-DTSTAMP:%v
-SEQUENCE:%v
-SUMMARY:Morning shift
-LOCATION:Morning Location
-DESCRIPTION:Morning shift
-END:VEVENT
-BEGIN:VEVENT
-%vUID:shift-%v-emp-128@mycompany.com
-DTSTART:20180%vT130000
-DTEND:20180%vT140000
-DTSTAMP:%v
-SEQUENCE:%v
-SUMMARY:Night shift
-LOCATION:Night Location
-DESCRIPTION:Night
-END:VEVENT
-END:VCALENDAR`
+	fmt.Println(icsData)
 
-	//attenddee needed for both events
-	attendee := fmt.Sprintf(
-		"ATTENDEE;ROLE=REQ-PARTICIPANT;CN=%s:MAILTO:%s\n",
-		cfg.SparkPostEmailRecipientDemo, cfg.SparkPostEmailRecipientDemo)
-
-	uid1 := day + 1000
-	uid2 := uid1 + 1
-	dtNow := time.Now().Format(timeutil.ISO8601CompactNoTZ)
-	data := fmt.Sprintf(
-		format, "REQUEST",
-		attendee, uid1, day, day, dtNow, seq,
-		attendee, uid2, day, day, dtNow, seq)
-
-	fmt.Println(data)
-	panic("z")
 	attach := gosparkpost.Attachment{
 		MIMEType: httputilmore.ContentTypeTextCalendarUtf8Request,
-		B64Data:  base64.StdEncoding.EncodeToString([]byte(data))}
+		B64Data:  base64.StdEncoding.EncodeToString([]byte(icsData))}
 
 	tx := &gosparkpost.Transmission{
 		Recipients: []string{cfg.SparkPostEmailRecipientDemo},
@@ -102,13 +60,12 @@ END:VCALENDAR`
 		Str("email-id", id)
 }
 
-func buildExampleIcs(recipientSmtpAddr string, dtStart, dtEnd time.Time, seq uint) string {
+func buildExampleICS(recipientSmtpAddr string, day int, seq uint32) string {
 	if len(strings.TrimSpace(recipientSmtpAddr)) == 0 {
 		recipientSmtpAddr = DefaultExampleEmail
 	}
-	// seq = Sequence index. Start with 0 and increment. This demo doesn't support changing the day when changing sequence.
-
-	day := 811 // Change this to set the day. This currently uses single digit month + 2 digit day
+	// seq:  Sequence index. Start with 0 and increment. This demo doesn't support changing the day when changing sequence.
+	// day: Change this to set the day. This currently uses single digit month + 2 digit day
 
 	format := `BEGIN:VCALENDAR
 VERSION:2.0

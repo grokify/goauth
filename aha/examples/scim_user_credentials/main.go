@@ -49,7 +49,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	fmtutil.PrintJSON(user)
+	fmtutil.MustPrintJSON(user)
 
 	fmt.Println("DONE")
 }

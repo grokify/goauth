@@ -63,7 +63,7 @@ type CLIRequest struct {
 }
 
 func (cli CLIRequest) Do(ctx context.Context, w io.Writer) error {
-	if creds, err := cli.Options.Credentials(); err != nil {
+	if creds, err := cli.Credentials(); err != nil {
 		return errorsutil.WrapWithLocation(err)
 	} else if tok, err := creds.NewToken(ctx); err != nil {
 		return errorsutil.WrapWithLocation(err)
@@ -78,11 +78,11 @@ func (cli CLIRequest) Do(ctx context.Context, w io.Writer) error {
 			return errorsutil.WrapWithLocation(err)
 		}
 		if w != nil {
-			if _, err := w.Write([]byte(fmt.Sprintf("Response Status Code: %d\n", resp.StatusCode))); err != nil {
+			if _, err := fmt.Fprintf(w, "Response Status Code: %d\n", resp.StatusCode); err != nil {
 				return errorsutil.WrapWithLocation(err)
 			}
 		}
-		if _, err := w.Write([]byte(fmt.Sprintf("===== BEGIN META =====\nStatus Code: %d\n===== END META =====\n", resp.StatusCode))); err != nil {
+		if _, err := fmt.Fprintf(w, "===== BEGIN META =====\nStatus Code: %d\n===== END META =====\n", resp.StatusCode); err != nil {
 			return errorsutil.WrapWithLocation(err)
 		}
 
@@ -91,7 +91,7 @@ func (cli CLIRequest) Do(ctx context.Context, w io.Writer) error {
 			return errorsutil.WrapWithLocation(err)
 		} else {
 			if w != nil {
-				if _, err := w.Write([]byte(fmt.Sprintf("===== BEGIN BODY =====\n%s\n===== END BODY =====", string(b)))); err != nil {
+				if _, err := fmt.Fprintf(w, "===== BEGIN BODY =====\n%s\n===== END BODY =====", string(b)); err != nil {
 					return errorsutil.WrapWithLocation(err)
 				}
 			}

@@ -193,20 +193,21 @@ func (creds *Credentials) ExistingValidToken() (*oauth2.Token, error) {
 }
 
 func (creds *Credentials) NewToken(ctx context.Context) (*oauth2.Token, error) {
-	if creds.Type == TypeOAuth2 {
+	switch creds.Type {
+	case TypeOAuth2:
 		if creds.OAuth2 == nil {
 			return nil, fmt.Errorf("credentials.%s is nil for type `%s`", TypeOAuth2, TypeOAuth2)
 		} else {
 			return creds.OAuth2.NewToken(ctx)
 		}
-	} else if creds.Type == TypeGoogleOAuth2 {
+	case TypeGoogleOAuth2:
 		if creds.GoogleOAuth2 == nil {
 			return nil, fmt.Errorf("credentials.%s is nil for type `%s`", TypeGoogleOAuth2, TypeGoogleOAuth2)
 		} else {
 			credsOAuth2 := creds.GoogleOAuth2.CredentialsOAuth2()
 			return credsOAuth2.NewToken(ctx)
 		}
-	} else {
+	default:
 		return nil, fmt.Errorf("creds type not supported [%s]", creds.Type)
 	}
 }

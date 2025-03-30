@@ -7,11 +7,11 @@ import (
 	"net/http"
 	"os"
 	"strings"
+	"time"
 
-	"github.com/caarlos0/env/v11"
+	env "github.com/caarlos0/env/v11"
 	"github.com/grokify/mogo/config"
 	"github.com/grokify/mogo/net/http/httputilmore"
-
 	"github.com/rs/zerolog"
 	zlog "github.com/rs/zerolog/log"
 
@@ -150,8 +150,9 @@ func main() {
 		zlog.Fatal().Err(err)
 	}
 
-	http.Handle("/", http.HandlerFunc(cfg.LoginHandler))
-	http.Handle("/oauth2callback", http.HandlerFunc(cfg.Oauth2CallbackHandler))
+	mux := http.NewServeMux()
+	mux.Handle("/", http.HandlerFunc(cfg.LoginHandler))
+	mux.Handle("/oauth2callback", http.HandlerFunc(cfg.Oauth2CallbackHandler))
 
 	/*
 		m := pat.New()
@@ -160,5 +161,5 @@ func main() {
 		http.Handle("/", m)
 	*/
 
-	log.Fatal(http.ListenAndServe(cfg.PortString(), nil))
+	log.Fatal(httputilmore.ListenAndServeTimeouts(cfg.PortString(), mux, 10*time.Second))
 }

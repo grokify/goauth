@@ -5,7 +5,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/golang-jwt/jwt/v5"
+	jwt "github.com/golang-jwt/jwt/v5"
 	"github.com/grokify/goauth/authutil/jwtutil"
 )
 
@@ -13,12 +13,9 @@ import (
 
 func createJWTHS256SignedString(secretKey string, data map[string]any) (string, error) {
 	claims := map[string]any{
-		"iss": "issuer",
-		"exp": time.Now().Add(time.Hour).Unix(),
-		"data": map[string]any{
-			"id":   "123",
-			"name": "JohnDoe",
-		},
+		"iss":  "issuer",
+		"exp":  time.Now().Add(time.Hour).Unix(),
+		"data": data,
 	}
 	return jwtutil.CreateHS256SignedString([]byte(secretKey), claims)
 }
