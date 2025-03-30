@@ -16,7 +16,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmtutil.PrintJSON(loaded)
+	fmtutil.MustPrintJSON(loaded)
 
 	if len(os.Getenv(metabase.EnvMetabaseUsername)) == 0 {
 		log.Fatal("E_NO_METABASE_USERNAME")
@@ -28,7 +28,7 @@ func main() {
 		Username:      os.Getenv(metabase.EnvMetabaseUsername),
 		Password:      os.Getenv(metabase.EnvMetabasePassword),
 		TLSSkipVerify: stringsutil.ToBool(os.Getenv(metabase.EnvMetabaseTLSSkipVerify))}
-	fmtutil.PrintJSON(cfg)
+	fmtutil.MustPrintJSON(cfg)
 
 	_, authResponse, err := metabase.NewClient(cfg)
 
@@ -36,7 +36,7 @@ func main() {
 		log.Fatal(err)
 	}
 	fmt.Println("AUTH_RESPONSE:")
-	fmtutil.PrintJSON(authResponse)
+	fmtutil.MustPrintJSON(authResponse)
 
 	fmt.Printf("EXAMPLE_COMMAND:\ncurl -XGET '%s' -H '%s: %s'\n",
 		metabase.BuildURL(cfg.BaseURL, metabase.RelPathAPIDatabase),

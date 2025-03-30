@@ -44,15 +44,15 @@ func main() {
 			panic(err)
 		}
 	}
-	if 1 == 1 {
+	if os.Getenv("ZENDESK_GET_ME") == "true" {
 		me, resp, err := zendesk.GetMe(client, subdomain)
 		if err != nil {
 			panic(err)
 		} else if resp.StatusCode >= 300 {
-			panic(fmt.Errorf("Status Code %v", resp.StatusCode))
+			panic(fmt.Errorf("status code (%d)", resp.StatusCode))
 		}
 
-		fmtutil.PrintJSON(me)
+		fmtutil.MustPrintJSON(me)
 
 		cu := zendesk.NewClientUtil(client, subdomain)
 
@@ -60,7 +60,7 @@ func main() {
 		if err != nil {
 			panic(err)
 		}
-		fmtutil.PrintJSON(scim)
+		fmtutil.MustPrintJSON(scim)
 	}
 
 	fmt.Println("DONE")

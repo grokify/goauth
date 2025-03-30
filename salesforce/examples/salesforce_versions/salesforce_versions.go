@@ -23,7 +23,7 @@ func main() {
 		panic(err)
 	}
 
-	fmt.Printf(os.Getenv("SALESFORCE_CLIENT_SECRET"))
+	fmt.Println(os.Getenv("SALESFORCE_CLIENT_SECRET"))
 
 	client, err := salesforce.NewClientPassword(
 		goauth.CredentialsOAuth2{
@@ -44,12 +44,15 @@ func main() {
 
 	resp, err := client.Get(apiURL.String())
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
-	httputilmore.PrintResponse(resp, true)
+	err = httputilmore.PrintResponse(resp, true)
+	if err != nil {
+		log.Fatal(err)
+	}
 
-	if 1 == 1 {
+	if os.Getenv("SALESFORCE_DESCRIBE_ACCOUNT") == "true" {
 		cu := su.ClientUtil{
 			HTTPClient: client,
 			Instance:   os.Getenv("SALESFORCE_INSTANCE_NAME"),
@@ -69,7 +72,7 @@ func main() {
 		if err != nil {
 			log.Fatal(err)
 		}
-		fmtutil.PrintJSON(desc)
+		fmtutil.MustPrintJSON(desc)
 
 		types := map[string]int{}
 		for _, f := range desc.Fields {
@@ -79,23 +82,25 @@ func main() {
 				types[f.Type] = 1
 			}
 		}
-		fmtutil.PrintJSON(types)
-
+		fmtutil.MustPrintJSON(types)
 	}
 
 	if 1 == 0 {
 		resp, err = sc.ExecSOQL("select id from contact")
 		if err != nil {
-			panic(err)
+			log.Fatal(err)
 		}
 
-		httputilmore.PrintResponse(resp, true)
+		err = httputilmore.PrintResponse(resp, true)
+		if err != nil {
+			log.Fatal(err)
+		}
 	}
 
 	if 1 == 0 {
 		err = sc.DeleteContactsAll()
 		if err != nil {
-			panic(err)
+			log.Fatal(err)
 		}
 	}
 

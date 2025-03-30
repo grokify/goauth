@@ -25,14 +25,14 @@ func main() {
 		log.Fatal(err)
 	}
 
-	cardId := 1
+	cardID := 1
 
 	metabase.TLSInsecureSkipVerify = true
 
-	baseUrl := os.Getenv("METABASE_BASE_URL")
+	baseURL := os.Getenv("METABASE_BASE_URL")
 
 	client, _, err := metabase.NewClientPassword(
-		baseUrl,
+		baseURL,
 		os.Getenv("METABASE_USERNAME"),
 		os.Getenv("METABASE_PASSWORD"),
 		metabase.TLSInsecureSkipVerify)
@@ -40,9 +40,9 @@ func main() {
 		log.Fatal(err)
 	}
 
-	userUrl := urlutil.JoinAbsolute(baseUrl, "api/user/current")
+	userURL := urlutil.JoinAbsolute(baseURL, "api/user/current")
 
-	req, err := http.NewRequest("GET", userUrl, nil)
+	req, err := http.NewRequest("GET", userURL, nil)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -50,14 +50,17 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	httputilmore.PrintResponse(resp, true)
+	err = httputilmore.PrintResponse(resp, true)
+	if err != nil {
+		log.Fatal(err)
+	}
 
-	cardUrl := fmt.Sprintf("api/card/%v/query/%s", cardId, "json")
-	cardUrl = urlutil.JoinAbsolute(baseUrl, cardUrl)
+	cardURL := fmt.Sprintf("api/card/%v/query/%s", cardID, "json")
+	cardURL = urlutil.JoinAbsolute(baseURL, cardURL)
 
-	fmt.Println(cardUrl)
+	fmt.Println(cardURL)
 
-	req, err = http.NewRequest(http.MethodPost, cardUrl, nil)
+	req, err = http.NewRequest(http.MethodPost, cardURL, nil)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -66,7 +69,10 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	httputilmore.PrintResponse(resp, true)
+	err = httputilmore.PrintResponse(resp, true)
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	fmt.Println("DONE")
 }
