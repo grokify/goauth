@@ -2,6 +2,8 @@ module github.com/grokify/goauth
 
 go 1.23.2
 
+toolchain go1.24.1
+
 require (
 	github.com/SparkPost/gosparkpost v0.2.0
 	github.com/caarlos0/env/v11 v11.3.1
@@ -9,7 +11,7 @@ require (
 	github.com/google/go-querystring v1.1.0
 	github.com/grokify/go-salesforce v0.2.58
 	github.com/grokify/gocharts/v2 v2.22.6
-	github.com/grokify/mogo v0.68.3
+	github.com/grokify/mogo v0.68.4
 	github.com/grokify/sogo v0.10.5
 	github.com/jessevdk/go-flags v1.6.1
 	github.com/joho/godotenv v1.5.1
