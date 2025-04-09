@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/grokify/mogo/type/stringsutil"
+	"github.com/grokify/mogo/type/strslices"
 )
 
 type ConfigMoreSet struct {
@@ -60,7 +60,7 @@ func (cfgs *ConfigMoreSet) ClientURLsMap() map[string]AppURLs {
 	for slug, cfg := range cfgs.ConfigMoreMap {
 		apps[slug] = AppURLs{
 			AuthURL:     cfg.AuthURI,
-			RedirectURL: stringsutil.SliceIndexOrEmpty(cfg.RedirectURIs, 0),
+			RedirectURL: strslices.IndexValueOrDefault(cfg.RedirectURIs, 0, ""),
 		}
 	}
 	return apps
