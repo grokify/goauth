@@ -54,8 +54,8 @@ github.com/grokify/go-salesforce v0.2.60 h1:Hy0oGwTusM0Eap0PgvfMthPSEg2j7ZR7GXd+
 github.com/grokify/go-salesforce v0.2.60/go.mod h1:psFK9uCrr8ojjJDeHV5eEEqeT0zz0yejgGVu9Y6KJYY=
 github.com/grokify/gocharts/v2 v2.23.2 h1:BovharXm8KbvviabwC/ul6/jzzK4afuNeF8JuXUgk/I=
 github.com/grokify/gocharts/v2 v2.23.2/go.mod h1:XlrmltgFrjfNL5GCmo3bNzN6nzpPegtDjVWDWnFsNsw=
-github.com/grokify/mogo v0.68.6 h1:oBOqBLpUDr+YbJUgtNP75hqh1XPj8G4qjWy5Kpqktcw=
-github.com/grokify/mogo v0.68.6/go.mod h1:+X+qlyZ+J61I6w27AOLAb0r/0ceRfy4jdfrHNDPzx7o=
+github.com/grokify/mogo v0.68.7 h1:kTRqS5y7mZobuBIqu9sMdceqJaYglbjze6xURx/5QEI=
+github.com/grokify/mogo v0.68.7/go.mod h1:Tx/StC5DiknVhjkLhjQAEyD/uMfgCfr82LQA78SsWS0=
 github.com/grokify/sogo v0.10.7 h1:4kRB+jRh1UQRlcxPYKAdWSca8csQROeEMIfjSmshK9c=
 github.com/grokify/sogo v0.10.7/go.mod h1:ZdVFfo1nTG5ZL44aCPk5Msg1KHMeD5ahzurKvOLJDJE=
 github.com/huandu/xstrings v1.5.0 h1:2ag3IFq9ZDANvthTwTiqSSZLjDc+BedvHPAp5tJy2TI=
@@ -167,7 +167,7 @@ golang.org/x/tools v0.0.0-20180917221912-90fa682c2a6e/go.mod h1:n7NCudcB/nEzxVGm
 golang.org/x/xerrors v0.0.0-20191204190536-9bdfabe68543/go.mod h1:I/5z698sn9Ka8TeJc9MKroUUfqBBauWjQqLJ2OPfmY0=
 google.golang.org/api v0.228.0 h1:X2DJ/uoWGnY5obVjewbp8icSL5U4FzuCfy9OjbLSnLs=
 google.golang.org/api v0.228.0/go.mod h1:wNvRS1Pbe8r4+IfBIniV8fwCpGwTrYa+kMUDiC5z5a4=
-google.golang.org/genproto v0.0.0-20250407143221-ac9807e6c755 h1:bldQzRMfyYSvYsP0oCgOIsBryyDN2Ci7HxB+rx3L7Qw=
+google.golang.org/genproto v0.0.0-20250409194420-de1ac958c67a h1:AoyioNVZR+nS6zbvnvW5rjQdeQu7/BWwIT7YI8Gq5wU=
 google.golang.org/genproto/googleapis/api v0.0.0-20250106144421-5f5ef82da422 h1:GVIKPyP/kLIyVOgOnTwFOrvQaQUzOzGMCxgFUOEmm24=
 google.golang.org/genproto/googleapis/api v0.0.0-20250106144421-5f5ef82da422/go.mod h1:b6h1vNKhxaSoEI+5jc3PJUCustfli/mRab7295pY7rw=
 google.golang.org/genproto/googleapis/rpc v0.0.0-20250407143221-ac9807e6c755 h1:TwXJCGVREgQ/cl18iY0Z4wJCTL/GmW+Um2oSwZiZPnc=
