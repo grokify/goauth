@@ -52,10 +52,10 @@ github.com/googleapis/gax-go/v2 v2.14.1 h1:hb0FFeiPaQskmvakKu5EbCbpntQn48jyHuvrk
 github.com/googleapis/gax-go/v2 v2.14.1/go.mod h1:Hb/NubMaVM88SrNkvl8X/o8XWwDJEPqouaLeN2IUxoA=
 github.com/grokify/go-salesforce v0.2.60 h1:Hy0oGwTusM0Eap0PgvfMthPSEg2j7ZR7GXd+4Q+e4wk=
 github.com/grokify/go-salesforce v0.2.60/go.mod h1:psFK9uCrr8ojjJDeHV5eEEqeT0zz0yejgGVu9Y6KJYY=
-github.com/grokify/gocharts/v2 v2.23.2 h1:BovharXm8KbvviabwC/ul6/jzzK4afuNeF8JuXUgk/I=
-github.com/grokify/gocharts/v2 v2.23.2/go.mod h1:XlrmltgFrjfNL5GCmo3bNzN6nzpPegtDjVWDWnFsNsw=
-github.com/grokify/mogo v0.68.6 h1:oBOqBLpUDr+YbJUgtNP75hqh1XPj8G4qjWy5Kpqktcw=
-github.com/grokify/mogo v0.68.6/go.mod h1:+X+qlyZ+J61I6w27AOLAb0r/0ceRfy4jdfrHNDPzx7o=
+github.com/grokify/gocharts/v2 v2.23.5 h1:PsOx30xHjCFl5b4HW1XtnLCfiCoy8Wh+PSzkQcf7w7E=
+github.com/grokify/gocharts/v2 v2.23.5/go.mod h1:e6kyiRwbs8j/20cN9LCzlqH3gPw954Z5jvufPlXXS6k=
+github.com/grokify/mogo v0.68.10 h1:6uI+ivMuK9J/PrhIp6Hc3G8L9hJXqb/jM7+mmHHX78I=
+github.com/grokify/mogo v0.68.10/go.mod h1:HBlrl/fprKiwT1yrMWRw8SdbydiIFxu7iPlbcMgUnF4=
 github.com/grokify/sogo v0.10.7 h1:4kRB+jRh1UQRlcxPYKAdWSca8csQROeEMIfjSmshK9c=
 github.com/grokify/sogo v0.10.7/go.mod h1:ZdVFfo1nTG5ZL44aCPk5Msg1KHMeD5ahzurKvOLJDJE=
 github.com/huandu/xstrings v1.5.0 h1:2ag3IFq9ZDANvthTwTiqSSZLjDc+BedvHPAp5tJy2TI=
@@ -80,6 +80,9 @@ github.com/mattn/go-isatty v0.0.19/go.mod h1:W+V8PltTTMOvKvAeJH7IuucS94S2C6jfK/D
 github.com/mattn/go-isatty v0.0.20 h1:xfD0iDuEKnDkl03q4limB+vH+GxLEtL/jb4xVJSWWEY=
 github.com/mattn/go-isatty v0.0.20/go.mod h1:W+V8PltTTMOvKvAeJH7IuucS94S2C6jfK/D7dTCTo3Y=
 github.com/mattn/go-runewidth v0.0.4/go.mod h1:LwmH8dsx7+W8Uxz3IHJYH5QSwggIsqBzpuz5H//U1FU=
+github.com/mattn/go-runewidth v0.0.9/go.mod h1:H031xJmbD/WCDINGzjvQ9THkh0rPKHF+m2gUSrubnMI=
+github.com/mattn/go-runewidth v0.0.16 h1:E5ScNMtiwvlvB5paMFdw9p4kSQzbXFikJ5SQO6TULQc=
+github.com/mattn/go-runewidth v0.0.16/go.mod h1:Jdepj2loyihRzMpdS35Xk/zdY8IAYHsh153qUoGf23w=
 github.com/modern-go/concurrent v0.0.0-20180228061459-e0a39a4cb421/go.mod h1:6dJC0mAP4ikYIbvyc7fijjWJddQyLn8Ig3JB5CqoB9Q=
 github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd h1:TRLaZ9cD/w8PVh93nsPXa1VrQ6jlwL5oN8l14QlcNfg=
 github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd/go.mod h1:6dJC0mAP4ikYIbvyc7fijjWJddQyLn8Ig3JB5CqoB9Q=
@@ -90,6 +93,8 @@ github.com/mohae/deepcopy v0.0.0-20170929034955-c48cc78d4826/go.mod h1:TaXosZuwd
 github.com/nxadm/tail v1.4.8 h1:nPr65rt6Y5JFSKQO7qToXr7pePgD6Gwiw05lkbyAQTE=
 github.com/nxadm/tail v1.4.8/go.mod h1:+ncqLTQzXmGhMZNUePPaPqPvBxHAIsmXswZKocGu+AU=
 github.com/olekukonko/tablewriter v0.0.1/go.mod h1:vsDQFd/mU46D+Z4whnwzcISnGGzXWMclvtLoiIKAKIo=
+github.com/olekukonko/tablewriter v0.0.5 h1:P2Ga83D34wi1o9J6Wh1mRuqd4mF/x/lgBS7N7AbDhec=
+github.com/olekukonko/tablewriter v0.0.5/go.mod h1:hPp6KlRPjbx+hW8ykQs1w3UBbZlj6HuIJcUGPhkA7kY=
 github.com/onsi/ginkgo v1.16.5 h1:8xi0RTUf59SOSfEtZMvwTvXYMzG4gV23XVHOZiXNtnE=
 github.com/onsi/ginkgo v1.16.5/go.mod h1:+E8gABHa3K6zRBolWtd+ROzc/U5bkGt0FwiG042wbpU=
 github.com/onsi/gomega v1.36.2 h1:koNYke6TVk6ZmnyHrCXba/T/MoLBXFjeC1PtvYgw0A8=
@@ -104,6 +109,9 @@ github.com/richardlehane/mscfb v1.0.4/go.mod h1:YzVpcZg9czvAuhk9T+a3avCpcFPMUWm7
 github.com/richardlehane/msoleps v1.0.1/go.mod h1:BWev5JBpU9Ko2WAgmZEuiz4/u3ZYTKbjLycmwiWUfWg=
 github.com/richardlehane/msoleps v1.0.4 h1:WuESlvhX3gH2IHcd8UqyCuFY5yiq/GR/yqaSM/9/g00=
 github.com/richardlehane/msoleps v1.0.4/go.mod h1:BWev5JBpU9Ko2WAgmZEuiz4/u3ZYTKbjLycmwiWUfWg=
+github.com/rivo/uniseg v0.2.0/go.mod h1:J6wj4VEh+S6ZtnVlnTBMWIodfgj8LQOQFoIToxlJtxc=
+github.com/rivo/uniseg v0.4.7 h1:WUdvkW8uEhrYfLC4ZzdpI2ztxP1I582+49Oc5Mq64VQ=
+github.com/rivo/uniseg v0.4.7/go.mod h1:FN3SvrM+Zdj16jyLfmOkMNblXMcoc8DfTHruCPUcx88=
 github.com/rs/xid v1.6.0/go.mod h1:7XoLgs4eV+QndskICGsho+ADou8ySMSjJKDIan90Nz0=
 github.com/rs/zerolog v1.34.0 h1:k43nTLIwcTVQAncfCw4KZ2VY6ukYoZaBPNOE8txlOeY=
 github.com/rs/zerolog v1.34.0/go.mod h1:bJsvje4Z08ROH4Nhs5iH600c3IkWhwp44iRc54W6wYQ=
@@ -167,7 +175,7 @@ golang.org/x/tools v0.0.0-20180917221912-90fa682c2a6e/go.mod h1:n7NCudcB/nEzxVGm
 golang.org/x/xerrors v0.0.0-20191204190536-9bdfabe68543/go.mod h1:I/5z698sn9Ka8TeJc9MKroUUfqBBauWjQqLJ2OPfmY0=
 google.golang.org/api v0.230.0 h1:2u1hni3E+UXAXrONrrkfWpi/V6cyKVAbfGVeGtC3OxM=
 google.golang.org/api v0.230.0/go.mod h1:aqvtoMk7YkiXx+6U12arQFExiRV9D/ekvMCwCd/TksQ=
-google.golang.org/genproto v0.0.0-20250407143221-ac9807e6c755 h1:bldQzRMfyYSvYsP0oCgOIsBryyDN2Ci7HxB+rx3L7Qw=
+google.golang.org/genproto v0.0.0-20250414145226-207652e42e2e h1:mYHFv3iX85YMwhGSaZS4xpkM8WQDmJUovz7yqsFrwDk=
 google.golang.org/genproto/googleapis/api v0.0.0-20250218202821-56aae31c358a h1:nwKuGPlUAt+aR+pcrkfFRrTU1BVrSmYyYMxYbUIVHr0=
 google.golang.org/genproto/googleapis/api v0.0.0-20250218202821-56aae31c358a/go.mod h1:3kWAYMk1I75K4vykHtKt2ycnOgpA6974V7bREqbsenU=
 google.golang.org/genproto/googleapis/rpc v0.0.0-20250414145226-207652e42e2e h1:ztQaXfzEXTmCBvbtWYRhJxW+0iJcz2qXfd38/e9l7bA=
