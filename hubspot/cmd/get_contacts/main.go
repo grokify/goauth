@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"os"
 	"time"
@@ -13,7 +14,8 @@ import (
 func main() {
 	hclient := hubspot.NewClientAPIKey(os.Getenv("HUBSPOT_API_KEY"))
 	dt := time.Now()
-	err := hubspot.ContactsV3ExportWriteFiles(hclient,
+	err := hubspot.ContactsV3ExportWriteFiles(
+		context.Background(), hclient,
 		fmt.Sprintf("_hubspot_contacts_v3_%s_", dt.Format(timeutil.RFC3339FullDate)),
 		&hubspot.ContactsListV3Opts{
 			Limit:      100,

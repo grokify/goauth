@@ -1,6 +1,7 @@
 package hubspot
 
 import (
+	"context"
 	"encoding/json"
 	"errors"
 	"net/http"
@@ -77,7 +78,7 @@ func (opts *ContactsListV1Opts) Query() url.Values {
 	return qry
 }
 
-func ContactsV3ExportWriteFiles(client *http.Client, fileprefix string, opts *ContactsListV3Opts) error {
+func ContactsV3ExportWriteFiles(ctx context.Context, client *http.Client, fileprefix string, opts *ContactsListV3Opts) error {
 	if len(fileprefix) == 0 {
 		fileprefix = "hubspot_contacts_v3"
 	}
@@ -99,7 +100,7 @@ func ContactsV3ExportWriteFiles(client *http.Client, fileprefix string, opts *Co
 	}
 	pgNum := 1
 	for {
-		resp, err := sclient.Do(sreq)
+		resp, err := sclient.Do(ctx, sreq)
 		if err != nil {
 			return err
 		}
@@ -131,7 +132,7 @@ func ContactsV3ExportWriteFiles(client *http.Client, fileprefix string, opts *Co
 	return nil
 }
 
-func ContactsV1ExportWriteFiles(client *http.Client, fileprefix string, opts *ContactsListV1Opts) error {
+func ContactsV1ExportWriteFiles(ctx context.Context, client *http.Client, fileprefix string, opts *ContactsListV1Opts) error {
 	if len(fileprefix) == 0 {
 		fileprefix = "hubspot_contacts_v1"
 	}
@@ -153,7 +154,7 @@ func ContactsV1ExportWriteFiles(client *http.Client, fileprefix string, opts *Co
 	}
 	pgNum := 1
 	for {
-		resp, err := sclient.Do(sreq)
+		resp, err := sclient.Do(ctx, sreq)
 		if err != nil {
 			return err
 		}

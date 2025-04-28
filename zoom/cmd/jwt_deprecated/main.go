@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"io"
 	"net/http"
@@ -59,7 +60,7 @@ func main() {
 	fmtutil.MustPrintJSON(cu.UserNative)
 	fmtutil.MustPrintJSON(scimUser)
 
-	resp, err = createMeeting(client)
+	resp, err = createMeeting(context.Background(), client)
 	logutil.FatalErr(err)
 
 	bytes, err = io.ReadAll(resp.Body)
@@ -70,7 +71,7 @@ func main() {
 	fmt.Println("DONE")
 }
 
-func createMeeting(client *http.Client) (*http.Response, error) {
+func createMeeting(ctx context.Context, client *http.Client) (*http.Response, error) {
 	sc := httpsimple.Client{
 		BaseURL:    zoom.ZoomAPIURLBase,
 		HTTPClient: client}
@@ -79,7 +80,7 @@ func createMeeting(client *http.Client) (*http.Response, error) {
 		URL:      urlutil.JoinAbsolute(zoom.ZoomAPIURLUsersMe, "meetings"),
 		Body:     []byte(reqBody),
 		BodyType: httpsimple.BodyTypeJSON}
-	return sc.Do(req)
+	return sc.Do(ctx, req)
 }
 
 const reqBody = `{
