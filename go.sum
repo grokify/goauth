@@ -52,10 +52,10 @@ github.com/googleapis/gax-go/v2 v2.14.1 h1:hb0FFeiPaQskmvakKu5EbCbpntQn48jyHuvrk
 github.com/googleapis/gax-go/v2 v2.14.1/go.mod h1:Hb/NubMaVM88SrNkvl8X/o8XWwDJEPqouaLeN2IUxoA=
 github.com/grokify/go-salesforce v0.2.61 h1:OMaZdBMgKY5qQ4QqeVxDpxHpK5JqOBgRn3cedErkw5k=
 github.com/grokify/go-salesforce v0.2.61/go.mod h1:1tk7dgShXvs96cBE+YPOB0gDCPtBlub+qMfJRqurNcI=
-github.com/grokify/gocharts/v2 v2.23.6 h1:0IcJrzkIITD/VOnZ7D4NDZomUakAARj6J1H/41V1AHs=
-github.com/grokify/gocharts/v2 v2.23.6/go.mod h1:WGp1nrwJwAl60LA6uYjPnvr5hrcNMkd0BT0cH7QjBZA=
-github.com/grokify/mogo v0.68.13 h1:FS4SeUA63jfj9zOvx6NZTgvg+pUgSN+2bAjm+SgcN+4=
-github.com/grokify/mogo v0.68.13/go.mod h1:pKOkGR2vheo+200muo2gSnXQ4SJ5TwW0Y7WY7uHahu8=
+github.com/grokify/gocharts/v2 v2.24.1 h1:jEriP0csI96Y6rlOQxVINYaHiFzx7qSmjQbbHbs72ys=
+github.com/grokify/gocharts/v2 v2.24.1/go.mod h1:mrYJ8oVI9yxyJA5QxYRSP8Vu5KdbFlvlo32rEiWAIGM=
+github.com/grokify/mogo v0.68.15 h1:brjurI7XGAvWmUxSgoN3nKu2yHlMJP7UvHVkm7JsdBc=
+github.com/grokify/mogo v0.68.15/go.mod h1:a2WFNTbrDzqYvGvmx8Qph6hgnX+IONL+NLPfDXFmOBA=
 github.com/grokify/sogo v0.10.9 h1:y78PILK2+AnFGVhK9i/LR6pHbUpEBHGomIzzQdJ0YI4=
 github.com/grokify/sogo v0.10.9/go.mod h1:4+/ChQFDs8Z1YtCfyLHlZTMIIznN/jV7WaeKryEAxj4=
 github.com/huandu/xstrings v1.5.0 h1:2ag3IFq9ZDANvthTwTiqSSZLjDc+BedvHPAp5tJy2TI=
@@ -174,7 +174,7 @@ golang.org/x/tools v0.0.0-20180917221912-90fa682c2a6e/go.mod h1:n7NCudcB/nEzxVGm
 golang.org/x/xerrors v0.0.0-20191204190536-9bdfabe68543/go.mod h1:I/5z698sn9Ka8TeJc9MKroUUfqBBauWjQqLJ2OPfmY0=
 google.golang.org/api v0.231.0 h1:LbUD5FUl0C4qwia2bjXhCMH65yz1MLPzA/0OYEsYY7Q=
 google.golang.org/api v0.231.0/go.mod h1:H52180fPI/QQlUc0F4xWfGZILdv09GCWKt2bcsn164A=
-google.golang.org/genproto v0.0.0-20250425173222-7b384671a197 h1:qWb9n6MA4nHA/g2varvEG/jTCs8zUuSa+5VqFgX2K+0=
+google.golang.org/genproto v0.0.0-20250428153025-10db94c68c34 h1:oklGWmm0ZiCw4efmdYZo5MF9t6nRvGzM5+0klSjOmGM=
 google.golang.org/genproto/googleapis/api v0.0.0-20250218202821-56aae31c358a h1:nwKuGPlUAt+aR+pcrkfFRrTU1BVrSmYyYMxYbUIVHr0=
 google.golang.org/genproto/googleapis/api v0.0.0-20250218202821-56aae31c358a/go.mod h1:3kWAYMk1I75K4vykHtKt2ycnOgpA6974V7bREqbsenU=
 google.golang.org/genproto/googleapis/rpc v0.0.0-20250425173222-7b384671a197 h1:29cjnHVylHwTzH66WfFZqgSQgnxzvWE+jvBwpZCLRxY=
