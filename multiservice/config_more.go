@@ -74,16 +74,19 @@ func (cm *O2ConfigMore) RedirectURL() string {
 	return redirectURL
 }
 
-func RandomState(statePrefix string, randomSuffix bool) string {
+func RandomState(statePrefix string, randomSuffix bool) (string, error) {
 	parts := []string{}
 	if len(statePrefix) > 0 {
 		parts = append(parts, statePrefix)
 	}
 	if randomSuffix {
-		// cr := randutil.NewCryptoRand(nil, nil)
-		parts = append(parts, fmt.Sprintf("%v", randutil.Intn(1000000000)))
+		if v, err := randutil.CryptoRandIntInRange(0, 1000000000); err != nil {
+			return "", err
+		} else {
+			parts = append(parts, fmt.Sprintf("%d", v))
+		}
 	}
-	return strings.Join(parts, "-")
+	return strings.Join(parts, "-"), nil
 }
 
 /*
