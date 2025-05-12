@@ -169,7 +169,10 @@ func (oc *CredentialsOAuth2) NewToken(ctx context.Context) (*oauth2.Token, error
 		// return cfg.PasswordCredentialsToken(ctx, oc.Username, oc.Password)
 		return oc.NewTokenPasswordCredentials(ctx) // supports custom request params
 	} else if oc.IsGrantType(authutil.GrantTypeAuthorizationCode) {
-		state := randutil.RandString(basex.AlphabetBase62, 12)
+		state, err := randutil.RandString(basex.AlphabetBase62, 12)
+		if err != nil {
+			return nil, err
+		}
 		authURL := oc.AuthCodeURL(state, map[string][]string{})
 		fmt.Printf("Authorization URL: %s\n\n", authURL)
 		fmt.Printf("Authorization URL State: %s\n\n", state)
