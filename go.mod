@@ -12,7 +12,7 @@ require (
 	github.com/grokify/go-salesforce v0.2.65
 	github.com/grokify/gocharts/v2 v2.24.7
 	github.com/grokify/mogo v0.69.3
-	github.com/grokify/sogo v0.11.0
+	github.com/grokify/sogo v0.11.1
 	github.com/jessevdk/go-flags v1.6.1
 	github.com/joho/godotenv v1.5.1
 	github.com/rs/zerolog v1.34.0
@@ -45,7 +45,6 @@ require (
 	github.com/mattn/go-runewidth v0.0.16 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
-	github.com/mohae/deepcopy v0.0.0-20170929034955-c48cc78d4826 // indirect
 	github.com/olekukonko/errors v1.1.0 // indirect
 	github.com/olekukonko/ll v0.0.8 // indirect
 	github.com/olekukonko/tablewriter v1.0.6 // indirect
