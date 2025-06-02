@@ -54,8 +54,8 @@ github.com/googleapis/gax-go/v2 v2.14.2 h1:eBLnkZ9635krYIPD+ag1USrOAI0Nr0QYF3+/3
 github.com/googleapis/gax-go/v2 v2.14.2/go.mod h1:ON64QhlJkhVtSqp4v1uaK92VyZ2gmvDQsweuyLV+8+w=
 github.com/grokify/go-salesforce v0.2.65 h1:3I0kLwBGksc4Q2jK8auiGN+HP7SVjVnASnHA8Z/R7zM=
 github.com/grokify/go-salesforce v0.2.65/go.mod h1:J3ZfT8O05X7JDzBqa0WsxNERZcznC8AhpC2/fog0ubg=
-github.com/grokify/gocharts/v2 v2.24.8 h1:L0EbpvHYLPHMtdbyzAmUvL1xVJnUok74l9cQMJdZD2s=
-github.com/grokify/gocharts/v2 v2.24.8/go.mod h1:lKrGDOIbhr4hrx+LHhhJ3bN9kDFAggK34ozEJmyCDd0=
+github.com/grokify/gocharts/v2 v2.24.9 h1:T3DhqcuNpi84ZptLaYCXTQvtiqzUWk/73XkdCYxz6Ls=
+github.com/grokify/gocharts/v2 v2.24.9/go.mod h1:TWkW7hFJp4mRki6iwtODEEqZ0Dh1A+srBbjYPr2nlDs=
 github.com/grokify/mogo v0.70.1 h1:Ri0hZtS+y7JIw2s1kLSarPsq+yrVFR+LSU/dE0GbIJg=
 github.com/grokify/mogo v0.70.1/go.mod h1:GAYJEvaF1PgdCTZ9/G0/vC7N4J117+DoB+xnSX1faYw=
 github.com/grokify/sogo v0.11.4 h1:qFi//rapLWdSrrAjiaxnTWgOZkqheuyo88f7gXKquZ4=
@@ -96,8 +96,8 @@ github.com/olekukonko/errors v1.1.0/go.mod h1:ppzxA5jBKcO1vIpCXQ9ZqgDh8iwODz6OXI
 github.com/olekukonko/ll v0.0.8 h1:sbGZ1Fx4QxJXEqL/6IG8GEFnYojUSQ45dJVwN2FH2fc=
 github.com/olekukonko/ll v0.0.8/go.mod h1:En+sEW0JNETl26+K8eZ6/W4UQ7CYSrrgg/EdIYT2H8g=
 github.com/olekukonko/tablewriter v0.0.1/go.mod h1:vsDQFd/mU46D+Z4whnwzcISnGGzXWMclvtLoiIKAKIo=
-github.com/olekukonko/tablewriter v1.0.6 h1:/T45mIHc5hcEvibgzBzvMy7ruT+RjgoQRvkHbnl6OWA=
-github.com/olekukonko/tablewriter v1.0.6/go.mod h1:SJ0MV1aHb/89fLcsBMXMp30Xg3g5eGoOUu0RptEk4AU=
+github.com/olekukonko/tablewriter v1.0.7 h1:HCC2e3MM+2g72M81ZcJU11uciw6z/p82aEnm4/ySDGw=
+github.com/olekukonko/tablewriter v1.0.7/go.mod h1:H428M+HzoUXC6JU2Abj9IT9ooRmdq9CxuDmKMtrOCMs=
 github.com/onsi/ginkgo v1.16.5 h1:8xi0RTUf59SOSfEtZMvwTvXYMzG4gV23XVHOZiXNtnE=
 github.com/onsi/ginkgo v1.16.5/go.mod h1:+E8gABHa3K6zRBolWtd+ROzc/U5bkGt0FwiG042wbpU=
 github.com/onsi/gomega v1.18.1 h1:M1GfJqGRrBrrGGsbxzV5dqM2U2ApXefZCQpkukxYRLE=

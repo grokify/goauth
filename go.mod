@@ -10,7 +10,7 @@ require (
 	github.com/golang-jwt/jwt/v5 v5.2.2
 	github.com/google/go-querystring v1.1.0
 	github.com/grokify/go-salesforce v0.2.65
-	github.com/grokify/gocharts/v2 v2.24.8
+	github.com/grokify/gocharts/v2 v2.24.9
 	github.com/grokify/mogo v0.70.1
 	github.com/grokify/sogo v0.11.4
 	github.com/jessevdk/go-flags v1.6.1
@@ -47,7 +47,7 @@ require (
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/olekukonko/errors v1.1.0 // indirect
 	github.com/olekukonko/ll v0.0.8 // indirect
-	github.com/olekukonko/tablewriter v1.0.6 // indirect
+	github.com/olekukonko/tablewriter v1.0.7 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/richardlehane/mscfb v1.0.4 // indirect
 	github.com/richardlehane/msoleps v1.0.4 // indirect
