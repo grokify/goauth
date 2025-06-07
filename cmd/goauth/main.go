@@ -18,7 +18,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	err = cli.Do(context.Background(), os.Stdout)
+	err = cli.Do(context.Background(), "", os.Stdout)
 	if err != nil {
 		slog.Error(err.Error())
 		os.Exit(2)
