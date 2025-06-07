@@ -58,8 +58,8 @@ github.com/grokify/gocharts/v2 v2.24.10 h1:XG37GOkR+E3J5xm7BYZzrfmby818+61mUdfWT
 github.com/grokify/gocharts/v2 v2.24.10/go.mod h1:kIy42ndG4vBg8FmtZ4IBlNcXgH8Er7klNgAHR7nkiaU=
 github.com/grokify/mogo v0.70.2 h1:WgnK3sHnrnyj8TfeFeFAutz8z5/N+CX1nvMH9iDZkHw=
 github.com/grokify/mogo v0.70.2/go.mod h1:GAYJEvaF1PgdCTZ9/G0/vC7N4J117+DoB+xnSX1faYw=
-github.com/grokify/sogo v0.11.4 h1:qFi//rapLWdSrrAjiaxnTWgOZkqheuyo88f7gXKquZ4=
-github.com/grokify/sogo v0.11.4/go.mod h1:AZmmnRNDGRSANgzAsr4LUWXYtT0FR3R+ui/MUs1bXLg=
+github.com/grokify/sogo v0.11.5 h1:dztpTa+YQZASmR0xmgRNqeqOQhlEx+0xkfrpYpV9g+4=
+github.com/grokify/sogo v0.11.5/go.mod h1:1RSmtEzxy4gQlHxNtypGQSeruO4mDCsJdc2V3X8YzVo=
 github.com/huandu/xstrings v1.5.0 h1:2ag3IFq9ZDANvthTwTiqSSZLjDc+BedvHPAp5tJy2TI=
 github.com/huandu/xstrings v1.5.0/go.mod h1:y5/lhBue+AyNmUVz9RLU9xbLR0o4KIIExikq4ovT0aE=
 github.com/jaytaylor/html2text v0.0.0-20190408195923-01ec452cbe43/go.mod h1:CVKlgaMiht+LXvHG173ujK6JUhZXKb2u/BQtjPDIvyk=
