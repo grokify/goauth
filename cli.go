@@ -2,23 +2,22 @@ package goauth
 
 import (
 	"context"
-	"fmt"
 	"io"
 	"net/http"
-	"strings"
 	"time"
 
-	"github.com/grokify/goauth/authutil"
 	"github.com/grokify/mogo/errors/errorsutil"
+	"github.com/grokify/mogo/fmt/fmtutil"
 	"github.com/grokify/mogo/net/http/httpsimple"
 	"github.com/grokify/mogo/net/http/httputilmore"
+	"github.com/grokify/mogo/type/maputil"
 	"github.com/jessevdk/go-flags"
 )
 
 // Options is a struct to be used with `ParseOptions()` or `github.com/jessevdk/go-flags`.
 // It can be embedded in another struct and used directly with `github.com/jessevdk/go-flags`.
 type Options struct {
-	CredsPath string `long:"creds" description:"Environment File Path" required:"true"`
+	CredsPath string `long:"creds" description:"Environment File Path"`
 	Account   string `long:"account" description:"Environment Variable Name"`
 	Token     string `long:"token" description:"Token"`
 	CLI       []bool `long:"cli" description:"CLI"`
@@ -39,7 +38,9 @@ func (opts *Options) CredentialsSet(inflateEndpoints bool) (*CredentialsSet, err
 }
 
 func (opts *Options) NewClient(ctx context.Context, state string) (*http.Client, error) {
-	if creds, err := opts.Credentials(); err != nil {
+	if opts.CredsPath == "" && opts.Account == "" {
+		return &http.Client{}, nil
+	} else if creds, err := opts.Credentials(); err != nil {
 		return nil, errorsutil.Wrap(err, "error in `goauth.Options.NewClient() call to self as `goauth.Options.Credentials()`")
 	} else if opts.UseCLI() {
 		if state == "" {
@@ -62,27 +63,38 @@ type CLIRequest struct {
 	Request httpsimple.CLI
 }
 
-func (cli CLIRequest) Do(ctx context.Context, w io.Writer) error {
-	if creds, err := cli.Credentials(); err != nil {
-		return errorsutil.WrapWithLocation(err)
-	} else if tok, err := creds.NewToken(ctx); err != nil {
+func (cli CLIRequest) Do(ctx context.Context, state string, w io.Writer) error {
+	if clt, err := cli.NewClient(ctx, state); err != nil {
 		return errorsutil.WrapWithLocation(err)
 	} else if sr, err := cli.Request.Request(); err != nil {
 		return errorsutil.WrapWithLocation(err)
 	} else {
-		if at := strings.TrimSpace(tok.AccessToken); at != "" {
-			sr.Headers.Add(httputilmore.HeaderAuthorization, authutil.TokenBearer+" "+at)
-		}
-		resp, err := sr.Do(ctx)
+		sc := httpsimple.NewClient(clt, "")
+		resp, err := sc.Do(ctx, sr)
 		if err != nil {
 			return errorsutil.WrapWithLocation(err)
 		}
-		if w != nil {
-			if _, err := fmt.Fprintf(w, "Response Status Code: %d\n", resp.StatusCode); err != nil {
-				return errorsutil.WrapWithLocation(err)
+		if _, err := fmtutil.FprintfIf(w, "Response Status Code: %d\n", resp.StatusCode); err != nil {
+			return errorsutil.WrapWithLocation(err)
+		}
+		if _, err := fmtutil.FprintfIf(w, "===== BEGIN RESPONSE META =====\nStatus Code: %d\n===== END RESPONSE META =====\n", resp.StatusCode); err != nil {
+			return errorsutil.WrapWithLocation(err)
+		}
+
+		if _, err := fmtutil.FprintIf(w, "===== BEGIN RESPONSE HEADERS =====\n"); err != nil {
+			return errorsutil.WrapWithLocation(err)
+		}
+		hkeys := maputil.Keys(resp.Header)
+		for _, header := range hkeys {
+			if v, ok := resp.Header[header]; ok {
+				for _, vi := range v {
+					if _, err := fmtutil.FprintfIf(w, "%s: %s\n", header, vi); err != nil {
+						return errorsutil.WrapWithLocation(err)
+					}
+				}
 			}
 		}
-		if _, err := fmt.Fprintf(w, "===== BEGIN META =====\nStatus Code: %d\n===== END META =====\n", resp.StatusCode); err != nil {
+		if _, err := fmtutil.FprintIf(w, "===== END RESPONSE HEADERS =====\n"); err != nil {
 			return errorsutil.WrapWithLocation(err)
 		}
 
@@ -91,7 +103,7 @@ func (cli CLIRequest) Do(ctx context.Context, w io.Writer) error {
 			return errorsutil.WrapWithLocation(err)
 		} else {
 			if w != nil {
-				if _, err := fmt.Fprintf(w, "===== BEGIN BODY =====\n%s\n===== END BODY =====", string(b)); err != nil {
+				if _, err := fmtutil.FprintfIf(w, "===== BEGIN RESPONSE BODY =====\n%s\n===== END RESPONSE BODY =====", string(b)); err != nil {
 					return errorsutil.WrapWithLocation(err)
 				}
 			}
