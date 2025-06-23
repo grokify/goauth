@@ -23,6 +23,14 @@ type Options struct {
 	CLI       []bool `long:"cli" description:"CLI"`
 }
 
+func NewClientCmd(ctx context.Context, state string) (*http.Client, error) {
+	if opts, err := ParseOptions(); err != nil {
+		return nil, err
+	} else {
+		return opts.NewClient(ctx, state)
+	}
+}
+
 func ParseOptions() (*Options, error) {
 	opts := &Options{}
 	_, err := flags.Parse(opts)
