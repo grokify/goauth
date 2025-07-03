@@ -18,7 +18,7 @@ require (
 	github.com/rs/zerolog v1.34.0
 	golang.org/x/net v0.41.0
 	golang.org/x/oauth2 v0.30.0
-	google.golang.org/api v0.238.0
+	google.golang.org/api v0.240.0
 	gopkg.in/jeevatkm/go-model.v1 v1.1.0
 )
 
