@@ -29,7 +29,7 @@ func NewTokenAccountCredentials(ctx context.Context, tokenEndpoint, clientID, cl
 		Headers:  map[string][]string{httputilmore.HeaderAuthorization: {basicAuthHeaderValue}},
 		Body:     bodyOpts,
 		BodyType: httpsimple.BodyTypeForm}
-	if resp, err := req.Do(ctx); err != nil {
+	if resp, err := req.Do(ctx, nil); err != nil {
 		return nil, err
 	} else if b, err := io.ReadAll(resp.Body); err != nil {
 		return nil, err
