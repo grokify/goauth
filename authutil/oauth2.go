@@ -35,7 +35,7 @@ func ClientCredentialsToken(ctx context.Context, cfg clientcredentials.Config) (
 		},
 		Body: body.Encode(),
 	}
-	resp, err := sr.Do(ctx)
+	resp, err := sr.Do(ctx, nil)
 	if err != nil {
 		return nil, err
 	} else if resp.StatusCode >= 300 {

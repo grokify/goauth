@@ -296,7 +296,7 @@ func (oc *CredentialsOAuth2) RefreshTokenSimple(ctx context.Context, refreshToke
 		Body: []byte(body.Encode()),
 	}
 
-	if resp, err := sr.Do(ctx); err != nil {
+	if resp, err := sr.Do(ctx, nil); err != nil {
 		return nil, []byte{}, err
 	} else if tokBody, err := io.ReadAll(resp.Body); err != nil {
 		return nil, tokBody, err
