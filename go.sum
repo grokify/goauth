@@ -56,8 +56,8 @@ github.com/grokify/go-salesforce v0.2.68 h1:8uETv8PrKXBV4dlgmeb6N6h3J1t6Cz2xpn0r
 github.com/grokify/go-salesforce v0.2.68/go.mod h1:sWi6aWz3d3hOWIc1C062qWHHXNcRc9p+8C7nTRyicAo=
 github.com/grokify/gocharts/v2 v2.24.15 h1:LXyj2a1dZWEHJab0PURDn/agCfWtAuuML28TVuJ7jqM=
 github.com/grokify/gocharts/v2 v2.24.15/go.mod h1:gc+CJ3xIce85VTPKqq/wd78HQlMJJ32PbLh7qhR6024=
-github.com/grokify/mogo v0.70.13 h1:JSJ9wmQcWPoaobMFDG1IDHN1QxSIP5+2ef56uitlMek=
-github.com/grokify/mogo v0.70.13/go.mod h1:QjS8z1s0fMwCMxJkODUhq5NHFjHZiZNf4E5TUIfz4+w=
+github.com/grokify/mogo v0.70.14 h1:61wx83OZmKwL5XSNfiDmhMMSU10oldVgfbINp3J0iaA=
+github.com/grokify/mogo v0.70.14/go.mod h1:VIO/CycVjfvZAMwx6bQMI490nV5EPkSS2H9AjKfq27Y=
 github.com/grokify/sogo v0.11.8 h1:vjaURRHtn7/by/01fMVGo2VrcxKPjB4nxEfRX3ujgCM=
 github.com/grokify/sogo v0.11.8/go.mod h1:fLbac4IQ/8MmQvMqla2935FTe82p2bwzE39zgANei6Q=
 github.com/huandu/xstrings v1.5.0 h1:2ag3IFq9ZDANvthTwTiqSSZLjDc+BedvHPAp5tJy2TI=
@@ -179,8 +179,8 @@ golang.org/x/tools v0.0.0-20180917221912-90fa682c2a6e/go.mod h1:n7NCudcB/nEzxVGm
 golang.org/x/xerrors v0.0.0-20191204190536-9bdfabe68543/go.mod h1:I/5z698sn9Ka8TeJc9MKroUUfqBBauWjQqLJ2OPfmY0=
 google.golang.org/api v0.243.0 h1:sw+ESIJ4BVnlJcWu9S+p2Z6Qq1PjG77T8IJ1xtp4jZQ=
 google.golang.org/api v0.243.0/go.mod h1:GE4QtYfaybx1KmeHMdBnNnyLzBZCVihGBXAmJu/uUr8=
-google.golang.org/genproto v0.0.0-20250715232539-7130f93afb79 h1:Nt6z9UHqSlIdIGJdz6KhTIs2VRx/iOsA5iE8bmQNcxs=
-google.golang.org/genproto v0.0.0-20250715232539-7130f93afb79/go.mod h1:kTmlBHMPqR5uCZPBvwa2B18mvubkjyY3CRLI0c6fj0s=
+google.golang.org/genproto v0.0.0-20250728155136-f173205681a0 h1:btBcgujH2+KIWEfz0s7Cdtt9R7hpwM4SAEXAdXf/ddw=
+google.golang.org/genproto v0.0.0-20250728155136-f173205681a0/go.mod h1:Q4yZQ3kmmIyg6HsMjCGx2vQ8gzN+dntaPmFWz6Zj0fo=
 google.golang.org/genproto/googleapis/api v0.0.0-20250603155806-513f23925822 h1:oWVWY3NzT7KJppx2UKhKmzPq4SRe0LdCijVRwvGeikY=
 google.golang.org/genproto/googleapis/api v0.0.0-20250603155806-513f23925822/go.mod h1:h3c4v36UTKzUiuaOKQ6gr3S+0hovBtUrXzTG/i3+XEc=
 google.golang.org/genproto/googleapis/rpc v0.0.0-20250715232539-7130f93afb79 h1:1ZwqphdOdWYXsUHgMpU/101nCtf/kSp9hOrcvFsnl10=
