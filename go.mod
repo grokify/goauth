@@ -11,8 +11,7 @@ require (
 	github.com/google/go-querystring v1.1.0
 	github.com/grokify/go-salesforce v0.2.70
 	github.com/grokify/gocharts/v2 v2.24.18
-	github.com/grokify/mogo v0.70.18
-	github.com/grokify/sogo v0.11.10
+	github.com/grokify/mogo v0.70.19
 	github.com/jessevdk/go-flags v1.6.1
 	github.com/joho/godotenv v1.5.1
 	github.com/rs/zerolog v1.34.0
@@ -26,13 +25,10 @@ require (
 	cloud.google.com/go/auth v0.16.5 // indirect
 	cloud.google.com/go/auth/oauth2adapt v0.2.8 // indirect
 	cloud.google.com/go/compute/metadata v0.8.0 // indirect
-	github.com/cespare/xxhash/v2 v2.3.0 // indirect
-	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
 	github.com/fatih/color v1.18.0 // indirect
 	github.com/felixge/httpsnoop v1.0.4 // indirect
 	github.com/go-logr/logr v1.4.3 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
-	github.com/go-redis/redis/v8 v8.11.5 // indirect
 	github.com/google/s2a-go v0.1.9 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/googleapis/enterprise-certificate-proxy v0.3.6 // indirect
