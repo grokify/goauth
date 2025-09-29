@@ -30,13 +30,19 @@ func ReadTokenFile(fpath string) (*oauth2.Token, error) {
 }
 
 // WriteTokenFile writes a token file to the the filepaths.
-func WriteTokenFile(fpath string, tok *oauth2.Token) error {
+func WriteTokenFile(fpath string, tok *oauth2.Token) (err error) {
 	f, err := os.OpenFile(fpath, os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0600)
 	if err != nil {
 		return errorsutil.Wrap(err, "Unable to write OAuth token")
 	}
-	defer f.Close()
-	return json.NewEncoder(f).Encode(tok)
+	defer func() {
+		cerr := f.Close()
+		if err == nil && cerr != nil {
+			err = cerr
+		}
+	}()
+	err = json.NewEncoder(f).Encode(tok)
+	return err
 }
 
 type TokenStoreFile struct {
