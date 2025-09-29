@@ -52,6 +52,14 @@ func (set *CredentialsSet) Inflate() error {
 	return nil
 }
 
+func ReadCredentialsFromCLI(inclAccountsOnError bool) (Credentials, error) {
+	if opts, err := ParseOptions(); err != nil {
+		return Credentials{}, err
+	} else {
+		return opts.Credentials()
+	}
+}
+
 func ReadCredentialsFromSetFile(credentialsSetFilename, accountKey string, inclAccountsOnError bool) (Credentials, error) {
 	set, err := ReadFileCredentialsSet(credentialsSetFilename, true)
 	if err != nil {
