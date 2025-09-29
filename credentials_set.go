@@ -7,7 +7,6 @@ import (
 	"net/http"
 	"os"
 	"sort"
-	"strings"
 
 	"github.com/grokify/mogo/encoding/jsonutil"
 	"github.com/grokify/mogo/errors/errorsutil"
@@ -50,30 +49,6 @@ func (set *CredentialsSet) Inflate() error {
 		set.Credentials[k] = v
 	}
 	return nil
-}
-
-func ReadCredentialsFromCLI(inclAccountsOnError bool) (Credentials, error) {
-	if opts, err := ParseOptions(); err != nil {
-		return Credentials{}, err
-	} else {
-		return opts.Credentials()
-	}
-}
-
-func ReadCredentialsFromSetFile(credentialsSetFilename, accountKey string, inclAccountsOnError bool) (Credentials, error) {
-	set, err := ReadFileCredentialsSet(credentialsSetFilename, true)
-	if err != nil {
-		return Credentials{}, err
-	}
-	creds, err := set.Get(accountKey)
-	if err != nil {
-		if inclAccountsOnError {
-			return creds, errorsutil.Wrap(err,
-				fmt.Sprintf("validAccounts [%s]", strings.Join(set.Accounts(), ",")))
-		}
-		return creds, err
-	}
-	return creds, nil
 }
 
 func (set *CredentialsSet) NewClient(ctx context.Context, key string) (*http.Client, error) {
