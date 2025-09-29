@@ -41,7 +41,15 @@ type Credentials struct {
 	Additional   url.Values               `json:"additional,omitempty"`
 }
 
-func NewCredentialsJSON(credsData, accessToken []byte) (Credentials, error) {
+func NewCredentialsFromCLI(inclAccountsOnError bool) (Credentials, error) {
+	if opts, err := ParseOptions(); err != nil {
+		return Credentials{}, err
+	} else {
+		return opts.Credentials()
+	}
+}
+
+func NewCredentialsFromJSON(credsData, accessToken []byte) (Credentials, error) {
 	var creds Credentials
 	err := json.Unmarshal(credsData, &creds)
 	if err != nil {
@@ -54,6 +62,22 @@ func NewCredentialsJSON(credsData, accessToken []byte) (Credentials, error) {
 	if len(accessToken) > 0 {
 		creds.Token = &oauth2.Token{
 			AccessToken: string(accessToken)}
+	}
+	return creds, nil
+}
+
+func NewCredentialsFromSetFile(credentialsSetFilename, accountKey string, inclAccountsOnError bool) (Credentials, error) {
+	set, err := ReadFileCredentialsSet(credentialsSetFilename, true)
+	if err != nil {
+		return Credentials{}, err
+	}
+	creds, err := set.Get(accountKey)
+	if err != nil {
+		if inclAccountsOnError {
+			return creds, errorsutil.Wrap(err,
+				fmt.Sprintf("validAccounts [%s]", strings.Join(set.Accounts(), ",")))
+		}
+		return creds, err
 	}
 	return creds, nil
 }
@@ -90,7 +114,7 @@ var (
 )
 
 func NewClient(ctx context.Context, goauthfile, goauthkey string) (*http.Client, error) {
-	if creds, err := ReadCredentialsFromSetFile(goauthfile, goauthkey, false); err != nil {
+	if creds, err := NewCredentialsFromSetFile(goauthfile, goauthkey, false); err != nil {
 		return nil, err
 	} else {
 		return creds.NewClient(ctx)
