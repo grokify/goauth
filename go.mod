@@ -12,7 +12,7 @@ require (
 	github.com/grokify/go-salesforce v0.2.77
 	github.com/grokify/gocharts/v2 v2.26.6
 	github.com/grokify/mogo v0.72.0
-	github.com/grokify/sogo v0.12.11
+	github.com/grokify/sogo v0.12.12
 	github.com/jessevdk/go-flags v1.6.1
 	github.com/joho/godotenv v1.5.1
 	github.com/rs/zerolog v1.34.0
