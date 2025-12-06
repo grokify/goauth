@@ -11,14 +11,14 @@ require (
 	github.com/google/go-querystring v1.1.0
 	github.com/grokify/go-salesforce v0.2.77
 	github.com/grokify/gocharts/v2 v2.26.6
-	github.com/grokify/mogo v0.72.0
-	github.com/grokify/sogo v0.12.11
+	github.com/grokify/mogo v0.72.1
+	github.com/grokify/sogo v0.12.12
 	github.com/jessevdk/go-flags v1.6.1
 	github.com/joho/godotenv v1.5.1
 	github.com/rs/zerolog v1.34.0
 	golang.org/x/net v0.47.0
 	golang.org/x/oauth2 v0.33.0
-	google.golang.org/api v0.256.0
+	google.golang.org/api v0.257.0
 	gopkg.in/jeevatkm/go-model.v1 v1.1.0
 )
 
@@ -71,7 +71,7 @@ require (
 	golang.org/x/image v0.33.0 // indirect
 	golang.org/x/sys v0.38.0 // indirect
 	golang.org/x/text v0.31.0 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20251111163417-95abcf5c77ba // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20251202230838-ff82c1b0f217 // indirect
 	google.golang.org/grpc v1.77.0 // indirect
 	google.golang.org/protobuf v1.36.10 // indirect
 )
