@@ -11,7 +11,7 @@ require (
 	github.com/google/go-querystring v1.1.0
 	github.com/grokify/go-salesforce v0.2.77
 	github.com/grokify/gocharts/v2 v2.26.6
-	github.com/grokify/mogo v0.72.1
+	github.com/grokify/mogo v0.72.2
 	github.com/grokify/sogo v0.12.12
 	github.com/jessevdk/go-flags v1.6.1
 	github.com/joho/godotenv v1.5.1
