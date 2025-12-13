@@ -9,15 +9,15 @@ require (
 	github.com/caarlos0/env/v11 v11.3.1
 	github.com/golang-jwt/jwt/v5 v5.3.0
 	github.com/google/go-querystring v1.1.0
-	github.com/grokify/go-salesforce v0.2.77
-	github.com/grokify/gocharts/v2 v2.26.6
-	github.com/grokify/mogo v0.72.1
-	github.com/grokify/sogo v0.12.12
+	github.com/grokify/go-salesforce v0.2.78
+	github.com/grokify/gocharts/v2 v2.26.7
+	github.com/grokify/mogo v0.72.3
+	github.com/grokify/sogo v0.13.0
 	github.com/jessevdk/go-flags v1.6.1
 	github.com/joho/godotenv v1.5.1
 	github.com/rs/zerolog v1.34.0
-	golang.org/x/net v0.47.0
-	golang.org/x/oauth2 v0.33.0
+	golang.org/x/net v0.48.0
+	golang.org/x/oauth2 v0.34.0
 	google.golang.org/api v0.257.0
 	gopkg.in/jeevatkm/go-model.v1 v1.1.0
 )
@@ -62,16 +62,16 @@ require (
 	github.com/xuri/excelize/v2 v2.10.0 // indirect
 	github.com/xuri/nfp v0.0.2-0.20250530014748-2ddeb826f9a9 // indirect
 	go.opentelemetry.io/auto/sdk v1.2.1 // indirect
-	go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp v0.63.0 // indirect
-	go.opentelemetry.io/otel v1.38.0 // indirect
-	go.opentelemetry.io/otel/metric v1.38.0 // indirect
-	go.opentelemetry.io/otel/trace v1.38.0 // indirect
-	golang.org/x/crypto v0.45.0 // indirect
-	golang.org/x/exp v0.0.0-20251125195548-87e1e737ad39 // indirect
-	golang.org/x/image v0.33.0 // indirect
-	golang.org/x/sys v0.38.0 // indirect
-	golang.org/x/text v0.31.0 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20251202230838-ff82c1b0f217 // indirect
+	go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp v0.64.0 // indirect
+	go.opentelemetry.io/otel v1.39.0 // indirect
+	go.opentelemetry.io/otel/metric v1.39.0 // indirect
+	go.opentelemetry.io/otel/trace v1.39.0 // indirect
+	golang.org/x/crypto v0.46.0 // indirect
+	golang.org/x/exp v0.0.0-20251209150349-8475f28825e9 // indirect
+	golang.org/x/image v0.34.0 // indirect
+	golang.org/x/sys v0.39.0 // indirect
+	golang.org/x/text v0.32.0 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20251213004720-97cd9d5aeac2 // indirect
 	google.golang.org/grpc v1.77.0 // indirect
-	google.golang.org/protobuf v1.36.10 // indirect
+	google.golang.org/protobuf v1.36.11 // indirect
 )
