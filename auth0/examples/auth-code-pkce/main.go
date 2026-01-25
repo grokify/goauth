@@ -73,7 +73,7 @@ func (cfg *appConfig) LoginHandler(w http.ResponseWriter, r *http.Request) {
 
 	// Cookie is used for demo purposes only. Use a server-side store
 	// in production.
-	cookie := http.Cookie{Name: VerifierCookieName, Value: verifier, HttpOnly: true}
+	cookie := http.Cookie{Name: VerifierCookieName, Value: verifier, HttpOnly: true, Secure: true}
 	http.SetCookie(w, &cookie)
 	w.Header().Set(httputilmore.HeaderContentType, httputilmore.ContentTypeTextHTMLUtf8)
 	w.WriteHeader(http.StatusOK)
