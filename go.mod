@@ -7,7 +7,7 @@ toolchain go1.24.5
 require (
 	github.com/SparkPost/gosparkpost v0.2.0
 	github.com/caarlos0/env/v11 v11.3.1
-	github.com/golang-jwt/jwt/v5 v5.3.0
+	github.com/golang-jwt/jwt/v5 v5.3.1
 	github.com/google/go-querystring v1.2.0
 	github.com/grokify/go-salesforce v0.2.78
 	github.com/grokify/gocharts/v2 v2.26.7
