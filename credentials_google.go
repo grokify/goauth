@@ -20,8 +20,7 @@ type CredentialsGCP struct {
 
 // NewClient returns a `*http.Client` and `error`.
 func (cg *CredentialsGCP) NewClient(ctx context.Context) (*http.Client, error) {
-	hclient, err := cg.GCPCredentials.NewClient(ctx, cg.Scopes)
-	return hclient, err
+	return cg.GCPCredentials.NewClient(ctx, cg.Scopes)
 }
 
 func CredentialsGCPReadFile(name string) (*CredentialsGCP, error) {
