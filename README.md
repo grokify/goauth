@@ -1,10 +1,29 @@
 # GoAuth
 
-[![Build Status][build-status-svg]][build-status-url]
-[![Lint Status][lint-status-svg]][lint-status-url]
+[![Go CI][go-ci-svg]][go-ci-url]
+[![Go Lint][go-lint-svg]][go-lint-url]
+[![Go SAST][go-sast-svg]][go-sast-url]
 [![Go Report Card][goreport-svg]][goreport-url]
 [![Docs][docs-godoc-svg]][docs-godoc-url]
+[![Visualization][viz-svg]][viz-url]
 [![License][license-svg]][license-url]
+
+ [go-ci-svg]: https://github.com/grokify/goauth/actions/workflows/go-ci.yaml/badge.svg?branch=main
+ [go-ci-url]: https://github.com/grokify/goauth/actions/workflows/go-ci.yaml
+ [go-lint-svg]: https://github.com/grokify/goauth/actions/workflows/go-lint.yaml/badge.svg?branch=main
+ [go-lint-url]: https://github.com/grokify/goauth/actions/workflows/go-lint.yaml
+ [go-sast-svg]: https://github.com/grokify/goauth/actions/workflows/go-sast-codeql.yaml/badge.svg?branch=main
+ [go-sast-url]: https://github.com/grokify/goauth/actions/workflows/go-sast-codeql.yaml
+ [goreport-svg]: https://goreportcard.com/badge/github.com/grokify/goauth
+ [goreport-url]: https://goreportcard.com/report/github.com/grokify/goauth
+ [docs-godoc-svg]: https://pkg.go.dev/badge/github.com/grokify/goauth
+ [docs-godoc-url]: https://pkg.go.dev/github.com/grokify/goauth
+ [viz-svg]: https://img.shields.io/badge/visualization-Go-blue.svg
+ [viz-url]: https://mango-dune-07a8b7110.1.azurestaticapps.net/?repo=grokify%2Fgoauth
+ [loc-svg]: https://tokei.rs/b1/github/grokify/goauth
+ [repo-url]: https://github.com/grokify/goauth
+ [license-svg]: https://img.shields.io/badge/license-MIT-blue.svg
+ [license-url]: https://github.com/grokify/goauth/blob/main/LICENSE
 
 GoAuth is a comprehensive Go authentication library designed to simplify OAuth 2.0, JWT, and other authentication methods for API services. It provides a unified configuration system for handling multiple authentication types and services, making it easy to create authenticated `*http.Client` instances from a single JSON configuration file.
 
@@ -383,14 +402,3 @@ Contributions are welcome. Please submit pull requests or create issues for bugs
 ## License
 
 GoAuth is available under the [MIT License](LICENSE).
-
- [build-status-svg]: https://github.com/grokify/goauth/actions/workflows/ci.yaml/badge.svg?branch=master
- [build-status-url]: https://github.com/grokify/goauth/actions/workflows/ci.yaml
- [lint-status-svg]: https://github.com/grokify/goauth/actions/workflows/lint.yaml/badge.svg?branch=master
- [lint-status-url]: https://github.com/grokify/goauth/actions/workflows/lint.yaml
- [goreport-svg]: https://goreportcard.com/badge/github.com/grokify/goauth
- [goreport-url]: https://goreportcard.com/report/github.com/grokify/goauth
- [docs-godoc-svg]: https://pkg.go.dev/badge/github.com/grokify/goauth
- [docs-godoc-url]: https://pkg.go.dev/github.com/grokify/goauth
- [license-svg]: https://img.shields.io/badge/license-MIT-blue.svg
- [license-url]: https://github.com/grokify/goauth/blob/master/LICENSE
