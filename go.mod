@@ -1,6 +1,6 @@
 module github.com/grokify/goauth
 
-go 1.25.0
+go 1.26.0
 
 require (
 	github.com/SparkPost/gosparkpost v0.2.0
@@ -9,7 +9,7 @@ require (
 	github.com/google/go-querystring v1.2.0
 	github.com/grokify/go-salesforce v0.2.80
 	github.com/grokify/gocharts/v2 v2.27.0
-	github.com/grokify/mogo v0.74.0
+	github.com/grokify/mogo v0.74.1
 	github.com/grokify/sogo v0.14.0
 	github.com/jessevdk/go-flags v1.6.1
 	github.com/joho/godotenv v1.5.1
@@ -66,7 +66,7 @@ require (
 	go.opentelemetry.io/otel/trace v1.42.0 // indirect
 	golang.org/x/crypto v0.49.0 // indirect
 	golang.org/x/exp v0.0.0-20260312153236-7ab1446f8b90 // indirect
-	golang.org/x/image v0.37.0 // indirect
+	golang.org/x/image v0.38.0 // indirect
 	golang.org/x/sys v0.42.0 // indirect
 	golang.org/x/text v0.35.0 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20260319201613-d00831a3d3e7 // indirect
