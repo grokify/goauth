@@ -73,7 +73,7 @@ func (app *AppHandler) HandleOauth2(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	bytes, err := json.Marshal(tok)
+	bytes, err := json.Marshal(tok) //nolint:gosec // G117: OAuth token response per RFC 6749
 	if err != nil {
 		printString(w, err.Error())
 		return
@@ -95,7 +95,7 @@ func (app *AppHandler) HandleOauth2(w http.ResponseWriter, req *http.Request) {
 	}
 	fmtutil.MustPrintJSON(u)
 
-	bytes, err = json.Marshal(u)
+	bytes, err = json.Marshal(u) //nolint:gosec // G117: SCIM user response for demo display
 	if err != nil {
 		printString(w, err.Error())
 		return
@@ -114,7 +114,7 @@ func getOauth2Config(appCfg RingCentralConfig) oauth2.Config {
 }
 
 func printString(w http.ResponseWriter, s string) {
-	fmt.Fprintln(w, s)
+	fmt.Fprintln(w, s) //nolint:gosec // G705: Demo output, not user-controlled input
 }
 
 func main() {

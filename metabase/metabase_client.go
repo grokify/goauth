@@ -253,7 +253,7 @@ func NewClientEnv(initCfg ConfigEnvOpts) (*http.Client, *AuthResponse, error) {
 // in Metabase API requests. It follows the following curl command:
 // curl -v -H "Content-Type: application/json" -d '{"username":"myusername","password":"mypassword"}' -XPOST 'http://example.com/api/session'
 func AuthRequest(authURL, username, password string, tlsSkipVerify bool) (*http.Response, error) {
-	bodyBytes, err := json.Marshal(authRequest{Username: username, Password: password})
+	bodyBytes, err := json.Marshal(authRequest{Username: username, Password: password}) //nolint:gosec // G117: Auth request for Metabase API session
 	if err != nil {
 		return nil, err
 	}

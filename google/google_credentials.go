@@ -56,7 +56,7 @@ func (c Credentials) FirstRedirectURI() string {
 }
 
 func (c Credentials) NewClient(ctx context.Context, scopes []string) (*http.Client, error) {
-	b, err := json.Marshal(c)
+	b, err := json.Marshal(c) //nolint:gosec // G117: Google service account credentials for API authentication
 	if err != nil {
 		return nil, err
 	}

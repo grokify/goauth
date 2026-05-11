@@ -41,7 +41,7 @@ func WriteTokenFile(fpath string, tok *oauth2.Token) (err error) {
 			err = cerr
 		}
 	}()
-	err = json.NewEncoder(f).Encode(tok)
+	err = json.NewEncoder(f).Encode(tok) //nolint:gosec // G117: OAuth token response per RFC 6749
 	return err
 }
 
