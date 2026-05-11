@@ -42,11 +42,11 @@ func main() {
 
 	userURL := urlutil.JoinAbsolute(baseURL, "api/user/current")
 
-	req, err := http.NewRequest("GET", userURL, nil)
+	req, err := http.NewRequest(http.MethodGet, userURL, nil) //nolint:gosec // G704: URL from trusted config
 	if err != nil {
 		log.Fatal(err)
 	}
-	resp, err := client.Do(req)
+	resp, err := client.Do(req) //nolint:gosec // G704: URL from trusted config
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -60,12 +60,12 @@ func main() {
 
 	fmt.Println(cardURL)
 
-	req, err = http.NewRequest(http.MethodPost, cardURL, nil)
+	req, err = http.NewRequest(http.MethodPost, cardURL, nil) //nolint:gosec // G704: URL from trusted config
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	resp, err = client.Do(req)
+	resp, err = client.Do(req) //nolint:gosec // G704: URL from trusted config
 	if err != nil {
 		log.Fatal(err)
 	}

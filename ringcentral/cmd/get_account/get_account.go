@@ -39,7 +39,7 @@ func main() {
 
 	apiURL := urlutil.JoinAbsolute(os.Getenv("RINGCENTRAL_SERVER_URL"), urlPath)
 
-	resp, err := client.Get(apiURL)
+	resp, err := client.Get(apiURL) //nolint:gosec // G704: URL from trusted config
 	logutil.FatalErr(err)
 
 	logutil.FatalErr(httputilmore.PrintResponse(resp, true))
