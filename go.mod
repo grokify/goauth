@@ -15,7 +15,7 @@ require (
 	github.com/jessevdk/go-flags v1.6.1
 	github.com/joho/godotenv v1.5.1
 	github.com/rs/zerolog v1.35.1
-	golang.org/x/net v0.54.0
+	golang.org/x/net v0.55.0
 	golang.org/x/oauth2 v0.36.0
 	google.golang.org/api v0.279.0
 	gopkg.in/jeevatkm/go-model.v1 v1.1.0
@@ -64,7 +64,7 @@ require (
 	golang.org/x/crypto v0.51.0 // indirect
 	golang.org/x/exp v0.0.0-20260508232706-74f9aab9d74a // indirect
 	golang.org/x/image v0.40.0 // indirect
-	golang.org/x/sys v0.44.0 // indirect
+	golang.org/x/sys v0.45.0 // indirect
 	golang.org/x/text v0.37.0 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20260504160031-60b97b32f348 // indirect
 	google.golang.org/grpc v1.81.0 // indirect
