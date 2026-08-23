@@ -1,3 +1,6 @@
 .DS_Store
 .env
 _*
+
+# MkDocs build output
+/site/
