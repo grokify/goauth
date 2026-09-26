@@ -10,6 +10,90 @@
   ],
   "releases": [
     {
+      "version": "v0.25.0",
+      "date": "2026-09-26",
+      "highlights": [
+        {
+          "description": "New `providers` package: exchange an OAuth 2.0 authorization code for a normalized `OAuthUser` across Google and GitHub, for \"Sign in with ...\" login flows",
+          "commit": "674e3b2"
+        }
+      ],
+      "added": [
+        {
+          "description": "`providers.FetchGoogleUser` / `providers.FetchGitHubUser`: exchange an authorization code and return a provider-neutral `OAuthUser` (ID, email, name, avatar, access and refresh tokens). GitHub users with a private profile email fall back to the primary verified address from the emails endpoint (requires the `user:email` scope)",
+          "commit": "674e3b2"
+        },
+        {
+          "description": "`providers.FetchGoogleUserWithToken` / `providers.FetchGitHubUserWithToken`: fetch provider-native profiles with an existing access token, using a client bounded by `providers.DefaultTimeout`",
+          "commit": "674e3b2"
+        },
+        {
+          "description": "`providers.PrimaryVerifiedEmail` and `providers.ErrNoVerifiedEmail`: select a GitHub user's primary verified email, falling back to any verified email",
+          "commit": "674e3b2"
+        },
+        {
+          "description": "`cmd/jwt_parse`: print a JWT's claims as JSON without verifying its signature, reading the token from the `JWT_PARSE` environment variable",
+          "commit": "8596ad9"
+        },
+        {
+          "description": "`google/cmd/oauth2web` and `google/cmd/serviceaccount`: runnable examples that load credentials from a credentials set file and fetch the Google userinfo profile, printing only token metadata, never credentials or tokens",
+          "commit": "6660d4e"
+        }
+      ],
+      "tests": [
+        {
+          "description": "`providers` coverage using an `httptest` server as token endpoint and provider API: code exchange, Bearer auth, GitHub email and name fallbacks, missing verified email, token-based fetches, and non-200 error reporting",
+          "commit": "8546b9c"
+        }
+      ],
+      "documentation": [
+        {
+          "description": "Structured changelog (`CHANGELOG.json` / `CHANGELOG.md`) covering the full release history",
+          "commit": "8f3664a"
+        },
+        {
+          "description": "v0.24.0 release notes for the `dpop` package",
+          "commit": "bb60265"
+        },
+        {
+          "description": "MkDocs site with a DPoP user guide",
+          "commit": "eb8be46"
+        }
+      ],
+      "dependencies": [
+        {
+          "description": "Bump `google.golang.org/api` from 0.293.0 to 0.299.0",
+          "commit": "ee37fb6"
+        },
+        {
+          "description": "Bump `golang.org/x/oauth2` from 0.36.0 to 0.37.0",
+          "commit": "d8a1f01"
+        },
+        {
+          "description": "Bump `golang.org/x/net` from 0.58.0 to 0.59.0",
+          "commit": "79ab873"
+        },
+        {
+          "description": "Bump `github.com/grokify/mogo` from 0.74.7 to 0.74.9",
+          "commit": "e4fd659"
+        },
+        {
+          "description": "Bump `github.com/grokify/gocharts/v2` from 2.27.0 to 2.27.1",
+          "commit": "adb58a1"
+        },
+        {
+          "description": "Routine `go mod tidy` dependency refresh",
+          "commit": "2c158cc"
+        }
+      ],
+      "infrastructure": [
+        {
+          "description": "Ignore the locally built `cmd/goauth/goauth` binary",
+          "commit": "89d3160"
+        }
+      ]
+    },
+    {
       "version": "v0.24.0",
       "date": "2026-08-23",
       "commit": "107fd3a",

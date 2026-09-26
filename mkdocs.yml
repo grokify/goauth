@@ -43,5 +43,6 @@ nav:
       - Sign in with Google or GitHub: guides/login-providers.md
       - Google: google.md
   - Releases:
+      - v0.25.0: releases/v0.25.0.md
       - v0.24.0: releases/v0.24.0.md
   - Changelog: changelog.md
