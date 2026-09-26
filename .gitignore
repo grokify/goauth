@@ -4,3 +4,6 @@ _*
 
 # MkDocs build output
 /site/
+
+# Locally built CLI binaries
+/cmd/goauth/goauth

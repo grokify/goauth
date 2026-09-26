@@ -12,6 +12,7 @@ GoAuth provides a unified credentials model and helpers for authenticating to ma
 - **Multiple grant types** — Authorization Code, Client Credentials, Password, JWT Bearer, SAML2 Bearer, Refresh Token
 - **PKCE** — Proof Key for Code Exchange
 - **DPoP (RFC 9449)** — Demonstrating Proof of Possession for sender-constrained access tokens
+- **Sign in with Google / GitHub** — exchange an authorization code for a normalized user profile
 
 ## Installation
 
@@ -22,10 +23,12 @@ go get github.com/grokify/goauth
 ## Guides
 
 - [DPoP (RFC 9449)](guides/dpop.md) — sender-constrained tokens: client proofs, server verification, HTTP middleware
-- [Google](google.md) — configuring Google OAuth apps and URLs
+- [Sign in with Google or GitHub](guides/login-providers.md) — authorization-code exchange to a normalized `OAuthUser`
+- [Google](google.md) — configuring Google OAuth apps and URLs, and running the Google examples
 
 ## Documentation
 
+- [Release notes](releases/v0.25.0.md)
 - [Changelog](changelog.md)
 - [Go package reference](https://pkg.go.dev/github.com/grokify/goauth)
 
