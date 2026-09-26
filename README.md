@@ -34,6 +34,8 @@ GoAuth is a comprehensive Go authentication library designed to simplify OAuth 2
 - **SCIM User Model**: Canonical user information retrieval across services using [SCIM](http://www.simplecloud.info/) schema
 - **CLI Tools**: Command-line utilities for token generation and API requests
 - **Multi-Service OAuth**: Support for applications using multiple OAuth providers (e.g., "Login with Google" and "Login with Facebook")
+- **Sign in with Google / GitHub**: Exchange an authorization code for a normalized user profile (`providers` package)
+- **DPoP (RFC 9449)**: Demonstrating Proof of Possession for sender-constrained access tokens (`dpop` package)
 
 ## Installation
 
@@ -345,24 +347,51 @@ scimUser, err := rcClientUtil.GetSCIMUser()
 
 Also available for: Aha, Zoom, Metabase, Zendesk, and Salesforce.
 
+### Sign in with Google or GitHub
+
+The `providers` package exchanges an authorization code and returns a
+normalized `OAuthUser` (provider user ID, email, name, avatar, tokens) for any
+supported provider:
+
+```go
+import "github.com/grokify/goauth/providers"
+
+// In your OAuth callback handler:
+user, err := providers.FetchGitHubUser(ctx, githubOAuth2Config, r.URL.Query().Get("code"))
+if err != nil {
+    return err
+}
+fmt.Println(user.Provider, user.ProviderID, user.Email)
+```
+
+GitHub users with a private profile email get their primary verified address
+(requires the `user:email` scope). See the
+[login providers guide](https://grokify.github.io/goauth/guides/login-providers/).
+
 ## CLI Tools
 
 GoAuth includes command-line tools for authentication tasks:
 
 ### goauth
 
-Main token retrieval tool supporting all authentication types:
+Obtains a token for any credential type, then makes an authenticated API
+request with it:
 
 ```bash
-go run cmd/goauth/main.go --credentials credentials.json --account my-app
+go run ./cmd/goauth --creds credentials.json --account my-app \
+  --url https://api.example.com/resource
 ```
 
-### goapi
+Request flags: `-M/--method`, `-U/--url`, `-H/--header` (repeatable),
+`-B/--body`, and `-F/--filepath` (request body from a file).
 
-Make authenticated API requests:
+### jwt_parse
+
+Prints a JWT's claims as JSON **without verifying the signature**, for
+debugging:
 
 ```bash
-go run cmd/goapi/main.go --credentials credentials.json --account my-app --url https://api.example.com/resource
+JWT_PARSE="$TOKEN" go run ./cmd/jwt_parse
 ```
 
 ## Package Structure
@@ -375,6 +404,8 @@ go run cmd/goapi/main.go --credentials credentials.json --account my-app --url h
 | `scim` | SCIM schema user/group models for canonical user representation |
 | `multiservice` | Multi-provider OAuth2 management for applications |
 | `google` | Google-specific OAuth2 and GCP service account handling |
+| `providers` | Authorization-code exchange to a normalized user profile (Google, GitHub) |
+| `dpop` | DPoP (RFC 9449) proofs, verification, and HTTP middleware |
 | `ringcentral` | RingCentral API integration |
 | `facebook` | Facebook OAuth2 and user data retrieval |
 | `aha`, `zoom`, `metabase`, `zendesk`, `salesforce`, `hubspot` | Service-specific implementations |
