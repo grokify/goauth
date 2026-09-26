@@ -13,10 +13,10 @@
         <link rel="canonical" href="https://grokify.github.io/goauth/google/">
       
       
-        <link rel="prev" href="../guides/dpop/">
+        <link rel="prev" href="../guides/login-providers/">
       
       
-        <link rel="next" href="../releases/v0.24.0/">
+        <link rel="next" href="../releases/v0.25.0/">
       
       
         
@@ -366,6 +366,34 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/login-providers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sign in with Google or GitHub
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -458,6 +486,34 @@
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../releases/v0.25.0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.25.0
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -567,6 +623,21 @@
 <li>Select your project.</li>
 <li>Click "APIs and Services" &gt; "Credentials"</li>
 </ol>
+<h2 id="running-the-examples">Running the Examples<a class="headerlink" href="#running-the-examples" title="Permanent link">&para;</a></h2>
+<p>Two runnable examples load credentials from a <a href="https://github.com/grokify/goauth#credentials-set-multiple-accounts">credentials set</a>
+file and fetch the signed-in user's Google profile.</p>
+<p><strong>OAuth 2.0 web flow</strong> (<code>google/cmd/oauth2web</code>), using an <code>oauth2</code> credential
+with <code>"service": "google"</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>go<span class="w"> </span>run<span class="w"> </span>./google/cmd/oauth2web<span class="w"> </span>--creds<span class="w"> </span>credentials.json<span class="w"> </span>--account<span class="w"> </span>my-google-app
+</code></pre></div>
+<p><strong>Service account</strong> (<code>google/cmd/serviceaccount</code>), using a <code>gcpsa</code> credential:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>go<span class="w"> </span>run<span class="w"> </span>./google/cmd/serviceaccount<span class="w"> </span>--creds<span class="w"> </span>credentials.json<span class="w"> </span>--account<span class="w"> </span>my-service-account
+</code></pre></div>
+<p>Both print only token metadata and the profile, never credentials or tokens.
+Keep credentials files out of version control; this repository ignores files
+starting with <code>_</code>, so a name like <code>_credentials.json</code> is not committed.</p>
+<p>For "Sign in with Google" in your own application, see
+<a href="../guides/login-providers/">Sign in with Google or GitHub</a>.</p>
 
 
 

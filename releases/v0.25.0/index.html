@@ -10,29 +10,31 @@
       
       
       
-        <link rel="canonical" href="https://grokify.github.io/goauth/">
+        <link rel="canonical" href="https://grokify.github.io/goauth/releases/v0.25.0/">
       
       
+        <link rel="prev" href="../../google/">
       
-        <link rel="next" href="guides/dpop/">
+      
+        <link rel="next" href="../v0.24.0/">
       
       
         
       
       
-      <link rel="icon" href="assets/images/favicon.png">
+      <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
     
     
       
-        <title>GoAuth</title>
+        <title>v0.25.0 - GoAuth</title>
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
       
         
-        <link rel="stylesheet" href="assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -51,7 +53,7 @@
       
     
     
-    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -76,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#goauth" class="md-skip">
+        <a href="#release-notes-goauth-v0250" class="md-skip">
           Skip to content
         </a>
       
@@ -92,7 +94,7 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="." title="GoAuth" class="md-header__button md-logo" aria-label="GoAuth" data-md-component="logo">
+    <a href="../.." title="GoAuth" class="md-header__button md-logo" aria-label="GoAuth" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -112,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Home
+              v0.25.0
             
           </span>
         </div>
@@ -228,7 +230,7 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="." title="GoAuth" class="md-nav__button md-logo" aria-label="GoAuth" data-md-component="logo">
+    <a href="../.." title="GoAuth" class="md-nav__button md-logo" aria-label="GoAuth" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -255,37 +257,10 @@
       
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Home
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="." class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
         
   
   
@@ -301,70 +276,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#features" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Features
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#installation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Installation
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#guides" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Guides
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#documentation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Documentation
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -428,7 +339,7 @@
   
   
     <li class="md-nav__item">
-      <a href="guides/dpop/" class="md-nav__link">
+      <a href="../../guides/dpop/" class="md-nav__link">
         
   
   
@@ -456,7 +367,7 @@
   
   
     <li class="md-nav__item">
-      <a href="guides/login-providers/" class="md-nav__link">
+      <a href="../../guides/login-providers/" class="md-nav__link">
         
   
   
@@ -484,7 +395,7 @@
   
   
     <li class="md-nav__item">
-      <a href="google/" class="md-nav__link">
+      <a href="../../google/" class="md-nav__link">
         
   
   
@@ -516,8 +427,10 @@
       
   
   
+    
   
   
+  
     
     
     
@@ -528,11 +441,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
           <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
@@ -553,7 +466,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             
@@ -568,10 +481,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="releases/v0.25.0/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.25.0
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -587,6 +527,142 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#highlights" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Highlights
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#new-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        New Features
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="New Features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#providers-package" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        providers Package
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cmdjwt_parse" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cmd/jwt_parse
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#google-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Google examples
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Documentation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dependencies
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Installation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#links" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Links
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -599,7 +675,7 @@
   
   
     <li class="md-nav__item">
-      <a href="releases/v0.24.0/" class="md-nav__link">
+      <a href="../v0.24.0/" class="md-nav__link">
         
   
   
@@ -634,7 +710,7 @@
   
   
     <li class="md-nav__item">
-      <a href="changelog/" class="md-nav__link">
+      <a href="../../changelog/" class="md-nav__link">
         
   
   
@@ -681,10 +757,93 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#features" class="md-nav__link">
+  <a href="#overview" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Features
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#highlights" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Highlights
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#new-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        New Features
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="New Features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#providers-package" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        providers Package
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cmdjwt_parse" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cmd/jwt_parse
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#google-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Google examples
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Documentation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dependencies
       
     </span>
   </a>
@@ -703,21 +862,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#guides" class="md-nav__link">
+  <a href="#links" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Guides
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#documentation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Documentation
+        Links
       
     </span>
   </a>
@@ -744,38 +892,81 @@
   
 
 
-<h1 id="goauth">GoAuth<a class="headerlink" href="#goauth" title="Permanent link">&para;</a></h1>
-<p><strong>OAuth 2.0, JWT, and multi-provider authentication for Go.</strong></p>
-<p>GoAuth provides a unified credentials model and helpers for authenticating to many services, plus building blocks like DPoP (RFC 9449) for sender-constrained tokens.</p>
-<h2 id="features">Features<a class="headerlink" href="#features" title="Permanent link">&para;</a></h2>
+<h1 id="release-notes-goauth-v0250">Release Notes: goauth v0.25.0<a class="headerlink" href="#release-notes-goauth-v0250" title="Permanent link">&para;</a></h1>
+<p><strong>Release Date:</strong> 2026-09-26</p>
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<p>This release adds a <strong><code>providers</code> package</strong> for "Sign in with Google / GitHub"
+login flows. It exchanges an OAuth 2.0 authorization code and returns one
+normalized <code>OAuthUser</code>, regardless of provider. It also adds a <code>jwt_parse</code>
+CLI for inspecting tokens, runnable Google examples, and routine dependency
+updates. There are no breaking changes.</p>
+<h2 id="highlights">Highlights<a class="headerlink" href="#highlights" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>Unified credentials</strong> — a single JSON configuration format across authentication types and services</li>
-<li><strong>Multiple auth types</strong> — OAuth 2.0, JWT, Basic Auth, GCP Service Account, and custom header/query auth</li>
-<li><strong>40+ OAuth 2.0 providers</strong> — pre-configured endpoints for popular services</li>
-<li><strong>Multiple grant types</strong> — Authorization Code, Client Credentials, Password, JWT Bearer, SAML2 Bearer, Refresh Token</li>
-<li><strong>PKCE</strong> — Proof Key for Code Exchange</li>
-<li><strong>DPoP (RFC 9449)</strong> — Demonstrating Proof of Possession for sender-constrained access tokens</li>
-<li><strong>Sign in with Google / GitHub</strong> — exchange an authorization code for a normalized user profile</li>
+<li>New <code>providers</code> package: authorization-code exchange to a normalized <code>OAuthUser</code> for Google and GitHub</li>
 </ul>
-<h2 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>go<span class="w"> </span>get<span class="w"> </span>github.com/grokify/goauth
+<h2 id="new-features">New Features<a class="headerlink" href="#new-features" title="Permanent link">&para;</a></h2>
+<h3 id="providers-package"><code>providers</code> Package<a class="headerlink" href="#providers-package" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span><span class="w"> </span><span class="s">&quot;github.com/grokify/goauth/providers&quot;</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="c1">// In your OAuth callback handler:</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="nx">user</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">providers</span><span class="p">.</span><span class="nx">FetchGitHubUser</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">githubConfig</span><span class="p">,</span><span class="w"> </span><span class="nx">r</span><span class="p">.</span><span class="nx">URL</span><span class="p">.</span><span class="nx">Query</span><span class="p">().</span><span class="nx">Get</span><span class="p">(</span><span class="s">&quot;code&quot;</span><span class="p">))</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">err</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="p">}</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">user</span><span class="p">.</span><span class="nx">Provider</span><span class="p">,</span><span class="w"> </span><span class="nx">user</span><span class="p">.</span><span class="nx">ProviderID</span><span class="p">,</span><span class="w"> </span><span class="nx">user</span><span class="p">.</span><span class="nx">Email</span><span class="p">,</span><span class="w"> </span><span class="nx">user</span><span class="p">.</span><span class="nx">Name</span><span class="p">)</span>
 </code></pre></div>
-<h2 id="guides">Guides<a class="headerlink" href="#guides" title="Permanent link">&para;</a></h2>
 <ul>
-<li><a href="guides/dpop/">DPoP (RFC 9449)</a> — sender-constrained tokens: client proofs, server verification, HTTP middleware</li>
-<li><a href="guides/login-providers/">Sign in with Google or GitHub</a> — authorization-code exchange to a normalized <code>OAuthUser</code></li>
-<li><a href="google/">Google</a> — configuring Google OAuth apps and URLs, and running the Google examples</li>
+<li><strong><code>FetchGoogleUser</code> / <code>FetchGitHubUser</code></strong> exchange the code and return an
+  <code>OAuthUser</code> with the provider user ID, email, name, avatar, and the access
+  and refresh tokens.</li>
+<li><strong>GitHub private emails:</strong> when the profile email is private, the primary
+  verified address is fetched from <code>/user/emails</code> (requires the <code>user:email</code>
+  scope). <code>PrimaryVerifiedEmail</code> exposes that selection, and
+  <code>ErrNoVerifiedEmail</code> reports users with no verified address. A missing
+  display name falls back to the GitHub login.</li>
+<li><strong><code>FetchGoogleUserWithToken</code> / <code>FetchGitHubUserWithToken</code></strong> fetch the
+  provider-native profile with an existing access token, using a client
+  bounded by <code>DefaultTimeout</code>.</li>
+<li><strong>Error reporting:</strong> non-200 responses include the status code and a
+  bounded (4 KB) excerpt of the response body.</li>
 </ul>
+<p>See the <a href="../../guides/login-providers/">Sign in with Google or GitHub</a> guide.</p>
+<h3 id="cmdjwt_parse"><code>cmd/jwt_parse</code><a class="headerlink" href="#cmdjwt_parse" title="Permanent link">&para;</a></h3>
+<p>Print a JWT's claims as JSON without verifying its signature, which is
+useful when debugging tokens:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nv">JWT_PARSE</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$TOKEN</span><span class="s2">&quot;</span><span class="w"> </span>go<span class="w"> </span>run<span class="w"> </span>./cmd/jwt_parse
+</code></pre></div>
+<h3 id="google-examples">Google examples<a class="headerlink" href="#google-examples" title="Permanent link">&para;</a></h3>
+<p><code>google/cmd/oauth2web</code> (OAuth 2.0 web flow) and <code>google/cmd/serviceaccount</code>
+(GCP service account) load credentials from a credentials set file and fetch
+the signed-in user's Google profile:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>go<span class="w"> </span>run<span class="w"> </span>./google/cmd/oauth2web<span class="w"> </span>--creds<span class="w"> </span>credentials.json<span class="w"> </span>--account<span class="w"> </span>my-google-app
+</code></pre></div>
+<p>They print only token metadata (type and time to expiry) and the profile,
+never the credentials or tokens.</p>
 <h2 id="documentation">Documentation<a class="headerlink" href="#documentation" title="Permanent link">&para;</a></h2>
 <ul>
-<li><a href="releases/v0.25.0/">Release notes</a></li>
-<li><a href="changelog/">Changelog</a></li>
-<li><a href="https://pkg.go.dev/github.com/grokify/goauth">Go package reference</a></li>
+<li>New <a href="../../guides/login-providers/">Sign in with Google or GitHub</a> guide.</li>
+<li>The README CLI section now documents <code>cmd/goauth</code> with its actual flags
+  (<code>--creds</code>, <code>--account</code>, <code>--url</code>, ...). The separate <code>goapi</code> tool it
+  previously described was never part of the repository; <code>goauth</code> makes the
+  authenticated request itself.</li>
 </ul>
-<div class="admonition note">
-<p class="admonition-title">Work in progress</p>
-<p>This documentation site is thin and growing. Contributions and expansions are welcome.</p>
-</div>
+<h2 id="dependencies">Dependencies<a class="headerlink" href="#dependencies" title="Permanent link">&para;</a></h2>
+<ul>
+<li><code>google.golang.org/api</code> 0.293.0 → 0.299.0</li>
+<li><code>golang.org/x/oauth2</code> 0.36.0 → 0.37.0</li>
+<li><code>golang.org/x/net</code> 0.58.0 → 0.59.0</li>
+<li><code>github.com/grokify/mogo</code> 0.74.7 → 0.74.9</li>
+<li><code>github.com/grokify/gocharts/v2</code> 2.27.0 → 2.27.1</li>
+</ul>
+<h2 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>go<span class="w"> </span>get<span class="w"> </span>github.com/grokify/goauth@v0.25.0
+</code></pre></div>
+<h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="../../changelog/">Full Changelog</a></li>
+</ul>
 
 
 
@@ -831,10 +1022,10 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["navigation.sections", "navigation.top", "search.highlight", "content.code.copy"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.top", "search.highlight", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
       
     
   </body>
