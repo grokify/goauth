@@ -57,8 +57,8 @@ github.com/grokify/go-salesforce v0.2.80 h1:Sqn6t0ViaLNaM2NowKmt7SKlhI2eC72xa6nV
 github.com/grokify/go-salesforce v0.2.80/go.mod h1:bfkZnhAWIrCOZbhIeWh7hVnpX2fd0kn2xiqzLKkKppc=
 github.com/grokify/gocharts/v2 v2.27.1 h1:TA+HJdJajtGxhTFIbFoUq1Ag44MWSVNUeP3DId7I2fc=
 github.com/grokify/gocharts/v2 v2.27.1/go.mod h1:2LrVcAnzVElrK/2XZJRdUVTrBHEA6FvLJ/jQhozwFjk=
-github.com/grokify/mogo v0.74.9 h1:kNByiqh2cskqioePUtjnz1pj1t/Z71rgQF0OUEy0/h0=
-github.com/grokify/mogo v0.74.9/go.mod h1:MuKguiqlqmBt83ebEzdc0fRLhC3tz7W3PvTJglVjLaw=
+github.com/grokify/mogo v0.75.0 h1:YVOGu49NWvltMfG9wh3aarRD6CTF7y0llEFU+HU9drc=
+github.com/grokify/mogo v0.75.0/go.mod h1:FLksmFRywriEucyYLAGyub7C0po49Yc/nHc9q9gX67w=
 github.com/grokify/sogo v0.15.0 h1:RS4DPxNhZQLmz/qcLa5t1Mr+SjGwSZPJgpefp9BJInE=
 github.com/grokify/sogo v0.15.0/go.mod h1:BZjNVHThtkfC80J2kcPWCytQzu5XKtHTxCRffpZaWb8=
 github.com/huandu/xstrings v1.6.1 h1:yYdKSd6Sjv3fNZt9BDjl1FDsPNfQEaYi19L5LzK2JKs=
