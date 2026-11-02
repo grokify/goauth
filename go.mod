@@ -17,7 +17,7 @@ require (
 	github.com/rs/zerolog v1.35.1
 	golang.org/x/net v0.61.0
 	golang.org/x/oauth2 v0.37.0
-	google.golang.org/api v0.309.0
+	google.golang.org/api v0.310.0
 	gopkg.in/jeevatkm/go-model.v1 v1.1.0
 )
 
@@ -36,8 +36,8 @@ require (
 	github.com/go-redis/redis/v8 v8.11.5 // indirect
 	github.com/goccy/go-json v0.11.2 // indirect
 	github.com/google/s2a-go v0.1.11 // indirect
-	github.com/googleapis/enterprise-certificate-proxy v0.3.23 // indirect
-	github.com/googleapis/gax-go/v2 v2.26.2 // indirect
+	github.com/googleapis/enterprise-certificate-proxy v0.3.24 // indirect
+	github.com/googleapis/gax-go/v2 v2.27.0 // indirect
 	github.com/huandu/xstrings v1.6.3 // indirect
 	github.com/martinlindhe/base36 v1.1.1 // indirect
 	github.com/mattn/go-colorable v0.1.16 // indirect
